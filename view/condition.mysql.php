@@ -1,0 +1,67 @@
+<?php
+# Script: condition.mysql.php
+# Owner: Carl Schelin
+# Coding Standard 3.0 Applied
+# See: https://incowk01/makers/index.php/Coding_Standards
+# Description:
+
+  include('settings.php');
+  $called = 'yes';
+  include($Sitepath . '/guest.php');
+
+  $package = "condition.mysql.php";
+
+  logaccess($formVars['username'], $package, "Accessing the script.");
+
+  header('Content-Type: text/javascript');
+
+  $formVars['id'] = clean($_GET['id'], 10);
+
+  $q_string  = "select runr_body,runr_willpower ";
+  $q_string .= "from runners ";
+  $q_string .= "where runr_id = " . $formVars['id'] . " ";
+  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $a_runners = mysql_fetch_array($q_runners);
+
+  $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
+  $output .= "<tr>\n";
+  $output .= "  <th class=\"ui-state-default\">Condition Monitor</th>";
+  $output .= "</tr>\n";
+
+  $output .= "<tr>\n";
+  $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
+  $output .= "  <td class=\"ui-widget-content\">" . "Physical Damage: (" . $physical_damage . "): ";
+  for ($i = 0; $i < 18; $i++) {
+    if ($physical_damage > $i) {
+      $disabled = "";
+      $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
+#    } else {
+#      $disabled = "disabled=\"true\"";
+    }
+
+#    $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
+  }
+  $output .= "</td>\n";
+  $output .= "</tr>\n";
+
+  $output .= "<tr>\n";
+  $stun_damage = ceil(($a_runners['runr_willpower'] / 2) + 8);
+  $output .= "  <td class=\"ui-widget-content\">" . "Stun Damage: (" . $stun_damage . "): ";
+  for ($i = 0; $i < 12; $i++) {
+    if ($stun_damage > $i) {
+      $disabled = "";
+      $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
+#    } else {
+#      $disabled = "disabled=\"true\"";
+    }
+
+#    $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
+  }
+  $output .= "</td>\n";
+  $output .= "</tr>\n";
+
+  $output .= "</table>\n";
+
+  print "document.getElementById('condition_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+
+?>

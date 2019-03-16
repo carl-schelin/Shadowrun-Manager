@@ -1,0 +1,41 @@
+* .8
+
+cyberears - .3 (a) .24
+spacial - .1 (a) .08
+damper - .1 (a) .08
+balance - .1 (a) .08
+
+.48
+
+eyeware - .3 (a) .24
+flare -  .1 (a) .08
+low-light - .1 (a) .08
+thermo - .1 (a) .08
+
+.48
+
+left arm - 1 (a) .8
+fingertip - .1 (a) .08
+
+.88
+
+right arm - 1 (a) .8
+
+reaction .6 (a) .48
+
+wired - 2 (a) 1.6
+
+4.72
+
+bio:
+damage comp - .4
+orthoskin .25 (a) .2
+reflex - .1
+reflex - .1
+reflex - .1
+
+.9
+
+5.62
+
+.38
