@@ -118,7 +118,8 @@
       $output .= "</tr>\n";
       $output .= "<tr>\n";
       $output .=   "<th class=\"ui-state-default\">Del</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Karma Awarded</th>\n";
+      $output .=   "<th class=\"ui-state-default\">+Karma</th>\n";
+      $output .=   "<th class=\"ui-state-default\">-Karma</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event Date</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event</th>\n";
       $output .= "</tr>\n";
@@ -135,11 +136,22 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_karma('karma.del.php?id="  . $a_karma['kar_id'] . "');\">";
           $linkend   = "</a>";
 
+          if ($a_karma['kar_karma'] < 0) {
+            $class = "ui-state-error";
+            $negative = $a_karma['kar_karma'];
+            $positive = '';
+          } else {
+            $class = "ui-widget-content";
+            $negative = '';
+            $positive = $a_karma['kar_karma'];
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content\" width=\"60\">" . $linkdel                                      . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"100\">"       . $a_karma['kar_karma']            . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"80\">"      . $a_karma['kar_date']             . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content\">"              . $linkstart . $a_karma['kar_notes'] . $linkend . "</td>\n";
+          $output .=   "<td class=\"" . $class . "\" width=\"60\">" . $linkdel                                      . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $positive                                     . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $negative                                     . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $a_karma['kar_date']                          . "</td>\n";
+          $output .=   "<td class=\"" . $class . "\">"              . $linkstart . $a_karma['kar_notes'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
 
         }
