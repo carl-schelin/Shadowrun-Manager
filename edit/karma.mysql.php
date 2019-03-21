@@ -114,7 +114,7 @@
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" colspan=\"4\">Character Karma Listing</th>\n";
+      $output .=   "<th class=\"ui-state-default\" colspan=\"5\">Character Karma Listing</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
       $output .=   "<th class=\"ui-state-default\">Del</th>\n";
