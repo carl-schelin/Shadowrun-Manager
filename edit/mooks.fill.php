@@ -25,7 +25,7 @@
       $q_string  = "select runr_aliases,runr_name,runr_archetype,runr_agility,runr_body,runr_reaction,runr_strength,";
       $q_string .= "runr_charisma,runr_intuition,runr_logic,runr_willpower,runr_metatype,runr_essence,runr_totaledge,";
       $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,runr_weight,";
-      $q_string .= "runr_totalkarma,runr_currentkarma,runr_physicalcon,";
+      $q_string .= "runr_physicalcon,";
       $q_string .= "runr_stuncon,runr_desc,runr_sop,runr_available ";
       $q_string .= "from runners ";
       $q_string .= "where runr_id = " . $formVars['id'];
@@ -40,8 +40,6 @@
         print "document.edit.runr_aliases.value = '"      . mysql_real_escape_string($a_runners['runr_aliases'])      . "';\n";
         print "document.edit.runr_archetype.value = '"    . mysql_real_escape_string($a_runners['runr_archetype'])    . "';\n";
         print "document.edit.runr_name.value = '"         . mysql_real_escape_string($a_runners['runr_name'])         . "';\n";
-        print "document.edit.runr_totalkarma.value = '"   . mysql_real_escape_string($a_runners['runr_totalkarma'])   . "';\n";
-        print "document.edit.runr_currentkarma.value = '" . mysql_real_escape_string($a_runners['runr_currentkarma']) . "';\n";
         print "document.edit.runr_currentedge.value = '"  . mysql_real_escape_string($a_runners['runr_currentedge'])  . "';\n";
 
         print "document.edit.runr_agility.value = '"      . mysql_real_escape_string($a_runners['runr_agility'])      . "';\n";
