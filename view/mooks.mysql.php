@@ -19,7 +19,7 @@
 
   $q_string  = "select runr_name,runr_aliases,meta_name,runr_archetype,runr_archetype,meta_notes,";
   $q_string .= "runr_age,runr_sex,runr_height,runr_weight,";
-  $q_string .= "runr_essence,runr_currentedge,runr_totaledge,runr_currentkarma,runr_totalkarma ";
+  $q_string .= "runr_essence,runr_currentedge,runr_totaledge ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -64,6 +64,21 @@
     }
   }
 
+  $currentkarma = 0;
+  $totalkarma = 0;
+  $q_string  = "select kar_karma ";
+  $q_string .= "from karma ";
+  $q_string .= "where kar_character = " . $formVars['id'] . " ";
+  $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  if (mysql_num_rows($q_karma) > 0) {
+    while ($a_karma = mysql_fetch_array($q_karma)) {
+      if ($a_karma['kar_karma'] > 0) {
+        $totalkarma += $a_karma['kar_karma'];
+      }
+      $currentkarma += $a_karma['kar_karma'];
+    }
+  }
+
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\" colspan=\"4\">Personal Data</th>";
@@ -88,8 +103,8 @@
   $output .= "  <td class=\"ui-widget-content\">Public Awareness: " . $publicity . "</td>\n";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  $output .= "  <td class=\"ui-widget-content\" colspan=\"2\">Karma: " . $a_runners['runr_currentkarma'] . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Total Karma: " . $a_runners['runr_totalkarma'] . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\" colspan=\"2\">Current Karma: " . $currentkarma . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\">Total Karma: " . $totalkarma . "</td>\n";
   $output .= "  <td class=\"ui-widget-content\">Essence: " . $a_runners['runr_essence'] . "</td>\n";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
