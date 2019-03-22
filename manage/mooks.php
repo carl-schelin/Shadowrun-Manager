@@ -47,7 +47,13 @@
 
 function clear_fields() {
   show_file('detail.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('game.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('history.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('karma.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('nuyen.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('street.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('notoriety.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('awareness.mysql.php?id=<?php print $formVars['id']; ?>');
+
   show_file('tags.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('active.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('knowledge.mysql.php?id=<?php print $formVars['id']; ?>');
@@ -56,28 +62,37 @@ function clear_fields() {
   show_file('qualities.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('contact.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('identity.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('commlink.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('cyberdeck.mysql.php?id=<?php print $formVars['id']; ?>');
+
   show_file('spells.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('adept.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('traditions.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('mentor.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('sprites.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('spirits.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('firearms.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('melee.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('vehicles.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('armor.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('cyberware.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('bioware.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('alchemy.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('adept.mysql.php?id=<?php print $formVars['id']; ?>');
+
+  show_file('commlink.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('command.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('cyberdeck.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('sprites.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('complex.mysql.php?id=<?php print $formVars['id']; ?>');
+
   show_file('gear.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('armor.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('bioware.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('cyberware.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('melee.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('ammunition.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('projectile.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('firearms.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('vehicles.mysql.php?id=<?php print $formVars['id']; ?>');
 }
 
 $(document).ready( function() {
-  $( "#tabs" ).tabs( ).addClass( "tab-shadow" );
-  $( "#magic" ).tabs( ).addClass( "tab-shadow" );
-  $( "#matrix" ).tabs( ).addClass( "tab-shadow" );
-  $( "#decktabs" ).tabs( ).addClass( "tab-shadow" );
+  $( "#history"   ).tabs( ).addClass( "tab-shadow" );
+  $( "#tabs"      ).tabs( ).addClass( "tab-shadow" );
+  $( "#magic"     ).tabs( ).addClass( "tab-shadow" );
+  $( "#matrix"    ).tabs( ).addClass( "tab-shadow" );
+  $( "#decktabs"  ).tabs( ).addClass( "tab-shadow" );
   $( "#meatspace" ).tabs( ).addClass( "tab-shadow" );
 });
 
@@ -95,7 +110,7 @@ $(document).ready( function() {
 
 <ul>
   <li><a href="#detail">Detail</a></li>
-  <li><a href="#game">Game</a></li>
+  <li><a href="#history">History</a></li>
   <li><a href="#tags">Tags</a></li>
   <li><a href="#active">Active Skills</a></li>
   <li><a href="#knowledge">Knowledge Skills</a></li>
@@ -117,9 +132,61 @@ $(document).ready( function() {
 </div>
 
 
-<div id="game">
+<div id="history">
 
-<span id="game_mysql"><?php print wait_Process('Game Notes Loading...')?></span>
+<div id="magic">
+
+<ul>
+  <li><a href="#character">Character History</a></li>
+  <li><a href="#karma">Karma</a></li>
+  <li><a href="#nuyen">Nuyen</a></li>
+  <li><a href="#street">Street Cred</a></li>
+  <li><a href="#notoriety">Notoriety</a></li>
+  <li><a href="#awareness">Public Awareness</a></li>
+</ul>
+
+
+<div id="character">
+
+<span id="character_mysql"><?php print wait_Process('Character History Loading...')?></span>
+
+</div>
+
+
+<div id="karma">
+
+<span id="karma_mysql"><?php print wait_Process('Karma Loading...')?></span>
+
+</div>
+
+
+<div id="nuyen">
+
+<span id="nuyen_mysql"><?php print wait_Process('Nuyen Loading...')?></span>
+
+</div>
+
+
+<div id="street">
+
+<span id="street_mysql"><?php print wait_Process('Street Cred Loading...')?></span>
+
+</div>
+
+
+<div id="notoriety">
+
+<span id="notoriety_mysql"><?php print wait_Process('Notoriety Loading...')?></span>
+
+</div>
+
+
+<div id="awareness">
+
+<span id="awareness_mysql"><?php print wait_Process('Public Awareness Loading...')?></span>
+
+</div>
+
 
 </div>
 
@@ -180,15 +247,15 @@ $(document).ready( function() {
 </div>
 
 
+
 <div id="magic">
-
-
 
 <ul>
   <li><a href="#spells">Spells</a></li>
   <li><a href="#traditions">Tradition</a></li>
   <li><a href="#mentor">Mentor Spirits</a></li>
   <li><a href="#spirits">Spirits</a></li>
+  <li><a href="#alchemy">Alchemy</a></li>
   <li><a href="#adept">Adept</a></li>
 </ul>
 
@@ -206,11 +273,13 @@ $(document).ready( function() {
 
 </div>
 
+
 <div id="spirits">
 
 <span id="spirits_mysql"><?php print wait_Process('Spirits Loading...')?></span>
 
 </div>
+
 
 <div id="mentor">
 
@@ -218,11 +287,20 @@ $(document).ready( function() {
 
 </div>
 
+
+<div id="alchemy">
+
+<span id="alchemy_mysql"><?php print wait_Process('Alchemy Loading...')?></span>
+
+</div>
+
+
 <div id="adept">
 
 <span id="adept_mysql"><?php print wait_Process('Adept Skills Loading...')?></span>
 
 </div>
+
 
 </div>
 
@@ -231,14 +309,23 @@ $(document).ready( function() {
 
 <ul>
   <li><a href="#commlink">Commlinks</a></li>
-  <li><a href="#cyberdeck">Cyberdeck</a></li>
+  <li><a href="#command">Command Consoles</a></li>
+  <li><a href="#cyberdeck">Cyberdecks</a></li>
   <li><a href="#sprites">Sprites</a></li>
+  <li><a href="#complex">Complex Forms</a></li>
 </ul>
 
 
 <div id="commlink">
 
 <span id="commlink_mysql"><?php print wait_Process('Commlinks Loading...')?></span>
+
+</div>
+
+
+<div id="command">
+
+<span id="command_mysql"><?php print wait_Process('Rigger Command Consoles Loading...')?></span>
 
 </div>
 
@@ -324,6 +411,14 @@ Cyberdeck Information
 
 </div>
 
+
+<div id="complex">
+
+<span id="complex_mysql"><?php print wait_Process('Complex Forms Loading...')?></span>
+
+</div>
+
+
 </div>
 
 
@@ -332,9 +427,12 @@ Cyberdeck Information
 <ul>
   <li><a href="#gear">Gear</a></li>
   <li><a href="#armor">Armor</a></li>
-  <li><a href="#cyberware">Cyberware</a></li>
   <li><a href="#bioware">Bioware</a></li>
-  <li><a href="#weapons">Weapons</a></li>
+  <li><a href="#cyberware">Cyberware</a></li>
+  <li><a href="#melee">Melee</a></li>
+  <li><a href="#ammunition">Ammunition</a></li>
+  <li><a href="#projectile">Projectile</a></li>
+  <li><a href="#firearms">Firearms</a></li>
   <li><a href="#vehicles">Vehicles</a></li>
 </ul>
 
@@ -353,13 +451,6 @@ Cyberdeck Information
 </div>
 
 
-<div id="cyberware">
-
-<span id="cyberware_mysql"><?php print wait_Process('Cyberware Loading...')?></span>
-
-</div>
-
-
 <div id="bioware">
 
 <span id="bioware_mysql"><?php print wait_Process('Bioware Loading...')?></span>
@@ -367,9 +458,35 @@ Cyberdeck Information
 </div>
 
 
-<div id="weapons">
+<div id="cyberware">
+
+<span id="cyberware_mysql"><?php print wait_Process('Cyberware Loading...')?></span>
+
+</div>
+
+
+<div id="melee">
 
 <span id="melee_mysql"><?php print wait_Process('Melee Weapons Loading...')?></span>
+
+</div>
+
+
+<div id="ammunition">
+
+<span id="ammunition_mysql"><?php print wait_Process('Ammunition Loading...')?></span>
+
+</div>
+
+
+<div id="projectile">
+
+<span id="projectile_mysql"><?php print wait_Process('Projectile Weapons Loading...')?></span>
+
+</div>
+
+
+<div id="firearms">
 
 <span id="firearms_mysql"><?php print wait_Process('Firearms Loading...')?></span>
 
