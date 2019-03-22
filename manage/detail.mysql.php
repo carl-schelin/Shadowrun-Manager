@@ -19,14 +19,13 @@
 
   $q_string  = "select runr_owner,runr_aliases,runr_name,runr_archetype,runr_agility,";
   $q_string .= "runr_body,runr_reaction,runr_strength,runr_charisma,runr_intuition,";
-  $q_string .= "runr_logic,runr_willpower,runr_essence,runr_totaledge,life_style,";
+  $q_string .= "runr_logic,runr_willpower,runr_essence,runr_totaledge,";
   $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,";
   $q_string .= "runr_weight,runr_totalkarma,runr_currentkarma,";
   $q_string .= "runr_physicalcon,runr_stuncon,runr_desc,";
   $q_string .= "runr_sop,runr_available,meta_name,meta_walk,meta_run,meta_swim ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
-  $q_string .= "left join lifestyle on lifestyle.life_id = runners.runr_lifestyle ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysql_fetch_array($q_runners);
@@ -204,7 +203,6 @@
   $output .= "  <td class=\"ui-widget-content\"><strong>Height</strong>: " . $a_runners['runr_height'] . " inches</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Sex</strong>: " . ($a_runners['runr_sex'] == 0 ? 'Female' : 'Male') . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Age</strong>: " . $a_runners['runr_age'] . " Years</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Lifestyle</strong>: " . $a_runners['life_style'] . "</td>";
   $output .= "</tr>";
   $output .= "</table>";
 
