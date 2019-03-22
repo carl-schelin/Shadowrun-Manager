@@ -24,7 +24,7 @@
 
   $q_string  = "select runr_owner,runr_aliases,runr_name,runr_archetype,runr_agility,runr_body,runr_reaction,runr_strength,";
   $q_string .= "runr_charisma,runr_intuition,runr_logic,runr_willpower,runr_metatype,runr_essence,runr_totaledge,";
-  $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,runr_totalkarma,runr_currentkarma,";
+  $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,";
   $q_string .= "runr_physicalcon,runr_stuncon,runr_desc,runr_sop,runr_available,runr_version ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -662,8 +662,6 @@ function attach_detail( p_script_url, update ) {
   ad_url += "&runr_sex="            + ad_form.runr_sex.value;
   ad_url += "&runr_height="         + encode_URI(ad_form.runr_height.value);
   ad_url += "&runr_weight="         + encode_URI(ad_form.runr_weight.value);
-  ad_url += "&runr_totalkarma="     + encode_URI(ad_form.runr_totalkarma.value);
-  ad_url += "&runr_currentkarma="   + encode_URI(ad_form.runr_currentkarma.value);
   ad_url += "&runr_available="      + ad_form.runr_available.checked;
   ad_url += "&runr_desc="           + encode_URI(ad_form.runr_desc.value);
   ad_url += "&runr_sop="            + encode_URI(ad_form.runr_sop.value);
@@ -1780,8 +1778,6 @@ $(document).ready( function() {
   <td class="ui-widget-content">Archetype <input type="text" name="runr_archetype" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Total Karma <input type="text" name="runr_totalkarma" size="20"></td>
-  <td class="ui-widget-content">Current Karma <input type="text" name="runr_currentkarma" size="20"></td>
   <td class="ui-widget-content">Total Edge <input type="text" name="runr_totaledge" size="20"></td>
   <td class="ui-widget-content">Current Edge<input type="text" name="runr_currentedge" size="20"></td>
 </tr>
