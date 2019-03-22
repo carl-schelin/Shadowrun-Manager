@@ -19,7 +19,7 @@
 
   $q_string  = "select runr_name,runr_aliases,meta_name,runr_archetype,runr_archetype,";
   $q_string .= "runr_age,runr_sex,runr_height,runr_weight,";
-  $q_string .= "runr_currentedge,runr_totaledge,runr_currentkarma,runr_totalkarma ";
+  $q_string .= "runr_currentedge,runr_totaledge ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
