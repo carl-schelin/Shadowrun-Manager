@@ -47,8 +47,6 @@
         $formVars["runr_sex"]          = clean($_GET["runr_sex"],            10);
         $formVars["runr_height"]       = clean($_GET["runr_height"],         10);
         $formVars["runr_weight"]       = clean($_GET["runr_weight"],         10);
-        $formVars["runr_totalkarma"]   = clean($_GET["runr_totalkarma"],     10);
-        $formVars["runr_currentkarma"] = clean($_GET["runr_currentkarma"],   10);
         $formVars["runr_desc"]         = clean($_GET["runr_desc"],         1000);
         $formVars["runr_sop"]          = clean($_GET["runr_sop"],          1000);
         $formVars["runr_available"]    = clean($_GET["runr_available"],      10);
@@ -108,12 +106,6 @@
         if ($formVars['runr_weight'] == '') {
           $formVars['runr_weight'] = 0;
         }
-        if ($formVars['runr_totalkarma'] == '') {
-          $formVars['runr_totalkarma'] = 0;
-        }
-        if ($formVars['runr_currentkarma'] == '') {
-          $formVars['runr_currentkarma'] = 0;
-        }
         if ($formVars['runr_available'] == 'true') {
           $formVars['runr_available'] = 1;
         } else {
@@ -151,8 +143,6 @@
             "runr_sex             =   " . $formVars['runr_sex']          . "," . 
             "runr_height          =   " . $formVars['runr_height']       . "," . 
             "runr_weight          =   " . $formVars['runr_weight']       . "," . 
-            "runr_totalkarma      =   " . $formVars['runr_totalkarma']   . "," .
-            "runr_currentkarma    =   " . $formVars['runr_currentkarma'] . "," . 
             "runr_desc            = \"" . $formVars['runr_desc']         . "\"," . 
             "runr_sop             = \"" . $formVars['runr_sop']          . "\"," . 
             "runr_available       =   " . $formVars['runr_available']    . "," . 
