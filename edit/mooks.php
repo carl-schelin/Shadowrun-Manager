@@ -24,9 +24,8 @@
 
   $q_string  = "select runr_owner,runr_aliases,runr_name,runr_archetype,runr_agility,runr_body,runr_reaction,runr_strength,";
   $q_string .= "runr_charisma,runr_intuition,runr_logic,runr_willpower,runr_metatype,runr_essence,runr_totaledge,";
-  $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,runr_lifestyle,";
-  $q_string .= "runr_totalkarma,runr_currentkarma,runr_physicalcon,";
-  $q_string .= "runr_stuncon,runr_desc,runr_sop,runr_available,runr_version ";
+  $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,runr_totalkarma,runr_currentkarma,";
+  $q_string .= "runr_physicalcon,runr_stuncon,runr_desc,runr_sop,runr_available,runr_version ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
