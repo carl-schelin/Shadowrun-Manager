@@ -76,15 +76,19 @@
 
       $avail = return_Avail($a_r_cyberware['ware_avail'], $a_r_cyberware['ware_perm']);
 
+      $cost = return_Cost($a_r_cyberware['ware_cost']);
+
+      $book = return_Book($a_r_cyberware['ver_book'], $a_r_cyberware['ware_page']);
+
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberware['class_name']                                     . "</td>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberware['ware_name']                                      . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $rating                                                          . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $essence                                                         . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $capacity                                                        . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $avail                                                           . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . number_format($a_r_cyberware['ware_cost'], 0, '.', ',') . $nuyen . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberware['ver_book'] . ": " . $a_r_cyberware['ware_page']  . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberware['class_name'] . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberware['ware_name']  . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $rating                      . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $essence                     . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $capacity                    . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $avail                       . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $cost                        . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $book                        . "</td>";
       $output .= "</tr>";
 
 # now get any accessories. Simple enough; check for r_accessory for character and the id of the parent, then get the info
