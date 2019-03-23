@@ -192,7 +192,7 @@
   } else {
     $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
     $output .= "<tr>";
-    $output .= "  <th class=\"ui-state-default\" colspan=\"10\">Cyberdeck ID: " . $a_r_cyberdeck['r_deck_access'] . "</th>";
+    $output .= "  <th class=\"ui-state-default\" colspan=\"10\">Cyberdeck ID:</th>";
     $output .= "</tr>";
     $output .= "<tr>";
     $output .= "  <th class=\"ui-state-default\">Cyberdeck</th>";
