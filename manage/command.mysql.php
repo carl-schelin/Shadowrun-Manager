@@ -15,7 +15,7 @@
   if (isset($_SESSION['username'])) {
     $package = "command.mysql.php";
 
-    $formVars['id'] = clean($_GET['d'], 10);
+    $formVars['id'] = clean($_GET['id'], 10);
 
     logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
