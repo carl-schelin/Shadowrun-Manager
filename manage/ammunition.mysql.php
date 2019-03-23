@@ -72,7 +72,7 @@
     $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
     $q_string .= "left join class on class.class_id = ammo.ammo_class ";
     $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
-    $q_string .= "where r_ammo_character = " . $formVars['r_ammo_character'] . " ";
+    $q_string .= "where r_ammo_character = " . $formVars['id'] . " ";
     $q_string .= "order by ammo_name,ammo_rating,class_name ";
     $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_ammo) > 0) {
