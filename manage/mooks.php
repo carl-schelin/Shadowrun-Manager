@@ -134,8 +134,6 @@ $(document).ready( function() {
 
 <div id="history">
 
-<div id="magic">
-
 <ul>
   <li><a href="#character">Character History</a></li>
   <li><a href="#karma">Karma</a></li>
