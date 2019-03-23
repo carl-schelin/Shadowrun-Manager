@@ -57,7 +57,7 @@
     $q_string .= "from r_command ";
     $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
     $q_string .= "left join versions on versions.ver_id = command.cmd_book ";
-    $q_string .= "where r_cmd_character = " . $formVars['r_cmd_character'] . " ";
+    $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
     $q_string .= "order by cmd_brand,cmd_model,ver_version ";
     $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_command) > 0) {
@@ -115,7 +115,7 @@
         $q_string .= "left join class on class.class_id = accessory.acc_class ";
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
         $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
-        $q_string .= "where sub_name = \"Consoles\" and r_acc_character = " . $formVars['r_cmd_character'] . " and r_acc_parentid = " . $a_r_command['r_cmd_id'] . " ";
+        $q_string .= "where sub_name = \"Consoles\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_command['r_cmd_id'] . " ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
         $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_accessory) > 0) {
@@ -169,7 +169,7 @@
         $q_string .= "from r_program ";
         $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
         $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
-        $q_string .= "where r_pgm_character = " . $formVars['r_cmd_character'] . " and r_pgm_command = " . $a_r_command['r_cmd_id'] . " and pgm_type = 2 ";
+        $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_command = " . $a_r_command['r_cmd_id'] . " and pgm_type = 2 ";
         $q_string .= "order by pgm_name ";
         $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_program) > 0) {
@@ -213,7 +213,7 @@
         $q_string .= "from r_program ";
         $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
         $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
-        $q_string .= "where r_pgm_character = " . $formVars['r_cmd_character'] . " and r_pgm_command = " . $a_r_command['r_cmd_id'] . " and pgm_type = 3 ";
+        $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_command = " . $a_r_command['r_cmd_id'] . " and pgm_type = 3 ";
         $q_string .= "order by pgm_name ";
         $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_program) > 0) {
