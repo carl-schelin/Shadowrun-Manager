@@ -107,6 +107,11 @@
         $output .= "</tr>\n";
 
       }
+    } else {
+     $output .= "<tr>";
+     $output .= "<td class=\"ui-widget-content\" colspan=\"10\">No Alchemical Devices found</td>";
+     $output .= "</tr>";
+
     }
 
     $output .= "</table>\n";
