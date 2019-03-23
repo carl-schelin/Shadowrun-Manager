@@ -48,6 +48,7 @@
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">Class</th>";
   $output .= "  <th class=\"ui-state-default\">Name</th>";
+  $output .= "  <th class=\"ui-state-default\">Number</th>";
   $output .= "  <th class=\"ui-state-default\">Rating</th>";
   $output .= "  <th class=\"ui-state-default\">Capacity</th>";
   $output .= "  <th class=\"ui-state-default\">Availability</th>";
@@ -55,10 +56,11 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
-  $nuyen = '&yen;';
-  $q_string  = "select r_gear_id,gear_class,gear_name,gear_rating,gear_capacity,gear_avail,gear_perm,ver_book,gear_page,gear_cost ";
+  $q_string  = "select r_gear_id,r_gear_amount,class_name,gear_id,gear_class,gear_name,gear_rating,gear_capacity,";
+  $q_string .= "gear_avail,gear_perm,ver_book,gear_page,gear_cost ";
   $q_string .= "from r_gear ";
   $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
+  $q_string .= "left join class on class.class_id = gear.gear_class ";
   $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
   $q_string .= "where r_gear_character = " . $formVars['id'] . " ";
   $q_string .= "order by gear_rating,ver_version ";
@@ -72,20 +74,66 @@
 
       $avail = return_Avail($a_r_gear['gear_avail'], $a_r_gear['gear_perm']);
 
-      $cost = number_format($a_r_gear['gear_cost'], 0, '.', ',') . $nuyen;
+      $cost = return_Cost($a_r_gear['gear_cost']);
 
-      $book = $a_r_gear['ver_book'] . ": " . $a_r_gear['gear_page'];
+      $book = return_Book($a_r_gear['ver_book'], $a_r_gear['gear_page']);
 
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_gear['gear_class'] . "</td>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_gear['gear_name']  . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $rating                 . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $capacity               . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $avail                  . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $cost                   . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $book                   . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_gear['class_name']     . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_gear['gear_name']      . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_gear['r_gear_number']  . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $rating                     . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $capacity                   . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $avail                      . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $cost                       . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $book                       . "</td>";
       $output .= "</tr>";
 
+
+# now get any accessories. Simple enough; check for r_accessory for character and the id of the parent, then get the info
+# need to get the r_acc_number based on the character and parent id (r_ware_id) of the item
+# ultimately to get, from the accessories table, the items that are associated with the parent id
+      $q_string  = "select r_acc_id,r_acc_amount,acc_id,acc_class,acc_name,acc_rating,";
+      $q_string .= "acc_essence,acc_capacity,acc_avail,acc_perm,acc_cost,ver_book,acc_page ";
+      $q_string .= "from r_accessory ";
+      $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
+      $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
+      $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
+      $q_string .= "where sub_name = \"Gear\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
+      $q_string .= "order by acc_name,acc_rating,ver_version ";
+      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      if (mysql_num_rows($q_r_accessory) > 0) {
+        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+
+          $acc_rating = return_Rating($a_r_accessory['acc_rating']);
+
+          $acc_capacity = return_Capacity($a_r_accessory['acc_capacity']);
+
+          $costtotal += $a_r_accessory['acc_cost'];
+
+          $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
+
+          $acc_cost = return_Cost($a_r_accessory['acc_cost']);
+
+          $acc_book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
+
+          $class = "ui-widget-content";
+          if (isset($formVars['r_acc_number']) && $formVars['r_acc_number'] == $a_r_accessory['acc_id']) {
+            $class = "ui-state-error";
+          }
+
+          $output .= "<tr>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . "&nbsp;"                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $acc_rating                          . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $acc_capacity                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $acc_avail                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $acc_cost                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $acc_book                            . "</td>\n";
+          $output .= "</tr>\n";
+        }
+      }
     }
   } else {
     $output .= "<tr>";
