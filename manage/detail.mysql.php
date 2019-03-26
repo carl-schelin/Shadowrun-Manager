@@ -83,18 +83,20 @@
   $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Personal Data</th>";
   $output .= "</tr>";
   $output .= "<tr>";
-  $output .= "  <td class=\"ui-widget-content\" colspan=\"2\"><strong>Alias</strong>: " . $a_runners['runr_aliases'] . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Alias</strong>: " . $a_runners['runr_aliases'] . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Archetype</strong>: " . $a_runners['runr_archetype'] . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Metatype</strong>: " . $a_runners['meta_name'] . "</td>";
-  $output .= "</tr>";
-  $output .= "<tr>\n";
   $output .= "  <td class=\"ui-widget-content\"><strong>Name</strong>: " . $a_runners['runr_name'] . "</td>\n";
   $output .= "  <td class=\"ui-widget-content\"><strong>Total Karma</strong>: " . $totalkarma . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\" colspan=\"2\"><strong>Current Karma</strong>: " . $currentkarma . "</td>\n";
-  $output .= "</tr>\n";
-  $output .= "<tr>\n";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Current Karma</strong>: " . $currentkarma . "</td>\n";
   $output .= "  <td class=\"ui-widget-content\"><strong>Current Edge</strong>: "     . $a_runners['runr_currentedge'] . "</td>\n";
   $output .= "</tr>\n";
+  $output .= "<tr>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Weight</strong>: " . $a_runners['runr_weight'] . " lb/" . return_Kilograms($a_runners['runr_weight']) . " kg</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Height</strong>: " . return_Height($a_runners['runr_height']) . "/" . return_Meters(return_Centimeters($a_runners['runr_height'])) . "m</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Sex</strong>: " . ($a_runners['runr_sex'] == 0 ? 'Female' : 'Male') . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Age</strong>: " . $a_runners['runr_age'] . " Years</td>";
+  $output .= "</tr>";
   $output .= "</table>";
 
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
@@ -160,7 +162,7 @@
 
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Various Statistics</th>";
+  $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Various Statistics</th>";
   $output .= "</tr>";
 
   $output .= "<tr>";
@@ -179,12 +181,6 @@
   $output .= "  <td class=\"ui-widget-content\"><strong>Swimming Rate</strong>: " . $a_runners['meta_swim'] . " meters per turn</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Lift without Test</strong>: " . ($a_runners['runr_strength'] * 15) . " kg</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Overhead Lift without test</strong>: " . ($a_runners['runr_strength'] * 5) . " kg</td>";
-  $output .= "</tr>";
-  $output .= "<tr>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Weight</strong>: " . $a_runners['runr_weight'] . " lb</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Height</strong>: " . $a_runners['runr_height'] . " inches</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Sex</strong>: " . ($a_runners['runr_sex'] == 0 ? 'Female' : 'Male') . "</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Age</strong>: " . $a_runners['runr_age'] . " Years</td>";
   $output .= "</tr>";
   $output .= "</table>";
 
