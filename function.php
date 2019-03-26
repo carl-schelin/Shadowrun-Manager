@@ -200,25 +200,25 @@ function check_owner( $p_string ) {
 
 # assumes value passed is kilograms
 function return_Pounds( $p_kilograms ) {
-  return($p_kilograms * 2.20462);
+  return(number_format(($p_kilograms * 2.20462), 2, '.', ','))
 }
 
 # assumes value passed is pounds
 function return_Kilograms( $p_pounds ) {
-  return($p_pounds * .453592);
+  return(number_format(($p_pounds * .453592), 2, '.', ','))
 }
 
 # assumes value passed is inches
 function return_Centimeters( $p_inches ) {
-  return($p_inches * 2.54);
+  return(number_format(($p_inches * 2.54), 2, '.', ','))
 }
 
 # assumes value passed is centimeters
 function return_Inches( $p_centimeters ) {
-  return($p_centimeters * .393701);
+  return(number_format(($p_centimeters * .393701), 2, '.', ','))
 }
 
-function return_Feet ( $p_inches ) {
+function return_Feet( $p_inches ) {
   $e_feet = floor($p_inches / 12);
   $e_inches = ($p_inches - ($e_feet * 12));
 
@@ -228,8 +228,8 @@ function return_Feet ( $p_inches ) {
 }
 
 # just move the decimal point over by 2
-function return_Meters ( $p_centimeters ) {
-  return($p_centimeters / 100);
+function return_Meters( $p_centimeters ) {
+  return(number_format(($p_centimeters / 100), 2, '.', ','))
 }
 
 function check_available( $p_string ) {
