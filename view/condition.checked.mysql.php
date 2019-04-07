@@ -24,13 +24,18 @@
 
 # checkboxes. change physical conditions
       if ($formVars['cond_function'] == 'physical') {
-        $q_string  = "select runr_body ";
+        $q_string  = "select runr_body,runr_physicalcon ";
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
         $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         $a_runners = mysql_fetch_array($q_runners);
 
         $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
+
+# if the passed value is the same as the existing value, it should be unchecked and not checked to that spot
+        if ($a_runners['runr_physicalcon'] == $formVars['cond_id']) {
+          $formVars['cond_id']--;
+        }
 
         $q_string  = "update ";
         $q_string .= "runners ";
