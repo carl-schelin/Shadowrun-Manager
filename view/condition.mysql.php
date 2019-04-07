@@ -32,7 +32,7 @@
   $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
   $output .= "  <td class=\"ui-widget-content\">" . "Physical Damage: (" . $physical_damage . "): ";
   for ($i = 1; $i <= 18; $i++) {
-    if ($physical_damage > $i) {
+    if ($physical_damage >= $i) {
       $checked = '';
       if ($i <= $a_runners['runr_physicalcon']) {
         $checked = 'checked=\"true\"';
@@ -48,7 +48,7 @@
   $stun_damage = ceil(($a_runners['runr_willpower'] / 2) + 8);
   $output .= "  <td class=\"ui-widget-content\">" . "Stun Damage: (" . $stun_damage . "): ";
   for ($i = 1; $i <= 12; $i++) {
-    if ($stun_damage > $i) {
+    if ($stun_damage >= $i) {
       $checked = '';
       if ($i <= $a_runners['runr_stuncon']) {
         $checked = 'checked=\"true\"';
