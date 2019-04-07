@@ -30,6 +30,8 @@
         $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         $a_runners = mysql_fetch_array($q_runners);
 
+        $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
+
         $q_string  = "update ";
         $q_string .= "runners ";
         $q_string .= "set ";
@@ -37,7 +39,6 @@
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
         $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
 
-        $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
         for ($i = 1; $i <= 18; $i++) {
           if ($physical_damage >= $i) {
             $checked = 'false';
@@ -45,7 +46,7 @@
               $checked = 'true';
             }
 
-            $output .= "document.getElementByID('physcon" . $i . "').checked = " . $checked . ";\n";
+            print "document.getElementByID('physcon" . $i . "').checked = " . $checked . ";\n";
           }
         }
       }
