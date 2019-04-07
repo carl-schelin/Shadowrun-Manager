@@ -68,11 +68,16 @@ function edit_RunnerCondition( p_id, p_function) {
   show_file(er_url);
 }
 
-function runnerCondition_Completed( p_id, p_function) {
-  var edit_data = document.getElementById('edit_data').value;
+function edit_CommlinkCondition( p_id, p_commlink, p_function) {
+  var er_url = 'condition.checked.mysql.php';
 
-  show_file('inventory.detail.php?id=' + p_id + '&function=' + p_function + '&status=0' + "&select=" + edit_data);
+  er_url += "?id="            + p_commlink;
+  er_url += "&cond_id="       + p_id;
+  er_url += "&cond_function=" + p_function;
+
+  show_file(er_url);
 }
+
 
 function clear_fields() {
   show_file('active.mysql.php?id=<?php print $formVars['id']; ?>');
