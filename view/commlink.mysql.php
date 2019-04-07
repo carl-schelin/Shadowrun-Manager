@@ -55,8 +55,8 @@
       $output .= "<tr>\n";
       $matrix_damage = ceil(($a_r_commlink['link_rating'] / 2) + 8);
       $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">" . "Matrix Damage: (" . $matrix_damage . "): ";
-      for ($i = 0; $i < 18; $i++) {
-        if ($matrix_damage > $i) {
+      for ($i = 0; $i <= 18; $i++) {
+        if ($matrix_damage >= $i) {
           $disabled = "";
           $output .= "<input type=\"checkbox\" id=\"linkcon" . ${i} . "\"  onclick=\"edit_CommlinkCondition(" . ${i} . ", " . $a_r_commlink['r_link_id'] . ", 'commlink');\">\n";
         }
