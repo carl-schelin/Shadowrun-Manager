@@ -14,9 +14,9 @@
 
   if (isset($_SESSION['username'])) {
     $package = "inventory.detail.php";
-    $formVars['id']              = clean($_GET['id'],       10);      # the character id, being modified
-    $formVars['cond_id']         = clean($_GET['function'], 10);      # what checkbox was checked
-    $formVars['cond_function']   = clean($_GET['status'],   10);      # which condition monitor
+    $formVars['id']              = clean($_GET['id'],              10);      # the character id, being modified
+    $formVars['cond_id']         = clean($_GET['cond_id'],         10);      # what checkbox was checked
+    $formVars['cond_function']   = clean($_GET['cond_function'],   10);      # which condition monitor
 
     if (check_userlevel($AL_Edit)) {
 
