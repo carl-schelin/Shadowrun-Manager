@@ -18,7 +18,7 @@
     $formVars['cond_id']         = clean($_GET['cond_id'],         10);      # what checkbox was checked
     $formVars['cond_function']   = clean($_GET['cond_function'],   10);      # which condition monitor
 
-    if (check_userlevel($AL_Edit)) {
+    if (check_userlevel($AL_Shadowrunner)) {
 
 # need to check and make sure it's the character owner or higher; runner, fixer, or johnson
 
@@ -39,7 +39,7 @@
 
         $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
         for ($i = 1; $i <= 18; $i++) {
-          if ($physical_damage > $i) {
+          if ($physical_damage >= $i) {
             $checked = 'false';
             if ($i <= $formVars['cond_id']) {
               $checked = 'true';
