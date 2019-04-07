@@ -17,7 +17,7 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
-  $q_string  = "select runr_body,runr_willpower ";
+  $q_string  = "select runr_body,runr_willpower,runr_physicalcon,runr_stuncon ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -31,15 +31,15 @@
   $output .= "<tr>\n";
   $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
   $output .= "  <td class=\"ui-widget-content\">" . "Physical Damage: (" . $physical_damage . "): ";
-  for ($i = 0; $i < 18; $i++) {
+  for ($i = 1; $i <= 18; $i++) {
     if ($physical_damage > $i) {
-      $disabled = "";
-      $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
-#    } else {
-#      $disabled = "disabled=\"true\"";
-    }
+      $checked = '';
+      if ($i <= $a_runners['runr_physicalcon']) {
+        $checked = 'checked=\"true\"';
+      }
 
-#    $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
+      $output .= "<input type=\"checkbox\" " . $checked . " id=\"physcon" . $i . "\" onclick=\"edit_RunnerCondition(" . $i . ", 'physical');\">\n";
+    }
   }
   $output .= "</td>\n";
   $output .= "</tr>\n";
@@ -47,15 +47,15 @@
   $output .= "<tr>\n";
   $stun_damage = ceil(($a_runners['runr_willpower'] / 2) + 8);
   $output .= "  <td class=\"ui-widget-content\">" . "Stun Damage: (" . $stun_damage . "): ";
-  for ($i = 0; $i < 12; $i++) {
+  for ($i = 1; $i <= 12; $i++) {
     if ($stun_damage > $i) {
-      $disabled = "";
-      $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
-#    } else {
-#      $disabled = "disabled=\"true\"";
-    }
+      $checked = '';
+      if ($i <= $a_runners['runr_stuncon']) {
+        $checked = 'checked=\"true\"';
+      }
 
-#    $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
+      $output .= "<input type=\"checkbox\" " . $checked . " id=\"stuncon" . $i . "\" onclick=\"edit_RunnerCondition(" . ${i} . ", 'stun');\">\n";
+    }
   }
   $output .= "</td>\n";
   $output .= "</tr>\n";
