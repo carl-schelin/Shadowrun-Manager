@@ -58,6 +58,22 @@
 
 <script type="text/javascript">
 
+function edit_RunnerCondition( p_id, p_function) {
+  var er_url = 'condition.checked.mysql.php';
+
+  er_url += "?id="            + <?php print $formVars['id']; ?>;
+  er_url += "&cond_id="       + p_id;
+  er_url += "&cond_function=" + p_function;
+
+  show_file(er_url);
+}
+
+function runnerCondition_Completed( p_id, p_function) {
+  var edit_data = document.getElementById('edit_data').value;
+
+  show_file('inventory.detail.php?id=' + p_id + '&function=' + p_function + '&status=0' + "&select=" + edit_data);
+}
+
 function clear_fields() {
   show_file('active.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('adept.mysql.php?id=<?php print $formVars['id']; ?>');
