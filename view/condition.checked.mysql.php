@@ -46,7 +46,7 @@
               $checked = 'true';
             }
 
-            print "document.getElementByID('physcon" . $i . "').checked = " . $checked . ";\n";
+            print "document.getElementById('physcon" . $i . "').checked = " . $checked . ";\n";
           }
         }
       }
