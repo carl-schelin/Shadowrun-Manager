@@ -83,19 +83,20 @@
   $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Personal Data</th>";
   $output .= "</tr>";
   $output .= "<tr>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Name</strong>: " . $a_runners['runr_name'] . "</td>\n";
   $output .= "  <td class=\"ui-widget-content\"><strong>Alias</strong>: " . $a_runners['runr_aliases'] . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Archetype</strong>: " . $a_runners['runr_archetype'] . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Metatype</strong>: " . $a_runners['meta_name'] . "</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Name</strong>: " . $a_runners['runr_name'] . "</td>\n";
   $output .= "  <td class=\"ui-widget-content\"><strong>Total Karma</strong>: " . $totalkarma . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Current Karma</strong>: " . $currentkarma . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Current Edge</strong>: "     . $a_runners['runr_currentedge'] . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Total Edge</strong>: "     . $a_runners['runr_currentedge'] . "</td>\n";
   $output .= "</tr>\n";
   $output .= "<tr>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Weight</strong>: " . $a_runners['runr_weight'] . " lb/" . return_Kilograms($a_runners['runr_weight']) . " kg</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Height</strong>: " . return_Height($a_runners['runr_height']) . "/" . return_Meters(return_Centimeters($a_runners['runr_height'])) . "m</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Height</strong>: " . return_Feet($a_runners['runr_height']) . "/" . return_Meters(return_Centimeters($a_runners['runr_height'])) . "m</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Sex</strong>: " . ($a_runners['runr_sex'] == 0 ? 'Female' : 'Male') . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Age</strong>: " . $a_runners['runr_age'] . " Years</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Current Karma</strong>: " . $currentkarma . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Current Edge</strong>: "     . $a_runners['runr_currentedge'] . "</td>\n";
   $output .= "</tr>";
   $output .= "</table>";
 
