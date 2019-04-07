@@ -58,12 +58,8 @@
       for ($i = 0; $i < 18; $i++) {
         if ($matrix_damage > $i) {
           $disabled = "";
-          $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
-#        } else {
-#          $disabled = "disabled=\"true\"";
+          $output .= "<input type=\"checkbox\" id=\"linkcon" . ${i} . "\"  onclick=\"edit_CommlinkCondition(" . ${i} . ", " . $a_r_commlink['r_link_id'] . ", 'commlink');\">\n";
         }
-
-#        $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
       }
       $output .= "</td>\n";
       $output .= "</tr>\n";
