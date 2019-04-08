@@ -78,6 +78,16 @@ function edit_CommlinkCondition( p_id, p_commlink, p_function) {
   show_file(er_url);
 }
 
+function edit_CyberdeckCondition( p_id, p_cyberdeck, p_function) {
+  var er_url = 'condition.checked.mysql.php';
+
+  er_url += "?id="            + p_cyberdeck;
+  er_url += "&cond_id="       + p_id;
+  er_url += "&cond_function=" + p_function;
+
+  show_file(er_url);
+}
+
 
 function clear_fields() {
   show_file('active.mysql.php?id=<?php print $formVars['id']; ?>');
