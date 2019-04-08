@@ -31,7 +31,7 @@
 
   $costtotal = 0;
   $nuyen = '&yen;';
-  $q_string  = "select r_link_id,link_id,link_brand,link_model,link_rating,link_data,link_firewall,r_link_access,r_link_active ";
+  $q_string  = "select r_link_id,r_link_conmon,link_id,link_brand,link_model,link_rating,link_data,link_firewall,r_link_access,r_link_active ";
   $q_string .= "from r_commlink ";
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
@@ -57,7 +57,11 @@
       $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">" . "Matrix Damage: (" . $matrix_damage . "): ";
       for ($i = 1; $i <= 18; $i++) {
         if ($matrix_damage >= $i) {
-          $disabled = "";
+          $checked = '';
+          if ($i <= $a_r_commlink['r_link_conmon']) {
+            $checked = 'checked=\"true\"';
+          }
+
           $output .= "<input type=\"checkbox\" id=\"linkcon" . ${i} . "\"  onclick=\"edit_CommlinkCondition(" . ${i} . ", " . $a_r_commlink['r_link_id'] . ", 'commlink');\">\n";
         }
       }
