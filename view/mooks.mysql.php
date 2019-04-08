@@ -94,8 +94,8 @@
   $output .= "<tr>\n";
   $output .= "  <td class=\"ui-widget-content\">Age: " . $a_runners['runr_age'] . "</td>\n";
   $output .= "  <td class=\"ui-widget-content\">Sex: " . $sex . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Height: " . $a_runners['runr_height'] . "cm</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Weight: " . $a_runners['runr_weight'] . "kg</td>\n";
+  $output .= "  <td class=\"ui-widget-content\">Height: " . return_Feet($a_runners['runr_height']) . "/" . return_Meters(return_Centimeters($a_runners['runr_height'])) . "m</td>";
+  $output .= "  <td class=\"ui-widget-content\">Weight: " . $a_runners['runr_weight'] . " lb/" . return_Kilograms($a_runners['runr_weight']) . " kg</td>";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   $output .= "  <td class=\"ui-widget-content\" colspan=\"2\">Street Cred: " . $streetcred . "</td>\n";
