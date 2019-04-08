@@ -68,15 +68,10 @@
       $output .= "<tr>\n";
       $a_veh_damage = ceil(($a_r_vehicles['veh_body'] / 2) + 8);
       $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">" . "Vehicle Damage: (" . $a_veh_damage . "): ";
-      for ($i = 0; $i < 18; $i++) {
-        if ($a_veh_damage > $i) {
-          $disabled = "";
-          $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
-#        } else {
-#          $disabled = "disabled=\"true\"";
+      for ($i = 1; $i <= 18; $i++) {
+        if ($a_veh_damage >= $i) {
+          $output .= "<input type=\"checkbox\" id=\"vehcon" . ${i} . "\"  onclick=\"edit_VehicleCondition(" . ${i} . ", " . $a_r_vehicle['r_veh_id'] . ", 'vehicle');\">\n";
         }
-
-#        $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
       }
       $output .= "</td>\n";
       $output .= "</tr>\n";
