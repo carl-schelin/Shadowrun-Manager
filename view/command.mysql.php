@@ -20,7 +20,7 @@
   $output = '';
 
   $q_string  = "select r_cmd_id,cmd_brand,cmd_model,cmd_rating,cmd_programs,";
-  $q_string .= "cmd_data,cmd_firewall,r_cmd_noise,r_cmd_sharing,r_cmd_access ";
+  $q_string .= "cmd_data,cmd_firewall,r_cmd_noise,r_cmd_sharing,r_cmd_access,r_cmd_conmon ";
   $q_string .= "from r_command ";
   $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
   $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
@@ -60,6 +60,11 @@
       $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">" . "Matrix Damage: (" . $matrix_damage . "): ";
       for ($i = 1; $i <= 12; $i++) {
         if ($matrix_damage >= $i) {
+          $checked = '';
+          if ($i <= $a_r_command['r_cmd_conmon']) {
+            $checked = 'checked=\"true\"';
+          }
+
           $output .= "<input type=\"checkbox\" id=\"cmdcon" . ${i} . "\"  onclick=\"edit_CommandCondition(" . ${i} . ", " . $a_r_command['r_cmd_id'] . ", 'command');\">\n";
         }
       }
