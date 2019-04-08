@@ -34,7 +34,7 @@
   $output .= "</tr>\n";
 
   $nuyen = '&yen;';
-  $q_string  = "select r_veh_id,veh_make,veh_model,veh_onacc,veh_offacc,veh_onhand,";
+  $q_string  = "select r_veh_id,r_veh_conmon,veh_make,veh_model,veh_onacc,veh_offacc,veh_onhand,";
   $q_string .= "veh_offhand,veh_onspeed,veh_offspeed,veh_pilot,veh_body,veh_armor,veh_sensor,";
   $q_string .= "veh_onseats,veh_offseats ";
   $q_string .= "from r_vehicles ";
@@ -66,10 +66,15 @@
       $output .= "</tr>\n";
 
       $output .= "<tr>\n";
-      $a_veh_damage = ceil(($a_r_vehicles['veh_body'] / 2) + 8);
+      $vehicle_damage = ceil(($a_r_vehicles['veh_body'] / 2) + 8);
       $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">" . "Vehicle Damage: (" . $a_veh_damage . "): ";
       for ($i = 1; $i <= 18; $i++) {
-        if ($a_veh_damage >= $i) {
+        if ($vehicle_damage >= $i) {
+          $checked = '';
+          if ($i <= $a_r_vehicles['r_veh_conmon']) {
+            $checked = 'checked=\"true\"';
+          }
+
           $output .= "<input type=\"checkbox\" id=\"vehcon" . ${i} . "\"  onclick=\"edit_VehicleCondition(" . ${i} . ", " . $a_r_vehicles['r_veh_id'] . ", 'vehicle');\">\n";
         }
       }
