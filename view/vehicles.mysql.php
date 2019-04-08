@@ -70,7 +70,7 @@
       $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">" . "Vehicle Damage: (" . $a_veh_damage . "): ";
       for ($i = 1; $i <= 18; $i++) {
         if ($a_veh_damage >= $i) {
-          $output .= "<input type=\"checkbox\" id=\"vehcon" . ${i} . "\"  onclick=\"edit_VehicleCondition(" . ${i} . ", " . $a_r_vehicle['r_veh_id'] . ", 'vehicle');\">\n";
+          $output .= "<input type=\"checkbox\" id=\"vehcon" . ${i} . "\"  onclick=\"edit_VehicleCondition(" . ${i} . ", " . $a_r_vehicles['r_veh_id'] . ", 'vehicle');\">\n";
         }
       }
       $output .= "</td>\n";
