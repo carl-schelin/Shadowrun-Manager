@@ -58,15 +58,10 @@
       $output .= "<tr>\n";
       $matrix_damage = ceil(($a_r_command['cmd_rating'] / 2) + 8);
       $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">" . "Matrix Damage: (" . $matrix_damage . "): ";
-      for ($i = 0; $i < 12; $i++) {
-        if ($matrix_damage > $i) {
-          $disabled = "";
-          $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
-#        } else {
-#          $disabled = "disabled=\"true\"";
+      for ($i = 1; $i <= 12; $i++) {
+        if ($matrix_damage >= $i) {
+          $output .= "<input type=\"checkbox\" id=\"cmdcon" . ${i} . "\"  onclick=\"edit_CommandCondition(" . ${i} . ", " . $a_r_command['r_cmd_id'] . ", 'command');\">\n";
         }
-
-#        $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
       }
       $output .= "</td>\n";
       $output .= "</tr>\n";
