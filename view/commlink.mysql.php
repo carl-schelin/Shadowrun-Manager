@@ -62,7 +62,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" id=\"linkcon" . ${i} . "\"  onclick=\"edit_CommlinkCondition(" . ${i} . ", " . $a_r_commlink['r_link_id'] . ", 'commlink');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"linkcon" . ${i} . "\"  onclick=\"edit_CommlinkCondition(" . ${i} . ", " . $a_r_commlink['r_link_id'] . ", 'commlink');\">\n";
         }
       }
       $output .= "</td>\n";

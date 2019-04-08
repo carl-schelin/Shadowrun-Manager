@@ -66,7 +66,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" id=\"deckcon" . ${i} . "\"  onclick=\"edit_CyberdeckCondition(" . ${i} . ", " . $a_r_cyberdeck['r_deck_id'] . ", 'cyberdeck');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"deckcon" . ${i} . "\"  onclick=\"edit_CyberdeckCondition(" . ${i} . ", " . $a_r_cyberdeck['r_deck_id'] . ", 'cyberdeck');\">\n";
         }
       }
       $output .= "</td>\n";

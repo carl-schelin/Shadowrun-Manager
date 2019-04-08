@@ -75,7 +75,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" id=\"vehcon" . ${i} . "\"  onclick=\"edit_VehicleCondition(" . ${i} . ", " . $a_r_vehicles['r_veh_id'] . ", 'vehicle');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"vehcon" . ${i} . "\"  onclick=\"edit_VehicleCondition(" . ${i} . ", " . $a_r_vehicles['r_veh_id'] . ", 'vehicle');\">\n";
         }
       }
       $output .= "</td>\n";

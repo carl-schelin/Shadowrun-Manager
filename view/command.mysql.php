@@ -65,7 +65,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" id=\"cmdcon" . ${i} . "\"  onclick=\"edit_CommandCondition(" . ${i} . ", " . $a_r_command['r_cmd_id'] . ", 'command');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"cmdcon" . ${i} . "\"  onclick=\"edit_CommandCondition(" . ${i} . ", " . $a_r_command['r_cmd_id'] . ", 'command');\">\n";
         }
       }
       $output .= "</td>\n";
