@@ -59,15 +59,10 @@
       $output .= "<tr>\n";
       $matrix_damage = ceil(($a_r_cyberdeck['deck_rating'] / 2) + 8);
       $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">" . "Matrix Damage: (" . $matrix_damage . "): ";
-      for ($i = 0; $i < 12; $i++) {
-        if ($matrix_damage > $i) {
-          $disabled = "";
-          $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
-#        } else {
-#          $disabled = "disabled=\"true\"";
+      for ($i = 1; $i <= 12; $i++) {
+        if ($matrix_damage >= $i) {
+          $output .= "<input type=\"checkbox\" id=\"deckcon" . ${i} . "\"  onclick=\"edit_CyberdeckCondition(" . ${i} . ", " . $a_r_cyberdeck['r_deck_id'] . ", 'cyberdeck');\">\n";
         }
-
-#        $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
       }
       $output .= "</td>\n";
       $output .= "</tr>\n";
