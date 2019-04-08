@@ -20,7 +20,7 @@
   $output = '';
 
   $q_string  = "select r_deck_id,deck_brand,deck_model,deck_rating,deck_programs,r_deck_attack,r_deck_sleaze,";
-  $q_string .= "r_deck_data,r_deck_firewall,r_deck_access ";
+  $q_string .= "r_deck_data,r_deck_firewall,r_deck_access,r_deck_conmon ";
   $q_string .= "from r_cyberdeck ";
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
@@ -61,6 +61,11 @@
       $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">" . "Matrix Damage: (" . $matrix_damage . "): ";
       for ($i = 1; $i <= 12; $i++) {
         if ($matrix_damage >= $i) {
+          $checked = '';
+          if ($i <= $a_r_cyberdeck['r_deck_conmon']) {
+            $checked = 'checked=\"true\"';
+          }
+
           $output .= "<input type=\"checkbox\" id=\"deckcon" . ${i} . "\"  onclick=\"edit_CyberdeckCondition(" . ${i} . ", " . $a_r_cyberdeck['r_deck_id'] . ", 'cyberdeck');\">\n";
         }
       }
