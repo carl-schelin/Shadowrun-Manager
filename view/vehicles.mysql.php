@@ -67,7 +67,7 @@
 
       $output .= "<tr>\n";
       $vehicle_damage = ceil(($a_r_vehicles['veh_body'] / 2) + 8);
-      $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">" . "Vehicle Damage: (" . $a_veh_damage . "): ";
+      $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">" . "Vehicle Damage: (" . $vehicle_damage . "): ";
       for ($i = 1; $i <= 18; $i++) {
         if ($vehicle_damage >= $i) {
           $checked = '';

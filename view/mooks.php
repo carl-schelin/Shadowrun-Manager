@@ -98,6 +98,16 @@ function edit_CommandCondition( p_id, p_command, p_function) {
   show_file(er_url);
 }
 
+function edit_SpriteCondition( p_id, p_sprite, p_function) {
+  var er_url = 'condition.checked.mysql.php';
+
+  er_url += "?id="            + p_sprite;
+  er_url += "&cond_id="       + p_id;
+  er_url += "&cond_function=" + p_function;
+
+  show_file(er_url);
+}
+
 function edit_VehicleCondition( p_id, p_vehicle, p_function) {
   var er_url = 'condition.checked.mysql.php';
 

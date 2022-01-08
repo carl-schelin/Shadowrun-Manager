@@ -195,6 +195,40 @@
         }
       }
 
+# checkboxes. change sprite conditions
+      if ($formVars['cond_function'] == 'sprite') {
+        $q_string  = "select r_sprite_conmon,r_sprite_level ";
+        $q_string .= "from r_sprite ";
+        $q_string .= "where r_sprite_id = " . $formVars['id'] . " ";
+        $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $a_r_sprite = mysql_fetch_array($q_r_sprite);
+
+        $sprite_damage = ceil(($a_r_sprite['r_sprite_level'] / 2) + 8);
+
+# if the passed value is the same as the existing value, it should be unchecked and not checked to that spot
+        if ($a_r_sprite['r_sprite_conmon'] == $formVars['cond_id']) {
+          $formVars['cond_id']--;
+        }
+
+        $q_string  = "update ";
+        $q_string .= "r_sprite ";
+        $q_string .= "set ";
+        $q_string .= "r_sprite_conmon = " . $formVars['cond_id'] . " ";
+        $q_string .= "where r_sprite_id = " . $formVars['id'] . " ";
+        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+
+        for ($i = 1; $i <= 18; $i++) {
+          if ($sprite_damage >= $i) {
+            $checked = 'false';
+            if ($i <= $formVars['cond_id']) {
+              $checked = 'true';
+            }
+
+            print "document.getElementById('spritecon" . $i . "').checked = " . $checked . ";\n";
+          }
+        }
+      }
+
 # checkboxes. change vehicle conditions
       if ($formVars['cond_function'] == 'vehicle') {
         $q_string  = "select r_veh_conmon,veh_body ";

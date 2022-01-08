@@ -71,21 +71,19 @@
       $output .= "</tr>";
 
       $output .= "<tr>\n";
-      $a_sprite_damage = ceil(($a_r_sprite['r_sprite_level'] / 2) + 8);
-      $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">" . "Matrix Damage: (" . $a_sprite_damage . "): ";
-      for ($i = 0; $i < 18; $i++) {
-        if ($a_sprite_damage > $i) {
-          $disabled = "";
-          $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
-#        } else {
-#          $disabled = "disabled=\"true\"";
+      $sprite_damage = ceil(($a_r_sprite['r_sprite_level'] / 2) + 8);
+      $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">" . "Matrix Damage: (" . $sprite_damage . "): ";
+      for ($i = 1; $i <= 18; $i++) {
+        if ($sprite_damage >= $i) {
+          $checked = '';
+          if ($i <= $a_r_sprite['r_sprite_conmon']) {
+            $checked = 'checked=\"true\"';
+          }
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"spritecon" . ${i} . "\"  onclick=\"edit_SpriteCondition(" . ${i} . ", " . $a_r_sprite['r_sprite_id'] . ", 'sprite');\">\n";
         }
-
-#        $output .= "<input type=\"checkbox\" " . $disabled . ">\n";
       }
       $output .= "</td>\n";
       $output .= "</tr>\n";
-
     }
     $output .= "</table>\n";
   } else {
