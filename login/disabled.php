@@ -27,6 +27,7 @@
 
 <div id="main">
 
+<?php
 $error    = '';
 $name     = ''; 
 $email    = ''; 
