@@ -32,15 +32,9 @@
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_number = " . $formVars['id'] . " ";
       $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_cyberdeck) > 0) ) {
+      if (mysql_num_rows($q_r_cyberdeck) > 0) {
         while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
-
-
-
-
-delete from accessories
-
-
+# delete from accessories
           $q_string  = "delete ";
           $q_string .= "from r_programs ";
           $q_string .= "where r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'];
@@ -53,17 +47,6 @@ delete from accessories
 
         }
       }
-
-
-
-
-
-
-
-
-
-
-
       print "alert('Cyberdeck deleted.');\n";
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
