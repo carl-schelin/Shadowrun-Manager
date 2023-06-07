@@ -88,8 +88,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete Contact</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Archetype</th>\n";
       $output .=   "<th class=\"ui-state-default\">Character</th>\n";
@@ -139,6 +140,7 @@
             $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                           . "</td>\n";
           }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_contact['con_id']                                               . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                             . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_contact['con_name']                                  . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $a_contact['con_archetype']                                        . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $character                                                         . "</td>\n";
