@@ -50,18 +50,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into contact set con_id = NULL, " . $q_string;
-            $message = "Contact added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update contact set " . $q_string . " where con_id = " . $formVars['id'];
-            $message = "Contact updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['con_archetype']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -92,8 +88,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete Contact</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Archetype</th>\n";
       $output .=   "<th class=\"ui-state-default\">Character</th>\n";
@@ -125,9 +122,25 @@
             $character = "";
           }
 
+          $total = 0;
+          $q_string  = "select r_con_id ";
+          $q_string .= "from r_contact ";
+          $q_string .= "where r_con_number = " . $a_contact['con_id'] . " ";
+          $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_contact) > 0) {
+            while ($a_r_contact = mysql_fetch_array($q_r_contact)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                                           . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                           . "</td>\n";
+          }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_contact['con_id']                                               . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                             . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_contact['con_name']                                  . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $a_contact['con_archetype']                                        . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $character                                                         . "</td>\n";
