@@ -98,7 +98,7 @@ $(document).ready( function () {
   if (mysql_num_rows($q_contact) > 0) {
     while ($a_contact = mysql_fetch_array($q_contact)) {
 
-      $linkstart = "<a href=\"" . $Showroot . "/mooks.php?id=" . $a_members['mem_runner'] . "\" target=\"_blank\">";
+      $linkstart = "<a href=\"" . $Viewroot . "/mooks.php?id=" . $a_contact['con_id'] . "\" target=\"_blank\">";
       $linkend = "</a>";
 
       $bookpage = $a_contact['con_book'] . "/" . $a_contact['con_page'];
