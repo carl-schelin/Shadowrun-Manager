@@ -50,18 +50,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into contact set con_id = NULL, " . $q_string;
-            $message = "Contact added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update contact set " . $q_string . " where con_id = " . $formVars['id'];
-            $message = "Contact updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['con_archetype']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
