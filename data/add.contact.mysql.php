@@ -121,8 +121,23 @@
             $character = "";
           }
 
+          $total = 0;
+          $q_string  = "select r_con_id ";
+          $q_string .= "from r_contact ";
+          $q_string .= "where r_con_number = " . $a_contact['con_id'] . " ";
+          $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_contact) > 0) {
+            while ($a_r_contact = mysql_fetch_array($q_r_contact)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                                           . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                           . "</td>\n";
+          }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_contact['con_id']                                               . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_contact['con_name']                                  . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $a_contact['con_archetype']                                        . "</td>\n";
