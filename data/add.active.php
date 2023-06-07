@@ -157,17 +157,21 @@ $("#button-update").button("disable");
 
 <div class="main-help ui-widget-content">
 
+<p><strong>Active Skills</strong></p>
+
+<p>Active Skills are selected by players to expand their character abilities. This editor lets you add the skills the players will be able to select. 
+The main </p>
+
+<p><strong>Active Skill Form</strong></p>
+
 <ul>
-  <li><strong>Active Skill Form</strong>
-  <ul>
-    <li><strong>Type</strong> - Tyep type of the active skill.</li>
-    <li><strong>Name</strong> - The name of the skill.</li>
-    <li><strong>Group</strong> - The group of the skill.</li>
-    <li><strong>Attribute</strong> - The linked attribute for the skill.</li>
-    <li><strong>Default</strong> - Whether the skill can be defaulted (-1).</li>
-    <li><strong>Book</strong> - Select the book where this skill is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
+  <li>Type - Enter in one of the tabbed names such as Combat to identify the skill type</li>
+  <li>Name - The name of the skill</li>
+  <li>Group - If the skill is a member of a skill group, enter the name here</li>
+  <li>Linked Attribute - The attribute most associated with this skill</li>
+  <li>Default - If the skill can be used without assigning points to it</li>
+  <li>Book - Select the book where this skill can be found</li>
+  <li>Page - Identify the page number where the skill description can be found</li>
 </ul>
 
 </div>
