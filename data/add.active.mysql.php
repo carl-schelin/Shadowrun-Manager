@@ -57,18 +57,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into active set act_id = NULL, " . $q_string;
-            $message = "Active Skill added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update active set " . $q_string . " where act_id = " . $formVars['id'];
-            $message = "Active Skill updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['act_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -142,6 +138,13 @@
             } else {
               $default = 'No';
             }
+
+            $total = 0;
+            $q_string  = "select user_id ";
+            $q_string .= "from users ";
+            $q_string .= "where user_id = " . $a_active['act_id'] . " ";
+            $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            if (mysql_num_rows($q_active) > 0) {
 
             $output .= "<tr>\n";
             $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                                  . "</td>\n";
