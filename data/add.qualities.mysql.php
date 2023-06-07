@@ -51,18 +51,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into qualities set qual_id = NULL, " . $q_string;
-            $message = "Quality added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update qualities set " . $q_string . " where qual_id = " . $formVars['id'];
-            $message = "Quality updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['qual_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
