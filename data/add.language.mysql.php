@@ -37,18 +37,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into language set lang_id = NULL, " . $q_string;
-            $message = "Language added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update language set " . $q_string . " where lang_id = " . $formVars['id'];
-            $message = "Language updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['lang_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -90,8 +86,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .= "</tr>\n";
 
@@ -106,9 +103,25 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_language('add.language.del.php?id=" . $a_language['lang_id'] . "');\">";
           $linkend = "</a>";
 
+          $total = 0;
+          $q_string  = "select r_lang_id ";
+          $q_string .= "from r_language ";
+          $q_string .= "where r_lang_number = " . $a_language['lang_id'] . " ";
+          $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_language) > 0) {
+            while ($a_r_language = mysql_fetch_array($q_r_language)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                         . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $a_language['lang_id']              . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $total                              . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_language['lang_name'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
         }

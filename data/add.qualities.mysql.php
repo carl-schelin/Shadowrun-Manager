@@ -105,7 +105,11 @@
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
         $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
-        $output .=   "<th class=\"ui-state-default\">Value</th>\n";
+        if ($qualities == 'positive') {
+          $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
+        } else {
+          $output .=   "<th class=\"ui-state-default\">Bonus</th>\n";
+        }
         $output .=   "<th class=\"ui-state-default\">Desc</th>\n";
         $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";

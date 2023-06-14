@@ -137,18 +137,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into vehicles set veh_id = NULL, " . $q_string;
-            $message = "Vehicle added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update vehicles set " . $q_string . " where veh_id = " . $formVars['id'];
-            $message = "Vehicle updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['veh_model']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -194,8 +190,9 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Type</th>\n";
         $output .=   "<th class=\"ui-state-default\">Make</th>\n";
         $output .=   "<th class=\"ui-state-default\">Model</th>\n";
@@ -260,9 +257,25 @@
 
             $class = return_Class($a_vehicles['veh_perm']);
 
+            $total = 0;
+            $q_string  = "select r_veh_id ";
+            $q_string .= "from r_vehicles ";
+            $q_string .= "where r_veh_number = " . $a_vehicles['veh_id'] . " ";
+            $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            if (mysql_num_rows($q_r_vehicles) > 0) {
+              while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+                $total++;
+              }
+            }
+
             $output .= "<tr>\n";
-            $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . $linkdel                            . "</td>\n";
+            if ($total > 0) {
+              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            } else {
+              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            }
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_vehicles['veh_id']               . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                              . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_vehicles['veh_type']  . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_vehicles['veh_make']  . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_vehicles['veh_model'] . $linkend . "</td>\n";
