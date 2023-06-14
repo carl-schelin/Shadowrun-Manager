@@ -67,18 +67,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into spells set spell_id = NULL, " . $q_string;
-            $message = "Spell added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update spells set " . $q_string . " where spell_id = " . $formVars['id'];
-            $message = "Spell updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['spell_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -124,8 +120,9 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
         $output .=   "<th class=\"ui-state-default\">Class</th>\n";
         $output .=   "<th class=\"ui-state-default\">Type</th>\n";
@@ -154,11 +151,27 @@
 
             $spell_drain = return_Drain($a_spells['spell_drain'], $a_spells['spell_force']);
 
+            $total = 0;
+            $q_string  = "select r_spell_id ";
+            $q_string .= "from r_spells ";
+            $q_string .= "where r_spell_number = " . $a_spells['spell_id'] . " ";
+            $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            if (mysql_num_rows($q_r_spells) > 0) {
+              while ($a_r_active = mysql_fetch_array($q_r_spells)) {
+                $total++;
+              }
+            }
+
             $output .= "<tr>\n";
-            $output .=   "<td class=\"delete ui-widget-content\" width=\"60\">" . $linkdel                                               . "</td>\n";
+            if ($total > 0) {
+              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            } else {
+              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            }
             $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_spells['spell_id']                                  . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                 . "</td>\n";
             $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_spells['spell_name']                     . $linkend . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['class_name']                               . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['class_name']                                . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_type']                                . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_test']                                . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_range']                               . "</td>\n";
