@@ -42,18 +42,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into knowledge set know_id = NULL, " . $q_string;
-            $message = "Knowledge Skill added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update knowledge set " . $q_string . " where know_id = " . $formVars['id'];
-            $message = "Knowledge Skill updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['know_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -99,8 +95,9 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
         $output .=   "<th class=\"ui-state-default\">Category</th>\n";
         $output .= "</tr>\n";
@@ -131,9 +128,25 @@
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_knowledge('add.knowledge.del.php?id=" . $a_knowledge['know_id'] . "');\">";
             $linkend = "</a>";
 
+            $total = 0;
+            $q_string  = "select r_know_id ";
+            $q_string .= "from r_knowledge ";
+            $q_string .= "where r_know_number = " . $a_knowledge['know_id'] . " ";
+            $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            if (mysql_num_rows($q_r_knowledge) > 0) {
+              while ($a_r_knowledge = mysql_fetch_array($q_r_knowledge)) {
+                $total++;
+              }
+            }
+
             $output .= "<tr>\n";
-            $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                            . "</td>\n";
+            if ($total > 0) {
+              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            } else {
+              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            }
             $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $a_knowledge['know_id']                . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $total                                 . "</td>\n";
             $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_knowledge['know_name']   . $linkend . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"                           . $a_knowledge['s_know_name']            . "</td>\n";
             $output .= "</tr>\n";
