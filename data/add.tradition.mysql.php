@@ -57,18 +57,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into tradition set trad_id = NULL, " . $q_string;
-            $message = "Tradition added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update tradition set " . $q_string . " where trad_id = " . $formVars['id'];
-            $message = "Tradition updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['trad_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -123,7 +119,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Tradition</th>\n";
       $output .=   "<th class=\"ui-state-default\">Description</th>\n";
@@ -150,8 +146,23 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_tradition('add.tradition.del.php?id=" . $a_tradition['trad_id'] . "');\">";
           $linkend = "</a>";
 
+          $total = 0;
+          $q_string  = "select r_trad_id ";
+          $q_string .= "from r_tradition ";
+          $q_string .= "where r_trad_number = " . $a_tradition['trad_id'] . " ";
+          $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_tradition) > 0) {
+            while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                                                            . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $a_tradition['trad_id']                                                . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_tradition['trad_name']                                   . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                                  . $a_tradition['trad_description']                                       . "</td>\n";

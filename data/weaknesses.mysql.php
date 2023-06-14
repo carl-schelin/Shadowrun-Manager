@@ -43,8 +43,6 @@
               "sp_weak_number      =   " . $formVars['sp_weak_number'];
 
             $query = "insert into sp_weaknesses set sp_weak_id = NULL, " . $q_string;
-
-            $message = "Weakness added.";
           }
 
           if ($formVars['update'] == 1) {
@@ -52,15 +50,11 @@
               "sp_weak_specialize = \"" . $formVars['sp_weak_specialize']  . "\"";
 
             $query = "update sp_weaknesses set " . $q_string . " where sp_weak_id = " . $formVars['id'];
-
-            $message = "Weakness updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sp_weak_number']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }

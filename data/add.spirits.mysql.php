@@ -101,18 +101,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into spirits set spirit_id = NULL, " . $q_string;
-            $message = "Spirit added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update spirits set " . $q_string . " where spirit_id = " . $formVars['id'];
-            $message = "Spirit updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['spirit_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
