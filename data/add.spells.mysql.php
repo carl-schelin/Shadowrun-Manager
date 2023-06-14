@@ -99,20 +99,9 @@
 
         $output .= "<div class=\"main-help ui-widget-content\">\n";
 
-        $output .= "<ul>\n";
-        $output .= "  <li><strong>Language Listing</strong>\n";
-        $output .= "  <ul>\n";
-        $output .= "    <li><strong>Remove</strong> - Click here to delete this Language from the Mooks Database.</li>\n";
-        $output .= "    <li><strong>Editing</strong> - Click on a Language to toggle the form and edit the Language.</li>\n";
-        $output .= "  </ul></li>\n";
-        $output .= "</ul>\n";
+        $output .= "<p><strong>Spell Listing</p>\n";
 
-        $output .= "<ul>\n";
-        $output .= "  <li><strong>Notes</strong>\n";
-        $output .= "  <ul>\n";
-        $output .= "    <li>Click the <strong>Language Management</strong> title bar to toggle the <strong>Language Form</strong>.</li>\n";
-        $output .= "  </ul></li>\n";
-        $output .= "</ul>\n";
+        $output .= "<p>The main thing you'll want to know is WIL+REA is an Indirect Spell and INT+WIL is a Direct Spell.</p>\n";
 
         $output .= "</div>\n";
 
