@@ -259,6 +259,8 @@ some are full force, and some are a hard value.</p>
   }
 ?>
 </select></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Name <input type="text" name="spell_name" size="25"></td>
 </tr>
 <tr>
