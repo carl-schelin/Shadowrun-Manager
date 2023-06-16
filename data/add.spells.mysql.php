@@ -32,6 +32,7 @@
         $formVars['spell_damage']    = clean($_GET['spell_damage'],    10);
         $formVars['spell_duration']  = clean($_GET['spell_duration'],  20);
         $formVars['spell_force']     = clean($_GET['spell_force'],     10);
+        $formVars['spell_half']      = clean($_GET['spell_half'],      10);
         $formVars['spell_drain']     = clean($_GET['spell_drain'],     10);
         $formVars['spell_book']      = clean($_GET['spell_book'],      10);
         $formVars['spell_page']      = clean($_GET['spell_page'],      10);
@@ -43,6 +44,9 @@
           $formVars['spell_force'] = 1;
         } else {
           $formVars['spell_force'] = 0;
+        }
+        if ($formVars['spell_half'] == 'true') {
+          $formVars['spell_force'] = 2;
         }
         if ($formVars['spell_drain'] == '') {
           $formVars['spell_drain'] = 0;
