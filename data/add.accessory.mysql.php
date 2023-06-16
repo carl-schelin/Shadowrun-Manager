@@ -173,9 +173,25 @@
 
           $class = return_Class($a_accessory['acc_perm']);
 
+          $total = 0;
+          $q_string  = "select r_acc_id ";
+          $q_string .= "from r_accessory ";
+          $q_string .= "where r_acc_number = " . $a_accessory['acc_id'] . " ";
+          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_accessory) > 0) {
+            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                                       . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_accessory['acc_id']                                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $total                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_accessory['sub_name']                               . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $itemclass                                                        . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $accessory                                                        . "</td>\n";
@@ -191,7 +207,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"13\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"14\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
