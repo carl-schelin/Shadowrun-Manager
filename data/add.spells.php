@@ -95,8 +95,8 @@ $(document).ready( function() {
   $( "#dialogSpells" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 190,
-    width:  940,
+    height: 425,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogSpells" ).hide();
@@ -243,7 +243,7 @@ some are full force, and some are a hard value.</p>
 <input type="hidden" name="id" value="0">
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default" colspan="6">Spell Form</th>
+  <th class="ui-state-default">Spell Form</th>
 </tr>
 <tr>
   <td class="ui-widget-content">Group <select name="spell_group">
@@ -260,17 +260,35 @@ some are full force, and some are a hard value.</p>
 ?>
 </select></td>
   <td class="ui-widget-content">Name <input type="text" name="spell_name" size="25"></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="2">Class <input type="text" name="spell_class" size="20"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Type <input type="text" name="spell_type" size="8"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Test <input type="text" name="spell_test" size="8"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Range <input type="text" name="spell_range" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Damage <input type="text" name="spell_damage" size="8"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Duration <input type="text" name="spell_duration" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Use Force? <input type="checkbox" name="spell_force"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Use Force / 2? <input type="checkbox" name="spell_half"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Drain <input type="text" name="spell_drain" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="spell_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
