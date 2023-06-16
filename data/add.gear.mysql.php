@@ -68,18 +68,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into gear set gear_id = NULL, " . $q_string;
-            $message = "Gear added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update gear set " . $q_string . " where gear_id = " . $formVars['id'];
-            $message = "Gear updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['gear_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -125,8 +121,9 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Class</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
@@ -163,9 +160,25 @@
 
             $class = return_Class($a_gear['gear_perm']);
 
+            $total = 0;
+            $q_string  = "select r_gear_id ";
+            $q_string .= "from r_gear ";
+            $q_string .= "where r_gear_number = " . $a_gear['gear_id'] . " ";
+            $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            if (mysql_num_rows($q_r_gear) > 0) {
+              while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+                $total++;
+              }
+            }
+
             $output .= "<tr>\n";
-            $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . $linkdel                         . "</td>\n";
+            if ($total > 0) {
+              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            } else {
+              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            }
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_gear['gear_id']               . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                           . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_gear['class_name'] . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_gear['gear_name']  . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $gear_rating                     . "</td>\n";

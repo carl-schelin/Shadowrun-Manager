@@ -114,8 +114,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -137,22 +138,32 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_agent('add.agent.del.php?id=" . $a_agents['agt_id'] . "');\">";
           $linkend = "</a>";
 
-          $class = "ui-widget-content";
-          if ($a_agents['agt_perm'] == 'R') {
-            $class = "ui-state-highlight";
-          }
-          if ($a_agents['agt_perm'] == 'F') {
-            $class = "ui-state-error";
-          }
+          $class = return_Class($a_agents['agt_perm'];
 
           $agt_avail = "-";
           if ($a_agents['agt_avail'] != 0) {
             $agt_avail = $a_agents['agt_avail'] . $a_agents['agt_perm'];
           }
 
+          $total = 0;
+          $q_string  = "select r_agt_id ";
+          $q_string .= "from r_agents ";
+          $q_string .= "where r_agt_number = " . $a_agents['agt_id'] . " ";
+          $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_agents) > 0) {
+            while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . $linkdel                                                                            . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $a_agents['agt_id']                                                   . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $total                                                                . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_agents['agt_name']                                      . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"                           . $a_agents['agt_rating']                                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"                           . $agt_avail                                                             . "</td>\n";

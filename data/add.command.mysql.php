@@ -77,18 +77,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into command set cmd_id = NULL, " . $q_string;
-            $message = "Rigger Command Console added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update command set " . $q_string . " where cmd_id = " . $formVars['id'];
-            $message = "Rigger Command Console updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['cmd_brand']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -131,8 +127,9 @@
       $nuyen = '&yen;';
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Console</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Data Processing</th>\n";
@@ -168,9 +165,25 @@
 
           $class = return_Class($a_command['cmd_perm']);
 
+          $total = 0;
+          $q_string  = "select r_cmd_id ";
+          $q_string .= "from r_command ";
+          $q_string .= "where r_cmd_number = " . $a_command['cmd_id'] . " ";
+          $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_command) > 0) {
+            while ($a_r_command = mysql_fetch_array($q_r_command)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . $linkdel                                                           . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_command['cmd_id']                                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                             . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_command['cmd_brand'] . " " . $a_command['cmd_model'] . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $rating                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_command['cmd_data']                                             . "</td>\n";
