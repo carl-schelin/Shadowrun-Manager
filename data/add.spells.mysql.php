@@ -195,6 +195,7 @@
       print "document.dialog.spell_damage.value = '';\n";
       print "document.dialog.spell_duration.value = '';\n";
       print "document.dialog.spell_force.value = false;\n";
+      print "document.dialog.spell_half.value = false;\n";
       print "document.dialog.spell_drain.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

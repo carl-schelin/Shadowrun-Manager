@@ -42,10 +42,15 @@
       print "document.dialog.spell_book.value = '"     . mysql_real_escape_string($a_spells['spell_book'])     . "';\n";
       print "document.dialog.spell_page.value = '"     . mysql_real_escape_string($a_spells['spell_page'])     . "';\n";
 
-      if ($a_spells['spell_force']) {
+      if ($a_spells['spell_force'] == 1) {
         print "document.dialog.spell_force.checked = true;\n";
       } else {
         print "document.dialog.spell_force.checked = false;\n";
+      }
+      if ($a_spells['spell_force'] == 2) {
+        print "document.dialog.spell_half.checked = true;\n";
+      } else {
+        print "document.dialog.spell_half.checked = false;\n";
       }
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
