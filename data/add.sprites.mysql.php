@@ -69,18 +69,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into sprites set sprite_id = NULL, " . $q_string;
-            $message = "Sprite added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update sprites set " . $q_string . " where sprite_id = " . $formVars['id'];
-            $message = "Sprite updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sprite_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -122,8 +118,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
       $output .=   "<th class=\"ui-state-default\">Sleaze</th>\n";
@@ -155,9 +152,25 @@
 
           $sprite_book = return_Book($a_sprites['ver_book'], $a_sprites['sprite_page']);
 
+          $total = 0;
+          $q_string  = "select r_sprite_id ";
+          $q_string .= "from r_sprites ";
+          $q_string .= "where r_sprite_number = " . $a_sprites['sprite_id'] . " ";
+          $q_r_sprites = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_sprites) > 0) {
+            while ($a_r_sprites = mysql_fetch_array($q_r_sprites)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                     . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_sprites['sprite_id']                      . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                       . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_sprites['sprite_name']         . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $sprite_attack                               . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $sprite_sleaze                               . "</td>\n";

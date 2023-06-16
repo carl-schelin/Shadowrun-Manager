@@ -107,18 +107,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into firearms set fa_id = NULL, " . $q_string;
-            $message = "Firearm added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update firearms set " . $q_string . " where fa_id = " . $formVars['id'];
-            $message = "Firearm updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['fa_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -160,8 +156,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Accuracy</th>\n";
@@ -204,17 +201,27 @@
 
           $fa_avail = return_Avail($a_firearms['fa_avail'], $a_firearms['fa_perm']);
 
-          $class = "ui-widget-content";
-          if ($a_firearms['fa_perm'] == 'R') {
-            $class = "ui-state-highlight";
-          }
-          if ($a_firearms['fa_perm'] == 'F') {
-            $class = "ui-state-error";
+          $class = return_Class($a_firearms['fa_perm']);
+
+          $total = 0;
+          $q_string  = "select r_fa_id ";
+          $q_string .= "from r_firearms ";
+          $q_string .= "where r_fa_number = " . $a_firearms['fa_id'] . " ";
+          $q_r_farmarms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_farmarms) > 0) {
+            while ($a_r_farmarms = mysql_fetch_array($q_r_farmarms)) {
+              $total++;
+            }
           }
 
           $output .= "<tr>\n";
-          $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . $linkdel                                                    . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_firearms['fa_id']                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                      . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['class_name']                        . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['fa_name']                           . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_firearms['fa_acc']                                       . "</td>\n";

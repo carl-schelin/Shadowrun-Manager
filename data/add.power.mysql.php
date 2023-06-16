@@ -54,18 +54,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into powers set pow_id = NULL, " . $q_string;
-            $message = "Power added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update powers set " . $q_string . " where pow_id = " . $formVars['id'];
-            $message = "Power updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['pow_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -107,7 +103,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Type</th>\n";

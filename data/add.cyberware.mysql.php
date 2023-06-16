@@ -80,18 +80,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into cyberware set ware_id = NULL, " . $q_string;
-            $message = "Cyberware added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update cyberware set " . $q_string . " where ware_id = " . $formVars['id'];
-            $message = "Cyberware updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['ware_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -137,8 +133,9 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
         $output .=   "<th class=\"ui-state-default\">Essence</th>\n";
@@ -179,17 +176,27 @@
 
             $book = $a_cyberware['ver_book'] . ": " . $a_cyberware['ware_page'];
 
-            $class = "ui-widget-content";
-            if ($a_cyberware['ware_perm'] == 'R') {
-              $class = "ui-state-highlight";
-            }
-            if ($a_cyberware['ware_perm'] == 'F') {
-              $class = "ui-state-error";
+            $class = return_Class($a_cyberware['ware_perm']);
+
+            $total = 0;
+            $q_string  = "select r_ware_id ";
+            $q_string .= "from r_cyberware ";
+            $q_string .= "where r_ware_number = " . $a_cyberware['ware_id'] . " ";
+            $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            if (mysql_num_rows($q_r_cyberware) > 0) {
+              while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+                $total++;
+              }
             }
 
             $output .= "<tr>\n";
-            $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . $linkdel                             . "</td>\n";
+            if ($total > 0) {
+              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            } else {
+              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            }
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_cyberware['ware_id']              . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_cyberware['ware_name'] . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $rating                              . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $essence                             . "</td>\n";

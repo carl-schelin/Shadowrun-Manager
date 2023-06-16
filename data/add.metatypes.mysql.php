@@ -61,18 +61,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into metatypes set meta_id = NULL, " . $q_string;
-            $message = "Metatype added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update metatypes set " . $q_string . " where meta_id = " . $formVars['id'];
-            $message = "Metatype updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['meta_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -114,8 +110,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Walk</th>\n";
       $output .=   "<th class=\"ui-state-default\">Run</th>\n";
@@ -139,9 +136,25 @@
 
           $book = return_Book($a_metatypes['ver_book'], $a_metatypes['meta_page']);
 
+          $total = 0;
+          $q_string  = "select runr_metatype ";
+          $q_string .= "from runners ";
+          $q_string .= "where runr_metatype = " . $a_metatypes['meta_id'] . " ";
+          $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_runners) > 0) {
+            while ($a_runners = mysql_fetch_array($q_runners)) {
+              $total++;
+            }
+          }
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                             . "</td>\n";
+          if ($total > 0) {
+            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+          } else {
+            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+          }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_metatypes['meta_id']              . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                               . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_metatypes['meta_name'] . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $a_metatypes['meta_walk']            . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $a_metatypes['meta_run']             . "</td>\n";

@@ -383,10 +383,10 @@ function show_Help( $p_script ) {
 
 function return_Class($p_perm) {
   $r_perm = 'ui-widget-content';
-  if ($p_perm == 'R') {
+  if ($p_perm == 'R' || $p_perm == 'L') {
     $r_perm = 'ui-state-highlight';
   }
-  if ($p_perm == 'F') {
+  if ($p_perm == 'F' || $p_perm == 'I') {
     $r_perm = 'ui-state-error';
   }
   return($r_perm);
