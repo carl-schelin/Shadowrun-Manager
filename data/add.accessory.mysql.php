@@ -79,18 +79,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into accessory set acc_id = NULL, " . $q_string;
-            $message = "Accessory added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update accessory set " . $q_string . " where acc_id = " . $formVars['id'];
-            $message = "Accessory updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['acc_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -132,8 +128,9 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Type</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
       $output .=   "<th class=\"ui-state-default\">Accessory To</th>\n";
