@@ -138,7 +138,7 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_agent('add.agent.del.php?id=" . $a_agents['agt_id'] . "');\">";
           $linkend = "</a>";
 
-          $class = return_Class($a_agents['agt_perm'];
+          $class = return_Class($a_agents['agt_perm']);
 
           $agt_avail = "-";
           if ($a_agents['agt_avail'] != 0) {
