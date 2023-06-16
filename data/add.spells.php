@@ -71,6 +71,7 @@ function attach_spells(p_script_url, update) {
   ad_url += "&spell_damage="      + encode_URI(ad_form.spell_damage.value);
   ad_url += "&spell_duration="    + encode_URI(ad_form.spell_duration.value);
   ad_url += "&spell_force="       + ad_form.spell_force.checked;
+  ad_url += "&spell_half="        + ad_form.spell_half.checked;
   ad_url += "&spell_drain="       + encode_URI(ad_form.spell_drain.value);
   ad_url += "&spell_book="        + encode_URI(ad_form.spell_book.value);
   ad_url += "&spell_page="        + encode_URI(ad_form.spell_page.value);
@@ -169,6 +170,9 @@ $("#button-update").button("disable");
   </ul></li>
 </ul>
 
+<p>The Use Force and Use Force / 2 checkboxes are when the Drain Value is based on the strength of the cast spell in force. Some are half force, 
+some are full force, and some are a hard value.</p>
+
 </div>
 
 </div>
@@ -265,6 +269,7 @@ $("#button-update").button("disable");
   <td class="ui-widget-content">Damage <input type="text" name="spell_damage" size="8"></td>
   <td class="ui-widget-content">Duration <input type="text" name="spell_duration" size="10"></td>
   <td class="ui-widget-content">Use Force? <input type="checkbox" name="spell_force"></td>
+  <td class="ui-widget-content">Use Force / 2? <input type="checkbox" name="spell_half"></td>
   <td class="ui-widget-content">Drain <input type="text" name="spell_drain" size="3"></td>
   <td class="ui-widget-content">Book  <select name="spell_book">
 <?php

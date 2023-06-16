@@ -631,7 +631,7 @@ function return_Mount($p_mount) {
 
 function return_Drain($p_drain, $p_force) {
   $r_drain = $p_drain;
-  if ($p_force) {
+  if ($p_force == 1) {
     if ($p_drain < 0) {
       $r_drain = "F " . $p_drain;
     }
@@ -640,6 +640,17 @@ function return_Drain($p_drain, $p_force) {
     }
     if ($p_drain == 0) {
       $r_drain = "F";
+    }
+  }
+  if ($p_force == 2) {
+    if ($p_drain < 0) {
+      $r_drain = "(F / 2) " . $p_drain;
+    }
+    if ($p_drain > 0) {
+      $r_drain = "(F / 2) +" . $p_drain;
+    }
+    if ($p_drain == 0) {
+      $r_drain = "(F / 2)";
     }
   }
   return($r_drain);
