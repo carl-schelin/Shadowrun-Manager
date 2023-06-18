@@ -64,9 +64,11 @@ function attach_lifestyle(p_script_url, update) {
 
   al_url += "&life_style="           + encode_URI(al_form.life_style.value);
   al_url += "&life_comforts="        + encode_URI(al_form.life_comforts.value);
+  al_url += "&life_necessities="     + encode_URI(al_form.life_necessities.value);
   al_url += "&life_security="        + encode_URI(al_form.life_security.value);
   al_url += "&life_neighborhood="    + encode_URI(al_form.life_neighborhood.value);
   al_url += "&life_entertainment="   + encode_URI(al_form.life_entertainment.value);
+  al_url += "&life_space="           + encode_URI(al_form.life_space.value);
   al_url += "&life_cost="            + encode_URI(al_form.life_cost.value);
   al_url += "&life_book="            + encode_URI(al_form.life_book.value);
   al_url += "&life_page="            + encode_URI(al_form.life_page.value);
@@ -89,7 +91,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 190,
+    height: 350,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -188,13 +190,29 @@ $(document).ready( function() {
 </tr>
 <tr>
   <td class="ui-widget-content" colspan="2">Liftstyle <input type="text" name="life_style" size="30"></td>
-  <td class="ui-widget-content">Comforts & Necessities <input type="text" name="life_comforts" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Comforts <input type="text" name="life_comforts" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Necessities <input type="text" name="life_necessities" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Security <input type="text" name="life_security" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Neighborhood <input type="text" name="life_neighborhood" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Entertainment <input type="text" name="life_entertainment" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Space <input type="text" name="life_space" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="life_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="life_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
