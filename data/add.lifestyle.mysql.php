@@ -25,9 +25,11 @@
         $formVars['id']                   = clean($_GET['id'],                  10);
         $formVars['life_style']           = clean($_GET['life_style'],          60);
         $formVars['life_comforts']        = clean($_GET['life_comforts'],       10);
+        $formVars['life_necessities']     = clean($_GET['life_necessities'],    10);
         $formVars['life_security']        = clean($_GET['life_security'],       10);
         $formVars['life_neighborhood']    = clean($_GET['life_neighborhood'],   10);
         $formVars['life_entertainment']   = clean($_GET['life_entertainment'],  10);
+        $formVars['life_space']           = clean($_GET['life_space'],          10);
         $formVars['life_cost']            = clean($_GET['life_cost'],           10);
         $formVars['life_book']            = clean($_GET['life_book'],           10);
         $formVars['life_page']            = clean($_GET['life_page'],           10);
@@ -38,6 +40,9 @@
         if ($formVars['life_comforts'] == '') {
           $formVars['life_comforts'] = 0;
         }
+        if ($formVars['life_necessities'] == '') {
+          $formVars['life_necessities'] = 0;
+        }
         if ($formVars['life_security'] == '') {
           $formVars['life_security'] = 0;
         }
@@ -46,6 +51,9 @@
         }
         if ($formVars['life_entertainment'] == '') {
           $formVars['life_entertainment'] = 0;
+        }
+        if ($formVars['life_space'] == '') {
+          $formVars['life_space'] = 0;
         }
         if ($formVars['life_cost'] == '') {
           $formVars['life_cost'] = 0;
@@ -58,14 +66,16 @@
           logaccess($_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
-            "life_style    = \"" . $formVars['life_style']                    . "\"," .
-            "life_comforts     =   " . $formVars['life_comforts']             . "," .
-            "life_security     =   " . $formVars['life_security']             . "," .
-            "life_neighborhood     =   " . $formVars['life_neighborhood']     . "," .
-            "life_entertainment     =   " . $formVars['life_entertainment']   . "," .
-            "life_cost     =   " . $formVars['life_cost']                     . "," .
-            "life_book     = \"" . $formVars['life_book']                     . "\"," .
-            "life_page     =   " . $formVars['life_page'];
+            "life_style            = \"" . $formVars['life_style']           . "\"," .
+            "life_comforts         =   " . $formVars['life_comforts']        . "," .
+            "life_necessities      =   " . $formVars['life_necessities']     . "," .
+            "life_security         =   " . $formVars['life_security']        . "," .
+            "life_neighborhood     =   " . $formVars['life_neighborhood']    . "," .
+            "life_entertainment    =   " . $formVars['life_entertainment']   . "," .
+            "life_space            =   " . $formVars['life_space']           . "," .
+            "life_cost             =   " . $formVars['life_cost']            . "," .
+            "life_book             = \"" . $formVars['life_book']            . "\"," .
+            "life_page             =   " . $formVars['life_page'];
 
           if ($formVars['update'] == 0) {
             $query = "insert into lifestyle set life_id = NULL, " . $q_string;
@@ -97,20 +107,8 @@
 
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Lifestyle Listing</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li><strong>Remove</strong> - Click here to delete this Lifestyle from the Mooks Database.</li>\n";
-      $output .= "    <li><strong>Editing</strong> - Click on a Lifestyle to toggle the form and edit the Lifestyle.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Notes</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li>Click the <strong>Lifestyle Management</strong> title bar to toggle the <strong>Lifestyle Form</strong>.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
+      $output .= "<p><strong>Lifestyle Listing</strong></p>\n";
+      $output .= "<p>The extended information are from the extended character books.\n";
 
       $output .= "</div>\n";
 
@@ -122,16 +120,18 @@
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Lifestyle</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Comforts & Necessities</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Comforts</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Necessities</th>\n";
       $output .=   "<th class=\"ui-state-default\">Security</th>\n";
       $output .=   "<th class=\"ui-state-default\">Neighborhood</th>\n";
       $output .=   "<th class=\"ui-state-default\">Entertainment</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Space</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
       $nuyen = '&yen;';
-      $q_string  = "select life_id,life_style,life_comforts,life_security,life_neighborhood,life_entertainment,life_cost,ver_book,life_page ";
+      $q_string  = "select life_id,life_style,life_comforts,life_necessities,life_security,life_neighborhood,life_entertainment,life_space,life_cost,ver_book,life_page ";
       $q_string .= "from lifestyle ";
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -165,16 +165,18 @@
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                                    . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_lifestyle['life_style']                                     . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $a_lifestyle['life_comforts']                                             . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_lifestyle['life_necessities']                                          . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $a_lifestyle['life_security']                                             . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $a_lifestyle['life_neighborhood']                                         . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $a_lifestyle['life_entertainment']                                        . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_lifestyle['life_space']                                                . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . number_format($a_lifestyle['life_cost'], 0, '.', ',') . $nuyen            . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $a_lifestyle['ver_book'] . ": " . $a_lifestyle['life_page']               . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"11\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -184,9 +186,11 @@
 
       print "document.dialog.life_style.value = '';\n";
       print "document.dialog.life_comforts.value = '';\n";
+      print "document.dialog.life_necessities.value = '';\n";
       print "document.dialog.life_security.value = '';\n";
       print "document.dialog.life_neighborhood.value = '';\n";
       print "document.dialog.life_entertainment.value = '';\n";
+      print "document.dialog.life_space.value = '';\n";
       print "document.dialog.life_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";
