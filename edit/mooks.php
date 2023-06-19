@@ -893,10 +893,16 @@ function attach_lifestyle(p_script_url, update) {
   al_url  = '?update='   + update;
   al_url += "&id="       + al_form.r_life_id.value;
 
-  al_url += "&r_life_character="    + <?php print $formVars['id']; ?>;
-  al_url += "&r_life_number="       + al_form.r_life_number.value;
-  al_url += "&r_life_desc="         + encode_URI(al_form.r_life_desc.value);
-  al_url += "&r_life_months="       + encode_URI(al_form.r_life_months.value);
+  al_url += "&r_life_character="       + <?php print $formVars['id']; ?>;
+  al_url += "&r_life_number="          + al_form.r_life_number.value;
+  al_url += "&r_life_comforts="        + encode_URI(al_form.r_life_comforts.value);
+  al_url += "&r_life_necessities="     + encode_URI(al_form.r_life_necessities.value);
+  al_url += "&r_life_security="        + encode_URI(al_form.r_life_security.value);
+  al_url += "&r_life_neighborhood="    + encode_URI(al_form.r_life_neighborhood.value);
+  al_url += "&r_life_entertainment="   + encode_URI(al_form.r_life_entertainment.value);
+  al_url += "&r_life_space="           + encode_URI(al_form.r_life_space.value);
+  al_url += "&r_life_desc="            + encode_URI(al_form.r_life_desc.value);
+  al_url += "&r_life_months="          + encode_URI(al_form.r_life_months.value);
 
   script = document.createElement('script');
   script.src = p_script_url + al_url;
