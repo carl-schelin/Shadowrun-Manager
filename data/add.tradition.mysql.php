@@ -121,6 +121,7 @@
       $output .= "<tr>\n";
       $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Tradition</th>\n";
       $output .=   "<th class=\"ui-state-default\">Description</th>\n";
       $output .=   "<th class=\"ui-state-default\">Combat</th>\n";
@@ -164,6 +165,7 @@
             $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
           }
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $a_tradition['trad_id']                                                . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $total                                                                 . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_tradition['trad_name']                                   . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                                  . $a_tradition['trad_description']                                       . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_combat']]                           . "</td>\n";
