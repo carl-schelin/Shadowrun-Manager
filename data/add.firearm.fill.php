@@ -23,8 +23,8 @@
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from firearm");
 
       $q_string  = "select fa_class,fa_name,fa_acc,fa_damage,fa_type,fa_flag,fa_ap,fa_mode1,";
-      $q_string .= "fa_mode2,fa_mode3,fa_rc,fa_fullrc,fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,";
-      $q_string .= "fa_cost,fa_book,fa_page ";
+      $q_string .= "fa_mode2,fa_mode3,fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,fa_rc,fa_fullrc,";
+      $q_string .= "fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,fa_cost,fa_book,fa_page ";
       $q_string .= "from firearms ";
       $q_string .= "where fa_id = " . $formVars['id'];
       $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -41,6 +41,11 @@
       print "document.dialog.fa_mode1.value = '"  . mysql_real_escape_string($a_firearms['fa_mode1'])  . "';\n";
       print "document.dialog.fa_mode2.value = '"  . mysql_real_escape_string($a_firearms['fa_mode2'])  . "';\n";
       print "document.dialog.fa_mode3.value = '"  . mysql_real_escape_string($a_firearms['fa_mode3'])  . "';\n";
+      print "document.dialog.fa_ar1.value = '"    . mysql_real_escape_string($a_firearms['fa_ar1'])    . "';\n";
+      print "document.dialog.fa_ar2.value = '"    . mysql_real_escape_string($a_firearms['fa_ar2'])    . "';\n";
+      print "document.dialog.fa_ar3.value = '"    . mysql_real_escape_string($a_firearms['fa_ar3'])    . "';\n";
+      print "document.dialog.fa_ar4.value = '"    . mysql_real_escape_string($a_firearms['fa_ar4'])    . "';\n";
+      print "document.dialog.fa_ar5.value = '"    . mysql_real_escape_string($a_firearms['fa_ar5'])    . "';\n";
       print "document.dialog.fa_rc.value = '"     . mysql_real_escape_string($a_firearms['fa_rc'])     . "';\n";
       print "document.dialog.fa_fullrc.value = '" . mysql_real_escape_string($a_firearms['fa_fullrc']) . "';\n";
       print "document.dialog.fa_ammo1.value = '"  . mysql_real_escape_string($a_firearms['fa_ammo1'])  . "';\n";
