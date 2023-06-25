@@ -464,6 +464,10 @@ function return_Attack($p_ar1, $p_ar2, $p_ar3, $p_ar4, $p_ar5) {
   } else {
     $r_attack .= '--';
   }
+# for systems that don't use this, just return dashes
+  if (($p_ar1 + $p_ar2 + $p_ar3 + $p_ar4 + $p_ar5) == 0) {
+    $r_attack = '--';
+  }
   return($r_attack);
 }
 
