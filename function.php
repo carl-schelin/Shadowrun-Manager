@@ -439,6 +439,34 @@ function return_Mode($p_mode1, $p_mode2, $p_mode3) {
   return($r_mode);
 }
 
+function return_Attack($p_ar1, $p_ar2, $p_ar3, $p_ar4, $p_ar5) {
+  $r_attack = $p_ar1 . "/";
+  if ($p_ar2 > 0) {
+    $r_attack .= $p_ar2;
+  } else {
+    $r_attack .= '--';
+  }
+  $r_attack .= "/";
+  if ($p_ar3 > 0) {
+    $r_attack .= $p_ar3;
+  } else {
+    $r_attack .= '--';
+  }
+  $r_attack .= "/";
+  if ($p_ar4 > 0) {
+    $r_attack .= $p_ar4;
+  } else {
+    $r_attack .= '--';
+  }
+  $r_attack .= "/";
+  if ($p_ar5 > 0) {
+    $r_attack .= $p_ar5;
+  } else {
+    $r_attack .= '--';
+  }
+  return($r_attack);
+}
+
 function return_Reach($p_reach) {
   $r_reach = '--';
   if ($p_reach > 0) {
