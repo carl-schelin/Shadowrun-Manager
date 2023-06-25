@@ -186,7 +186,7 @@
           $total = 0;
           $q_string  = "select r_melee_id ";
           $q_string .= "from r_melee ";
-          $q_string .= "where r_melee_number = " . $a_melees['melee_id'] . " ";
+          $q_string .= "where r_melee_number = " . $a_melee['melee_id'] . " ";
           $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_melee) > 0) {
             while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
