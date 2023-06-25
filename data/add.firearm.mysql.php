@@ -216,6 +216,11 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_firearm('add.firearm.del.php?id=" . $a_firearms['fa_id'] . "');\">";
           $linkend = "</a>";
 
+          $fa_accuracy = $a_firearms['fa_acc'];
+          if ($a_firearms['fa_acc'] == 0) {
+            $fa_accuracy = "--";
+          }
+
           $fa_mode = return_Mode($a_firearms['fa_mode1'], $a_firearms['fa_mode2'], $a_firearms['fa_mode3']);
 
           $fa_attack = return_Attack($a_firearms['fa_ar1'], $a_firearms['fa_ar2'], $a_firearms['fa_ar3'], $a_firearms['fa_ar4'], $a_firearms['fa_ar5']);
@@ -253,7 +258,7 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                      . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['class_name']                        . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['fa_name']                           . $linkend . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_firearms['fa_acc']                                       . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $fa_accuracy                                                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_damage                                                  . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_ap                                                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_mode                                                    . "</td>\n";

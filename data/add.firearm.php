@@ -224,13 +224,13 @@ $(document).ready( function() {
   <td class="ui-widget-content" colspan="3">Name <input type="text" name="fa_name" size="40"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Accuracy <input type="text" name="fa_acc" size="3"></td>
+  <td class="ui-widget-content">Accuracy <input type="text" name="fa_acc" size="3"> (sr5)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Damage Value <input type="text" name="fa_damage" size="2"><input type="text" name="fa_type" size="2">(<input type="text" name="fa_flag" size="2">)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">AP <input type="text" name="fa_ap" size="3"> (sr5)</td>
+  <td class="ui-widget-content">AP <input type="text" name="fa_ap" size="3"> (sr4a/sr5)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Mode <input type="text" name="fa_mode1" size="3">/<input type="text" name="fa_mode2" size="3">/<input type="text" name="fa_mode3" size="3"></td>
@@ -239,7 +239,7 @@ $(document).ready( function() {
   <td class="ui-widget-content">Attack Rating <input type="text" name="fa_ar1" size="3">/<input type="text" name="fa_ar2" size="3">/<input type="text" name="fa_ar3" size="3">/<input type="text" name="fa_ar4" size="3">/<input type="text" name="fa_ar5" size="3"> (sr6)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">RC <input type="text" name="fa_rc" size="3">(<input type="text" name="fa_fullrc" size="3">) (sr5)</td>
+  <td class="ui-widget-content">RC <input type="text" name="fa_rc" size="3">(<input type="text" name="fa_fullrc" size="3">) (sr4a/sr5)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Ammo <input type="text" name="fa_ammo1" size="3">(<input type="text" name="fa_clip1" size="3">)/<input type="text" name="fa_ammo2" size="3">(<input type="text" name="fa_clip2" size="3">)</td>
