@@ -33,6 +33,11 @@
         $formVars['fa_mode1']    = clean($_GET['fa_mode1'],    10);
         $formVars['fa_mode2']    = clean($_GET['fa_mode2'],    10);
         $formVars['fa_mode3']    = clean($_GET['fa_mode3'],    10);
+        $formVars['fa_ar1']      = clean($_GET['fa_ar1'],      10);
+        $formVars['fa_ar2']      = clean($_GET['fa_ar2'],      10);
+        $formVars['fa_ar3']      = clean($_GET['fa_ar3'],      10);
+        $formVars['fa_ar4']      = clean($_GET['fa_ar4'],      10);
+        $formVars['fa_ar5']      = clean($_GET['fa_ar5'],      10);
         $formVars['fa_rc']       = clean($_GET['fa_rc'],       10);
         $formVars['fa_fullrc']   = clean($_GET['fa_fullrc'],   10);
         $formVars['fa_ammo1']    = clean($_GET['fa_ammo1'],    10);
@@ -56,6 +61,21 @@
         }
         if ($formVars['fa_ap'] == '') {
           $formVars['fa_ap'] = 0;
+        }
+        if ($formVars['fa_ar1'] == '') {
+          $formVars['fa_ar1'] = 0;
+        }
+        if ($formVars['fa_ar2'] == '') {
+          $formVars['fa_ar2'] = 0;
+        }
+        if ($formVars['fa_ar3'] == '') {
+          $formVars['fa_ar3'] = 0;
+        }
+        if ($formVars['fa_ar4'] == '') {
+          $formVars['fa_ar4'] = 0;
+        }
+        if ($formVars['fa_ar5'] == '') {
+          $formVars['fa_ar5'] = 0;
         }
         if ($formVars['fa_rc'] == '') {
           $formVars['fa_rc'] = 0;
@@ -93,6 +113,11 @@
             "fa_mode1       = \"" . $formVars['fa_mode1']   . "\"," .
             "fa_mode2       = \"" . $formVars['fa_mode2']   . "\"," .
             "fa_mode3       = \"" . $formVars['fa_mode3']   . "\"," .
+            "fa_ar1         =   " . $formVars['fa_ar1']     . "," .
+            "fa_ar2         =   " . $formVars['fa_ar2']     . "," .
+            "fa_ar3         =   " . $formVars['fa_ar3']     . "," .
+            "fa_ar4         =   " . $formVars['fa_ar4']     . "," .
+            "fa_ar5         =   " . $formVars['fa_ar5']     . "," .
             "fa_rc          =   " . $formVars['fa_rc']      . "," .
             "fa_fullrc      =   " . $formVars['fa_fullrc']  . "," .
             "fa_ammo1       =   " . $formVars['fa_ammo1']   . "," .
@@ -165,6 +190,7 @@
       $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
       $output .=   "<th class=\"ui-state-default\">AP</th>\n";
       $output .=   "<th class=\"ui-state-default\">Mode</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
       $output .=   "<th class=\"ui-state-default\">RC</th>\n";
       $output .=   "<th class=\"ui-state-default\">Ammo</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -174,8 +200,9 @@
 
       $nuyen = '&yen;';
       $q_string  = "select fa_id,class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
-      $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_rc,fa_fullrc,fa_ammo1,";
-      $q_string .= "fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,fa_cost,ver_book,fa_page ";
+      $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,";
+      $q_string .= "fa_rc,fa_fullrc,fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,";
+      $q_string .= "fa_cost,ver_book,fa_page ";
       $q_string .= "from firearms ";
       $q_string .= "left join class on class.class_id = firearms.fa_class ";
       $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
@@ -190,6 +217,8 @@
           $linkend = "</a>";
 
           $fa_mode = return_Mode($a_firearms['fa_mode1'], $a_firearms['fa_mode2'], $a_firearms['fa_mode3']);
+
+          $fa_attack = return_Attack($a_firearms['fa_ar1'], $a_firearms['fa_ar2'], $a_firearms['fa_ar3'], $a_firearms['fa_ar4'], $a_firearms['fa_ar5']);
 
           $fa_damage = return_Damage($a_firearms['fa_damage'], $a_firearms['fa_type'], $a_firearms['fa_flag']);
 
@@ -228,6 +257,7 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_damage                                                  . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_ap                                                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_mode                                                    . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $fa_attack                                                  . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_rc                                                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_ammo                                                    . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $fa_avail                                                   . "</td>\n";
@@ -237,7 +267,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"14\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -254,6 +284,11 @@
       print "document.dialog.fa_mode1.value = '';\n";
       print "document.dialog.fa_mode2.value = '';\n";
       print "document.dialog.fa_mode3.value = '';\n";
+      print "document.dialog.fa_ar1.value = '';\n";
+      print "document.dialog.fa_ar2.value = '';\n";
+      print "document.dialog.fa_ar3.value = '';\n";
+      print "document.dialog.fa_ar4.value = '';\n";
+      print "document.dialog.fa_ar5.value = '';\n";
       print "document.dialog.fa_rc.value = '';\n";
       print "document.dialog.fa_fullrc.value = '';\n";
       print "document.dialog.fa_ammo1.value = '';\n";
