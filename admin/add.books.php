@@ -64,6 +64,7 @@ function attach_book(p_script_url, update) {
 
   ab_url += "&ver_book="     + encode_URI(ab_form.ver_book.value);
   ab_url += "&ver_short="    + encode_URI(ab_form.ver_short.value);
+  ab_url += "&ver_core="     + ab_form.ver_core.checked;
   ab_url += "&ver_version="  + encode_URI(ab_form.ver_version.value);
   ab_url += "&ver_year="     + encode_URI(ab_form.ver_year.value);
   ab_url += "&ver_active="   + ab_form.ver_active.checked;
@@ -89,8 +90,8 @@ $(document).ready( function() {
   $( "#dialogBook" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 180,
-    width:  620,
+    height: 275,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogBook" ).hide();
@@ -249,16 +250,24 @@ $("#button-update").button("disable");
 <input type="hidden" name="id" value="0">
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default" colspan="5">Book Form</th>
-</tr>
-<tr>
   <td class="ui-widget-content" colspan="5">Book <input type="text" name="ver_book" size="40"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Acronym <input type="text" name="ver_short" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Release <input type="text" name="ver_version" size="5"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Edition Year <input type="text" name="ver_year" size="6"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Core? <input type="checkbox" name="ver_core"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Active? <input type="checkbox" name="ver_active"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Admin? <input type="checkbox" name="ver_admin"></td>
 </tr>
 </table>

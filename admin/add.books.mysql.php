@@ -25,6 +25,7 @@
         $formVars['id']            = clean($_GET['id'],            10);
         $formVars['ver_book']      = clean($_GET['ver_book'],      60);
         $formVars['ver_short']     = clean($_GET['ver_short'],     10);
+        $formVars['ver_core']      = clean($_GET['ver_core'],      10);
         $formVars['ver_version']   = clean($_GET['ver_version'],   10);
         $formVars['ver_year']      = clean($_GET['ver_year'],      10);
         $formVars['ver_active']    = clean($_GET['ver_active'],    10);
@@ -35,6 +36,11 @@
         }
         if ($formVars['year'] == '') {
           $formVars['year'] = 0;
+        }
+        if ($formVars['ver_core'] == 'true') {
+          $formVars['ver_core'] = 1;
+        } else {
+          $formVars['ver_core'] = 0;
         }
         if ($formVars['ver_active'] == 'true') {
           $formVars['ver_active'] = 1;
@@ -53,6 +59,7 @@
           $q_string = 
             "ver_book       = \"" . $formVars['ver_book']      . "\"," .
             "ver_short      = \"" . $formVars['ver_short']     . "\"," .
+            "ver_core       =   " . $formVars['ver_core']      . "," . 
             "ver_version    = \"" . $formVars['ver_version']   . "\"," .
             "ver_year       =   " . $formVars['ver_year']      . "," . 
             "ver_active     =   " . $formVars['ver_active']    . "," . 
@@ -60,18 +67,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into versions set ver_id = NULL, " . $q_string;
-            $message = "Book added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update versions set " . $q_string . " where ver_id = " . $formVars['id'];
-            $message = "Book updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['ver_book']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -149,7 +152,7 @@
         $output .=   "<th class=\"ui-state-default\">Admin</th>\n";
         $output .= "</tr>\n";
 
-        $q_string  = "select ver_id,ver_book,ver_short,ver_version,ver_year,ver_active,ver_admin ";
+        $q_string  = "select ver_id,ver_book,ver_short,ver_core,ver_version,ver_year,ver_active,ver_admin ";
         $q_string .= "from versions ";
         $q_string .= "where ver_version = \"" . $book . "\" ";
         $q_string .= "order by ver_book ";
@@ -172,14 +175,19 @@
               $admin = 'No';
             }
 
+            $class = 'ui-widget-content';
+            if ($a_versions['ver_core']) {
+              $class = "ui-state-highlight";
+            }
+
             $output .= "<tr>\n";
-            $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                         . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $linkstart . $a_versions['ver_id']    . $linkend . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_versions['ver_book']  . $linkend . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content\">"                                  . $a_versions['ver_short']            . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                           . $a_versions['ver_year']             . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                           . $active                             . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                           . $admin                              . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . $linkdel                                         . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $linkstart . $a_versions['ver_id']    . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_versions['ver_book']  . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"                                  . $a_versions['ver_short']            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"                           . $a_versions['ver_year']             . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"                           . $active                             . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"                           . $admin                              . "</td>\n";
             $output .= "</tr>\n";
           }
         } else {
@@ -195,6 +203,7 @@
 
       print "document.dialog.ver_book.value = '';\n";
       print "document.dialog.ver_short.value = '';\n";
+      print "document.dialog.ver_core.value = false;\n";
       print "document.dialog.ver_version.value = '';\n";
       print "document.dialog.ver_year.value = '';\n";
       print "document.dialog.ver_active.value = false;\n";
