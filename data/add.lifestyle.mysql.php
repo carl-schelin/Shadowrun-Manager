@@ -93,7 +93,7 @@
       $q_string .= "from lifestyle ";
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
       $q_string .= "where ver_admin = 1 ";
-      $q_string .= "order by life_cost,ver_version ";
+      $q_string .= "order by life_style,ver_version ";
       $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_lifestyle) > 0) {
         while ($a_lifestyle = mysql_fetch_array($q_lifestyle)) {
