@@ -75,10 +75,11 @@
 
       $q_string  = "select runr_id,usr_first,usr_last,runr_name,runr_archetype,meta_name,runr_agility,runr_body, ";
       $q_string .= "runr_reaction,runr_strength,runr_charisma,runr_intuition,runr_logic,runr_willpower, ";
-      $q_string .= "runr_totaledge,runr_version,runr_available ";
+      $q_string .= "runr_totaledge,runr_version,ver_book,runr_available ";
       $q_string .= "from runners ";
-      $q_string .= "left join users on users.usr_id = runners.runr_owner ";
+      $q_string .= "left join users     on users.usr_id      = runners.runr_owner ";
       $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
+      $q_string .= "left join versions  on versions.ver_id   = runners.runr_version ";
       $q_string .= "order by runr_owner,runr_archetype ";
       $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_runners) > 0) {
@@ -122,9 +123,9 @@
             $available = "*";
           }
 
-          $release = $a_runners['runr_version'];
+          $release = $a_runners['ver_book'];
           if ($a_runners['runr_version'] < 1) {
-            $release = "Unset";
+            $release = "Any Version";
           }
 
           if ($display == 'Yes') {
