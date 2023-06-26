@@ -266,9 +266,9 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_lifestyle('lifestyle.del.php?id="  . $a_r_lifestyle['r_life_id'] . "');\">";
           $linkend   = "</a>";
 
-          $costtotal += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_cost'] * $multiplier);
+#          $costtotal += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_cost'] * $multiplier);
 
-          $life_cost = return_Cost(($a_r_lifestyle['life_cost'] * $multiplier));
+#          $life_cost = return_Cost(($a_r_lifestyle['life_cost'] * $multiplier));
 
           $life_book = return_Book($a_r_lifestyle['ver_book'], $a_r_lifestyle['life_page']);
 
