@@ -65,6 +65,8 @@ function attach_armor(p_script_url, update) {
   aa_url += "&arm_class="     + encode_URI(aa_form.arm_class.value);
   aa_url += "&arm_name="      + encode_URI(aa_form.arm_name.value);
   aa_url += "&arm_rating="    + encode_URI(aa_form.arm_rating.value);
+  aa_url += "&arm_ballistic=" + encode_URI(aa_form.arm_ballistic.value);
+  aa_url += "&arm_impact="    + encode_URI(aa_form.arm_impact.value);
   aa_url += "&arm_capacity="  + encode_URI(aa_form.arm_capacity.value);
   aa_url += "&arm_avail="     + encode_URI(aa_form.arm_avail.value);
   aa_url += "&arm_perm="      + encode_URI(aa_form.arm_perm.value);
@@ -91,8 +93,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
-    width:  800,
+    height: 350,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogArmor" ).hide();
@@ -184,10 +186,8 @@ $(document).ready( function() {
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="5">Armor Form</th>
-</tr>
 <tr>
   <td class="ui-widget-content">Class <select name="arm_class">
 <?php
@@ -202,13 +202,29 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" id="arm_name" name="arm_name" size="40"></td>
-  <td class="ui-widget-content">Rating <input type="text" name="arm_rating" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Capacity <input type="text" name="arm_capacity" size="3"></td>
+  <td class="ui-widget-content" colspan="2">Name <input type="text" id="arm_name" name="arm_name" size="40"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Ballistic <input type="text" name="arm_ballistic" size="3"> (sr4a)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Impact <input type="text" name="arm_impact" size="3"> (sr4a)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Rating <input type="text" name="arm_rating" size="3"> (sr5/sr6)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Capacity <input type="text" name="arm_capacity" size="3"> (sr6)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="arm_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Avail <input type="text" name="arm_avail" size="3"><input type="text" name="arm_perm" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="arm_book">
 <?php
   $q_string  = "select ver_id,ver_short ";

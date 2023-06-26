@@ -392,6 +392,14 @@ function return_Class($p_perm) {
   return($r_perm);
 }
 
+function return_Ballistic($p_ballistic, $p_impact) {
+  $r_ballistic = '--';
+  if ($p_ballistic > 0) {
+    $r_ballistic = $p_ballistic . "/" . $p_impact;
+  }
+  return($r_ballistic);
+}
+
 function return_Rating($p_rating) {
   $r_rating = '--';
   if ($p_rating > 0) {
