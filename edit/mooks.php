@@ -1833,7 +1833,22 @@ $(document).ready( function() {
 </tr>
 <tr>
   <td class="ui-widget-content">Character available for runs? <input type="checkbox" <?php print $available; ?> name="runr_available"></td>
-  <td class="ui-widget-content">What Shadowrun Release (1.0, 2.0, 3.0, 4.0, 4.5, 5.0)? <input type="text" value="<?php print $a_runners['runr_version']; ?>" name="runr_version"></td>
+  <td class="ui-widget-content">What Shadowrun Release? <select name="runr_version">
+<option value="0">Any Version</option>
+<?php
+  $q_string  = "select ver_id,ver_book ";
+  $q_string .= "from versions ";
+  $q_string .= "where ver_core = 1 ";
+  $q_string .= "order by ver_book ";
+  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_versions = mysql_fetch_array($q_versions)) {
+    if ($a_runners['runr_version'] == $a_versions['ver_id']) {
+      print "<option selected=\"true\" value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_book'] . "</option>\n";
+    } else {
+      print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_book'] . "</option>\n";
+   }
+  }
+?></select></td>
 </tr>
 <tr>
   <th class="ui-state-default" colspan="2">Character Description</th>
