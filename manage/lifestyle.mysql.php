@@ -58,7 +58,7 @@
   $output .= "</tr>";
 
   $nuyen = '&yen;';
-  $q_string  = "select r_life_id,r_life_desc,r_life_months,life_style,life_comforts,life_security,life_neighborhood,life_entertainment,life_cost,ver_book,life_page ";
+  $q_string  = "select r_life_id,r_life_desc,r_life_months,life_style,r_life_comforts,r_life_security,r_life_neighborhood,r_life_entertainment,ver_book,life_page ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
