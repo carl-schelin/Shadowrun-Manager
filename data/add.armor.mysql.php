@@ -22,22 +22,30 @@
 
     if (check_userlevel(1)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        $formVars['id']           = clean($_GET['id'],            10);
-        $formVars['arm_class']    = clean($_GET['arm_class'],     10);
-        $formVars['arm_name']     = clean($_GET['arm_name'],     100);
-        $formVars['arm_rating']   = clean($_GET['arm_rating'],    10);
-        $formVars['arm_capacity'] = clean($_GET['arm_capacity'],  10);
-        $formVars['arm_avail']    = clean($_GET['arm_avail'],     10);
-        $formVars['arm_perm']     = clean($_GET['arm_perm'],       5);
-        $formVars['arm_cost']     = clean($_GET['arm_cost'],      10);
-        $formVars['arm_book']     = clean($_GET['arm_book'],      10);
-        $formVars['arm_page']     = clean($_GET['arm_page'],      10);
+        $formVars['id']              = clean($_GET['id'],            10);
+        $formVars['arm_class']       = clean($_GET['arm_class'],     10);
+        $formVars['arm_name']        = clean($_GET['arm_name'],     100);
+        $formVars['arm_rating']      = clean($_GET['arm_rating'],    10);
+        $formVars['arm_ballistic']   = clean($_GET['arm_ballistic'], 10);
+        $formVars['arm_impact']      = clean($_GET['arm_impact'],    10);
+        $formVars['arm_capacity']    = clean($_GET['arm_capacity'],  10);
+        $formVars['arm_avail']       = clean($_GET['arm_avail'],     10);
+        $formVars['arm_perm']        = clean($_GET['arm_perm'],       5);
+        $formVars['arm_cost']        = clean($_GET['arm_cost'],      10);
+        $formVars['arm_book']        = clean($_GET['arm_book'],      10);
+        $formVars['arm_page']        = clean($_GET['arm_page'],      10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
         if ($formVars['arm_rating'] == '') {
           $formVars['arm_rating'] = 0;
+        }
+        if ($formVars['arm_ballistic'] == '') {
+          $formVars['arm_ballistic'] = 0;
+        }
+        if ($formVars['arm_impact'] == '') {
+          $formVars['arm_impact'] = 0;
         }
         if ($formVars['arm_capacity'] == '') {
           $formVars['arm_capacity'] = 0;
@@ -59,6 +67,8 @@
             "arm_class      =   " . $formVars['arm_class']      . "," .
             "arm_name       = \"" . $formVars['arm_name']       . "\"," .
             "arm_rating     =   " . $formVars['arm_rating']     . "," .
+            "arm_ballistic  =   " . $formVars['arm_ballistic']  . "," .
+            "arm_impact     =   " . $formVars['arm_impact']     . "," .
             "arm_capacity   =   " . $formVars['arm_capacity']   . "," .
             "arm_avail      =   " . $formVars['arm_avail']      . "," .
             "arm_perm       = \"" . $formVars['arm_perm']       . "\"," .
@@ -122,6 +132,7 @@
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
+      $output .=   "<th class=\"ui-state-default\">B/I</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Capacity</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -129,7 +140,7 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select arm_id,class_name,arm_name,arm_rating,arm_capacity,";
+      $q_string  = "select arm_id,class_name,arm_name,arm_rating,arm_ballistic,arm_impact,arm_capacity,";
       $q_string .= "arm_avail,arm_perm,arm_cost,ver_book,arm_page ";
       $q_string .= "from armor ";
       $q_string .= "left join class on class.class_id = armor.arm_class ";
@@ -143,6 +154,8 @@
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.armor.fill.php?id="  . $a_armor['arm_id'] . "');jQuery('#dialogArmor').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_armor('add.armor.del.php?id=" . $a_armor['arm_id'] . "');\">";
           $linkend = "</a>";
+
+          $arm_balimp = return_Ballistic($a_armor['arm_ballistic'], $a_armor['arm_impact']);
 
           $arm_rating = return_Rating($a_armor['arm_rating']);
 
@@ -177,6 +190,7 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                            . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_armor['class_name'] . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_armor['arm_name']   . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $arm_balimp                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_rating                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_capacity                     . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_avail                        . "</td>\n";
@@ -186,7 +200,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"10\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -197,6 +211,8 @@
       print "document.dialog.arm_class.value = '';\n";
       print "document.dialog.arm_name.value = '';\n";
       print "document.dialog.arm_rating.value = '';\n";
+      print "document.dialog.arm_ballistic.value = '';\n";
+      print "document.dialog.arm_impact.value = '';\n";
       print "document.dialog.arm_capacity.value = '';\n";
       print "document.dialog.arm_avail.value = '';\n";
       print "document.dialog.arm_perm.value = '';\n";
