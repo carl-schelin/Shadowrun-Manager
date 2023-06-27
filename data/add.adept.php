@@ -94,8 +94,8 @@ $(document).ready( function() {
   $( "#dialogAdeptPower" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 200,
-    width:  700,
+    height: 225,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogAdeptPower" ).hide();
@@ -154,15 +154,11 @@ $("#button-update").button("disable");
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Adept Power Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Cost</strong> - The Metatype walking speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
+<p><strong>Adept Power</strong></p>
+
+<p>As per other sections, check the system and page number for details. Specifically when a power says "by level" in the description, 
+it means the power level is as high as the Adept's magic rating. If a Magic rating of 4, then a power with .5 Power Points per Level, 
+you can go up to 8 levels potentially giving yourself +8 dice.</p>
 
 </div>
 
@@ -189,15 +185,18 @@ $("#button-update").button("disable");
 <input type="hidden" name="id" value="0">
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default" colspan="5">Adept Power Form</th>
+  <td class="ui-widget-content">Name <input type="text" name="adp_name" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Name <input type="text" name="adp_name" size="30"></td>
-  <td class="ui-widget-content" colspan="3">Description <input type="text" name="adp_desc" size="40"></td>
+  <td class="ui-widget-content" colspan="3">Description <input type="text" name="adp_desc" size="60"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Level <input type="text" name="adp_level" size="5"> (0 for Limited By Magic)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Power Points <input type="text" name="adp_power" size="5"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book <select name="adp_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
