@@ -174,7 +174,7 @@
 
             $cost = return_Essence($a_bioware['bio_cost']);
 
-            $book = return_Avail($a_bioware['ver_book'], $a_bioware['bio_page']);
+            $book = return_Book($a_bioware['ver_book'], $a_bioware['bio_page']);
 
             $class = return_Class($a_bioware['bio_perm']);
 
