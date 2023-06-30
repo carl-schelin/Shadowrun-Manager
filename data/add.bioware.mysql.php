@@ -29,6 +29,9 @@
         $formVars['bio_essence']  = clean($_GET['bio_essence'],  10);
         $formVars['bio_avail']    = clean($_GET['bio_avail'],    10);
         $formVars['bio_perm']     = clean($_GET['bio_perm'],     10);
+        $formVars['bio_basetime'] = clean($_GET['bio_basetime'], 10);
+        $formVars['bio_duration'] = clean($_GET['bio_duration'], 10);
+        $formVars['bio_index']    = clean($_GET['bio_index'],    10);
         $formVars['bio_cost']     = clean($_GET['bio_cost'],     10);
         $formVars['bio_book']     = clean($_GET['bio_book'],     10);
         $formVars['bio_page']     = clean($_GET['bio_page'],     10);
@@ -45,6 +48,12 @@
         if ($formVars['bio_avail'] == '') {
           $formVars['bio_avail'] = 0;
         }
+        if ($formVars['bio_basetime'] == '') {
+          $formVars['bio_basetime'] = 0;
+        }
+        if ($formVars['bio_index'] == '') {
+          $formVars['bio_index'] = 0.00;
+        }
         if ($formVars['bio_cost'] == '') {
           $formVars['bio_cost'] = 0;
         }
@@ -56,15 +65,18 @@
           logaccess($_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
-            "bio_class   = \"" . $formVars['bio_class']   . "\"," .
-            "bio_name    = \"" . $formVars['bio_name']    . "\"," .
-            "bio_rating  =   " . $formVars['bio_rating']  . "," .
-            "bio_essence =   " . $formVars['bio_essence'] . "," .
-            "bio_avail   =   " . $formVars['bio_avail']   . "," .
-            "bio_perm    = \"" . $formVars['bio_perm']    . "\"," .
-            "bio_cost    =   " . $formVars['bio_cost']    . "," .
-            "bio_book    = \"" . $formVars['bio_book']    . "\"," .
-            "bio_page    =   " . $formVars['bio_page'];
+            "bio_class       = \"" . $formVars['bio_class']       . "\"," .
+            "bio_name        = \"" . $formVars['bio_name']        . "\"," .
+            "bio_rating      =   " . $formVars['bio_rating']      . "," .
+            "bio_essence     =   " . $formVars['bio_essence']     . "," .
+            "bio_avail       =   " . $formVars['bio_avail']       . "," .
+            "bio_perm        = \"" . $formVars['bio_perm']        . "\"," .
+            "bio_basetime    =   " . $formVars['bio_basetime']    . "," .
+            "bio_duration    =   " . $formVars['bio_duration']    . "," .
+            "bio_index       =   " . $formVars['bio_index']       . "," .
+            "bio_cost        =   " . $formVars['bio_cost']        . "," .
+            "bio_book        = \"" . $formVars['bio_book']        . "\"," .
+            "bio_page        =   " . $formVars['bio_page'];
 
           if ($formVars['update'] == 0) {
             $query = "insert into bioware set bio_id = NULL, " . $q_string;
@@ -121,13 +133,14 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
         $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
         $output .=   "<th class=\"ui-state-default\">Essence</th>\n";
         $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
         $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
         $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
@@ -152,7 +165,7 @@
         }
 
         $nuyen = '&yen;';
-        $q_string  = "select bio_id,bio_name,bio_rating,bio_essence,bio_avail,bio_perm,bio_cost,ver_book,bio_page ";
+        $q_string  = "select bio_id,bio_name,bio_rating,bio_essence,bio_avail,bio_perm,bio_basetime,bio_duration,bio_index,bio_cost,ver_book,bio_page ";
         $q_string .= "from bioware ";
         $q_string .= "left join class on class.class_id = bioware.bio_class ";
         $q_string .= "left join versions on versions.ver_id = bioware.bio_book ";
@@ -170,11 +183,13 @@
 
             $essence = return_Essence($a_bioware['bio_essence']);
 
-            $avail = return_Avail($a_bioware['bio_avail'], $a_bioware['bio_perm']);
+            $avail = return_Avail($a_bioware['bio_avail'], $a_bioware['bio_perm'], $a_bioware['bio_basetime'], $a_bioware['bio_duration']);
 
-            $cost = return_Essence($a_bioware['bio_cost']);
+            $index = return_StreetIndex($a_bioware['bio_index']);
 
-            $book = return_Avail($a_bioware['ver_book'], $a_bioware['bio_page']);
+            $cost = return_Cost($a_bioware['bio_cost']);
+
+            $book = return_Book($a_bioware['ver_book'], $a_bioware['bio_page']);
 
             $class = return_Class($a_bioware['bio_perm']);
 
@@ -191,9 +206,9 @@
 
             $output .= "<tr>\n";
             if ($total > 0) {
-              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
             }
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_bioware['bio_id']              . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                            . "</td>\n";
@@ -201,6 +216,7 @@
             $output .= "  <td class=\"" . $class . " delete\">"              . $rating                           . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $essence                          . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $avail                            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $index                            . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $cost                             . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $book                             . "</td>\n";
             $output .= "</tr>\n";
@@ -221,6 +237,9 @@
       print "document.dialog.bio_essence.value = '';\n";
       print "document.dialog.bio_avail.value = '';\n";
       print "document.dialog.bio_perm.value = '';\n";
+      print "document.dialog.bio_basetime.value = '';\n";
+      print "document.dialog.bio_duration.value = 0;\n";
+      print "document.dialog.bio_index.value = '';\n";
       print "document.dialog.bio_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

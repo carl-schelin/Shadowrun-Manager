@@ -23,7 +23,7 @@
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from melee");
 
       $q_string  = "select melee_class,melee_name,melee_acc,melee_reach,melee_damage,melee_type,";
-      $q_string .= "melee_flag,melee_strength,melee_ap,melee_avail,melee_perm,";
+      $q_string .= "melee_flag,melee_strength,melee_ap,melee_avail,melee_perm,melee_basetime,melee_duration,melee_index,";
       $q_string .= "melee_cost,melee_book,melee_page ";
       $q_string .= "from melee ";
       $q_string .= "where melee_id = " . $formVars['id'];
@@ -41,6 +41,9 @@
       print "document.dialog.melee_ap.value = '"       . mysql_real_escape_string($a_melee['melee_ap'])       . "';\n";
       print "document.dialog.melee_avail.value = '"    . mysql_real_escape_string($a_melee['melee_avail'])    . "';\n";
       print "document.dialog.melee_perm.value = '"     . mysql_real_escape_string($a_melee['melee_perm'])     . "';\n";
+      print "document.dialog.melee_basetime.value = '" . mysql_real_escape_string($a_melee['melee_basetime']) . "';\n";
+      print "document.dialog.melee_duration.value = '" . mysql_real_escape_string($a_melee['melee_duration']) . "';\n";
+      print "document.dialog.melee_index.value = '"    . mysql_real_escape_string($a_melee['melee_index'])    . "';\n";
       print "document.dialog.melee_cost.value = '"     . mysql_real_escape_string($a_melee['melee_cost'])     . "';\n";
       print "document.dialog.melee_book.value = '"     . mysql_real_escape_string($a_melee['melee_book'])     . "';\n";
       print "document.dialog.melee_page.value = '"     . mysql_real_escape_string($a_melee['melee_page'])     . "';\n";

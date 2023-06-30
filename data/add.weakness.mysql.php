@@ -125,7 +125,7 @@
           $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                            . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_weakness['weak_id']              . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_weakness['weak_name'] . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_weakness['weak_duration']        . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_weakness['weak_description']     . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"              . $weakness_book                      . "</td>\n";
           $output .= "</tr>\n";
         }

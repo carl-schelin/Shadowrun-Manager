@@ -34,6 +34,9 @@
         $formVars['melee_ap']       = clean($_GET['melee_ap'],       10);
         $formVars['melee_avail']    = clean($_GET['melee_avail'],    10);
         $formVars['melee_perm']     = clean($_GET['melee_perm'],     10);
+        $formVars['melee_basetime'] = clean($_GET['melee_basetime'], 10);
+        $formVars['melee_duration'] = clean($_GET['melee_duration'], 10);
+        $formVars['melee_index']    = clean($_GET['melee_index'],    10);
         $formVars['melee_cost']     = clean($_GET['melee_cost'],     10);
         $formVars['melee_book']     = clean($_GET['melee_book'],     10);
         $formVars['melee_page']     = clean($_GET['melee_page'],     10);
@@ -61,6 +64,12 @@
         if ($formVars['melee_avail'] == '') {
           $formVars['melee_avail'] = 0;
         }
+        if ($formVars['melee_basetime'] == '') {
+          $formVars['melee_basetime'] = 0;
+        }
+        if ($formVars['melee_index'] == '') {
+          $formVars['melee_index'] = 0.00;
+        }
         if ($formVars['melee_cost'] == '') {
           $formVars['melee_cost'] = 0;
         }
@@ -83,6 +92,9 @@
             "melee_ap          =   " . $formVars['melee_ap']       . "," .
             "melee_avail       =   " . $formVars['melee_avail']    . "," .
             "melee_perm        = \"" . $formVars['melee_perm']     . "\"," .
+            "melee_basetime    =   " . $formVars['melee_basetime'] . "," .
+            "melee_duration    =   " . $formVars['melee_duration'] . "," .
+            "melee_index       =   " . $formVars['melee_index']    . "," .
             "melee_cost        =   " . $formVars['melee_cost']     . "," .
             "melee_book        = \"" . $formVars['melee_book']     . "\"," .
             "melee_page        =   " . $formVars['melee_page'];
@@ -138,7 +150,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
@@ -148,6 +160,7 @@
       $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
       $output .=   "<th class=\"ui-state-default\">AP</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Location</th>\n";
       $output .= "</tr>\n";
@@ -155,7 +168,7 @@
       $nuyen = '&yen;';
       $q_string  = "select melee_id,class_name,melee_class,melee_name,melee_acc,melee_reach,";
       $q_string .= "melee_damage,melee_type,melee_flag,melee_strength,melee_ap,melee_avail,";
-      $q_string .= "melee_perm,melee_cost,ver_book,melee_page ";
+      $q_string .= "melee_perm,melee_basetime,melee_duration,melee_index,melee_cost,ver_book,melee_page ";
       $q_string .= "from melee ";
       $q_string .= "left join class on class.class_id = melee.melee_class ";
       $q_string .= "left join versions on versions.ver_id = melee.melee_book ";
@@ -175,7 +188,9 @@
 
           $melee_ap = return_Penetrate($a_melee['melee_ap']);
 
-          $melee_avail = return_Avail($a_melee['melee_avail'], $a_melee['melee_perm']);
+          $melee_avail = return_Avail($a_melee['melee_avail'], $a_melee['melee_perm'], $a_melee['melee_basetime'], $a_melee['melee_duration']);
+
+          $melee_index = return_StreetIndex($a_melee['melee_index']);
 
           $melee_cost = return_Cost($a_melee['melee_cost']);
 
@@ -196,9 +211,9 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_melee['melee_id']              . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                            . "</td>\n";
@@ -209,6 +224,7 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_damage                     . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_ap                         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_avail                      . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $melee_index                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_cost                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_book                       . "</td>\n";
           $output .= "</tr>\n";
@@ -232,6 +248,9 @@
       print "document.dialog.melee_strength.checked = false;\n";
       print "document.dialog.melee_ap.value = '';\n";
       print "document.dialog.melee_avail.value = '';\n";
+      print "document.dialog.melee_basetime.value = '';\n";
+      print "document.dialog.melee_duration.value = 0;\n";
+      print "document.dialog.melee_index.value = '';\n";
       print "document.dialog.melee_perm.value = '';\n";
       print "document.dialog.melee_cost.value = '';\n";
 

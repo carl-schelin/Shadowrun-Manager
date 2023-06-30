@@ -13,13 +13,13 @@
 
     $formVars['uid']      = $_SESSION['uid'];
     $formVars['username'] = $_SESSION['username'];
-    $formVars['group']    = $_SESSION['group'];
+#    $formVars['group']    = $_SESSION['group'];
 
   } else {
 
     $formVars['uid']      = 0;
     $formVars['username'] = $_SERVER['REMOTE_ADDR'];
-    $formVars['group']    = 0;
+#    $formVars['group']    = 0;
 
 # once a database connection is made, all the other data pulls work as expected
 # make sure you don't write any changes until someone logs in.

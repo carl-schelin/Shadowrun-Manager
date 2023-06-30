@@ -70,6 +70,9 @@ function attach_cyberware(p_script_url, update) {
   ac_url += "&ware_capacity=" + encode_URI(ac_form.ware_capacity.value);
   ac_url += "&ware_avail="    + encode_URI(ac_form.ware_avail.value);
   ac_url += "&ware_perm="     + encode_URI(ac_form.ware_perm.value);
+  ac_url += "&ware_basetime=" + encode_URI(ac_form.ware_basetime.value);
+  ac_url += "&ware_duration=" + encode_URI(ac_form.ware_duration.value);
+  ac_url += "&ware_index="    + encode_URI(ac_form.ware_index.value);
   ac_url += "&ware_cost="     + encode_URI(ac_form.ware_cost.value);
   ac_url += "&ware_book="     + encode_URI(ac_form.ware_book.value);
   ac_url += "&ware_page="     + encode_URI(ac_form.ware_page.value);
@@ -94,8 +97,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
-    width:  800,
+    height: 350,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogCyberware" ).hide();
@@ -228,15 +231,13 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogCyberware" title="Cyberware">
+<div id="dialogCyberware" title="Cyberware Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="8">Cyberware Form</th>
-</tr>
 <tr>
   <td class="ui-widget-content" colspan="2">Class <select name="ware_class">
 <?php
@@ -251,14 +252,40 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="2">Name <input type="text" name="ware_name" size="30"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Rating <input type="text" name="ware_rating" size="3"> Multi <input type="checkbox" name="ware_multiply"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Essence <input type="text" name="ware_essence" size="5"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Capacity <input type="text" name="ware_capacity" size="3"></td>
-  <td class="ui-widget-content">Avail <input type="text" name="ware_avail" size="3"><input type="text" name="ware_perm" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Avail <input type="text" name="ware_avail" size="3"><input type="text" name="ware_perm" size="3"> Base Time <input type="text" name="ware_basetime" size="6"> Duration <select name="ware_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="ware_index" size="6"> (sr3)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="ware_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="ware_book">
 <?php
   $q_string  = "select ver_id,ver_short ";

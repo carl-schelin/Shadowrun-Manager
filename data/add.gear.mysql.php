@@ -29,6 +29,9 @@
         $formVars['gear_rating']   = clean($_GET['gear_rating'],   10);
         $formVars['gear_avail']    = clean($_GET['gear_avail'],    10);
         $formVars['gear_perm']     = clean($_GET['gear_perm'],     10);
+        $formVars['gear_basetime'] = clean($_GET['gear_basetime'], 10);
+        $formVars['gear_duration'] = clean($_GET['gear_duration'], 10);
+        $formVars['gear_index']    = clean($_GET['gear_index'],    10);
         $formVars['gear_cost']     = clean($_GET['gear_cost'],     10);
         $formVars['gear_book']     = clean($_GET['gear_book'],     10);
         $formVars['gear_page']     = clean($_GET['gear_page'],     10);
@@ -48,6 +51,12 @@
         if ($formVars['gear_avail'] == '') {
           $formVars['gear_avail'] = 0;
         }
+        if ($formVars['gear_basetime'] == '') {
+          $formVars['gear_basetime'] = 0;
+        }
+        if ($formVars['gear_index'] == '') {
+          $formVars['gear_index'] = 0.00;
+        }
         if ($formVars['gear_page'] == '') {
           $formVars['gear_page'] = 0;
         }
@@ -62,6 +71,9 @@
             "gear_rating   =   " . $formVars['gear_rating']   . "," .
             "gear_avail    =   " . $formVars['gear_avail']    . "," .
             "gear_perm     = \"" . $formVars['gear_perm']     . "\"," .
+            "gear_basetime =   " . $formVars['gear_basetime'] . "," .
+            "gear_duration =   " . $formVars['gear_duration'] . "," .
+            "gear_index    =   " . $formVars['gear_index']    . "," .
             "gear_cost     =   " . $formVars['gear_cost']     . "," .
             "gear_book     = \"" . $formVars['gear_book']     . "\"," .
             "gear_page     =   " . $formVars['gear_page'];
@@ -121,7 +133,7 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
         $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Class</th>\n";
@@ -129,12 +141,14 @@
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
         $output .=   "<th class=\"ui-state-default\">Capacity</th>\n";
         $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
         $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
         $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
 
         $nuyen = '&yen;';
-        $q_string  = "select gear_id,class_name,gear_name,gear_rating,gear_capacity,gear_avail,gear_perm,gear_cost,ver_book,gear_page ";
+        $q_string  = "select gear_id,class_name,gear_name,gear_rating,gear_capacity,gear_avail,";
+        $q_string .= "gear_perm,gear_basetime,gear_duration,gear_index,gear_cost,ver_book,gear_page ";
         $q_string .= "from gear ";
         $q_string .= "left join class on class.class_id = gear.gear_class ";
         $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
@@ -152,7 +166,9 @@
 
             $gear_capacity = return_Capacity($a_gear['gear_capacity']);
 
-            $gear_avail = return_Avail($a_gear['gear_avail'], $a_gear['gear_perm']);
+            $gear_avail = return_Avail($a_gear['gear_avail'], $a_gear['gear_perm'], $a_gear['gear_basetime'], $a_gear['gear_duration']);
+
+            $gear_index = return_StreetIndex($a_gear['gear_index']);
 
             $gear_cost = return_Cost($a_gear['gear_cost']);
 
@@ -173,9 +189,9 @@
 
             $output .= "<tr>\n";
             if ($total > 0) {
-              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
             }
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_gear['gear_id']               . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                           . "</td>\n";
@@ -184,6 +200,7 @@
             $output .= "  <td class=\"" . $class . " delete\">"              . $gear_rating                     . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $gear_capacity                   . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $gear_avail                      . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $gear_index                      . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $gear_cost                       . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $gear_book                       . "</td>\n";
             $output .= "</tr>\n";
@@ -203,6 +220,9 @@
       print "document.dialog.gear_rating.value = '';\n";
       print "document.dialog.gear_avail.value = '';\n";
       print "document.dialog.gear_perm.value = '';\n";
+      print "document.dialog.gear_basetime.value = '';\n";
+      print "document.dialog.gear_duration.value = 0;\n";
+      print "document.dialog.gear_index.value = '';\n";
       print "document.dialog.gear_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

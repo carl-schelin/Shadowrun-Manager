@@ -30,7 +30,10 @@
         $formVars['arm_impact']      = clean($_GET['arm_impact'],    10);
         $formVars['arm_capacity']    = clean($_GET['arm_capacity'],  10);
         $formVars['arm_avail']       = clean($_GET['arm_avail'],     10);
-        $formVars['arm_perm']        = clean($_GET['arm_perm'],       5);
+        $formVars['arm_perm']        = clean($_GET['arm_perm'],      10);
+        $formVars['arm_basetime']    = clean($_GET['arm_basetime'],  10);
+        $formVars['arm_duration']    = clean($_GET['arm_duration'],  10);
+        $formVars['arm_index']       = clean($_GET['arm_index'],     10);
         $formVars['arm_cost']        = clean($_GET['arm_cost'],      10);
         $formVars['arm_book']        = clean($_GET['arm_book'],      10);
         $formVars['arm_page']        = clean($_GET['arm_page'],      10);
@@ -53,6 +56,12 @@
         if ($formVars['arm_avail'] == '') {
           $formVars['arm_avail'] = 0;
         }
+        if ($formVars['arm_basetime'] == '') {
+          $formVars['arm_basetime'] = 0;
+        }
+        if ($formVars['arm_index'] == '') {
+          $formVars['arm_index'] = 0.00;
+        }
         if ($formVars['arm_cost'] == '') {
           $formVars['arm_cost'] = 0;
         }
@@ -72,6 +81,9 @@
             "arm_capacity   =   " . $formVars['arm_capacity']   . "," .
             "arm_avail      =   " . $formVars['arm_avail']      . "," .
             "arm_perm       = \"" . $formVars['arm_perm']       . "\"," .
+            "arm_basetime   =   " . $formVars['arm_basetime']   . "," .
+            "arm_duration   =   " . $formVars['arm_duration']   . "," .
+            "arm_index      =   " . $formVars['arm_index']      . "," .
             "arm_cost       =   " . $formVars['arm_cost']       . "," .
             "arm_book       = \"" . $formVars['arm_book']       . "\"," .
             "arm_page       =   " . $formVars['arm_page'];
@@ -127,7 +139,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
@@ -136,12 +148,13 @@
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Capacity</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
       $q_string  = "select arm_id,class_name,arm_name,arm_rating,arm_ballistic,arm_impact,arm_capacity,";
-      $q_string .= "arm_avail,arm_perm,arm_cost,ver_book,arm_page ";
+      $q_string .= "arm_avail,arm_perm,arm_basetime,arm_duration,arm_index,arm_cost,ver_book,arm_page ";
       $q_string .= "from armor ";
       $q_string .= "left join class on class.class_id = armor.arm_class ";
       $q_string .= "left join versions on versions.ver_id = armor.arm_book ";
@@ -161,7 +174,9 @@
 
           $arm_capacity = return_Capacity($a_armor['arm_capacity']);
 
-          $arm_avail = return_Avail($a_armor['arm_avail'], $a_armor['arm_perm']);
+          $arm_avail = return_Avail($a_armor['arm_avail'], $a_armor['arm_perm'], $a_armor['arm_basetime'], $a_armor['arm_duration']);
+
+          $arm_index = return_StreetIndex($a_armor['arm_index']);
 
           $arm_cost = return_Cost($a_armor['arm_cost']);
 
@@ -182,9 +197,9 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_armor['arm_id']                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                            . "</td>\n";
@@ -194,6 +209,7 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_rating                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_capacity                     . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_avail                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $arm_index                        . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_cost                         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $arm_book                         . "</td>\n";
           $output .= "</tr>\n";
@@ -216,6 +232,9 @@
       print "document.dialog.arm_capacity.value = '';\n";
       print "document.dialog.arm_avail.value = '';\n";
       print "document.dialog.arm_perm.value = '';\n";
+      print "document.dialog.arm_basetime.value = '';\n";
+      print "document.dialog.arm_duration.value = 0;\n";
+      print "document.dialog.arm_index.value = '';\n";
       print "document.dialog.arm_cost.value = '';\n";
 
       print "document.getElementById('arm_name').focus();\n";

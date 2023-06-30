@@ -83,6 +83,9 @@ function attach_vehicles(p_script_url, update) {
   av_url += "&veh_offseats="     + encode_URI(av_form.veh_offseats.value);
   av_url += "&veh_avail="        + encode_URI(av_form.veh_avail.value);
   av_url += "&veh_perm="         + encode_URI(av_form.veh_perm.value);
+  av_url += "&veh_basetime="     + encode_URI(av_form.veh_basetime.value);
+  av_url += "&veh_duration="     + encode_URI(av_form.veh_duration.value);
+  av_url += "&veh_index="        + encode_URI(av_form.veh_index.value);
   av_url += "&veh_cost="         + encode_URI(av_form.veh_cost.value);
   av_url += "&veh_book="         + encode_URI(av_form.veh_book.value);
   av_url += "&veh_page="         + encode_URI(av_form.veh_page.value);
@@ -107,8 +110,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 210,
-    width:  1000,
+    height: 600,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogVehicle" ).hide();
@@ -266,15 +269,12 @@ $(document).ready( function() {
 
 
 
-<div id="dialogVehicle" title="Vehicles">
+<div id="dialogVehicle" title="Vehicle Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="8">Vehicles Form</th>
-</tr>
 <tr>
   <td class="ui-widget-content">Class <select name="veh_class">
 <?php
@@ -289,26 +289,70 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="2">Type <input type="text" name="veh_type" size="30"></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="2">Make <input type="text" name="veh_make" size="30"></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="2">Model <input type="text" name="veh_model" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Handling <input type="text" name="veh_onhand" size="3">/<input type="text" name="veh_offhand" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Speed <input type="text" name="veh_onspeed" size="3">/<input type="text" name="veh_offspeed" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Acceleration <input type="text" name="veh_onacc" size="3">/<input type="text" name="veh_offacc" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Body <input type="text" name="veh_body" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Armor <input type="text" name="veh_armor" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Pilot <input type="text" name="veh_pilot" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Sensor <input type="text" name="veh_sensor" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Signature <input type="text" name="veh_sig" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Hardpoints <input type="text" name="veh_hardpoints" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Firmpoints <input type="text" name="veh_firmpoints" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Seats <input type="text" name="veh_onseats" size="3">/<input type="text" name="veh_offseats" size="3"></td>
-  <td class="ui-widget-content">Avail <input type="text" name="veh_avail" size="3"><input type="text" name="veh_perm" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Avail <input type="text" name="veh_avail" size="3"><input type="text" name="veh_perm" size="3"> Base Time <input type="text" name="veh_basetime" size="6"> Duration <select name="veh_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="veh_index" size="6"> (sr3)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="veh_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="veh_book">
 <?php
   $q_string  = "select ver_id,ver_short ";

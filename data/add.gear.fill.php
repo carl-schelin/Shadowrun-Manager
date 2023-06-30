@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from gear");
 
-      $q_string  = "select gear_class,gear_name,gear_rating,gear_capacity,gear_avail,gear_perm,gear_cost,gear_book,gear_page ";
+      $q_string  = "select gear_class,gear_name,gear_rating,gear_capacity,gear_avail,gear_perm,gear_basetime,gear_duration,gear_index,gear_cost,gear_book,gear_page ";
       $q_string .= "from gear ";
       $q_string .= "where gear_id = " . $formVars['id'];
       $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -35,6 +35,9 @@
       print "document.dialog.gear_capacity.value = '"    . mysql_real_escape_string($a_gear['gear_capacity'])      . "';\n";
       print "document.dialog.gear_avail.value = '"       . mysql_real_escape_string($a_gear['gear_avail'])         . "';\n";
       print "document.dialog.gear_perm.value = '"        . mysql_real_escape_string($a_gear['gear_perm'])          . "';\n";
+      print "document.dialog.gear_basetime.value = '"    . mysql_real_escape_string($a_gear['gear_basetime'])      . "';\n";
+      print "document.dialog.gear_duration.value = '"    . mysql_real_escape_string($a_gear['gear_duration'])      . "';\n";
+      print "document.dialog.gear_index.value = '"       . mysql_real_escape_string($a_gear['gear_index'])         . "';\n";
       print "document.dialog.gear_cost.value = '"        . mysql_real_escape_string($a_gear['gear_cost'])          . "';\n";
       print "document.dialog.gear_book.value = '"        . mysql_real_escape_string($a_gear['gear_book'])          . "';\n";
       print "document.dialog.gear_page.value = '"        . mysql_real_escape_string($a_gear['gear_page'])          . "';\n";

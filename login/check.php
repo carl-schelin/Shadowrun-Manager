@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
 //     so rather than sit there dumbly, pop up an alert
 //   otherwise include the login page
 
-  if ($called == 'yes') {
+  if (isset($called) && $called == 'yes') {
     print "alert(\"Your session has timed out and you are now logged out.\\n\\nRefresh this page or click on the Home link to be redirected to the login page.\");\n";
   } else {
     include('login.inc.php');

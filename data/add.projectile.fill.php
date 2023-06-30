@@ -23,7 +23,7 @@
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from projectile");
 
       $q_string  = "select proj_class,proj_name,proj_acc,proj_damage,proj_type,proj_rating,proj_ap,proj_avail, ";
-      $q_string .= "proj_perm,proj_cost,proj_book,proj_page ";
+      $q_string .= "proj_perm,proj_basetime,proj_duration,proj_index,proj_cost,proj_book,proj_page ";
       $q_string .= "from projectile ";
       $q_string .= "where proj_id = " . $formVars['id'];
       $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -39,6 +39,9 @@
       print "document.dialog.proj_ap.value = '"       . mysql_real_escape_string($a_projectile['proj_ap'])       . "';\n";
       print "document.dialog.proj_avail.value = '"    . mysql_real_escape_string($a_projectile['proj_avail'])    . "';\n";
       print "document.dialog.proj_perm.value = '"     . mysql_real_escape_string($a_projectile['proj_perm'])     . "';\n";
+      print "document.dialog.proj_basetime.value = '" . mysql_real_escape_string($a_projectile['proj_basetime']) . "';\n";
+      print "document.dialog.proj_duration.value = '" . mysql_real_escape_string($a_projectile['proj_duration']) . "';\n";
+      print "document.dialog.proj_index.value = '"    . mysql_real_escape_string($a_projectile['proj_index'])    . "';\n";
       print "document.dialog.proj_cost.value = '"     . mysql_real_escape_string($a_projectile['proj_cost'])     . "';\n";
       print "document.dialog.proj_book.value = '"     . mysql_real_escape_string($a_projectile['proj_book'])     . "';\n";
       print "document.dialog.proj_page.value = '"     . mysql_real_escape_string($a_projectile['proj_page'])     . "';\n";

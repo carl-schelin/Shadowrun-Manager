@@ -44,6 +44,9 @@
         $formVars['veh_offseats']     = clean($_GET['veh_offseats'],     10);
         $formVars['veh_avail']        = clean($_GET['veh_avail'],        10);
         $formVars['veh_perm']         = clean($_GET['veh_perm'],         10);
+        $formVars['veh_basetime']     = clean($_GET['veh_basetime'],     10);
+        $formVars['veh_duration']     = clean($_GET['veh_duration'],     10);
+        $formVars['veh_index']        = clean($_GET['veh_index'],        10);
         $formVars['veh_cost']         = clean($_GET['veh_cost'],         10);
         $formVars['veh_book']         = clean($_GET['veh_book'],         10);
         $formVars['veh_page']         = clean($_GET['veh_page'],         10);
@@ -99,6 +102,12 @@
         if ($formVars['veh_avail'] == '') {
           $formVars['veh_avail'] = 0;
         }
+        if ($formVars['veh_basetime'] == '') {
+          $formVars['veh_basetime'] = 0;
+        }
+        if ($formVars['veh_index'] == '') {
+          $formVars['veh_index'] = 0.00;
+        }
         if ($formVars['veh_cost'] == '') {
           $formVars['veh_cost'] = 0;
         }
@@ -131,6 +140,9 @@
             "veh_offseats     =   " . $formVars['veh_offseats']     . "," .
             "veh_avail        =   " . $formVars['veh_avail']        . "," .
             "veh_perm         = \"" . $formVars['veh_perm']         . "\"," .
+            "veh_basetime     =   " . $formVars['veh_basetime']     . "," .
+            "veh_duration     =   " . $formVars['veh_duration']     . "," .
+            "veh_index        =   " . $formVars['veh_indesx']       . "," .
             "veh_cost         =   " . $formVars['veh_cost']         . "," .
             "veh_book         = \"" . $formVars['veh_book']         . "\"," .
             "veh_page         =   " . $formVars['veh_page'];
@@ -190,7 +202,7 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
         $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Type</th>\n";
@@ -208,6 +220,7 @@
         $output .=   "<th class=\"ui-state-default\">Firmpoints</th>\n";
         $output .=   "<th class=\"ui-state-default\">Seats</th>\n";
         $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
         $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
         $output .=   "<th class=\"ui-state-default\">Book</th>\n";
         $output .= "</tr>\n";
@@ -227,7 +240,7 @@
         $q_string  = "select veh_id,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,";
         $q_string .= "veh_onspeed,veh_offspeed,veh_onacc,veh_offacc,veh_pilot,veh_body,veh_armor,veh_sensor,";
         $q_string .= "veh_sig,veh_hardpoints,veh_firmpoints,veh_onseats,veh_offseats,veh_avail,";
-        $q_string .= "veh_perm,veh_cost,ver_book,veh_page ";
+        $q_string .= "veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,ver_book,veh_page ";
         $q_string .= "from vehicles ";
         $q_string .= "left join class on class.class_id = vehicles.veh_class ";
         $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
@@ -249,7 +262,9 @@
 
             $veh_seats = return_Seats($a_vehicles['veh_onseats'], $a_vehicles['veh_offseats']);
 
-            $veh_avail = return_Avail($a_vehicles['veh_avail'], $a_vehicles['veh_perm']);
+            $veh_avail = return_Avail($a_vehicles['veh_avail'], $a_vehicles['veh_perm'], $a_vehicles['veh_basetime'], $a_vehicles['veh_duration']);
+
+            $veh_index = return_StreetIndex($a_vehicles['veh_index']);
 
             $veh_cost = return_Cost($a_vehicles['veh_cost']);
 
@@ -291,6 +306,7 @@
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_firmpoints']       . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_seats                          . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_avail                          . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $veh_index                          . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_cost                           . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_book                           . "</td>\n";
             $output .= "</tr>\n";
@@ -327,6 +343,9 @@
       print "document.dialog.veh_offseats.value = '';\n";
       print "document.dialog.veh_avail.value = '';\n";
       print "document.dialog.veh_perm.value = '';\n";
+      print "document.dialog.veh_basetime.value = '';\n";
+      print "document.dialog.veh_duration.value = 0;\n";
+      print "document.dialog.veh_index.value = '';\n";
       print "document.dialog.veh_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

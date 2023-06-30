@@ -103,6 +103,7 @@
 
       $output .= "</div>\n";
 
+      $tradition_name[0] = "Unassigned";
       $q_string  = "select s_trad_id,s_trad_name ";
       $q_string .= "from s_tradition ";
       $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -110,6 +111,7 @@
         $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
       }
 
+      $attribute_name[0] = "Unassigned";
       $q_string  = "select att_id,att_name ";
       $q_string .= "from attributes ";
       $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -119,7 +121,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Tradition</th>\n";
@@ -169,10 +171,10 @@
           $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_tradition['trad_name']                                   . $linkend . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                                  . $a_tradition['trad_description']                                       . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_combat']]                           . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_detection']]                           . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_detection']]                        . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_health']]                           . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_illusion']]                           . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_manipulation']]                           . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_illusion']]                         . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_manipulation']]                     . "</td>\n";
           $output .= "  <td class=\"ui-widget-content\">"                                  . $attribute_name[$a_tradition['trad_drainleft']] . " + " . $attribute_name[$a_tradition['trad_drainright']] . "</td>\n";
           $output .= "  <td class=\"ui-widget-content delete\">"                           . $a_tradition['ver_book'] . ": " . $a_tradition['trad_page']            . "</td>\n";
           $output .= "</tr>\n";

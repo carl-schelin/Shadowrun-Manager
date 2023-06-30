@@ -127,7 +127,7 @@
       $nuyen = '&yen;';
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Console</th>\n";
@@ -157,7 +157,7 @@
 
           $rating = return_Rating($a_command['cmd_rating']);
 
-          $avail = return_Avail($a_command['cmd_avail'], $a_command['cmd_perm']);
+          $avail = return_Avail($a_command['cmd_avail'], $a_command['cmd_perm'], 0, 0);
 
           $cost = return_Cost($a_command['cmd_cost']);
 

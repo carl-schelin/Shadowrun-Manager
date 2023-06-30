@@ -139,7 +139,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Brand</th>\n";
@@ -171,7 +171,7 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberdeck('add.cyberdeck.del.php?id=" . $a_cyberdeck['deck_id'] . "');\">";
           $linkend = "</a>";
 
-          $deck_avail = return_Avail($a_cyberdeck['deck_avail'], $a_cyberdeck['deck_perm']);
+          $deck_avail = return_Avail($a_cyberdeck['deck_avail'], $a_cyberdeck['deck_perm'], 0, 0);
 
           $deck_rating = return_Rating($a_cyberdeck['deck_rating']);
 

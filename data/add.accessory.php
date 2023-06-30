@@ -63,7 +63,7 @@ function delete_accessory( p_script_url ) {
 ?>
 
 function attach_accessory(p_script_url, update) {
-  var aa_form = document.accessory;
+  var aa_form = document.dialog;
   var aa_url;
 
   aa_url  = '?update='   + update;
@@ -79,6 +79,9 @@ function attach_accessory(p_script_url, update) {
   aa_url += "&acc_capacity="  + encode_URI(aa_form.acc_capacity.value);
   aa_url += "&acc_avail="     + encode_URI(aa_form.acc_avail.value);
   aa_url += "&acc_perm="      + encode_URI(aa_form.acc_perm.value);
+  aa_url += "&acc_basetime="  + encode_URI(aa_form.acc_basetime.value);
+  aa_url += "&acc_duration="  + encode_URI(aa_form.acc_duration.value);
+  aa_url += "&acc_index="     + encode_URI(aa_form.acc_index.value);
   aa_url += "&acc_cost="      + encode_URI(aa_form.acc_cost.value);
   aa_url += "&acc_book="      + encode_URI(aa_form.acc_book.value);
   aa_url += "&acc_page="      + encode_URI(aa_form.acc_page.value);
@@ -93,6 +96,46 @@ function clear_fields() {
 }
 
 $(document).ready( function() {
+  $( '#clickAccessory' ).click(function() {
+    $( "#dialogAccessory" ).dialog('open');
+  });
+
+  $( "#dialogAccessory" ).dialog({
+    autoOpen: false,
+    modal: true,
+    height: 425,
+    width:  600,
+    dialogClass: 'dialogWithDropShadow',
+    close: function(event, ui) {
+      $( "#dialogAccessory" ).hide();
+    },
+    buttons: [
+      {
+        id: "button-cancel",
+        text: "Cancel",
+        click: function() {
+          attach_accessory('add.accessory.mysql.php', -1);
+          $( this ).dialog( "close" );
+        }
+      },
+      {
+        id: "button-update",
+        text: "Update Accessory",
+        click: function() {
+          attach_accessory('add.accessory.mysql.php', 1);
+          $( this ).dialog( "close" );
+        }
+      },
+      {
+        id: "button-add",
+        text: "Add Accessory",
+        click: function() {
+          attach_accessory('add.accessory.mysql.php', 0);
+          $( this ).dialog( "close" );
+        }
+      }
+    ]
+  });
 });
 
 </script>
@@ -109,7 +152,7 @@ $(document).ready( function() {
 
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default"><a href="javascript:;" onmousedown="toggleDiv('accessory-hide');">Accessory Management</a></th>
+  <th class="ui-state-default">Accessory Management</th>
   <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('accessory-help');">Help</a></th>
 </tr>
 </table>
@@ -135,24 +178,29 @@ $(document).ready( function() {
 </div>
 
 
-<div id="accessory-hide" style="display: none">
-
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="button ui-widget-content">
-<input type="button" disabled="true" name="update" value="Update Accessory"  onClick="javascript:attach_accessory('add.accessory.mysql.php', 1);hideDiv('accessory-hide')">
-<input type="hidden" name="id" value="0">
-<input type="button"                 name="addnew" value="Add Accessory" onClick="javascript:attach_accessory('add.accessory.mysql.php', 0);">
-  </td>
+  <td class="button ui-widget-content"><input type="button" name="addnew" id="clickAccessory" value="Add New Accessory"</td>
 </tr>
 </table>
 
+</form>
+
+<span id="mysql_table"><?php print wait_Process('Loading Accessories...')?></span>
+
+</div>
+
+
+
+<div id="dialogAccessory" title="Accessory Form">
+
+<form name="dialog">
+
+<input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default" colspan="7">Accessory Form</th>
-</tr>
-<tr>
-  <td class="ui-widget-content" colspan="2">Type <select name="acc_type">
+  <td class="ui-widget-content">Type <select name="acc_type">
 <?php
   $q_string  = "select sub_id,sub_name ";
   $q_string .= "from subjects ";
@@ -163,6 +211,8 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="3">Class <select name="acc_class">
 <option value="0">Any Subheading</option>
 <?php
@@ -176,16 +226,46 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Accessory To <input type="text" name="acc_accessory" size="30"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Accessory Name <input type="text" name="acc_name" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Mount <input type="text" name="acc_mount" size="20"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Essence <input type="text" name="acc_essence" size="4"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Rating <input type="text" name="acc_rating" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Capacity <input type="text" name="acc_capacity" size="3"></td>
-  <td class="ui-widget-content">Avail <input type="text" name="acc_avail" size="3"><input type="text" name="acc_perm" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Avail <input type="text" name="acc_avail" size="3"><input type="text" name="acc_perm" size="3"> Base Time <input type="text" name="acc_basetime" size="6"> Duration <select name="acc_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="acc_index" size="6"> (sr3)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="acc_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="acc_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
@@ -201,17 +281,10 @@ $(document).ready( function() {
 </tr>
 </table>
 
-</div>
-
-<span id="mysql_table"><?php print wait_Process('Loading Accessories...')?></span>
-
-</div>
-
-</div>
-
-</div>
-
 </form>
+
+</div>
+
 
 <?php include($Sitepath . '/footer.php'); ?>
 

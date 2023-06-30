@@ -33,6 +33,9 @@
         $formVars['acc_capacity']   = clean($_GET['acc_capacity'],  10);
         $formVars['acc_avail']      = clean($_GET['acc_avail'],     10);
         $formVars['acc_perm']       = clean($_GET['acc_perm'],      10);
+        $formVars['acc_basetime']   = clean($_GET['acc_basetime'],  10);
+        $formVars['acc_duration']   = clean($_GET['acc_duration'],  10);
+        $formVars['acc_index']      = clean($_GET['acc_index'],     10);
         $formVars['acc_cost']       = clean($_GET['acc_cost'],      10);
         $formVars['acc_book']       = clean($_GET['acc_book'],      10);
         $formVars['acc_page']       = clean($_GET['acc_page'],      10);
@@ -51,6 +54,12 @@
         }
         if ($formVars['acc_avail'] == '') {
           $formVars['acc_avail'] = 0;
+        }
+        if ($formVars['acc_basetime'] == '') {
+          $formVars['acc_basetime'] = 0;
+        }
+        if ($formVars['acc_index'] == '') {
+          $formVars['acc_index'] = 0.0;
         }
         if ($formVars['acc_cost'] == '') {
           $formVars['acc_cost'] = 0;
@@ -73,6 +82,9 @@
             "acc_capacity    =   " . $formVars['acc_capacity']  . "," .
             "acc_avail       =   " . $formVars['acc_avail']     . "," .
             "acc_perm        = \"" . $formVars['acc_perm']      . "\"," .
+            "acc_basetime    =   " . $formVars['acc_basetime']  . "," .
+            "acc_duration    =   " . $formVars['acc_duration']  . "," .
+            "acc_index       =   " . $formVars['acc_index']     . "," .
             "acc_cost        =   " . $formVars['acc_cost']      . "," .
             "acc_book        =   " . $formVars['acc_book']      . "," .
             "acc_page        =   " . $formVars['acc_page'];
@@ -128,7 +140,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Type</th>\n";
@@ -140,13 +152,14 @@
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Capacity</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
       $nuyen = '&yen;';
       $q_string  = "select acc_id,sub_name,acc_class,class_name,acc_accessory,acc_name,acc_mount,acc_rating,acc_essence,";
-      $q_string .= "acc_capacity,acc_avail,acc_perm,acc_cost,ver_book,acc_page ";
+      $q_string .= "acc_capacity,acc_avail,acc_perm,acc_basetime,acc_duration,acc_index,acc_cost,ver_book,acc_page ";
       $q_string .= "from accessory ";
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "left join class on class.class_id = accessory.acc_class ";
@@ -157,7 +170,7 @@
       if (mysql_num_rows($q_accessory) > 0) {
         while ($a_accessory = mysql_fetch_array($q_accessory)) {
 
-          $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.accessory.fill.php?id="  . $a_accessory['acc_id'] . "');showDiv('accessory-hide');\">";
+          $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.accessory.fill.php?id="  . $a_accessory['acc_id'] . "');jQuery('#dialogAccessory').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_accessory('add.accessory.del.php?id=" . $a_accessory['acc_id'] . "');\">";
           $linkend = "</a>";
 
@@ -170,6 +183,22 @@
           if ($a_accessory['acc_accessory'] == '') {
             $accessory = "Any Item";
           }
+
+          $acc_mount = return_Mount($a_accessory['acc_mount']);
+
+          $acc_essence = return_Essence($a_accessory['acc_essence']);
+
+          $acc_rating = return_Rating($a_accessory['acc_rating']);
+
+          $acc_capacity = return_Capacity($a_accessory['acc_capacity']);
+
+          $acc_avail = return_Avail($a_accessory['acc_avail'], $a_accessory['acc_perm'], $a_accessory['acc_basetime'], $a_accessory['acc_duration']);
+
+          $acc_index = return_StreetIndex($a_accessory['acc_index']);
+
+          $acc_cost = return_Cost($a_accessory['acc_cost']);
+
+          $acc_book = return_Book($a_accessory['ver_book'], $a_accessory['acc_page']);
 
           $class = return_Class($a_accessory['acc_perm']);
 
@@ -186,9 +215,9 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_accessory['acc_id']                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $total                                                            . "</td>\n";
@@ -196,18 +225,19 @@
           $output .= "  <td class=\"" . $class . "\">"                     . $itemclass                                                        . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $accessory                                                        . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $a_accessory['acc_name']                                          . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Mount($a_accessory['acc_mount'])                           . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Essence($a_accessory['acc_essence'])                       . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Rating($a_accessory['acc_rating'])                         . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Capacity($a_accessory['acc_capacity'])                     . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Avail($a_accessory['acc_avail'], $a_accessory['acc_perm']) . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Cost($a_accessory['acc_cost'])                             . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Book($a_accessory['ver_book'], $a_accessory['acc_page'])   . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_mount                                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_essence                                                      . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_rating                                                       . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_capacity                                                     . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_avail                                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_index                                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_cost                                                         . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_book                                                         . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"14\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -215,17 +245,20 @@
 
       print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
 
-      print "document.accessory.acc_accessory.value = '';\n";
-      print "document.accessory.acc_name.value = '';\n";
-      print "document.accessory.acc_mount.value = '';\n";
-      print "document.accessory.acc_essence.value = '';\n";
-      print "document.accessory.acc_rating.value = '';\n";
-      print "document.accessory.acc_capacity.value = '';\n";
-      print "document.accessory.acc_avail.value = '';\n";
-      print "document.accessory.acc_perm.value = '';\n";
-      print "document.accessory.acc_cost.value = '';\n";
+      print "document.dialog.acc_accessory.value = '';\n";
+      print "document.dialog.acc_name.value = '';\n";
+      print "document.dialog.acc_mount.value = '';\n";
+      print "document.dialog.acc_essence.value = '';\n";
+      print "document.dialog.acc_rating.value = '';\n";
+      print "document.dialog.acc_capacity.value = '';\n";
+      print "document.dialog.acc_avail.value = '';\n";
+      print "document.dialog.acc_perm.value = '';\n";
+      print "document.dialog.acc_basetime.value = '';\n";
+      print "document.dialog.acc_duration.value = 0;\n";
+      print "document.dialog.acc_index.value = '';\n";
+      print "document.dialog.acc_cost.value = '';\n";
 
-      print "document.accessory.update.disabled = true;\n";
+      print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
       logaccess($_SESSION['username'], $package, "Unauthorized access.");

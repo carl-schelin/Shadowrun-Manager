@@ -68,6 +68,9 @@ function attach_bioware(p_script_url, update) {
   ab_url += "&bio_essence="   + encode_URI(ab_form.bio_essence.value);
   ab_url += "&bio_avail="     + encode_URI(ab_form.bio_avail.value);
   ab_url += "&bio_perm="      + encode_URI(ab_form.bio_perm.value);
+  ab_url += "&bio_basetime="  + encode_URI(ab_form.bio_basetime.value);
+  ab_url += "&bio_duration="  + encode_URI(ab_form.bio_duration.value);
+  ab_url += "&bio_index="     + encode_URI(ab_form.bio_index.value);
   ab_url += "&bio_cost="      + encode_URI(ab_form.bio_cost.value);
   ab_url += "&bio_book="      + encode_URI(ab_form.bio_book.value);
   ab_url += "&bio_page="      + encode_URI(ab_form.bio_page.value);
@@ -93,8 +96,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
-    width:  700,
+    height: 325,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogBioWare" ).hide();
@@ -234,15 +237,13 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogBioWare" title="BioWare">
+<div id="dialogBioWare" title="BioWare Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="5">Bioware Form</th>
-</tr>
 <tr>
   <td class="ui-widget-content">Class <select name="bio_class">
 <?php
@@ -257,14 +258,37 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" name="bio_name" size="30"></td>
-  <td class="ui-widget-content">Rate <input type="text" name="bio_rating" size="10"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Name <input type="text" name="bio_name" size="30"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Rate <input type="text" name="bio_rating" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Essence <input type="text" name="bio_essence" size="10"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="bio_avail" size="10"></td>
-  <td class="ui-widget-content">Perm <input type="text" name="bio_perm" size="10"></td>
+  <td class="ui-widget-content">Avail <input type="text" name="bio_avail" size="3"><input type="text" name="bio_perm" size="3"> Base Time <input type="text" name="bio_basetime" size="6"> Duration <select name="bio_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="bio_index" size="6"> (sr3)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="bio_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="bio_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
@@ -276,8 +300,7 @@ $(document).ready( function() {
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>
-</select></td>
-  <td class="ui-widget-content">Page <input type="text" name="bio_page" size="10"></td>
+</select> <input type="text" name="bio_page" size="10"></td>
 </tr>
 </table>
 
