@@ -29,6 +29,7 @@
         $formVars['veh_model']        = clean($_GET['veh_model'],        40);
         $formVars['veh_onhand']       = clean($_GET['veh_onhand'],       10);
         $formVars['veh_offhand']      = clean($_GET['veh_offhand'],      10);
+        $formVars['veh_interval']     = clean($_GET['veh_interval'],     10);
         $formVars['veh_onspeed']      = clean($_GET['veh_onspeed'],      10);
         $formVars['veh_offspeed']     = clean($_GET['veh_offspeed'],     10);
         $formVars['veh_onacc']        = clean($_GET['veh_onacc'],        10);
@@ -38,6 +39,9 @@
         $formVars['veh_armor']        = clean($_GET['veh_armor'],        10);
         $formVars['veh_sensor']       = clean($_GET['veh_sensor'],       10);
         $formVars['veh_sig']          = clean($_GET['veh_sig'],          10);
+        $formVars['veh_nav']          = clean($_GET['veh_nav'],          10);
+        $formVars['veh_cargo']        = clean($_GET['veh_cargo'],        10);
+        $formVars['veh_load']         = clean($_GET['veh_load'],         10);
         $formVars['veh_hardpoints']   = clean($_GET['veh_hardpoints'],   10);
         $formVars['veh_firmpoints']   = clean($_GET['veh_firmpoints'],   10);
         $formVars['veh_onseats']      = clean($_GET['veh_onseats'],      10);
@@ -59,6 +63,9 @@
         }
         if ($formVars['veh_offhand'] == '') {
           $formVars['veh_offhand'] = 0;
+        }
+        if ($formVars['veh_interval'] == '') {
+          $formVars['veh_interval'] = 0;
         }
         if ($formVars['veh_onspeed'] == '') {
           $formVars['veh_onspeed'] = 0;
@@ -86,6 +93,15 @@
         }
         if ($formVars['veh_sig'] == '') {
           $formVars['veh_sig'] = 0;
+        }
+        if ($formVars['veh_nav'] == '') {
+          $formVars['veh_nav'] = 0;
+        }
+        if ($formVars['veh_cargo'] == '') {
+          $formVars['veh_cargo'] = 0;
+        }
+        if ($formVars['veh_load'] == '') {
+          $formVars['veh_load'] = 0;
         }
         if ($formVars['veh_hardpoints'] == '') {
           $formVars['veh_hardpoints'] = 0;
@@ -125,6 +141,7 @@
             "veh_model        = \"" . $formVars['veh_model']        . "\"," .
             "veh_onhand       =   " . $formVars['veh_onhand']       . "," .
             "veh_offhand      =   " . $formVars['veh_offhand']      . "," .
+            "veh_interval     =   " . $formVars['veh_interval']     . "," .
             "veh_onspeed      =   " . $formVars['veh_onspeed']      . "," .
             "veh_offspeed     =   " . $formVars['veh_offspeed']     . "," .
             "veh_onacc        =   " . $formVars['veh_onacc']        . "," .
@@ -134,6 +151,9 @@
             "veh_armor        =   " . $formVars['veh_armor']        . "," .
             "veh_sensor       =   " . $formVars['veh_sensor']       . "," .
             "veh_sig          =   " . $formVars['veh_sig']          . "," .
+            "veh_nav          =   " . $formVars['veh_nav']          . "," .
+            "veh_cargo        =   " . $formVars['veh_cargo']        . "," .
+            "veh_load         =   " . $formVars['veh_load']         . "," .
             "veh_hardpoints   =   " . $formVars['veh_hardpoints']   . "," .
             "veh_firmpoints   =   " . $formVars['veh_firmpoints']   . "," .
             "veh_onseats      =   " . $formVars['veh_onseats']      . "," .
@@ -209,17 +229,21 @@
         $output .=   "<th class=\"ui-state-default\">Make</th>\n";
         $output .=   "<th class=\"ui-state-default\">Model</th>\n";
         $output .=   "<th class=\"ui-state-default\">Handling</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Interval</th>\n";
         $output .=   "<th class=\"ui-state-default\">Speed</th>\n";
-        $output .=   "<th class=\"ui-state-default\">Acceleration</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Accel</th>\n";
         $output .=   "<th class=\"ui-state-default\">Body</th>\n";
         $output .=   "<th class=\"ui-state-default\">Armor</th>\n";
         $output .=   "<th class=\"ui-state-default\">Pilot</th>\n";
         $output .=   "<th class=\"ui-state-default\">Sensor</th>\n";
         $output .=   "<th class=\"ui-state-default\">Signature</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Autonav</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Cargo</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Load</th>\n";
         $output .=   "<th class=\"ui-state-default\">Hardpoints</th>\n";
         $output .=   "<th class=\"ui-state-default\">Firmpoints</th>\n";
         $output .=   "<th class=\"ui-state-default\">Seats</th>\n";
-        $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Avail</th>\n";
         $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
         $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
         $output .=   "<th class=\"ui-state-default\">Book</th>\n";
@@ -237,9 +261,9 @@
         }
 
         $nuyen = '&yen;';
-        $q_string  = "select veh_id,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,";
+        $q_string  = "select veh_id,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_interval,";
         $q_string .= "veh_onspeed,veh_offspeed,veh_onacc,veh_offacc,veh_pilot,veh_body,veh_armor,veh_sensor,";
-        $q_string .= "veh_sig,veh_hardpoints,veh_firmpoints,veh_onseats,veh_offseats,veh_avail,";
+        $q_string .= "veh_sig,veh_nav,veh_cargo,veh_load,veh_hardpoints,veh_firmpoints,veh_onseats,veh_offseats,veh_avail,";
         $q_string .= "veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,ver_book,veh_page ";
         $q_string .= "from vehicles ";
         $q_string .= "left join class on class.class_id = vehicles.veh_class ";
@@ -295,6 +319,7 @@
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_vehicles['veh_make']  . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_vehicles['veh_model'] . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_handling                       . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_interval']         . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_speed                          . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_acceleration                   . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_body']             . "</td>\n";
@@ -302,6 +327,9 @@
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_pilot']            . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_sensor']           . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_sig']              . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_nav']              . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_cargo']            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_load']             . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_hardpoints']       . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_firmpoints']       . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_seats                          . "</td>\n";
@@ -313,7 +341,7 @@
           }
         } else {
           $output .= "<tr>\n";
-          $output .= "  <td class=\"ui-widget-content\" colspan=\"19\">No Vehicles found.</td>\n";
+          $output .= "  <td class=\"ui-widget-content\" colspan=\"25\">No Vehicles found.</td>\n";
           $output .= "</tr>\n";
         }
 
@@ -328,6 +356,7 @@
       print "document.dialog.veh_model.value = '';\n";
       print "document.dialog.veh_onhand.value = '';\n";
       print "document.dialog.veh_offhand.value = '';\n";
+      print "document.dialog.veh_interval.value = '';\n";
       print "document.dialog.veh_onspeed.value = '';\n";
       print "document.dialog.veh_offspeed.value = '';\n";
       print "document.dialog.veh_onacc.value = '';\n";
@@ -337,6 +366,9 @@
       print "document.dialog.veh_armor.value = '';\n";
       print "document.dialog.veh_sensor.value = '';\n";
       print "document.dialog.veh_sig.value = '';\n";
+      print "document.dialog.veh_nav.value = '';\n";
+      print "document.dialog.veh_cargo.value = '';\n";
+      print "document.dialog.veh_load.value = '';\n";
       print "document.dialog.veh_hardpoints.value = '';\n";
       print "document.dialog.veh_firmpoints.value = '';\n";
       print "document.dialog.veh_onseats.value = '';\n";
