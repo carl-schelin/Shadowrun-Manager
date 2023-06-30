@@ -144,6 +144,10 @@
 
             $spell_drain = return_Drain($a_spells['spell_drain'], $a_spells['spell_force']);
 
+            $spell_book = return_Book($a_spells['ver_book'], $a_spells['spell_page']);
+
+            $class = "ui-widget-content";
+
             $total = 0;
             $q_string  = "select r_spell_id ";
             $q_string .= "from r_spells ";
@@ -157,21 +161,21 @@
 
             $output .= "<tr>\n";
             if ($total > 0) {
-              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                          . "</td>\n";
             }
-            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_spells['spell_id']                                  . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                 . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_spells['spell_name']                     . $linkend . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['class_name']                                . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_type']                                . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_test']                                . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_range']                               . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_damage']                              . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['spell_duration']                            . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $spell_drain                                           . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_spells['ver_book'] . ": " . $a_spells['spell_page'] . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_spells['spell_id']                  . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                 . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_spells['spell_name']     . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_spells['class_name']                . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_spells['spell_type']                . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_spells['spell_test']                . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_spells['spell_range']               . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_spells['spell_damage']              . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_spells['spell_duration']            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $spell_drain                           . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $spell_book                            . "</td>\n";
             $output .= "</tr>\n";
           }
         } else {

@@ -149,6 +149,10 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_tradition('add.tradition.del.php?id=" . $a_tradition['trad_id'] . "');\">";
           $linkend = "</a>";
 
+          $trad_book = return_Book($a_tradition['ver_book'], $a_tradition['trad_page']);
+
+          $class = "ui-widget-content";
+
           $total = 0;
           $q_string  = "select r_trad_id ";
           $q_string .= "from r_tradition ";
@@ -162,21 +166,21 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $a_tradition['trad_id']                                                . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $total                                                                 . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_tradition['trad_name']                                   . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $a_tradition['trad_description']                                       . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_combat']]                           . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_detection']]                        . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_health']]                           . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_illusion']]                         . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $tradition_name[$a_tradition['trad_manipulation']]                     . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $attribute_name[$a_tradition['trad_drainleft']] . " + " . $attribute_name[$a_tradition['trad_drainright']] . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"                           . $a_tradition['ver_book'] . ": " . $a_tradition['trad_page']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $a_tradition['trad_id']                                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $total                                                                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_tradition['trad_name']                                   . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $a_tradition['trad_description']                                       . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $tradition_name[$a_tradition['trad_combat']]                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $tradition_name[$a_tradition['trad_detection']]                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $tradition_name[$a_tradition['trad_health']]                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $tradition_name[$a_tradition['trad_illusion']]                         . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $tradition_name[$a_tradition['trad_manipulation']]                     . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $attribute_name[$a_tradition['trad_drainleft']] . " + " . $attribute_name[$a_tradition['trad_drainright']] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"                           . $trad_book                                                             . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

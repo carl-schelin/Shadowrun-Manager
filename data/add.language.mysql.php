@@ -103,6 +103,8 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_language('add.language.del.php?id=" . $a_language['lang_id'] . "');\">";
           $linkend = "</a>";
 
+          $class = "ui-widget-content";
+
           $total = 0;
           $q_string  = "select r_lang_id ";
           $q_string .= "from r_language ";
@@ -116,13 +118,13 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $a_language['lang_id']              . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $total                              . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_language['lang_name'] . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $a_language['lang_id']              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $total                              . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_language['lang_name'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

@@ -152,6 +152,10 @@
             $fading = "L + " . $a_complexform['form_fading'];
           }
 
+          $form_book = return_Book($a_complexform['ver_book'], $a_complexform['form_page']);
+
+          $class = "ui-widget-content";
+
           $total = 0;
           $q_string  = "select r_form_id ";
           $q_string .= "from r_complexform ";
@@ -165,17 +169,17 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                          . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_complexform['form_id']                                       . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                          . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_complexform['form_name']                          . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $target                                                         . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $duration                                                       . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $fading                                                         . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_complexform['ver_book'] . ": " . $a_complexform['form_page'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_complexform['form_id']              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_complexform['form_name'] . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $target                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $duration                              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $fading                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $form_book                             . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

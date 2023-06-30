@@ -121,6 +121,10 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_mentor('add.mentor.del.php?id=" . $a_mentor['mentor_id'] . "');\">";
           $linkend = "</a>";
 
+          $men_book = return_Book($a_mentor['ver_book'], $a_mentor['mentor_page']);
+
+          $class = "ui-widget-content";
+
           $total = 0;
           $q_string  = "select r_mentor_id ";
           $q_string .= "from r_mentor ";
@@ -134,18 +138,18 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                    . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $a_mentor['mentor_id']                                  . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"              . $total                                                  . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                     . $linkstart . $a_mentor['mentor_name']                     . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $a_mentor['mentor_all']                                 . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $a_mentor['mentor_mage']                                . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $a_mentor['mentor_adept']                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                                  . $a_mentor['mentor_disadvantage']                        . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"                           . $a_mentor['ver_book'] . ": " . $a_mentor['mentor_page'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $a_mentor['mentor_id']              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $total                              . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_mentor['mentor_name'] . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $a_mentor['mentor_all']             . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $a_mentor['mentor_mage']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $a_mentor['mentor_adept']           . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                                  . $a_mentor['mentor_disadvantage']    . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"                           . $men_book                           . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

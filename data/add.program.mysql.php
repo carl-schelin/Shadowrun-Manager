@@ -153,12 +153,13 @@
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('add.program.del.php?id=" . $a_program['pgm_id'] . "');\">";
             $linkend = "</a>";
 
-            $class = return_Class($a_program['pgm_perm']);
+            $pgm_avail = return_Avail($a_program['pgm_avail'], $a_program['pgm_perm'], 0, 0);
 
-            $pgm_avail = "-";
-            if ($a_program['pgm_avail'] != 0) {
-              $pgm_avail = $a_program['pgm_avail'] . $a_program['pgm_perm'];
-            }
+            $pgm_cost = return_Cost($a_program['pgm_cost']);
+
+            $pgm_book = return_Book($a_program['ver_book'], $a_program['pgm_page']);
+
+            $class = return_Class($a_program['pgm_perm']);
 
             $total = 0;
             $q_string  = "select r_pgm_id ";
@@ -173,17 +174,17 @@
 
             $output .= "<tr>\n";
             if ($total > 0) {
-              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
             }
-            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $a_program['pgm_id']                                                   . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $total                                                                 . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_program['pgm_name']                                      . $linkend . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"                                  . $a_program['pgm_desc']                                                 . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"                           . $pgm_avail                                                             . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"                           . number_format($a_program['pgm_cost'], 0, '.', ',') . $nuyen            . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"                           . $a_program['ver_book'] . ": " . $a_program['pgm_page']                 . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $a_program['pgm_id']              . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $total                            . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_program['pgm_name'] . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"                                  . $a_program['pgm_desc']            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"                           . $pgm_avail                        . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"                           . $pgm_cost                         . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"                           . $pgm_book                         . "</td>\n";
             $output .= "</tr>\n";
           }
         } else {
