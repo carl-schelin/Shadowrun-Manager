@@ -68,6 +68,7 @@ function attach_vehicles(p_script_url, update) {
   av_url += "&veh_model="        + encode_URI(av_form.veh_model.value);
   av_url += "&veh_onhand="       + encode_URI(av_form.veh_onhand.value);
   av_url += "&veh_offhand="      + encode_URI(av_form.veh_offhand.value);
+  av_url += "&veh_interval="     + encode_URI(av_form.veh_interval.value);
   av_url += "&veh_onspeed="      + encode_URI(av_form.veh_onspeed.value);
   av_url += "&veh_offspeed="     + encode_URI(av_form.veh_offspeed.value);
   av_url += "&veh_onacc="        + encode_URI(av_form.veh_onacc.value);
@@ -77,6 +78,9 @@ function attach_vehicles(p_script_url, update) {
   av_url += "&veh_armor="        + encode_URI(av_form.veh_armor.value);
   av_url += "&veh_sensor="       + encode_URI(av_form.veh_sensor.value);
   av_url += "&veh_sig="          + encode_URI(av_form.veh_sig.value);
+  av_url += "&veh_nav="          + encode_URI(av_form.veh_nav.value);
+  av_url += "&veh_cargo="        + encode_URI(av_form.veh_cargo.value);
+  av_url += "&veh_load="         + encode_URI(av_form.veh_load.value);
   av_url += "&veh_hardpoints="   + encode_URI(av_form.veh_hardpoints.value);
   av_url += "&veh_firmpoints="   + encode_URI(av_form.veh_firmpoints.value);
   av_url += "&veh_onseats="      + encode_URI(av_form.veh_onseats.value);
@@ -110,7 +114,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 600,
+    height: 700,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -300,28 +304,40 @@ $(document).ready( function() {
   <td class="ui-widget-content">Model <input type="text" name="veh_model" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Handling <input type="text" name="veh_onhand" size="3">/<input type="text" name="veh_offhand" size="3"></td>
+  <td class="ui-widget-content">Handling <input type="text" name="veh_onhand" size="3">/<input type="text" name="veh_offhand" size="3"> (sr1/sr2/sr3/sr4/sr5)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Speed <input type="text" name="veh_onspeed" size="3">/<input type="text" name="veh_offspeed" size="3"></td>
+  <td class="ui-widget-content">Speed Interval<input type="text" name="veh_interval" size="3"> (sr6)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Acceleration <input type="text" name="veh_onacc" size="3">/<input type="text" name="veh_offacc" size="3"></td>
+  <td class="ui-widget-content">Speed <input type="text" name="veh_onspeed" size="3">/<input type="text" name="veh_offspeed" size="3"> (sr1/sr2/sr3/sr4/sr5)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Body <input type="text" name="veh_body" size="3"></td>
+  <td class="ui-widget-content">Acceleration <input type="text" name="veh_onacc" size="3">/<input type="text" name="veh_offacc" size="3"> (sr3/sr4/sr5)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Armor <input type="text" name="veh_armor" size="3"></td>
+  <td class="ui-widget-content">Body <input type="text" name="veh_body" size="3"> (sr1/sr2/sr3/sr4/sr5)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Pilot <input type="text" name="veh_pilot" size="3"></td>
+  <td class="ui-widget-content">Armor <input type="text" name="veh_armor" size="3"> (sr1/sr2/sr3/sr4/sr5)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Sensor <input type="text" name="veh_sensor" size="3"></td>
+  <td class="ui-widget-content">Pilot <input type="text" name="veh_pilot" size="3"> (sr1/sr2/sr3/sr4/sr5)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Signature <input type="text" name="veh_sig" size="3"></td>
+  <td class="ui-widget-content">Sensor <input type="text" name="veh_sensor" size="3"> (sr3/sr4/sr5)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Signature <input type="text" name="veh_sig" size="3"> (sr1/sr2/sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Autonav <input type="text" name="veh_nav" size="3"> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Cargo <input type="text" name="veh_cargo" size="3"> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Load <input type="text" name="veh_load" size="3"> (sr3)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Hardpoints <input type="text" name="veh_hardpoints" size="3"></td>
@@ -330,7 +346,7 @@ $(document).ready( function() {
   <td class="ui-widget-content">Firmpoints <input type="text" name="veh_firmpoints" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Seats <input type="text" name="veh_onseats" size="3">/<input type="text" name="veh_offseats" size="3"></td>
+  <td class="ui-widget-content">Seats <input type="text" name="veh_onseats" size="3">/<input type="text" name="veh_offseats" size="3"> (sr3/sr5/sr6)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Avail <input type="text" name="veh_avail" size="3"><input type="text" name="veh_perm" size="3"> Base Time <input type="text" name="veh_basetime" size="6"> Duration <select name="veh_duration">
