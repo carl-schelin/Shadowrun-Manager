@@ -68,6 +68,9 @@ function attach_gear(p_script_url, update) {
   ab_url += "&gear_capacity="  + encode_URI(ab_form.gear_capacity.value);
   ab_url += "&gear_avail="     + encode_URI(ab_form.gear_avail.value);
   ab_url += "&gear_perm="      + encode_URI(ab_form.gear_perm.value);
+  ab_url += "&gear_basetime="  + encode_URI(ab_form.gear_basetime.value);
+  ab_url += "&gear_duration="  + encode_URI(ab_form.gear_duration.value);
+  ab_url += "&gear_index="     + encode_URI(ab_form.gear_index.value);
   ab_url += "&gear_cost="      + encode_URI(ab_form.gear_cost.value);
   ab_url += "&gear_book="      + encode_URI(ab_form.gear_book.value);
   ab_url += "&gear_page="      + encode_URI(ab_form.gear_page.value);
@@ -93,8 +96,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
-    width:  700,
+    height: 325,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogGear" ).hide();
@@ -182,15 +185,12 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogGear" title="Gear">
+<div id="dialogGear" title="Gear Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="5">Gear Form</th>
-</tr>
 <tr>
   <td class="ui-widget-content">Class <select name="gear_class">
 <?php
@@ -205,13 +205,37 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="2">Name <input type="text" name="gear_name" size="30"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Rating <input type="text" name="gear_rating" size="10"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Capacity <input type="text" name="gear_capacity" size="3"></td>
-  <td class="ui-widget-content">Avail <input type="text" name="gear_avail" size="3"><input type="text" name="gear_perm" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Avail <input type="text" name="gear_avail" size="3"><input type="text" name="gear_perm" size="3"> Base Time <input type="text" name="gear_basetime" size="6"> Duration <select name="gear_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="gear_index" size="6"> (sr3)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="gear_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="gear_book">
 <?php
   $q_string  = "select ver_id,ver_short ";

@@ -62,32 +62,35 @@ function attach_firearm(p_script_url, update) {
   af_url  = '?update='   + update;
   af_url += "&id="       + af_form.id.value;
 
-  af_url += "&fa_class="   + encode_URI(af_form.fa_class.value);
-  af_url += "&fa_name="    + encode_URI(af_form.fa_name.value);
-  af_url += "&fa_acc="     + encode_URI(af_form.fa_acc.value);
-  af_url += "&fa_damage="  + encode_URI(af_form.fa_damage.value);
-  af_url += "&fa_type="    + encode_URI(af_form.fa_type.value);
-  af_url += "&fa_flag="    + encode_URI(af_form.fa_flag.value);
-  af_url += "&fa_ap="      + encode_URI(af_form.fa_ap.value);
-  af_url += "&fa_mode1="   + encode_URI(af_form.fa_mode1.value);
-  af_url += "&fa_mode2="   + encode_URI(af_form.fa_mode2.value);
-  af_url += "&fa_mode3="   + encode_URI(af_form.fa_mode3.value);
-  af_url += "&fa_ar1="     + encode_URI(af_form.fa_ar1.value);
-  af_url += "&fa_ar2="     + encode_URI(af_form.fa_ar2.value);
-  af_url += "&fa_ar3="     + encode_URI(af_form.fa_ar3.value);
-  af_url += "&fa_ar4="     + encode_URI(af_form.fa_ar4.value);
-  af_url += "&fa_ar5="     + encode_URI(af_form.fa_ar5.value);
-  af_url += "&fa_rc="      + encode_URI(af_form.fa_rc.value);
-  af_url += "&fa_fullrc="  + encode_URI(af_form.fa_fullrc.value);
-  af_url += "&fa_ammo1="   + encode_URI(af_form.fa_ammo1.value);
-  af_url += "&fa_clip1="   + encode_URI(af_form.fa_clip1.value);
-  af_url += "&fa_ammo2="   + encode_URI(af_form.fa_ammo2.value);
-  af_url += "&fa_clip2="   + encode_URI(af_form.fa_clip2.value);
-  af_url += "&fa_avail="   + encode_URI(af_form.fa_avail.value);
-  af_url += "&fa_perm="    + encode_URI(af_form.fa_perm.value);
-  af_url += "&fa_cost="    + encode_URI(af_form.fa_cost.value);
-  af_url += "&fa_book="    + encode_URI(af_form.fa_book.value);
-  af_url += "&fa_page="    + encode_URI(af_form.fa_page.value);
+  af_url += "&fa_class="        + encode_URI(af_form.fa_class.value);
+  af_url += "&fa_name="         + encode_URI(af_form.fa_name.value);
+  af_url += "&fa_acc="          + encode_URI(af_form.fa_acc.value);
+  af_url += "&fa_damage="       + encode_URI(af_form.fa_damage.value);
+  af_url += "&fa_type="         + encode_URI(af_form.fa_type.value);
+  af_url += "&fa_flag="         + encode_URI(af_form.fa_flag.value);
+  af_url += "&fa_ap="           + encode_URI(af_form.fa_ap.value);
+  af_url += "&fa_mode1="        + encode_URI(af_form.fa_mode1.value);
+  af_url += "&fa_mode2="        + encode_URI(af_form.fa_mode2.value);
+  af_url += "&fa_mode3="        + encode_URI(af_form.fa_mode3.value);
+  af_url += "&fa_ar1="          + encode_URI(af_form.fa_ar1.value);
+  af_url += "&fa_ar2="          + encode_URI(af_form.fa_ar2.value);
+  af_url += "&fa_ar3="          + encode_URI(af_form.fa_ar3.value);
+  af_url += "&fa_ar4="          + encode_URI(af_form.fa_ar4.value);
+  af_url += "&fa_ar5="          + encode_URI(af_form.fa_ar5.value);
+  af_url += "&fa_rc="           + encode_URI(af_form.fa_rc.value);
+  af_url += "&fa_fullrc="       + encode_URI(af_form.fa_fullrc.value);
+  af_url += "&fa_ammo1="        + encode_URI(af_form.fa_ammo1.value);
+  af_url += "&fa_clip1="        + encode_URI(af_form.fa_clip1.value);
+  af_url += "&fa_ammo2="        + encode_URI(af_form.fa_ammo2.value);
+  af_url += "&fa_clip2="        + encode_URI(af_form.fa_clip2.value);
+  af_url += "&fa_avail="        + encode_URI(af_form.fa_avail.value);
+  af_url += "&fa_perm="         + encode_URI(af_form.fa_perm.value);
+  af_url += "&fa_basetime="     + encode_URI(af_form.fa_basetime.value);
+  af_url += "&fa_duration="     + encode_URI(af_form.fa_duration.value);
+  af_url += "&fa_index="        + encode_URI(af_form.fa_index.value);
+  af_url += "&fa_cost="         + encode_URI(af_form.fa_cost.value);
+  af_url += "&fa_book="         + encode_URI(af_form.fa_book.value);
+  af_url += "&fa_page="         + encode_URI(af_form.fa_page.value);
 
   script = document.createElement('script');
   script.src = p_script_url + af_url;
@@ -99,6 +102,8 @@ function clear_fields() {
 }
 
 $(document).ready( function() {
+  $( "#tabs" ).tabs( ).addClass( "tab-shadow" );
+
   $( '#clickFirearm' ).click(function() {
     $( "#dialogFirearm" ).dialog('open');
   });
@@ -107,7 +112,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 425,
+    height: 450,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -190,15 +195,68 @@ $(document).ready( function() {
 
 </form>
 
+<div id="tabs">
 
-<span id="mysql_table"><?php print wait_Process('Loading Firearms...')?></span>
+<ul>
+  <li><a href="#tasers">Tasers</a></li>
+  <li><a href="#hold-outs">Hold-Outs</a></li>
+  <li><a href="#pistols">Pistols</a></li>
+  <li><a href="#machineguns">Machine Guns</a></li>
+  <li><a href="#rifles">Rifles</a></li>
+  <li><a href="#shotguns">Shotguns</a></li>
+  <li><a href="#special">Special Weapons</a></li>
+  <li><a href="#launchers">Launchers</a></li>
+  <li><a href="#cyberguns">Cyberguns</a></li>
+  <li><a href="#errors">Mislabeled Firearms</a></li>
+</ul>
 
+
+<div id="tasers">
+<span id="tasers_table"><?php print wait_Process('Loading Tasers...')?></span>
+</div>
+
+<div id="hold-outs">
+<span id="hold-outs_table"><?php print wait_Process('Loading Hold-Outs...')?></span>
+</div>
+
+<div id="pistols">
+<span id="pistols_table"><?php print wait_Process('Loading Pistols...')?></span>
+</div>
+
+<div id="machineguns">
+<span id="mg_table"><?php print wait_Process('Loading Machine Guns...')?></span>
+</div>
+
+<div id="rifles">
+<span id="rifles_table"><?php print wait_Process('Loading Rifles...')?></span>
+</div>
+
+<div id="shotguns">
+<span id="shotguns_table"><?php print wait_Process('Loading Shotguns...')?></span>
+</div>
+
+<div id="special">
+<span id="special_table"><?php print wait_Process('Loading Special Weapons...')?></span>
+</div>
+
+<div id="launchers">
+<span id="launchers_table"><?php print wait_Process('Loading Launchers...')?></span>
+</div>
+
+<div id="cyberguns">
+<span id="cyberguns_table"><?php print wait_Process('Loading Cyberguns...')?></span>
+</div>
+
+<div id="errors">
+<span id="error_table"><?php print wait_Process('Loading Missing...')?></span>
+</div>
+
+</div>
 
 </div>
 
 
-
-<div id="dialogFirearm" title="Firearms">
+<div id="dialogFirearm" title="Firearm Form">
 
 <form name="dialog">
 
@@ -245,7 +303,21 @@ $(document).ready( function() {
   <td class="ui-widget-content">Ammo <input type="text" name="fa_ammo1" size="3">(<input type="text" name="fa_clip1" size="3">)/<input type="text" name="fa_ammo2" size="3">(<input type="text" name="fa_clip2" size="3">)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Availability <input type="text" name="fa_avail" size="3"><input type="text" name="fa_perm" size="3"></td>
+  <td class="ui-widget-content">Availability <input type="text" name="fa_avail" size="3"><input type="text" name="fa_perm" size="3"> Base Time <input type="text" name="fa_basetime" size="6"> Duration <select name="fa_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="fa_index" size="6"> (sr3)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Cost <input type="text" name="fa_cost" size="10"></td>

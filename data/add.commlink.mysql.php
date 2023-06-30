@@ -146,7 +146,7 @@
 
           $rating = return_Rating($a_commlink['link_rating']);
 
-          $avail = return_Avail($a_commlink['link_avail'], $a_commlink['link_perm']);
+          $avail = return_Avail($a_commlink['link_avail'], $a_commlink['link_perm'], 0, 0);
 
           $cost = return_Cost($a_commlink['link_cost']);
 

@@ -24,7 +24,7 @@
 
       $q_string  = "select veh_class,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_onspeed,veh_offspeed,";
       $q_string .= "veh_onacc,veh_offacc,veh_pilot,veh_body,veh_armor,veh_sensor,veh_sig,veh_onseats,veh_offseats,";
-      $q_string .= "veh_hardpoints,veh_firmpoints,veh_avail,veh_perm,veh_cost,veh_book,veh_page ";
+      $q_string .= "veh_hardpoints,veh_firmpoints,veh_avail,veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,veh_book,veh_page ";
       $q_string .= "from vehicles ";
       $q_string .= "where veh_id = " . $formVars['id'];
       $q_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -52,6 +52,9 @@
       print "document.dialog.veh_offseats.value = '"    . mysql_real_escape_string($a_vehicles['veh_offseats'])     . "';\n";
       print "document.dialog.veh_avail.value = '"       . mysql_real_escape_string($a_vehicles['veh_avail'])        . "';\n";
       print "document.dialog.veh_perm.value = '"        . mysql_real_escape_string($a_vehicles['veh_perm'])         . "';\n";
+      print "document.dialog.veh_basetime.value = '"    . mysql_real_escape_string($a_vehicles['veh_basetime'])     . "';\n";
+      print "document.dialog.veh_duration.value = '"    . mysql_real_escape_string($a_vehicles['veh_duration'])     . "';\n";
+      print "document.dialog.veh_index.value = '"       . mysql_real_escape_string($a_vehicles['veh_index'])        . "';\n";
       print "document.dialog.veh_cost.value = '"        . mysql_real_escape_string($a_vehicles['veh_cost'])         . "';\n";
       print "document.dialog.veh_book.value = '"        . mysql_real_escape_string($a_vehicles['veh_book'])         . "';\n";
       print "document.dialog.veh_page.value = '"        . mysql_real_escape_string($a_vehicles['veh_page'])         . "';\n";

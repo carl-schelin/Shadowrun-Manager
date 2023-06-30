@@ -73,6 +73,9 @@ function attach_melee(p_script_url, update) {
   am_url += "&melee_ap="         + encode_URI(am_form.melee_ap.value);
   am_url += "&melee_avail="      + encode_URI(am_form.melee_avail.value);
   am_url += "&melee_perm="       + encode_URI(am_form.melee_perm.value);
+  am_url += "&melee_basetime="   + encode_URI(am_form.melee_basetime.value);
+  am_url += "&melee_duration="   + encode_URI(am_form.melee_duration.value);
+  am_url += "&melee_index="      + encode_URI(am_form.melee_index.value);
   am_url += "&melee_cost="       + encode_URI(am_form.melee_cost.value);
   am_url += "&melee_book="       + encode_URI(am_form.melee_book.value);
   am_url += "&melee_page="       + encode_URI(am_form.melee_page.value);
@@ -95,8 +98,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
-    width:  750,
+    height: 375,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogMelee" ).hide();
@@ -183,15 +186,13 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogMelee" title="Melee">
+<div id="dialogMelee" title="Melee Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="9">Melee Weapon Form</th>
-</tr>
 <tr>
   <td class="ui-widget-content">Class <select name="melee_class">
 <?php
@@ -206,16 +207,44 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
-  <td class="ui-widget-content">Name <input type="text" name="melee_name" size="20"></td>
-  <td class="ui-widget-content">ACC <input type="text" name="melee_acc" size="3"></td>
-  <td class="ui-widget-content">Reach <input type="text" name="melee_reach" size="3"></td>
-  <td class="ui-widget-content">Damage <input type="text" name="melee_damage" size="3"><input type="text" name="melee_type" size="3">(<input type="text" name="melee_flag" size="3">)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Use Strength? <input type="checkbox" name="melee_strength"></td>
+  <td class="ui-widget-content">Name <input type="text" name="melee_name" size="20"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">ACC <input type="text" name="melee_acc" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Reach <input type="text" name="melee_reach" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Damage <input type="text" name="melee_damage" size="3"><input type="text" name="melee_type" size="3">(<input type="text" name="melee_flag" size="3">) Use Strength? <input type="checkbox" name="melee_strength"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">AP <input type="text" name="melee_ap" size="3"></td>
-  <td class="ui-widget-content">Avail <input type="text" name="melee_avail" size="3"><input type="text" name="melee_perm" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Avail <input type="text" name="melee_avail" size="3"><input type="text" name="melee_perm" size="3"> Base Time <input type="text" name="melee_basetime" size="6"> Duration <select name="melee_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="melee_index" size="6"> (sr3)</td>
+</tr>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="melee_cost" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="melee_book">
 <?php
   $q_string  = "select ver_id,ver_short ";

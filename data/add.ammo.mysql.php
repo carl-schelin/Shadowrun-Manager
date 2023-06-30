@@ -22,20 +22,23 @@
 
     if (check_userlevel(1)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        $formVars['id']          = clean($_GET['id'],          10);
-        $formVars['ammo_class']  = clean($_GET['ammo_class'],  10);
-        $formVars['ammo_name']   = clean($_GET['ammo_name'],   50);
-        $formVars['ammo_mod']    = clean($_GET['ammo_mod'],    20);
-        $formVars['ammo_rounds'] = clean($_GET['ammo_rounds'], 10);
-        $formVars['ammo_rating'] = clean($_GET['ammo_rating'], 10);
-        $formVars['ammo_ap']     = clean($_GET['ammo_ap'],     10);
-        $formVars['ammo_blast']  = clean($_GET['ammo_blast'],  15);
-        $formVars['ammo_armor']  = clean($_GET['ammo_armor'],   5);
-        $formVars['ammo_avail']  = clean($_GET['ammo_avail'],  10);
-        $formVars['ammo_perm']   = clean($_GET['ammo_perm'],    5);
-        $formVars['ammo_cost']   = clean($_GET['ammo_cost'],   10);
-        $formVars['ammo_book']   = clean($_GET['ammo_book'],   10);
-        $formVars['ammo_page']   = clean($_GET['ammo_page'],   10);
+        $formVars['id']               = clean($_GET['id'],               10);
+        $formVars['ammo_class']       = clean($_GET['ammo_class'],       10);
+        $formVars['ammo_name']        = clean($_GET['ammo_name'],        50);
+        $formVars['ammo_mod']         = clean($_GET['ammo_mod'],         20);
+        $formVars['ammo_rounds']      = clean($_GET['ammo_rounds'],      10);
+        $formVars['ammo_rating']      = clean($_GET['ammo_rating'],      10);
+        $formVars['ammo_ap']          = clean($_GET['ammo_ap'],          10);
+        $formVars['ammo_blast']       = clean($_GET['ammo_blast'],       15);
+        $formVars['ammo_armor']       = clean($_GET['ammo_armor'],       10);
+        $formVars['ammo_avail']       = clean($_GET['ammo_avail'],       10);
+        $formVars['ammo_perm']        = clean($_GET['ammo_perm'],        10);
+        $formVars['ammo_basetime']    = clean($_GET['ammo_basetime'],    10);
+        $formVars['ammo_duration']    = clean($_GET['ammo_duration'],    10);
+        $formVars['ammo_index']       = clean($_GET['ammo_index'],       10);
+        $formVars['ammo_cost']        = clean($_GET['ammo_cost'],        10);
+        $formVars['ammo_book']        = clean($_GET['ammo_book'],        10);
+        $formVars['ammo_page']        = clean($_GET['ammo_page'],        10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
@@ -49,6 +52,12 @@
         if ($formVars['ammo_avail'] == '') {
           $formVars['ammo_avail'] = 0;
         }
+        if ($formVars['ammo_basetime'] == '') {
+          $formVars['ammo_basetime'] = 0;
+        }
+        if ($formVars['ammo_index'] == '') {
+          $formVars['ammo_index'] = 0.00;
+        }
         if ($formVars['ammo_cost'] == '') {
           $formVars['ammo_cost'] = 0;
         }
@@ -60,18 +69,21 @@
           logaccess($_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
-            "ammo_class       =   " . $formVars['ammo_class']   . "," .
-            "ammo_name        = \"" . $formVars['ammo_name']    . "\"," .
-            "ammo_mod         = \"" . $formVars['ammo_mod']     . "\"," .
-            "ammo_rounds      =   " . $formVars['ammo_rounds']  . "," .
-            "ammo_rating      =   " . $formVars['ammo_rating']  . "," .
-            "ammo_ap          =   " . $formVars['ammo_ap']      . "," .
-            "ammo_blast       = \"" . $formVars['ammo_blast']   . "\"," .
-            "ammo_armor       = \"" . $formVars['ammo_armor']   . "\"," .
-            "ammo_avail       =   " . $formVars['ammo_avail']   . "," .
-            "ammo_perm        = \"" . $formVars['ammo_perm']    . "\"," .
-            "ammo_cost        =   " . $formVars['ammo_cost']    . "," .
-            "ammo_book        = \"" . $formVars['ammo_book']    . "\"," .
+            "ammo_class       =   " . $formVars['ammo_class']        . "," .
+            "ammo_name        = \"" . $formVars['ammo_name']         . "\"," .
+            "ammo_mod         = \"" . $formVars['ammo_mod']          . "\"," .
+            "ammo_rounds      =   " . $formVars['ammo_rounds']       . "," .
+            "ammo_rating      =   " . $formVars['ammo_rating']       . "," .
+            "ammo_ap          =   " . $formVars['ammo_ap']           . "," .
+            "ammo_blast       = \"" . $formVars['ammo_blast']        . "\"," .
+            "ammo_armor       = \"" . $formVars['ammo_armor']        . "\"," .
+            "ammo_avail       =   " . $formVars['ammo_avail']        . "," .
+            "ammo_perm        = \"" . $formVars['ammo_perm']         . "\"," .
+            "ammo_basetime    =   " . $formVars['ammo_basetime']     . "," .
+            "ammo_duration    =   " . $formVars['ammo_duration']     . "," .
+            "ammo_index       =   " . $formVars['ammo_index']        . "," .
+            "ammo_cost        =   " . $formVars['ammo_cost']         . "," .
+            "ammo_book        = \"" . $formVars['ammo_book']         . "\"," .
             "ammo_page        =   " . $formVars['ammo_page'];
 
           if ($formVars['update'] == 0) {
@@ -125,7 +137,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
@@ -137,13 +149,14 @@
       $output .=   "<th class=\"ui-state-default\">Blast</th>\n";
       $output .=   "<th class=\"ui-state-default\">Armor</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
       $nuyen = '&yen;';
       $q_string  = "select ammo_id,class_name,ammo_name,ammo_rounds,ammo_mod,ammo_ap,ammo_blast,";
-      $q_string .= "ammo_armor,ammo_rating,ammo_avail,ammo_perm,ammo_cost,ver_book,ammo_page ";
+      $q_string .= "ammo_armor,ammo_rating,ammo_avail,ammo_perm,ammo_basetime,ammo_duration,ammo_index,ammo_cost,ver_book,ammo_page ";
       $q_string .= "from ammo ";
       $q_string .= "left join class on class.class_id = ammo.ammo_class ";
       $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
@@ -161,7 +174,13 @@
 
           $ammo_rating = return_Rating($a_ammo['ammo_rating']);
 
-          $ammo_avail = return_Avail($a_ammo['ammo_avail'], $a_ammo['ammo_perm']);
+          $ammo_avail = return_Avail($a_ammo['ammo_avail'], $a_ammo['ammo_perm'], $a_ammo['ammo_basetime'], $a_ammo['ammo_duration']);
+
+          $ammo_index = return_StreetIndex($a_ammo['ammo_index']);
+
+          $ammo_cost = return_Cost($a_ammo['ammo_cost']);
+
+          $ammo_book = return_Book($a_ammo['ver_book'], $a_ammo['ammo_page']);
 
           $class = return_Class($a_ammo['ammo_perm']);
 
@@ -178,9 +197,9 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_ammo['ammo_id']                                                   . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                               . "</td>\n";
@@ -193,8 +212,9 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_blast']                                                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_armor']                                                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $ammo_avail                                                          . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . number_format($a_ammo['ammo_cost'], 0, '.', ',') . $nuyen            . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ver_book']    . ": " . $a_ammo['ammo_page']                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $ammo_index                                                          . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $ammo_cost                                                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $ammo_book                                                           . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
@@ -217,6 +237,9 @@
       print "document.dialog.ammo_armor.value = '';\n";
       print "document.dialog.ammo_avail.value = '';\n";
       print "document.dialog.ammo_perm.value = '';\n";
+      print "document.dialog.ammo_basetime.value = '';\n";
+      print "document.dialog.ammo_duration.value = 0;\n";
+      print "document.dialog.ammo_index.value = '';\n";
       print "document.dialog.ammo_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

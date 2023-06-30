@@ -62,19 +62,22 @@ function attach_ammo(p_script_url, update) {
   aa_url  = '?update='   + update;
   aa_url += "&id="       + aa_form.id.value;
 
-  aa_url += "&ammo_class="   + encode_URI(aa_form.ammo_class.value);
-  aa_url += "&ammo_name="    + encode_URI(aa_form.ammo_name.value);
-  aa_url += "&ammo_rounds="  + encode_URI(aa_form.ammo_rounds.value);
-  aa_url += "&ammo_rating="  + encode_URI(aa_form.ammo_rating.value);
-  aa_url += "&ammo_mod="     + encode_URI(aa_form.ammo_mod.value);
-  aa_url += "&ammo_ap="      + encode_URI(aa_form.ammo_ap.value);
-  aa_url += "&ammo_blast="   + encode_URI(aa_form.ammo_blast.value);
-  aa_url += "&ammo_armor="   + encode_URI(aa_form.ammo_armor.value);
-  aa_url += "&ammo_avail="   + encode_URI(aa_form.ammo_avail.value);
-  aa_url += "&ammo_perm="    + encode_URI(aa_form.ammo_perm.value);
-  aa_url += "&ammo_cost="    + encode_URI(aa_form.ammo_cost.value);
-  aa_url += "&ammo_book="    + encode_URI(aa_form.ammo_book.value);
-  aa_url += "&ammo_page="    + encode_URI(aa_form.ammo_page.value);
+  aa_url += "&ammo_class="     + encode_URI(aa_form.ammo_class.value);
+  aa_url += "&ammo_name="      + encode_URI(aa_form.ammo_name.value);
+  aa_url += "&ammo_rounds="    + encode_URI(aa_form.ammo_rounds.value);
+  aa_url += "&ammo_rating="    + encode_URI(aa_form.ammo_rating.value);
+  aa_url += "&ammo_mod="       + encode_URI(aa_form.ammo_mod.value);
+  aa_url += "&ammo_ap="        + encode_URI(aa_form.ammo_ap.value);
+  aa_url += "&ammo_blast="     + encode_URI(aa_form.ammo_blast.value);
+  aa_url += "&ammo_armor="     + encode_URI(aa_form.ammo_armor.value);
+  aa_url += "&ammo_avail="     + encode_URI(aa_form.ammo_avail.value);
+  aa_url += "&ammo_perm="      + encode_URI(aa_form.ammo_perm.value);
+  aa_url += "&ammo_basetime="  + encode_URI(aa_form.ammo_basetime.value);
+  aa_url += "&ammo_duration="  + encode_URI(aa_form.ammo_duration.value);
+  aa_url += "&ammo_index="     + encode_URI(aa_form.ammo_index.value);
+  aa_url += "&ammo_cost="      + encode_URI(aa_form.ammo_cost.value);
+  aa_url += "&ammo_book="      + encode_URI(aa_form.ammo_book.value);
+  aa_url += "&ammo_page="      + encode_URI(aa_form.ammo_page.value);
 
   script = document.createElement('script');
   script.src = p_script_url + aa_url;
@@ -95,8 +98,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
-    width:  820,
+    height: 425,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogAmmunition" ).hide();
@@ -183,15 +186,13 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogAmmunition" title="Ammunition">
+<div id="dialogAmmunition" title="Ammunition Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="6">Ammunition Form</th>
-</tr>
 <tr>
   <td class="ui-widget-content">Class <select name="ammo_class">
 <?php
@@ -206,17 +207,49 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Name <input type="text" name="ammo_name" size="20"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Rounds <input type="text" name="ammo_rounds" size="4"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Rating <input type="text" name="ammo_rating" size="4"></td>
+</tr>
+<tr>
   <td class="ui-widget-content" colspan="2">Damage Modifier <input type="text" name="ammo_mod" size="15"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">AP Modifier <input type="text" name="ammo_ap" size="5"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Blast <input type="text" name="ammo_blast" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Armor Used <input type="text" name="ammo_armor" size="3"></td>
-  <td class="ui-widget-content">Avail <input type="text" name="ammo_avail" size="3"><input type="text" name="ammo_perm" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Avail <input type="text" name="ammo_avail" size="3"><input type="text" name="ammo_perm" size="3"> Base Time <input type="text" name="ammo_basetime" size="6"> Duration <select name="ammo_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="ammo_index" size="6"> (sr3)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="ammo_cost" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="ammo_book">
 <?php
   $q_string  = "select ver_id,ver_short ";

@@ -31,6 +31,9 @@
         $formVars['ware_capacity']  = clean($_GET['ware_capacity'], 10);
         $formVars['ware_avail']     = clean($_GET['ware_avail'],    10);
         $formVars['ware_perm']      = clean($_GET['ware_perm'],     10);
+        $formVars['ware_basetime']  = clean($_GET['ware_basetime'], 10);
+        $formVars['ware_duration']  = clean($_GET['ware_duration'], 10);
+        $formVars['ware_index']     = clean($_GET['ware_index'],    10);
         $formVars['ware_cost']      = clean($_GET['ware_cost'],     10);
         $formVars['ware_book']      = clean($_GET['ware_book'],     10);
         $formVars['ware_page']      = clean($_GET['ware_page'],     10);
@@ -55,6 +58,12 @@
         if ($formVars['ware_avail'] == '') {
           $formVars['ware_avail'] = 0;
         }
+        if ($formVars['ware_basetime'] == '') {
+          $formVars['ware_basetime'] = 0;
+        }
+        if ($formVars['ware_index'] == '') {
+          $formVars['ware_index'] = 0.00;
+        }
         if ($formVars['ware_cost'] == '') {
           $formVars['ware_cost'] = 0;
         }
@@ -74,6 +83,9 @@
             "ware_capacity   =   " . $formVars['ware_capacity']   . "," .
             "ware_avail      =   " . $formVars['ware_avail']      . "," .
             "ware_perm       = \"" . $formVars['ware_perm']       . "\"," .
+            "ware_basetime   =   " . $formVars['ware_basetime']   . "," .
+            "ware_duration   =   " . $formVars['ware_duration']   . "," .
+            "ware_index      =   " . $formVars['ware_index']      . "," .
             "ware_cost       =   " . $formVars['ware_cost']       . "," .
             "ware_book       = \"" . $formVars['ware_book']       . "\"," .
             "ware_page       =   " . $formVars['ware_page'];
@@ -133,7 +145,7 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+        $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
         $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
@@ -141,13 +153,14 @@
         $output .=   "<th class=\"ui-state-default\">Essence</th>\n";
         $output .=   "<th class=\"ui-state-default\">Capacity</th>\n";
         $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
         $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
         $output .=   "<th class=\"ui-state-default\">Book</th>\n";
         $output .= "</tr>\n";
 
         $nuyen = '&yen;';
         $q_string  = "select ware_id,ware_name,ware_rating,ware_essence,ware_capacity,";
-        $q_string .= "ware_avail,ware_perm,ware_cost,ver_book,ware_page ";
+        $q_string .= "ware_avail,ware_perm,ware_basetime,ware_duration,ware_index,ware_cost,ver_book,ware_page ";
         $q_string .= "from cyberware ";
         $q_string .= "left join versions on versions.ver_id = cyberware.ware_book ";
         $q_string .= "left join class on class.class_id = cyberware.ware_class ";
@@ -167,12 +180,11 @@
 
             $capacity = return_Capacity($a_cyberware['ware_capacity']);
 
-            $avail = return_Avail($a_cyberware['ware_avail'], $a_cyberware['ware_perm']);
+            $avail = return_Avail($a_cyberware['ware_avail'], $a_cyberware['ware_perm'], $a_cyberware['ware_basetime'], $a_cyberware['ware_duration']);
 
-            $cost = '';
-            if ($a_cyberware['ware_cost'] > 0) {
-              $cost = number_format($a_cyberware['ware_cost'], 0, '.', ',') . $nuyen;
-            }
+            $index = return_StreetIndex($a_cyberware['ware_index']);
+
+            $cost = return_Cost($a_cyberware['ware_cost']);
 
             $book = $a_cyberware['ver_book'] . ": " . $a_cyberware['ware_page'];
 
@@ -202,6 +214,7 @@
             $output .= "  <td class=\"" . $class . " delete\">"              . $essence                             . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $capacity                            . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $avail                               . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $index                               . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $cost                                . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $book                                . "</td>\n";
             $output .= "</tr>\n";
@@ -225,6 +238,9 @@
       print "document.dialog.ware_capacity.value = '';\n";
       print "document.dialog.ware_avail.value = '';\n";
       print "document.dialog.ware_perm.value = '';\n";
+      print "document.dialog.ware_basetime.value = '';\n";
+      print "document.dialog.ware_duration.value = 0;\n";
+      print "document.dialog.ware_index.value = '';\n";
       print "document.dialog.ware_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

@@ -70,6 +70,9 @@ function attach_armor(p_script_url, update) {
   aa_url += "&arm_capacity="  + encode_URI(aa_form.arm_capacity.value);
   aa_url += "&arm_avail="     + encode_URI(aa_form.arm_avail.value);
   aa_url += "&arm_perm="      + encode_URI(aa_form.arm_perm.value);
+  aa_url += "&arm_basetime="  + encode_URI(aa_form.arm_basetime.value);
+  aa_url += "&arm_duration="  + encode_URI(aa_form.arm_duration.value);
+  aa_url += "&arm_index="     + encode_URI(aa_form.arm_index.value);
   aa_url += "&arm_cost="      + encode_URI(aa_form.arm_cost.value);
   aa_url += "&arm_book="      + encode_URI(aa_form.arm_book.value);
   aa_url += "&arm_page="      + encode_URI(aa_form.arm_page.value);
@@ -93,7 +96,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 350,
+    height: 375,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -181,7 +184,7 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogArmor" title="Armor">
+<div id="dialogArmor" title="Armor Form">
 
 <form name="dialog">
 
@@ -222,7 +225,21 @@ $(document).ready( function() {
   <td class="ui-widget-content">Cost <input type="text" name="arm_cost" size="10"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="arm_avail" size="3"><input type="text" name="arm_perm" size="3"></td>
+  <td class="ui-widget-content">Avail <input type="text" name="arm_avail" size="3"><input type="text" name="arm_perm" size="3"> Base Time <input type="text" name="arm_basetime" size="6"> Duration <select name="arm_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="arm_index" size="6"> (sr3)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Book  <select name="arm_book">

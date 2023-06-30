@@ -428,12 +428,56 @@ function return_Capacity($p_capacity) {
   return($r_capacity);
 }
 
-function return_Avail($p_avail, $p_perm) {
+function return_Avail($p_avail, $p_perm, $p_basetime, $p_duration) {
   $r_avail = '--';
   if ($p_avail > 0) {
     $r_avail = $p_avail . $p_perm;
   }
+  if ($p_basetime > 0) {
+    $r_avail = $p_avail . "/" . $p_basetime . " " . $p_duration;
+  }
+# 0 == unset
+# 1 == Always
+# 2 == hrs
+# 3 == days
+# 4 == wks
+# 5 == mth
+# 6 == yr
+# 7 == Restricted
+# 8 == Never
+  if ($p_duration == 1) {
+    $r_avail = "Always";
+  }
+  if ($p_duration == 2) {
+    $r_avail = $p_avail . "/" . $p_basetime . " hrs";
+  }
+  if ($p_duration == 3) {
+    $r_avail = $p_avail . "/" . $p_basetime . " days";
+  }
+  if ($p_duration == 4) {
+    $r_avail = $p_avail . "/" . $p_basetime . " wks";
+  }
+  if ($p_duration == 5) {
+    $r_avail = $p_avail . "/" . $p_basetime . " mth";
+  }
+  if ($p_duration == 6) {
+    $r_avail = $p_avail . "/" . $p_basetime . " yr";
+  }
+  if ($p_duration == 7) {
+    $r_avail = "Restricted";
+  }
+  if ($p_duration == 8) {
+    $r_avail = "Never";
+  }
   return($r_avail);
+}
+
+function return_StreetIndex($p_index) {
+  $r_index = '--';
+  if ($p_index > 0) {
+    $r_index = $p_index;
+  }
+  return($r_index);
 }
 
 function return_Mode($p_mode1, $p_mode2, $p_mode3) {

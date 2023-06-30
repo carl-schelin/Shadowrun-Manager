@@ -118,7 +118,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
@@ -142,12 +142,15 @@
         while ($a_sprites = mysql_fetch_array($q_sprites)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.sprites.fill.php?id="  . $a_sprites['sprite_id'] . "');jQuery('#dialogSprite').dialog('open');return false;\">";
-          $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_sprite('add.sprite.del.php?id=" . $a_sprite['sprite_id'] . "');\">";
+          $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_sprite('add.sprite.del.php?id=" . $a_sprites['sprite_id'] . "');\">";
           $linkend = "</a>";
 
           $sprite_attack   = return_Sprite(0, $a_sprites['sprite_attack']);
+
           $sprite_sleaze   = return_Sprite(0, $a_sprites['sprite_sleaze']);
+
           $sprite_data     = return_Sprite(0, $a_sprites['sprite_data']);
+
           $sprite_firewall = return_Sprite(0, $a_sprites['sprite_firewall']);
 
           $sprite_book = return_Book($a_sprites['ver_book'], $a_sprites['sprite_page']);
@@ -156,7 +159,7 @@
           $q_string  = "select r_sprite_id ";
           $q_string .= "from r_sprite ";
           $q_string .= "where r_sprite_number = " . $a_sprites['sprite_id'] . " ";
-          $q_r_sprites = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_sprite) > 0) {
             while ($a_r_sprite = mysql_fetch_array($q_r_sprite)) {
               $total++;

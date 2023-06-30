@@ -140,7 +140,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Type</th>\n";
@@ -184,6 +184,22 @@
             $accessory = "Any Item";
           }
 
+          $acc_mount = return_Mount($a_accessory['acc_mount']);
+
+          $acc_essence = return_Essence($a_accessory['acc_essence']);
+
+          $acc_rating = return_Rating($a_accessory['acc_rating']);
+
+          $acc_capacity = return_Capacity($a_accessory['acc_capacity']);
+
+          $acc_avail = return_Avail($a_accessory['acc_avail'], $a_accessory['acc_perm'], $a_accessory['acc_basetime'], $a_accessory['acc_duration']);
+
+          $acc_index = return_StreetIndex($a_accessory['acc_index']);
+
+          $acc_cost = return_Cost($a_accessory['acc_cost']);
+
+          $acc_book = return_Book($a_accessory['ver_book'], $a_accessory['acc_page']);
+
           $class = return_Class($a_accessory['acc_perm']);
 
           $total = 0;
@@ -209,14 +225,14 @@
           $output .= "  <td class=\"" . $class . "\">"                     . $itemclass                                                        . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $accessory                                                        . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $a_accessory['acc_name']                                          . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Mount($a_accessory['acc_mount'])                           . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Essence($a_accessory['acc_essence'])                       . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Rating($a_accessory['acc_rating'])                         . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Capacity($a_accessory['acc_capacity'])                     . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Avail($a_accessory['acc_avail'], $a_accessory['acc_perm'], $a_accessory['acc_basetime'], $a_accessory['acc_duration']) . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_StreetIndex($a_accessory['acc_index'])                           . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Cost($a_accessory['acc_cost'])                             . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Book($a_accessory['ver_book'], $a_accessory['acc_page'])   . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_mount                                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_essence                                                      . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_rating                                                       . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_capacity                                                     . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_avail                                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_index                                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_cost                                                         . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $acc_book                                                         . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
@@ -238,6 +254,7 @@
       print "document.dialog.acc_avail.value = '';\n";
       print "document.dialog.acc_perm.value = '';\n";
       print "document.dialog.acc_basetime.value = '';\n";
+      print "document.dialog.acc_duration.value = 0;\n";
       print "document.dialog.acc_index.value = '';\n";
       print "document.dialog.acc_cost.value = '';\n";
 

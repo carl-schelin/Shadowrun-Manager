@@ -114,7 +114,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
@@ -140,10 +140,11 @@
 
           $class = return_Class($a_agents['agt_perm']);
 
-          $agt_avail = "-";
-          if ($a_agents['agt_avail'] != 0) {
-            $agt_avail = $a_agents['agt_avail'] . $a_agents['agt_perm'];
-          }
+          $agt_avail = return_Avail($a_agents['agt_avail'], $a_agents['agt_perm'], 0, 0);
+
+          $agt_cost = return_Cost($a_agents['agt_cost']);
+
+          $agt_book = return_Book($a_agents['ver_book'], $a_agents['agt_page']);
 
           $total = 0;
           $q_string  = "select r_agt_id ";
@@ -158,17 +159,17 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $a_agents['agt_id']                                                   . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">"              . $total                                                                . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $linkstart . $a_agents['agt_name']                                      . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"                           . $a_agents['agt_rating']                                               . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"                           . $agt_avail                                                             . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"                           . number_format($a_agents['agt_cost'], 0, '.', ',') . $nuyen            . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"                           . $a_agents['ver_book'] . ": " . $a_agents['agt_page']                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"                           . $agt_avail                                                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"                           . $agt_cost                                                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"                           . $agt_book                                                             . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
