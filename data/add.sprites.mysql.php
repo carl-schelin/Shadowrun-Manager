@@ -155,6 +155,8 @@
 
           $sprite_book = return_Book($a_sprites['ver_book'], $a_sprites['sprite_page']);
 
+          $class = "ui-widget-content";
+
           $total = 0;
           $q_string  = "select r_sprite_id ";
           $q_string .= "from r_sprite ";
@@ -168,20 +170,20 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_sprites['sprite_id']                      . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                       . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_sprites['sprite_name']         . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $sprite_attack                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $sprite_sleaze                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $sprite_data                                 . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $sprite_firewall                             . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . "(Lx2) + " . $a_sprites['sprite_initiative'] . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . "4d6"                                        . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $sprite_book                                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_sprites['sprite_id']                      . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                       . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_sprites['sprite_name']         . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $sprite_attack                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $sprite_sleaze                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $sprite_data                                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $sprite_firewall                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . "(Lx2) + " . $a_sprites['sprite_initiative'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . "4d6"                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $sprite_book                                 . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

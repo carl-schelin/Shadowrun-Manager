@@ -136,6 +136,8 @@
 
           $book = return_Book($a_metatypes['ver_book'], $a_metatypes['meta_page']);
 
+          $class = "ui-widget-content";
+
           $total = 0;
           $q_string  = "select runr_metatype ";
           $q_string .= "from runners ";
@@ -149,18 +151,18 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_metatypes['meta_id']              . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_metatypes['meta_name'] . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_metatypes['meta_walk']            . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_metatypes['meta_run']             . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_metatypes['meta_swim']            . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_metatypes['meta_notes']           . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $book                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_metatypes['meta_id']              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_metatypes['meta_name'] . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_metatypes['meta_walk']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_metatypes['meta_run']             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_metatypes['meta_swim']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_metatypes['meta_notes']           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $book                                . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

@@ -130,6 +130,8 @@
             $maxlevel = "Limited by Magic";
           }
 
+          $class = "ui-widget-content";
+
           $total = 0;
           $q_string  = "select r_adp_id ";
           $q_string .= "from r_adept ";
@@ -143,17 +145,17 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_adept['adp_id']                                      . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                  . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_adept['adp_name']                         . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                     . $a_adept['adp_desc']                                    . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_adept['adp_power']                                   . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $maxlevel                                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . return_Book($a_adept['ver_book'], $a_adept['adp_page']) . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_adept['adp_id']                                      . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                  . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_adept['adp_name']                         . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $a_adept['adp_desc']                                    . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_power']                                   . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $maxlevel                                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . return_Book($a_adept['ver_book'], $a_adept['adp_page']) . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

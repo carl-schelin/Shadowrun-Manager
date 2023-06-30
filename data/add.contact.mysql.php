@@ -112,15 +112,14 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_contact('add.contact.del.php?id=" . $a_contact['con_id'] . "');\">";
           $linkend = "</a>";
 
-          $ver_book = '';
-          if ($a_contact['con_page'] > 0) {
-            $ver_book = $a_contact['ver_book'] . ": " . $a_contact['con_page'];
-          }
-
           $character = $a_contact['runr_archetype'] . " (" . $a_contact['runr_name'] . ")";
           if ($a_contact['runr_archetype'] == '') {
             $character = "";
           }
+
+          $con_book = return_Book($a_contact['ver_book'], $a_contact['con_page']);
+
+          $class = "ui-widget-content";
 
           $total = 0;
           $q_string  = "select r_con_id ";
@@ -135,17 +134,17 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                           . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                           . "</td>\n";
           }
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_contact['con_id']                                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                             . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_contact['con_name']                                  . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                     . $a_contact['con_archetype']                                        . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                     . $character                                                         . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $ver_book                                                          . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"                     . $a_contact['usr_last'] . ", " . $a_contact['usr_first']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_contact['con_id']                                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_contact['con_name']                                  . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $a_contact['con_archetype']                                        . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $character                                                         . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $con_book                                                          . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $a_contact['usr_last'] . ", " . $a_contact['usr_first']            . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

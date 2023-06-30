@@ -132,6 +132,10 @@
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_qualities('add.qualities.del.php?id=" . $a_qualities['qual_id'] . "');\">";
             $linkend = "</a>";
 
+            $qual_book = return_Book($a_qualities['ver_book'], $a_qualities['qual_page']);
+
+            $class = "ui-widget-content";
+
             $total = 0;
             $q_string  = "select r_qual_id ";
             $q_string .= "from r_qualities ";
@@ -145,16 +149,16 @@
 
             $output .= "<tr>\n";
             if ($total > 0) {
-              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                    . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                        . "</td>\n";
             }
-            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_qualities['qual_id']                                     . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $total                                                      . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_qualities['qual_name']                        . $linkend . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_qualities['qual_value']                                  . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content\">"                     . $a_qualities['qual_desc']                                   . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"              . $a_qualities['ver_book'] . ": " . $a_qualities['qual_page'] . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_qualities['qual_id']              . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_qualities['qual_name'] . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_qualities['qual_value']           . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"                     . $a_qualities['qual_desc']            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $qual_book                           . "</td>\n";
             $output .= "</tr>\n";
           }
         } else {

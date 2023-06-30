@@ -178,9 +178,9 @@
 
           $output .= "<tr>\n";
           if ($total > 0) {
-            $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
           } else {
-            $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+            $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_command['cmd_id']                                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                             . "</td>\n";

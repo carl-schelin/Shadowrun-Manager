@@ -142,7 +142,7 @@
             "veh_perm         = \"" . $formVars['veh_perm']         . "\"," .
             "veh_basetime     =   " . $formVars['veh_basetime']     . "," .
             "veh_duration     =   " . $formVars['veh_duration']     . "," .
-            "veh_index        =   " . $formVars['veh_indesx']       . "," .
+            "veh_index        =   " . $formVars['veh_index']        . "," .
             "veh_cost         =   " . $formVars['veh_cost']         . "," .
             "veh_book         = \"" . $formVars['veh_book']         . "\"," .
             "veh_page         =   " . $formVars['veh_page'];
@@ -285,9 +285,9 @@
 
             $output .= "<tr>\n";
             if ($total > 0) {
-              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
             }
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_vehicles['veh_id']               . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                              . "</td>\n";

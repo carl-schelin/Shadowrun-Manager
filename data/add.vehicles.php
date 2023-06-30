@@ -291,13 +291,13 @@ $(document).ready( function() {
 </select></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Type <input type="text" name="veh_type" size="30"></td>
+  <td class="ui-widget-content">Type <input type="text" name="veh_type" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Make <input type="text" name="veh_make" size="30"></td>
+  <td class="ui-widget-content">Make <input type="text" name="veh_make" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Model <input type="text" name="veh_model" size="30"></td>
+  <td class="ui-widget-content">Model <input type="text" name="veh_model" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Handling <input type="text" name="veh_onhand" size="3">/<input type="text" name="veh_offhand" size="3"></td>
@@ -364,7 +364,7 @@ $(document).ready( function() {
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>
-</select>: <input type="text" name="veh_page" size="3"></td>
+</select> <input type="text" name="veh_page" size="3"></td>
 </tr>
 </table>
 

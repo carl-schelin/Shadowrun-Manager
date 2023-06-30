@@ -186,7 +186,7 @@
 
             $cost = return_Cost($a_cyberware['ware_cost']);
 
-            $book = $a_cyberware['ver_book'] . ": " . $a_cyberware['ware_page'];
+            $book = return_Book($a_cyberware['ver_book'], $a_cyberware['ware_page']);
 
             $class = return_Class($a_cyberware['ware_perm']);
 
@@ -203,9 +203,9 @@
 
             $output .= "<tr>\n";
             if ($total > 0) {
-              $output .=   "<td class=\"ui-widget-content delete\">In use</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"ui-widget-content delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
             }
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_cyberware['ware_id']              . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
