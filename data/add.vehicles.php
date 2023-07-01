@@ -340,10 +340,10 @@ $(document).ready( function() {
   <td class="ui-widget-content">Load <input type="text" name="veh_load" size="3"> (sr3)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Hardpoints <input type="text" name="veh_hardpoints" size="3"></td>
+  <td class="ui-widget-content">Hardpoints <input type="text" name="veh_hardpoints" size="3"> (sr1/sr2)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Firmpoints <input type="text" name="veh_firmpoints" size="3"></td>
+  <td class="ui-widget-content">Firmpoints <input type="text" name="veh_firmpoints" size="3"> (sr1/sr2)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Seats <input type="text" name="veh_onseats" size="3">/<input type="text" name="veh_offseats" size="3"> (sr3/sr5/sr6)</td>
