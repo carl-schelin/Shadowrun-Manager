@@ -611,7 +611,7 @@ function return_Handling($p_onhand, $p_offhand) {
     $r_handling = $p_onhand . "/" . $p_offhand;
   } else {
     if ($p_onhand == 0) {
-      $r_handling = '';
+      $r_handling = '--';
     } else {
       $r_handling = $p_onhand;
     }
@@ -624,7 +624,7 @@ function return_Speed($p_onspeed, $p_offspeed) {
     $r_speed = $p_onspeed . "/" . $p_offspeed;
   } else {
     if ($p_onspeed == 0) {
-      $r_speed = '';
+      $r_speed = '--';
     } else {
       $r_speed = $p_onspeed;
     }
@@ -637,7 +637,7 @@ function return_Acceleration($p_onacc, $p_offacc) {
     $r_acceleration = $p_onacc . "/" . $p_offacc;
   } else {
     if ($p_onacc == 0) {
-      $r_acceleration = '';
+      $r_acceleration = '--';
     } else {
       $r_acceleration = $p_onacc;
     }
@@ -650,7 +650,7 @@ function return_Seats($p_onseats, $p_offseats) {
     $r_seats = $p_onseats . "/" . $p_offseats;
   } else {
     if ($p_onseats == 0) {
-      $r_seats = '';
+      $r_seats = '--';
     } else {
       $r_seats = $p_onseats;
     }
