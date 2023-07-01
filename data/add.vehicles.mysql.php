@@ -269,7 +269,7 @@
         $q_string .= "left join class on class.class_id = vehicles.veh_class ";
         $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
         $q_string .= "where class_name like \"" . $veh_name . "%\" and ver_admin = 1 ";
-        $q_string .= "order by veh_make,veh_model,ver_version ";
+        $q_string .= "order by veh_make,veh_model,ver_version,veh_cost ";
         $q_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_vehicles) > 0) {
           while ($a_vehicles = mysql_fetch_array($q_vehicles)) {
