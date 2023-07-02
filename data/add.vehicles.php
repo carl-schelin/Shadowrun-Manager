@@ -172,16 +172,25 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
+<p><strong>Vehicles</strong></p>
+
+<p>This section lets you enter the statistics for vehicles from various Shadowrun systems. There are a broad range of 
+column headers and not all of them are relevant to every Shadowrun edition.</p>
+
 <ul>
-  <li><strong>Vehicles Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
+  <li>Total: This column lists the number of characters that have added this vehicle or drone to their character. Until this value reaches 0, you cannot delete this vehicle.</li>
+  <li>
+</ul>
+
+<p><strong>6Th World</strong> - Page 198</p>
+
+<p>All movement statistics are in Meters per Combat Round. A Combat Round is 3 seconds.</p>
+
+<ul>
+  <li>Handling is the value used when doing maneuvers</li>
+  <li>Speed Interval. At this interval, remove 1 from your dice pool when making Handling tests</li>
+  <li>Acceleration is maximum meters of acceleration per combaat round.</li>
+  <li>Speed is the maximum speed per combat round of the vehicle.</li>
 </ul>
 
 </div>

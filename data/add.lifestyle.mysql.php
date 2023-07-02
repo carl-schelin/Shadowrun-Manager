@@ -24,6 +24,8 @@
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                   = clean($_GET['id'],                  10);
         $formVars['life_style']           = clean($_GET['life_style'],          60);
+        $formVars['life_mincost']         = clean($_GET['life_mincost'],        10);
+        $formVars['life_maxcost']         = clean($_GET['life_maxcost'],        10);
         $formVars['life_book']            = clean($_GET['life_book'],           10);
         $formVars['life_page']            = clean($_GET['life_page'],           10);
 
@@ -33,12 +35,20 @@
         if ($formVars['life_page'] == '') {
           $formVars['life_page'] = 0;
         }
+        if ($formVars['life_mincost'] == '') {
+          $formVars['life_mincost'] = 0;
+        }
+        if ($formVars['life_mincost'] == '') {
+          $formVars['life_maxcost'] = 0;
+        }
 
         if (strlen($formVars['life_style']) > 0) {
           logaccess($_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "life_style            = \"" . $formVars['life_style']           . "\"," .
+            "life_mincost          =   " . $formVars['life_mincost']         . "," .
+            "life_maxcost          =   " . $formVars['life_maxcost']         . "," .
             "life_book             = \"" . $formVars['life_book']            . "\"," .
             "life_page             =   " . $formVars['life_page'];
 
@@ -89,7 +99,7 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select life_id,life_style,ver_book,life_page ";
+      $q_string  = "select life_id,life_style,life_mincost,life_maxcost,ver_book,life_page ";
       $q_string .= "from lifestyle ";
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -101,6 +111,8 @@
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.lifestyle.fill.php?id="  . $a_lifestyle['life_id'] . "');jQuery('#dialogLifestyle').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_lifestyle('add.lifestyle.del.php?id=" . $a_lifestyle['life_id'] . "');\">";
           $linkend = "</a>";
+
+          $life_cost = return_Cost($a_lifestyle['life_mincost'], $a_lifestyle['life_maxcost']);
 
           $life_book = return_Book($a_lifestyle['ver_book'], $a_lifestyle['life_page']);
 
@@ -126,6 +138,7 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_lifestyle['life_id']               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_lifestyle['life_style'] . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $life_cost                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $life_book                            . "</td>\n";
           $output .= "</tr>\n";
         }
@@ -140,6 +153,8 @@
       print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
 
       print "document.dialog.life_style.value = '';\n";
+      print "document.dialog.life_mincost.value = '';\n";
+      print "document.dialog.life_maxcost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";
 

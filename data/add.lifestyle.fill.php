@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from lifestyle");
 
-      $q_string  = "select life_style,life_book,life_page ";
+      $q_string  = "select life_style,life_mincost,life_maxcost,life_book,life_page ";
       $q_string .= "from lifestyle ";
       $q_string .= "where life_id = " . $formVars['id'];
       $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -30,6 +30,8 @@
       mysql_free_result($q_lifestyle);
 
       print "document.dialog.life_style.value = '"           . mysql_real_escape_string($a_lifestyle['life_style'])             . "';\n";
+      print "document.dialog.life_mincost.value = '"         . mysql_real_escape_string($a_lifestyle['life_mincost'])           . "';\n";
+      print "document.dialog.life_maxcost.value = '"         . mysql_real_escape_string($a_lifestyle['life_maxcost'])           . "';\n";
       print "document.dialog.life_book.value = '"            . mysql_real_escape_string($a_lifestyle['life_book'])              . "';\n";
       print "document.dialog.life_page.value = '"            . mysql_real_escape_string($a_lifestyle['life_page'])              . "';\n";
 
