@@ -415,7 +415,7 @@
 
 # r_lifestyle - life_cost and r_life_months
   $lifestyle = '';
-#  $q_string  = "select r_life_months,life_cost ";
+  $q_string  = "select r_life_months,life_mincost,life_maxcost ";
   $q_string  = "select r_life_months ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
@@ -433,7 +433,7 @@
       $multiplier = 2;
     }
 
-#    $totalcosts   += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_cost'] * $multiplier);
+    $totalcosts   += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_mincost'] * $multiplier);
     $lifestyle = '18';
   }
 

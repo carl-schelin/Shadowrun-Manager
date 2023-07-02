@@ -252,7 +252,9 @@
       $output .= "</tr>\n";
 
       $costtotal = 0;
-      $q_string  = "select r_life_id,r_life_desc,r_life_months,life_id,life_style,r_life_comforts,r_life_necessities,r_life_security,r_life_neighborhood,r_life_entertainment,r_life_space,ver_book,life_page ";
+      $q_string  = "select r_life_id,r_life_desc,r_life_months,life_id,life_style,r_life_comforts,r_life_necessities,";
+      $q_string .= "r_life_security,r_life_neighborhood,r_life_entertainment,r_life_space,life_mincost,life_maxcost,";
+      $q_string .= "ver_book,life_page ";
       $q_string .= "from r_lifestyle ";
       $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
@@ -266,9 +268,9 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_lifestyle('lifestyle.del.php?id="  . $a_r_lifestyle['r_life_id'] . "');\">";
           $linkend   = "</a>";
 
-#          $costtotal += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_cost'] * $multiplier);
+          $costtotal += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_mincost'] * $multiplier);
 
-#          $life_cost = return_Cost(($a_r_lifestyle['life_cost'] * $multiplier));
+          $life_cost = return_Cost(($a_r_lifestyle['life_mincost'] * $multiplier));
 
           $life_book = return_Book($a_r_lifestyle['ver_book'], $a_r_lifestyle['life_page']);
 
