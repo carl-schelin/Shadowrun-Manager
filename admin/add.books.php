@@ -90,7 +90,7 @@ $(document).ready( function() {
   $( "#dialogBook" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 275,
+    height: 300,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -243,11 +243,12 @@ $("#button-update").button("disable");
 </div>
 
 
-<div id="dialogBook" title="Books">
+<div id="dialogBook" title="Book Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
 <tr>
   <td class="ui-widget-content" colspan="5">Book <input type="text" name="ver_book" size="40"></td>
