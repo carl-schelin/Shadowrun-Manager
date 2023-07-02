@@ -63,6 +63,8 @@ function attach_lifestyle(p_script_url, update) {
   al_url += "&id="       + al_form.id.value;
 
   al_url += "&life_style="           + encode_URI(al_form.life_style.value);
+  al_url += "&life_mincost="         + encode_URI(al_form.life_mincost.value);
+  al_url += "&life_maxcost="         + encode_URI(al_form.life_maxcost.value);
   al_url += "&life_book="            + encode_URI(al_form.life_book.value);
   al_url += "&life_page="            + encode_URI(al_form.life_page.value);
 
@@ -84,7 +86,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
+    height: 225,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -172,17 +174,21 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogLifestyle" title="Lifestyle">
+<div id="dialogLifestyle" title="Lifestyle Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default" colspan="8">Lifestyle Form</th>
+  <td class="ui-widget-content">Liftstyle <input type="text" name="life_style" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Liftstyle <input type="text" name="life_style" size="30"></td>
+  <td class="ui-widget-content">Minimum Cost <input type="text" name="life_mincost" size="10"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Maximum Cost <input type="text" name="life_maxcost" size="10"> (sr1)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Book  <select name="life_book">

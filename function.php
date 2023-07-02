@@ -666,11 +666,14 @@ function return_Book($p_book, $p_page) {
   return($r_book);
 }
 
-function return_Cost($p_cost) {
+function return_Cost($p_min, $p_max = 0) {
   $nuyen = '&yen;';
   $r_cost = "No Charge";
-  if ($p_cost > 0) {
-    $r_cost = number_format($p_cost, 0, '.', ',') . $nuyen;
+  if ($p_min > 0) {
+    $r_cost = number_format($p_min, 0, '.', ',') . $nuyen;
+  }
+  if ($p_max > 0) {
+    $r_cost .= "-" . number_format($p_max, 0, '.', ',') . $nuyen;
   }
   return($r_cost);
 }
