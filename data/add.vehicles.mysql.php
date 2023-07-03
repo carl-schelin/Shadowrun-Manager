@@ -300,7 +300,7 @@
             $kph = 0;
             $mph = 0;
             if ($a_vehicles['ver_version'] == 6.0) {
-              $kph = number_format((($a_vehicles['veh_speed'] / 3) * 3.6), 0, '.', ',');
+              $kph = number_format((($a_vehicles['veh_onspeed'] / 3) * 3.6), 0, '.', ',');
               $mph = number_format(($kph * 1.609), 0, '.', ',');
             }
 
