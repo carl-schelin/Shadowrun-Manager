@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from complexform");
 
-      $q_string  = "select form_name,form_target,form_duration,form_fading,form_book,form_page ";
+      $q_string  = "select form_name,form_target,form_duration,form_level,form_fading,form_book,form_page ";
       $q_string .= "from complexform ";
       $q_string .= "where form_id = " . $formVars['id'];
       $q_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -35,6 +35,36 @@
       print "document.dialog.form_fading.value = '"   . mysql_real_escape_string($a_complexform['form_fading'])   . "';\n";
       print "document.dialog.form_book.value = '"     . mysql_real_escape_string($a_complexform['form_book'])     . "';\n";
       print "document.dialog.form_page.value = '"     . mysql_real_escape_string($a_complexform['form_page'])     . "';\n";
+
+      if ($a_complexform['form_level']) {
+        print "document.dialog.form_level.checked = true;\n";
+      } else {
+        print "document.dialog.form_level.checked = false;\n";
+      }
+
+      print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
+      print "$(\"#button-update\").button(\"enable\");\n";
+
+    } else {
+      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+    }
+  }
+?>
+
+
+
+
+
+      if ($a_versions['ver_active']) {
+        print "document.dialog.ver_active.checked = true;\n";
+      } else {
+        print "document.dialog.ver_active.checked = false;\n";
+      }
+      if ($a_versions['ver_admin']) {
+        print "document.dialog.ver_admin.checked = true;\n";
+      } else {
+        print "document.dialog.ver_admin.checked = false;\n";
+      }
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";

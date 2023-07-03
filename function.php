@@ -666,6 +666,24 @@ function return_Book($p_book, $p_page) {
   return($r_book);
 }
 
+function return_Complex($p_fading, $p_level) {
+  $r_level = '';
+  if ($p_level > 0) {
+    $r_level = "L";
+  }
+
+# set negative
+  if ($p_fading < 0) {
+    $r_fading = $r_level . " " . $p_fading;
+  }
+# set positive
+  if ($p_fading > 0) {
+    $r_fading = $r_level . " +" . $p_fading;
+  }
+
+  return(trim($r_fading));
+}
+
 function return_Cost($p_min, $p_max = 0) {
   $nuyen = '&yen;';
   $r_cost = "No Charge";

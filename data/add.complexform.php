@@ -65,6 +65,7 @@ function attach_complexform(p_script_url, update) {
   ac_url += "&form_name="        + encode_URI(ac_form.form_name.value);
   ac_url += "&form_target="      + encode_URI(ac_form.form_target.value);
   ac_url += "&form_duration="    + encode_URI(ac_form.form_duration.value);
+  ac_url += "&form_level="       + encode_URI(ac_form.form_level.value);
   ac_url += "&form_fading="      + encode_URI(ac_form.form_fading.value);
   ac_url += "&form_book="        + encode_URI(ac_form.form_book.value);
   ac_url += "&form_page="        + encode_URI(ac_form.form_page.value);
@@ -88,8 +89,8 @@ $(document).ready( function() {
   $( "#dialogForm" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 185,
-    width:  540,
+    height: 225,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogForm" ).hide();
@@ -191,10 +192,8 @@ $("#button-update").button("disable");
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
+
 <table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="6">Resonance Library</th>
-</tr>
 <tr>
   <td class="ui-widget-content" colspan="2">Complex Form <input type="text" name="form_name" size="30"></td>
   <td class="ui-widget-content">Target <select name="form_target">
@@ -211,7 +210,14 @@ $("#button-update").button("disable");
     <option value="1">Permanent</option>
     <option value="2">Sustained</option>
 </select></td>
-  <td class="ui-widget-content">Fading Value <input type="text" name="form_fading" size="8"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Use Complex Form Level? <input type="checkbox" name="form_level"> (sr5)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Fading Value <input type="text" name="form_fading" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book  <select name="form_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
