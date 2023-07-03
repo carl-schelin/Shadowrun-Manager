@@ -89,7 +89,7 @@ $(document).ready( function() {
   $( "#dialogForm" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 225,
+    height: 275,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -195,7 +195,9 @@ $("#button-update").button("disable");
 
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="ui-widget-content" colspan="2">Complex Form <input type="text" name="form_name" size="30"></td>
+  <td class="ui-widget-content">Complex Form <input type="text" name="form_name" size="30"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Target <select name="form_target">
     <option value="0">Device</option>
     <option value="1">File</option>
