@@ -310,7 +310,7 @@
               $mph = number_format(($kph / 1.609), 0, '.', ',');
               $kph = number_format($kph, 0, '.', ',');
             }
-            if ($a_vehicles['ver_version'] == 5.0) {
+            if ($a_vehicles['ver_version'] == 3.0 || $a_vehicles['ver_version'] == 5.0) {
               $kph = ($a_vehicles['veh_offspeed'] / 3) * 3.6;
               $mph = number_format(($kph / 1.609), 0, '.', ',');
               $kph = number_format($kph, 0, '.', ',');
