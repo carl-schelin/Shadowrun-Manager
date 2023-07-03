@@ -116,7 +116,7 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select form_id,form_name,form_target,form_duration,form_fading,ver_book,form_page ";
+      $q_string  = "select form_id,form_name,form_target,form_duration,form_level,form_fading,ver_book,form_page ";
       $q_string .= "from complexform ";
       $q_string .= "left join versions on versions.ver_id = complexform.form_book ";
       $q_string .= "where ver_admin = 1 ";
