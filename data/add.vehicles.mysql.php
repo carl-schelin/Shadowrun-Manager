@@ -30,6 +30,7 @@
         $formVars['veh_onhand']       = clean($_GET['veh_onhand'],       10);
         $formVars['veh_offhand']      = clean($_GET['veh_offhand'],      10);
         $formVars['veh_interval']     = clean($_GET['veh_interval'],     10);
+        $formVars['veh_rate']         = clean($_GET['veh_rate'],         10);
         $formVars['veh_onspeed']      = clean($_GET['veh_onspeed'],      10);
         $formVars['veh_offspeed']     = clean($_GET['veh_offspeed'],     10);
         $formVars['veh_onacc']        = clean($_GET['veh_onacc'],        10);
@@ -66,6 +67,9 @@
         }
         if ($formVars['veh_interval'] == '') {
           $formVars['veh_interval'] = 0;
+        }
+        if ($formVars['veh_rate'] == '') {
+          $formVars['veh_rate'] = 0;
         }
         if ($formVars['veh_onspeed'] == '') {
           $formVars['veh_onspeed'] = 0;
@@ -142,6 +146,7 @@
             "veh_onhand       =   " . $formVars['veh_onhand']       . "," .
             "veh_offhand      =   " . $formVars['veh_offhand']      . "," .
             "veh_interval     =   " . $formVars['veh_interval']     . "," .
+            "veh_rate         =   " . $formVars['veh_rate']         . "," .
             "veh_onspeed      =   " . $formVars['veh_onspeed']      . "," .
             "veh_offspeed     =   " . $formVars['veh_offspeed']     . "," .
             "veh_onacc        =   " . $formVars['veh_onacc']        . "," .
