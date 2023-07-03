@@ -667,7 +667,8 @@ function return_Book($p_book, $p_page) {
 }
 
 function return_Complex($p_fading, $p_level) {
-  $r_level = '';
+# for 6th ed where some fading can be zero
+  $r_level = '0';
   if ($p_level > 0) {
     $r_level = "L";
   }
