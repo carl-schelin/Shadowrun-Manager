@@ -305,8 +305,12 @@
 
             $kph = 0;
             $mph = 0;
-            if ($a_vehicles['ver_version'] == 6.0 || $a_vehicles['veh_version'] == 4.5) {
+            if ($a_vehicles['ver_version'] == 4.5 || $a_vehicles['veh_version'] == 6.0) {
               $kph = number_format((($a_vehicles['veh_onspeed'] / 3) * 3.6), 0, '.', ',');
+              $mph = number_format(($kph / 1.609), 0, '.', ',');
+            }
+            if ($a_vehicles['veh_version'] == 5.0) {
+              $kph = number_format((($a_vehicles['veh_offspeed'] / 3) * 3.6), 0, '.', ',');
               $mph = number_format(($kph / 1.609), 0, '.', ',');
             }
 
