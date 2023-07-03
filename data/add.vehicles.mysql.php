@@ -30,6 +30,7 @@
         $formVars['veh_onhand']       = clean($_GET['veh_onhand'],       10);
         $formVars['veh_offhand']      = clean($_GET['veh_offhand'],      10);
         $formVars['veh_interval']     = clean($_GET['veh_interval'],     10);
+        $formVars['veh_rate']         = clean($_GET['veh_rate'],         10);
         $formVars['veh_onspeed']      = clean($_GET['veh_onspeed'],      10);
         $formVars['veh_offspeed']     = clean($_GET['veh_offspeed'],     10);
         $formVars['veh_onacc']        = clean($_GET['veh_onacc'],        10);
@@ -66,6 +67,9 @@
         }
         if ($formVars['veh_interval'] == '') {
           $formVars['veh_interval'] = 0;
+        }
+        if ($formVars['veh_rate'] == '') {
+          $formVars['veh_rate'] = 0;
         }
         if ($formVars['veh_onspeed'] == '') {
           $formVars['veh_onspeed'] = 0;
@@ -142,6 +146,7 @@
             "veh_onhand       =   " . $formVars['veh_onhand']       . "," .
             "veh_offhand      =   " . $formVars['veh_offhand']      . "," .
             "veh_interval     =   " . $formVars['veh_interval']     . "," .
+            "veh_rate         =   " . $formVars['veh_rate']         . "," .
             "veh_onspeed      =   " . $formVars['veh_onspeed']      . "," .
             "veh_offspeed     =   " . $formVars['veh_offspeed']     . "," .
             "veh_onacc        =   " . $formVars['veh_onacc']        . "," .
@@ -230,6 +235,7 @@
         $output .=   "<th class=\"ui-state-default\">Model</th>\n";
         $output .=   "<th class=\"ui-state-default\">Handling</th>\n";
         $output .=   "<th class=\"ui-state-default\">Interval</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Attribute</th>\n";
         $output .=   "<th class=\"ui-state-default\">Speed</th>\n";
         $output .=   "<th class=\"ui-state-default\">kph/mph</th>\n";
         $output .=   "<th class=\"ui-state-default\">Accel</th>\n";
@@ -262,7 +268,7 @@
         }
 
         $nuyen = '&yen;';
-        $q_string  = "select veh_id,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_interval,";
+        $q_string  = "select veh_id,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_rate,veh_interval,";
         $q_string .= "veh_onspeed,veh_offspeed,veh_onacc,veh_offacc,veh_pilot,veh_body,veh_armor,veh_sensor,";
         $q_string .= "veh_sig,veh_nav,veh_cargo,veh_load,veh_hardpoints,veh_firmpoints,veh_onseats,veh_offseats,veh_avail,";
         $q_string .= "veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,ver_book,ver_version,veh_page ";
@@ -299,7 +305,7 @@
 
             $kph = 0;
             $mph = 0;
-            if ($a_vehicles['ver_version'] == 6.0) {
+            if ($a_vehicles['ver_version'] == 6.0 || $a_vehicles['veh_version'] == 4.5) {
               $kph = number_format((($a_vehicles['veh_onspeed'] / 3) * 3.6), 0, '.', ',');
               $mph = number_format(($kph / 1.609), 0, '.', ',');
             }
@@ -328,6 +334,7 @@
             $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_vehicles['veh_model'] . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_handling                       . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_interval']         . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_rate']             . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_speed                          . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $kph . "/" . $mph                   . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_acceleration                   . "</td>\n";
@@ -366,6 +373,7 @@
       print "document.dialog.veh_onhand.value = '';\n";
       print "document.dialog.veh_offhand.value = '';\n";
       print "document.dialog.veh_interval.value = '';\n";
+      print "document.dialog.veh_rate.value = '';\n";
       print "document.dialog.veh_onspeed.value = '';\n";
       print "document.dialog.veh_offspeed.value = '';\n";
       print "document.dialog.veh_onacc.value = '';\n";

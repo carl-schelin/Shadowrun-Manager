@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from vehicles");
 
-      $q_string  = "select veh_class,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_interval,veh_onspeed,veh_offspeed,";
+      $q_string  = "select veh_class,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_interval,veh_rate,veh_onspeed,veh_offspeed,";
       $q_string .= "veh_onacc,veh_offacc,veh_pilot,veh_body,veh_armor,veh_sensor,veh_sig,veh_onseats,veh_offseats,veh_nav,veh_cargo,veh_load,";
       $q_string .= "veh_hardpoints,veh_firmpoints,veh_avail,veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,veh_book,veh_page ";
       $q_string .= "from vehicles ";
@@ -38,6 +38,7 @@
       print "document.dialog.veh_onhand.value = '"      . mysql_real_escape_string($a_vehicles['veh_onhand'])       . "';\n";
       print "document.dialog.veh_offhand.value = '"     . mysql_real_escape_string($a_vehicles['veh_offhand'])      . "';\n";
       print "document.dialog.veh_interval.value = '"    . mysql_real_escape_string($a_vehicles['veh_interval'])     . "';\n";
+      print "document.dialog.veh_rate.value = '"        . mysql_real_escape_string($a_vehicles['veh_rate'])         . "';\n";
       print "document.dialog.veh_onspeed.value = '"     . mysql_real_escape_string($a_vehicles['veh_onspeed'])      . "';\n";
       print "document.dialog.veh_offspeed.value = '"    . mysql_real_escape_string($a_vehicles['veh_offspeed'])     . "';\n";
       print "document.dialog.veh_onacc.value = '"       . mysql_real_escape_string($a_vehicles['veh_onacc'])        . "';\n";
