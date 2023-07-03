@@ -50,27 +50,3 @@
     }
   }
 ?>
-
-
-
-
-
-      if ($a_versions['ver_active']) {
-        print "document.dialog.ver_active.checked = true;\n";
-      } else {
-        print "document.dialog.ver_active.checked = false;\n";
-      }
-      if ($a_versions['ver_admin']) {
-        print "document.dialog.ver_admin.checked = true;\n";
-      } else {
-        print "document.dialog.ver_admin.checked = false;\n";
-      }
-
-      print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
-      print "$(\"#button-update\").button(\"enable\");\n";
-
-    } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
-    }
-  }
-?>
