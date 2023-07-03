@@ -26,12 +26,18 @@
         $formVars['form_name']      = clean($_GET['form_name'],      40);
         $formVars['form_target']    = clean($_GET['form_target'],    10);
         $formVars['form_duration']  = clean($_GET['form_duration'],  10);
+        $formVars['form_level']     = clean($_GET['form_level'],     10);
         $formVars['form_fading']    = clean($_GET['form_fading'],    10);
         $formVars['form_book']      = clean($_GET['form_book'],      10);
         $formVars['form_page']      = clean($_GET['form_page'],      10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
+        }
+        if ($formVars['form_level'] == 'true') {
+          $formVars['form_level'] = 1;
+        } else {
+          $formVars['form_level'] = 0;
         }
         if ($formVars['form_fading'] == '') {
           $formVars['form_fading'] = 0;
@@ -44,6 +50,7 @@
             "form_name        = \"" . $formVars['form_name']      . "\"," .
             "form_target      = \"" . $formVars['form_target']    . "\"," .
             "form_duration    = \"" . $formVars['form_duration']  . "\"," .
+            "form_level       =   " . $formVars['form_level']     . "," .
             "form_fading      =   " . $formVars['form_fading']    . "," .
             "form_book        = \"" . $formVars['form_book']      . "\"," .
             "form_page        =   " . $formVars['form_page'];
@@ -144,13 +151,7 @@
             $duration = "Sustained";
           }
 
-          $fading = "L " . $a_complexform['form_fading'];
-          if ($a_complexform['form_fading'] == 0) {
-            $fading = "L";
-          }
-          if ($a_complexform['form_fading'] > 0) {
-            $fading = "L + " . $a_complexform['form_fading'];
-          }
+          $fading = return_Complex($a_complexform['form_fading'], $a_complexform['form_level']);
 
           $form_book = return_Book($a_complexform['ver_book'], $a_complexform['form_page']);
 
@@ -184,7 +185,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"12\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -195,6 +196,7 @@
       print "document.dialog.form_name.value = '';\n";
       print "document.dialog.form_target.value = '';\n";
       print "document.dialog.form_duration.value = '';\n";
+      print "document.dialog.form_level.value = '';\n";
       print "document.dialog.form_fading.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";
