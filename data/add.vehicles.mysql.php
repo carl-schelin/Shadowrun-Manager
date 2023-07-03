@@ -231,6 +231,7 @@
         $output .=   "<th class=\"ui-state-default\">Handling</th>\n";
         $output .=   "<th class=\"ui-state-default\">Interval</th>\n";
         $output .=   "<th class=\"ui-state-default\">Speed</th>\n";
+        $output .=   "<th class=\"ui-state-default\">kph/mph</th>\n";
         $output .=   "<th class=\"ui-state-default\">Accel</th>\n";
         $output .=   "<th class=\"ui-state-default\">Body</th>\n";
         $output .=   "<th class=\"ui-state-default\">Armor</th>\n";
@@ -264,7 +265,7 @@
         $q_string  = "select veh_id,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_interval,";
         $q_string .= "veh_onspeed,veh_offspeed,veh_onacc,veh_offacc,veh_pilot,veh_body,veh_armor,veh_sensor,";
         $q_string .= "veh_sig,veh_nav,veh_cargo,veh_load,veh_hardpoints,veh_firmpoints,veh_onseats,veh_offseats,veh_avail,";
-        $q_string .= "veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,ver_book,veh_page ";
+        $q_string .= "veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,ver_book,ver_version,veh_page ";
         $q_string .= "from vehicles ";
         $q_string .= "left join class on class.class_id = vehicles.veh_class ";
         $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
@@ -296,6 +297,13 @@
 
             $class = return_Class($a_vehicles['veh_perm']);
 
+            $kph = 0;
+            $mph = 0;
+            if ($a_vehicles['ver_version'] == 6.0) {
+              $kph = number_format((($a_vehicles['veh_speed'] / 3) * 3.6), 0, '.', ',');
+              $mph = number_format(($kph * 1.609), 0, '.', ',');
+            }
+
             $total = 0;
             $q_string  = "select r_veh_id ";
             $q_string .= "from r_vehicles ";
@@ -321,6 +329,7 @@
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_handling                       . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_interval']         . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_speed                          . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $kph . "/" . $mph                   . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $veh_acceleration                   . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_body']             . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_vehicles['veh_armor']            . "</td>\n";
