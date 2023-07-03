@@ -69,6 +69,7 @@ function attach_vehicles(p_script_url, update) {
   av_url += "&veh_onhand="       + encode_URI(av_form.veh_onhand.value);
   av_url += "&veh_offhand="      + encode_URI(av_form.veh_offhand.value);
   av_url += "&veh_interval="     + encode_URI(av_form.veh_interval.value);
+  av_url += "&veh_rate="         + encode_URI(av_form.veh_rate.value);
   av_url += "&veh_onspeed="      + encode_URI(av_form.veh_onspeed.value);
   av_url += "&veh_offspeed="     + encode_URI(av_form.veh_offspeed.value);
   av_url += "&veh_onacc="        + encode_URI(av_form.veh_onacc.value);
@@ -114,7 +115,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 700,
+    height: 725,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -317,6 +318,9 @@ column headers and not all of them are relevant to every Shadowrun edition.</p>
 </tr>
 <tr>
   <td class="ui-widget-content">Speed Interval<input type="text" name="veh_interval" size="3"> (sr6)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Speed Rate<input type="text" name="veh_rate" size="3"> (sr5)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Speed <input type="text" name="veh_onspeed" size="3">/<input type="text" name="veh_offspeed" size="3"> (sr1/sr2/sr3/sr4/sr5)</td>
