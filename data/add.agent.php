@@ -89,8 +89,8 @@ $(document).ready( function() {
   $( "#dialogAgent" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 180,
-    width:  820,
+    height: 275,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogAgent" ).hide();
@@ -177,38 +177,15 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogAgent" title="Computer Agents">
+<div id="dialogAgent" title="Computer Agents Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
-<table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="11">Agent Form</th>
-</tr>
-<tr>
-  <td class="ui-widget-content" colspan="4">Name <input type="text" name="agt_name" size="30"></td>
-  <td class="ui-widget-content">Rating <input type="text" name="agt_rating" size="10"></td>
-</tr>
-<tr>
-  <td class="ui-widget-content">Avail <input type="text" name="agt_avail" size="10"></td>
-  <td class="ui-widget-content">Perm <input type="text" name="agt_perm" size="10"></td>
-  <td class="ui-widget-content">Cost <input type="text" name="agt_cost" size="10"></td>
-  <td class="ui-widget-content">Book  <select name="agt_book">
+
 <?php
-  $q_string  = "select ver_id,ver_short ";
-  $q_string .= "from versions ";
-  $q_string .= "where ver_admin = 1 ";
-  $q_string .= "order by ver_short ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
-    print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
-  }
+include('add.agent.dialog.php');
 ?>
-</select></td>
-  <td class="ui-widget-content">Page <input type="text" name="agt_page" size="10"></td>
-</tr>
-</table>
 
 </form>
 
