@@ -762,4 +762,10 @@ function return_Drain($p_drain, $p_force) {
   return($r_drain);
 }
 
+function return_Cyberjack($p_data, $p_firewall) {
+  $r_cyberjack = $p_data . "/" . $p_firewall;
+
+  return $r_cyberjack;
+}
+
 ?>

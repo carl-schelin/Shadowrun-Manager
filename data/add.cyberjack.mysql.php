@@ -160,6 +160,8 @@
 
           $rating = return_Rating($a_cyberjack['jack_rating']);
 
+          $jack = return_Cyberjack($a_cyberjack['jack_data'], $a_cyberjack['jack_firewall']);
+
           $essence = return_Essence($a_cyberjack['jack_essence']);
 
           $avail = return_Avail($a_cyberjack['jack_avail'], $a_cyberjack['jack_perm'], 0, 0);
@@ -191,9 +193,9 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_cyberjack['jack_name'] . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $rating                              . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $essence                             . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_data'] . "/" . $a_cyberjack['jack_firewall']  . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $jack                                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_matrix']          . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $essence                             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $avail                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $cost                                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $book                                . "</td>\n";
