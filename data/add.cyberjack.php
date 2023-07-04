@@ -1,5 +1,5 @@
 <?php
-# Script: add.tradition.php
+# Script: add.cyberjack.php
 # Owner: Carl Schelin
 # Coding Standard 3.0 Applied
 # See: https://incowk01/makers/index.php/Coding_Standards
@@ -10,7 +10,7 @@
   include($Sitepath . '/function.php');
   check_login('1');
 
-  $package = "add.tradition.php";
+  $package = "add.cyberjack.php";
 
   logaccess($_SESSION['username'], $package, "Accessing script");
 
@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Manage Traditions</title>
+<title>Manage Cyberware</title>
 
 <style type="text/css" title="currentStyle" media="screen">
 <?php include($Sitepath . "/mobile.php"); ?>
@@ -35,12 +35,12 @@
 
   if (check_userlevel(1)) {
 ?>
-function delete_tradition( p_script_url ) {
+function delete_cyberjack( p_script_url ) {
   var question;
   var answer;
 
-  question  = "The Tradition may be in use by existing characters. Only delete if you're sure it's unused.\n";
-  question += "Delete this Tradition?";
+  question  = "The Cyberjack may be in use by existing characters. Only delete if you're sure it's unused.\n";
+  question += "Delete this Cyberjack?";
 
   answer = confirm(question);
 
@@ -48,47 +48,49 @@ function delete_tradition( p_script_url ) {
     script = document.createElement('script');
     script.src = p_script_url;
     document.getElementsByTagName('head')[0].appendChild(script);
-    show_file('add.tradition.mysql.php?update=-1');
+    show_file('add.cyberjack.mysql.php?update=-1');
   }
 }
 <?php
   }
 ?>
 
-function attach_tradition(p_script_url, update) {
-  var at_form = document.dialog;
-  var at_url;
+function attach_cyberjack(p_script_url, update) {
+  var ac_form = document.dialog;
+  var ac_url;
 
-  at_url  = '?update='   + update;
-  at_url += "&id="       + at_form.id.value;
+  ac_url  = '?update='   + update;
+  ac_url += "&id="       + ac_form.id.value;
 
-  at_url += "&trad_name="           + encode_URI(at_form.trad_name.value);
-  at_url += "&trad_description="    + encode_URI(at_form.trad_description.value);
-  at_url += "&trad_combat="         + encode_URI(at_form.trad_combat.value);
-  at_url += "&trad_detection="      + encode_URI(at_form.trad_detection.value);
-  at_url += "&trad_health="         + encode_URI(at_form.trad_health.value);
-  at_url += "&trad_illusion="       + encode_URI(at_form.trad_illusion.value);
-  at_url += "&trad_manipulation="   + encode_URI(at_form.trad_manipulation.value);
-  at_url += "&trad_drainleft="      + encode_URI(at_form.trad_drainleft.value);
-  at_url += "&trad_drainright="     + encode_URI(at_form.trad_drainright.value);
-  at_url += "&trad_book="           + encode_URI(at_form.trad_book.value);
-  at_url += "&trad_page="           + encode_URI(at_form.trad_page.value);
+  ac_url += "&jack_name="     + encode_URI(ac_form.jack_name.value);
+  ac_url += "&jack_rating="   + encode_URI(ac_form.jack_rating.value);
+  ac_url += "&jack_data="     + encode_URI(ac_form.jack_data.value);
+  ac_url += "&jack_firewall=" + encode_URI(ac_form.jack_firewall.value);
+  ac_url += "&jack_matrix="   + encode_URI(ac_form.jack_matrix.value);
+  ac_url += "&jack_essence="  + encode_URI(ac_form.jack_essence.value);
+  ac_url += "&jack_avail="    + encode_URI(ac_form.jack_avail.value);
+  ac_url += "&jack_perm="     + encode_URI(ac_form.jack_perm.value);
+  ac_url += "&jack_cost="     + encode_URI(ac_form.jack_cost.value);
+  ac_url += "&jack_book="     + encode_URI(ac_form.jack_book.value);
+  ac_url += "&jack_page="     + encode_URI(ac_form.jack_page.value);
 
   script = document.createElement('script');
-  script.src = p_script_url + at_url;
+  script.src = p_script_url + ac_url;
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 function clear_fields() {
-  show_file('add.tradition.mysql.php?update=-1');
+  show_file('add.cyberjack.mysql.php?update=-1');
 }
 
 $(document).ready( function() {
-  $( '#clickTradition' ).click(function() {
-    $( "#dialogTradition" ).dialog('open');
+  $( "#tabs" ).tabs( ).addClass( "tab-shadow" );
+
+  $( '#clickCyberjack' ).click(function() {
+    $( "#dialogCyberjack" ).dialog('open');
   });
 
-  $( "#dialogTradition" ).dialog({
+  $( "#dialogCyberjack" ).dialog({
     autoOpen: false,
 
     modal: true,
@@ -96,30 +98,30 @@ $(document).ready( function() {
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
-      $( "#dialogTradition" ).hide();
+      $( "#dialogCyberjack" ).hide();
     },
     buttons: [
       {
         id: "button-cancel",
         text: "Cancel",
         click: function() {
-          attach_tradition('add.tradition.mysql.php', -1);
+          attach_cyberjack('add.cyberjack.mysql.php', -1);
           $( this ).dialog( "close" );
         }
       },
       {
         id: "button-update",
-        text: "Update Tradition",
+        text: "Update Cyberjack",
         click: function() {
-          attach_tradition('add.tradition.mysql.php', 1);
+          attach_cyberjack('add.cyberjack.mysql.php', 1);
           $( this ).dialog( "close" );
         }
       },
       {
         id: "button-add",
-        text: "Add Tradition",
+        text: "Add Cyberjack",
         click: function() {
-          attach_tradition('add.tradition.mysql.php', 0);
+          attach_cyberjack('add.cyberjack.mysql.php', 0);
           $( this ).dialog( "close" );
         }
       }
@@ -137,21 +139,21 @@ $(document).ready( function() {
 
 <div id="main">
 
-<form name="tradition">
+<form name="cyberware">
 
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default">Tradition Management</th>
-  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('tradition-help');">Help</a></th>
+  <th class="ui-state-default">Cyberjack Management</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cyberjack-help');">Help</a></th>
 </tr>
 </table>
 
-<div id="tradition-help" style="display: none">
+<div id="cyberjack-help" style="display: none">
 
 <div class="main-help ui-widget-content">
 
 <ul>
-  <li><strong>Language Form</strong>
+  <li><strong>Vehicles Form</strong>
   <ul>
     <li><strong>Name</strong> - The name of the Metatype.</li>
     <li><strong>Walk</strong> - The Metatype walking speed.</li>
@@ -169,25 +171,28 @@ $(document).ready( function() {
 
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="button ui-widget-content"><input type="button" name="addnew" id="clickTradition" value="Add Tradition"></td>
+  <td class="button ui-widget-content"><input type="button" name="addnew" id="clickCyberjack" value="Add New Cyberjack"></td>
 </tr>
 </table>
 
 </form>
 
-<span id="mysql_table"><?php print wait_Process('Loading Traditions...')?></span>
+
+<span id="mysql_table"><?php print wait_Process('Loading Cyberjacks...')?></span>
+
+</div>
 
 </div>
 
 
-<div id="dialogTradition" title="Tradition">
+<div id="dialogCyberjack" title="Cyberjack Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
 
 <?php
-include('add.tradition.dialog.php');
+include('add.cyberjack.dialog.php');
 ?>
 
 </form>
