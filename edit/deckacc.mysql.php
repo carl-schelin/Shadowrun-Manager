@@ -158,7 +158,7 @@
             $linkstart .= "');";
             $linkstart .= "show_file('mycyberdeck.mysql.php";
             $linkstart .= "?update=-1";
-            $linkstart .= "&r_deck_character=" . $a_r_armor['r_deck_character'];
+            $linkstart .= "&r_deck_character=" . $a_r_cyberdeck['r_deck_character'];
             $linkstart .= "');\">";
 
             $linkend   = "</a>";
