@@ -62,6 +62,7 @@ function attach_cyberjack(p_script_url, update) {
   ac_url  = '?update='   + update;
   ac_url += "&id="       + ac_form.id.value;
 
+  ac_url += "&jack_class="    + encode_URI(ac_form.jack_class.value);
   ac_url += "&jack_name="     + encode_URI(ac_form.jack_name.value);
   ac_url += "&jack_rating="   + encode_URI(ac_form.jack_rating.value);
   ac_url += "&jack_data="     + encode_URI(ac_form.jack_data.value);
@@ -94,7 +95,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 350,
+    height: 375,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

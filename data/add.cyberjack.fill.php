@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from cyberjack");
 
-      $q_string  = "select jack_name,jack_rating,jack_data,jack_firewall,jack_matrix,jack_essence,jack_avail,";
+      $q_string  = "select jack_class,jack_name,jack_rating,jack_data,jack_firewall,jack_matrix,jack_essence,jack_avail,";
       $q_string .= "jack_perm,jack_cost,jack_book,jack_page ";
       $q_string .= "from cyberjack ";
       $q_string .= "where jack_id = " . $formVars['id'];
@@ -30,6 +30,7 @@
       $a_cyberjack = mysql_fetch_array($q_cyberjack);
       mysql_free_result($q_cyberjack);
 
+      print "document.dialog.jack_class.value = '"     . mysql_real_escape_string($a_cyberjack['jack_class'])     . "';\n";
       print "document.dialog.jack_name.value = '"      . mysql_real_escape_string($a_cyberjack['jack_name'])      . "';\n";
       print "document.dialog.jack_rating.value = '"    . mysql_real_escape_string($a_cyberjack['jack_rating'])    . "';\n";
       print "document.dialog.jack_essence.value = '"   . mysql_real_escape_string($a_cyberjack['jack_essence'])   . "';\n";
