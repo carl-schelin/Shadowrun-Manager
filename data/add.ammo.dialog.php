@@ -24,7 +24,7 @@
   <td class="ui-widget-content">Rating <input type="text" name="ammo_rating" size="4"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Damage Modifier <input type="text" name="ammo_mod" size="15"></td>
+  <td class="ui-widget-content">Damage Modifier <input type="text" name="ammo_mod" size="15"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">AP Modifier <input type="text" name="ammo_ap" size="5"></td>

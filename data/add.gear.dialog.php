@@ -15,7 +15,7 @@
 </select></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" name="gear_name" size="30"></td>
+  <td class="ui-widget-content">Name <input type="text" name="gear_name" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Rating <input type="text" name="gear_rating" size="10"></td>

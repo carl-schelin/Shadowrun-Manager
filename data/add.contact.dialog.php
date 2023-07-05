@@ -3,7 +3,7 @@
   <td class="ui-widget-content">Name <input type="text" name="con_name" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="3">Archetype <input type="text" name="con_archetype" size="30"></td>
+  <td class="ui-widget-content">Archetype <input type="text" name="con_archetype" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Character <select name="con_character">

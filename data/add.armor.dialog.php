@@ -15,7 +15,7 @@
 </select></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" id="arm_name" name="arm_name" size="40"></td>
+  <td class="ui-widget-content">Name <input type="text" id="arm_name" name="arm_name" size="40"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Ballistic <input type="text" name="arm_ballistic" size="3"> (sr4a)</td>

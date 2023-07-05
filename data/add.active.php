@@ -97,8 +97,8 @@ $(document).ready( function() {
   $( "#dialogActive" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 200,
-    width:  640,
+    height: 275,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogActive" ).hide();

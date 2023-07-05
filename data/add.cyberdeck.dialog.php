@@ -1,9 +1,9 @@
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="ui-widget-content" colspan="2">Brand <input type="text" name="deck_brand" size="30"></td>
+  <td class="ui-widget-content">Brand <input type="text" name="deck_brand" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Model <input type="text" name="deck_model" size="30"></td>
+  <td class="ui-widget-content">Model <input type="text" name="deck_model" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Rating <input type="text" name="deck_rating" size="3"></td>
@@ -24,7 +24,7 @@
   <td class="ui-widget-content">Programs <input type="text" name="deck_programs" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Company ID <input type="text" name="deck_access" size="18"></td>
+  <td class="ui-widget-content">Company ID <input type="text" name="deck_access" size="18"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Avail <input type="text" name="deck_avail" size="3"><input type="text" name="deck_perm" size="3"></td>

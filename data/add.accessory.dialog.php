@@ -13,7 +13,7 @@
 </select></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="3">Class <select name="acc_class">
+  <td class="ui-widget-content">Class <select name="acc_class">
 <option value="0">Any Subheading</option>
 <?php
   $q_string  = "select class_id,class_name,sub_name ";

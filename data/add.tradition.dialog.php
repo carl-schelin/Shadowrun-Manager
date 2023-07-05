@@ -3,7 +3,7 @@
   <td class="ui-widget-content">Tradition <input type="text" name="trad_name" size="20"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="3">Description <input type="text" name="trad_description" size="60"></td>
+  <td class="ui-widget-content">Description <input type="text" name="trad_description" size="60"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Combat <select name="trad_combat">
@@ -71,7 +71,7 @@
 </select></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Drain <select name="trad_drainleft">
+  <td class="ui-widget-content">Drain <select name="trad_drainleft">
 <?php
   $q_string  = "select att_id,att_name ";
   $q_string .= "from attributes ";
