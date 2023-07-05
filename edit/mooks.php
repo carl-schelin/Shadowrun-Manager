@@ -1840,7 +1840,7 @@ $(document).ready( function() {
 <?php
   $q_string  = "select ver_id,ver_book ";
   $q_string .= "from versions ";
-  $q_string .= "where ver_core = 1 ";
+  $q_string .= "where ver_core = 1 and ver_active = 1 ";
   $q_string .= "order by ver_book ";
   $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_versions = mysql_fetch_array($q_versions)) {
