@@ -48,14 +48,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_firearms set r_fa_id = NULL," . $q_string;
-            $message = "Firearm added.";
           }
-
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_number']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
-          print "alert('" . $message . "');\n";
+# here let's go through any firearms accessories and anything with a -1 is added automatically
+
+          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_number']);
+
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -148,6 +148,7 @@
         $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
         $output .=   "<th class=\"ui-state-default\">AP</th>\n";
         $output .=   "<th class=\"ui-state-default\">Mode</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
         $output .=   "<th class=\"ui-state-default\">RC</th>\n";
         $output .=   "<th class=\"ui-state-default\">Ammo</th>\n";
         $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -157,6 +158,7 @@
 
         $q_string  = "select fa_id,class_name,fa_class,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
         $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_rc,fa_fullrc,fa_ammo1,";
+        $q_string .= "fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,";
         $q_string .= "fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,fa_cost,ver_book,fa_page ";
         $q_string .= "from firearms ";
         $q_string .= "left join class on class.class_id = firearms.fa_class ";
@@ -183,6 +185,8 @@
 
             $fa_ap = return_Penetrate($a_firearms['fa_ap']);
 
+            $fa_attack = return_Attack($a_firearms['fa_ar1'], $a_firearms['fa_ar2'], $a_firearms['fa_ar3'], $a_firearms['fa_ar4'], $a_firearms['fa_ar5']);
+
             $fa_ammo = return_Ammo($a_firearms['fa_ammo1'], $a_firearms['fa_clip1'], $a_firearms['fa_ammo2'], $a_firearms['fa_clip2']);
 
             $fa_avail = return_Avail($a_firearms['fa_avail'], $a_firearms['fa_perm']);
@@ -200,6 +204,7 @@
             $output .= "  <td class=\"" . $class . " delete\">"                . $fa_damage                           . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"                . $fa_ap                               . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"                . $fa_mode                             . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"                . $fa_attack                           . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"                . $fa_rc                               . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"                . $fa_ammo                             . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"                . $fa_avail                            . "</td>\n";
@@ -262,6 +267,7 @@
       $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
       $output .=   "<th class=\"ui-state-default\">AP</th>\n";
       $output .=   "<th class=\"ui-state-default\">Mode</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
       $output .=   "<th class=\"ui-state-default\">RC</th>\n";
       $output .=   "<th class=\"ui-state-default\">Ammo</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -272,6 +278,7 @@
       $costtotal = 0;
       $q_string  = "select r_fa_id,fa_id,class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
       $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_rc,fa_fullrc,fa_ammo1,";
+      $q_string .= "fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,";
       $q_string .= "fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,fa_cost,ver_book,fa_page ";
       $q_string .= "from r_firearms ";
       $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
@@ -288,6 +295,8 @@
           $linkend   = "</a>";
 
           $fa_mode = return_Mode($a_r_firearms['fa_mode1'], $a_r_firearms['fa_mode2'], $a_r_firearms['fa_mode3']);
+
+          $fa_attack = return_Attack($a_r_firearms['fa_ar1'], $a_r_firearms['fa_ar2'], $a_r_firearms['fa_ar3'], $a_r_firearms['fa_ar4'], $a_r_firearms['fa_ar5']);
 
           $fa_damage = return_Damage($a_r_firearms['fa_damage'], $a_r_firearms['fa_type'], $a_r_firearms['fa_flag']);
 
@@ -318,6 +327,7 @@
           $output .= "  <td class=\"" . $class . " delete\">" . $fa_damage                                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . $fa_ap                                           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . $fa_mode                                         . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $fa_attack                                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . $fa_rc                                           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . $fa_ammo                                         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . $fa_avail                                        . "</td>\n";
@@ -429,7 +439,7 @@
           }
         }
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"12\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"13\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
         $output .= "</tr>\n";
       } else {
         $output .= "<tr>\n";
