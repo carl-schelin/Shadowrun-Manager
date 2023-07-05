@@ -21,7 +21,7 @@
   <td class="ui-widget-content">Avail <input type="text" name="link_avail" size="5"><input type="text" name="link_perm" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Manufacturer's Code <input type="text" name="link_access" size="15"></td>
+  <td class="ui-widget-content">Manufacturer's Code <input type="text" name="link_access" size="15"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Book  <select name="link_book">
