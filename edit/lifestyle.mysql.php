@@ -176,6 +176,8 @@
 
         $q_string  = "select life_id,life_style ";
         $q_string .= "from lifestyle ";
+        $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
+        $q_string .= "where ver_active = 1 ";
         $q_string .= "order by life_style ";
         $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_lifestyle = mysql_fetch_array($q_lifestyle)) {
