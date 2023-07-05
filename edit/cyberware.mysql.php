@@ -131,7 +131,7 @@
 
 # now list all the items to select
 
-        $cyberware_list = array("earware", "eyeware", "headware", "bodyware", "cyberlimbs", "cosmetic");
+        $cyberware_list = array("earware", "eyeware", "headware", "bodyware", "cyberjack", "cyberlimbs", "cosmetic");
 
         foreach ($cyberware_list as &$cyberware) {
 

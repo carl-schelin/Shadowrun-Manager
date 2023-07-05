@@ -3326,6 +3326,7 @@ $(document).ready( function() {
   <li><a href="#eyeware">Eyeware</a></li>
   <li><a href="#headware">Headware</a></li>
   <li><a href="#bodyware">Bodyware</a></li>
+  <li><a href="#cyberjack">Cyberjack</a></li>
   <li><a href="#cyberlimbs">Cyberlimbs</a></li>
   <li><a href="#cosmetic">Cosmetic Cyberware Modifications</a></li>
   <li><a href="#cyberacc">Accessories</a></li>
@@ -3362,6 +3363,13 @@ $(document).ready( function() {
 <div id="bodyware">
 
 <span id="bodyware_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+<div id="cyberjack">
+
+<span id="cyberjack_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
 

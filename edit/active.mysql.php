@@ -14,11 +14,15 @@
 
   if (isset($_SESSION['username'])) {
     $package = "active.mysql.php";
-    $formVars['update']              = clean($_GET['update'],             10);
-    $formVars['r_act_character']     = clean($_GET['r_act_character'],    10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
+    }
+    if (isset($_GET['r_act_character'])) {
+      $formVars['r_act_character'] = clean($_GET['r_act_character'], 10);
+    } else {
+      $formVars['r_act_character'] = 0;
     }
 
     if (check_userlevel(3)) {

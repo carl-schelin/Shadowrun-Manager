@@ -14,15 +14,20 @@
 
   if (isset($_SESSION['username'])) {
     $package = "armor.mysql.php";
-    $formVars['update']              = clean($_GET['update'],             10);
-    $formVars['r_arm_id']            = clean($_GET['r_arm_id'],           10);
-    $formVars['r_arm_character']     = clean($_GET['r_arm_character'],    10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
     }
-    if ($formVars['r_arm_character'] == '') {
-      $formVars['r_arm_character'] = 1;
+    if (isset($_GET['update'])) {
+      $formVars['r_arm_id'] = clean($_GET['r_arm_id'], 10);
+    } else {
+      $formVars['r_arm_id'] = 0;
+    }
+    if (isset($_GET['update'])) {
+      $formVars['r_arm_character'] = clean($_GET['r_arm_character'], 10);
+    } else {
+      $formVars['r_arm_character'] = 0;
     }
 
     if (check_userlevel(3)) {

@@ -14,14 +14,15 @@
 
   if (isset($_SESSION['username'])) {
     $package = "complexform.mysql.php";
-    $formVars['update']               = clean($_GET['update'],                10);
-    $formVars['r_form_character']     = clean($_GET['r_form_character'],      10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
     }
-    if ($formVars['r_form_character'] == '') {
-      $formVars['r_form_character'] = -1;
+    if (isset($_GET['r_form_character'])) {
+      $formVars['r_form_character'] = clean($_GET['r_form_character'], 10);
+    } else {
+      $formVars['r_form_character'] = 0;
     }
 
     if (check_userlevel(3)) {
@@ -123,7 +124,7 @@
         $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
 
-        $q_string  = "select form_id,form_name,form_target,form_duration,form_fading,ver_book,form_page ";
+        $q_string  = "select form_id,form_name,form_target,form_duration,form_fading,form_level,ver_book,form_page ";
         $q_string .= "from complexform ";
         $q_string .= "left join versions on versions.ver_id = complexform.form_book ";
         $q_string .= "where ver_active = 1 ";
@@ -158,13 +159,7 @@
               $form_duration = "Sustained";
             }
 
-            $form_fading = 'L';
-            if ($a_complexform['form_fading'] > 0) {
-              $form_fading = "L+" . $a_complexform['form_fading'];
-            }
-            if ($a_complexform['form_fading'] < 0) {
-              $form_fading = "L" . $a_complexform['form_fading'];
-            }
+            $form_fading = return_Complex($a_complexform['form_fading'], $a_complexform['form_level']);
 
             $form_book = return_Book($a_complexform['ver_book'], $a_complexform['form_page']);
 

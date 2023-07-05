@@ -14,15 +14,20 @@
 
   if (isset($_SESSION['username'])) {
     $package = "bioware.mysql.php";
-    $formVars['update']               = clean($_GET['update'],                10);
-    $formVars['r_bio_id']             = clean($_GET['r_bio_id'],              10);
-    $formVars['r_bio_character']      = clean($_GET['r_bio_character'],       10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
     }
-    if ($formVars['r_bio_character'] == '') {
-      $formVars['r_bio_character'] = -1;
+    if (isset($_GET['r_bio_id'])) {
+      $formVars['r_bio_id'] = clean($_GET['r_bio_id'], 10);
+    } else {
+      $formVars['r_bio_id'] = 0;
+    }
+    if (isset($_GET['r_bio_character'])) {
+      $formVars['r_bio_character'] = clean($_GET['r_bio_character'], 10);
+    } else {
+      $formVars['r_bio_character'] 0;
     }
 
     if (check_userlevel(3)) {
