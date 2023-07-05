@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from melee");
 
-      $q_string  = "select melee_class,melee_name,melee_acc,melee_reach,melee_damage,melee_type,";
+      $q_string  = "select melee_class,melee_name,melee_acc,melee_reach,melee_damage,melee_type,melee_ar1,melee_ar2,melee_ar3,melee_ar4,melee_ar5,";
       $q_string .= "melee_flag,melee_strength,melee_ap,melee_avail,melee_perm,melee_basetime,melee_duration,melee_index,";
       $q_string .= "melee_cost,melee_book,melee_page ";
       $q_string .= "from melee ";
@@ -35,6 +35,11 @@
       print "document.dialog.melee_name.value = '"     . mysql_real_escape_string($a_melee['melee_name'])     . "';\n";
       print "document.dialog.melee_acc.value = '"      . mysql_real_escape_string($a_melee['melee_acc'])      . "';\n";
       print "document.dialog.melee_reach.value = '"    . mysql_real_escape_string($a_melee['melee_reach'])    . "';\n";
+      print "document.dialog.melee_ar1.value = '"      . mysql_real_escape_string($a_melee['melee_ar1'])      . "';\n";
+      print "document.dialog.melee_ar2.value = '"      . mysql_real_escape_string($a_melee['melee_ar2'])      . "';\n";
+      print "document.dialog.melee_ar3.value = '"      . mysql_real_escape_string($a_melee['melee_ar3'])      . "';\n";
+      print "document.dialog.melee_ar4.value = '"      . mysql_real_escape_string($a_melee['melee_ar4'])      . "';\n";
+      print "document.dialog.melee_ar5.value = '"      . mysql_real_escape_string($a_melee['melee_ar5'])      . "';\n";
       print "document.dialog.melee_damage.value = '"   . mysql_real_escape_string($a_melee['melee_damage'])   . "';\n";
       print "document.dialog.melee_type.value = '"     . mysql_real_escape_string($a_melee['melee_type'])     . "';\n";
       print "document.dialog.melee_flag.value = '"     . mysql_real_escape_string($a_melee['melee_flag'])     . "';\n";
