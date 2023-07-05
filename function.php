@@ -690,6 +690,9 @@ function return_Complex($p_fading, $p_level) {
 function return_Cost($p_min, $p_max = 0) {
   $nuyen = '&yen;';
   $r_cost = "No Charge";
+  if ($p_min == -1) {
+    $r_cost = 'Included';
+  }
   if ($p_min > 0) {
     $r_cost = number_format($p_min, 0, '.', ',') . $nuyen;
   }
