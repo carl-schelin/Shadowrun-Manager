@@ -89,8 +89,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 180,
-    width:  700,
+    height: 300,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogSprite" ).hide();
@@ -177,38 +177,15 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogSprite" title="Sprites">
+<div id="dialogSprite" title="Sprite Form">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
-<table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="6">Metatype Form</th>
-</tr>
-<tr>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" name="sprite_name" size="30"></td>
-  <td class="ui-widget-content">Attack <input type="text" name="sprite_attack" size="3"></td>
-  <td class="ui-widget-content">Sleaze <input type="text" name="sprite_sleaze" size="3"></td>
-</tr>
-<tr>
-  <td class="ui-widget-content">Data Processing <input type="text" name="sprite_data" size="3"></td>
-  <td class="ui-widget-content">Firewall <input type="text" name="sprite_firewall" size="3"></td>
-  <td class="ui-widget-content">Initiative <input type="text" name="sprite_initiative" size="3"></td>
-  <td class="ui-widget-content">Book <select name="sprite_book">
+
 <?php
-  $q_string  = "select ver_id,ver_short ";
-  $q_string .= "from versions ";
-  $q_string .= "where ver_admin = 1 ";
-  $q_string .= "order by ver_short ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
-    print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
-  }
+include('add.sprites.dialog.php');
 ?>
-</select>: <input type="text" name="sprite_page" size="3"></td>
-</tr>
-</table>
 
 </form>
 

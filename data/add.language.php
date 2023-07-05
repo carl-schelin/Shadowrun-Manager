@@ -82,8 +82,8 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 200,
-    width:  700,
+    height: 150,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogLanguage" ).hide();
@@ -176,14 +176,10 @@ $(document).ready( function() {
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
-<table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default">Language Form</th>
-</tr>
-<tr>
-  <td class="ui-widget-content">Language <input type="text" name="lang_name" size="30"></td>
-</tr>
-</table>
+
+<?php
+include('add.language.dialog.php');
+?>
 
 </form>
 

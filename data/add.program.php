@@ -90,8 +90,8 @@ $(document).ready( function() {
   $( "#dialogProgram" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 180,
-    width:  820,
+    height: 300,
+    width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
       $( "#dialogProgram" ).hide();
@@ -220,39 +220,10 @@ $(document).ready( function() {
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
-<table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default" colspan="11">Program Form</th>
-</tr>
-<tr>
-  <td class="ui-widget-content">Type <select name="pgm_type">
-<option value="0">Common</option>
-<option value="1">Hacking</option>
-<option value="2">Rigger</option>
-<option value="3">Rigger Hacking</option>
-</select></td>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" name="pgm_name" size="30"></td>
-  <td class="ui-widget-content" colspan="2">Description <input type="text" name="pgm_desc" size="40"></td>
-</tr>
-<tr>
-  <td class="ui-widget-content">Avail <input type="text" name="pgm_avail" size="10"></td>
-  <td class="ui-widget-content">Perm <input type="text" name="pgm_perm" size="10"></td>
-  <td class="ui-widget-content">Cost <input type="text" name="pgm_cost" size="10"></td>
-  <td class="ui-widget-content">Book  <select name="pgm_book">
+
 <?php
-  $q_string  = "select ver_id,ver_short ";
-  $q_string .= "from versions ";
-  $q_string .= "where ver_admin = 1 ";
-  $q_string .= "order by ver_short ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
-    print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
-  }
+include('add.program.dialog.php');
 ?>
-</select></td>
-  <td class="ui-widget-content">Page <input type="text" name="pgm_page" size="10"></td>
-</tr>
-</table>
 
 </form>
 
