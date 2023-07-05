@@ -27,7 +27,7 @@
     if (isset($_GET['r_bio_character'])) {
       $formVars['r_bio_character'] = clean($_GET['r_bio_character'], 10);
     } else {
-      $formVars['r_bio_character'] 0;
+      $formVars['r_bio_character'] = 0;
     }
 
     if (check_userlevel(3)) {
