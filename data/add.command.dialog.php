@@ -24,7 +24,7 @@
   <td class="ui-widget-content">Cost <input type="text" name="cmd_cost" size="6"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="3">Manufacturer's Code <input type="text" name="cmd_access" value="<?php print $cmd_access; ?>" size="15"></td>
+  <td class="ui-widget-content">Manufacturer's Code <input type="text" name="cmd_access" value="<?php print $cmd_access; ?>" size="15"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Book  <select name="cmd_book">

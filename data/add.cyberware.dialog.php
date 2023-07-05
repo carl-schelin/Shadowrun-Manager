@@ -1,6 +1,6 @@
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="ui-widget-content" colspan="2">Class <select name="ware_class">
+  <td class="ui-widget-content">Class <select name="ware_class">
 <?php
   $q_string  = "select class_id,class_name ";
   $q_string .= "from class ";
@@ -15,7 +15,7 @@
 </select></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" name="ware_name" size="30"></td>
+  <td class="ui-widget-content">Name <input type="text" name="ware_name" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Rating <input type="text" name="ware_rating" size="3"> Multi <input type="checkbox" name="ware_multiply"></td>

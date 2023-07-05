@@ -1,14 +1,15 @@
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default" colspan="12">Active Skill Form</th>
+  <td class="ui-widget-content">Type <input type="text" name="act_type" size="20"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="4">Type <input type="text" name="act_type" size="20"></td>
-  <td class="ui-widget-content" colspan="4">Name <input type="text" name="act_name" size="20"></td>
-  <td class="ui-widget-content" colspan="4">Group <input type="text" name="act_group" size="20"></td>
+  <td class="ui-widget-content">Name <input type="text" name="act_name" size="20"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="3">Linked Attribute <select name="act_attribute">
+  <td class="ui-widget-content">Group <input type="text" name="act_group" size="20"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Linked Attribute <select name="act_attribute">
 <?php
   $q_string  = "select att_id,att_name ";
   $q_string .= "from attributes ";
@@ -19,8 +20,12 @@
   }
 ?>
 </select></td>
-  <td class="ui-widget-content" colspan="3">Default? <input type="checkbox" checked="false" name="act_default"></td>
-  <td class="ui-widget-content" colspan="3">Book <select name="act_book">
+</tr>
+<tr>
+  <td class="ui-widget-content">Default? <input type="checkbox" checked="false" name="act_default"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Book <select name="act_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
   $q_string .= "from versions ";
@@ -31,7 +36,6 @@
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>
-</select></td>
-  <td class="ui-widget-content" colspan="3">Page <input type="text" name="act_page" size="5"></td>
+</select>: <input type="text" name="act_page" size="5"></td>
 </tr>
 </table>

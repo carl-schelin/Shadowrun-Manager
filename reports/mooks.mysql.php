@@ -80,6 +80,7 @@
       $q_string .= "left join users     on users.usr_id      = runners.runr_owner ";
       $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
       $q_string .= "left join versions  on versions.ver_id   = runners.runr_version ";
+      $q_string .= "where ver_active = 1 or runr_version = 0 ";
       $q_string .= "order by runr_owner,runr_archetype ";
       $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_runners) > 0) {

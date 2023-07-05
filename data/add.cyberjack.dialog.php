@@ -1,6 +1,21 @@
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="ui-widget-content" colspan="2">Name <input type="text" name="jack_name" size="40"></td>
+  <td class="ui-widget-content">Class <select name="jack_class">
+<?php
+  $q_string  = "select class_id,class_name ";
+  $q_string .= "from class ";
+  $q_string .= "left join subjects on subjects.sub_id = class.class_subjectid ";
+  $q_string .= "where sub_name = \"Cyberware\" ";
+  $q_string .= "order by class_name ";
+  $q_class = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_class = mysql_fetch_array($q_class)) {
+    print "<option value=\"" . $a_class['class_id'] . "\">" . $a_class['class_name'] . "</option>\n";
+  }
+?>
+</select></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Name <input type="text" name="jack_name" size="40"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Rating <input type="text" name="jack_rating" size="10"></td>

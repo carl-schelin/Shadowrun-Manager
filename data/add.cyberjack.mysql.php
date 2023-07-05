@@ -22,7 +22,8 @@
 
     if (check_userlevel(1)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        $formVars['id']            = clean($_GET['id'],           10);
+        $formVars['id']             = clean($_GET['id'],            10);
+        $formVars['jack_class']     = clean($_GET['jack_class'],    10);
         $formVars['jack_name']      = clean($_GET['jack_name'],     40);
         $formVars['jack_rating']    = clean($_GET['jack_rating'],   10);
         $formVars['jack_data']      = clean($_GET['jack_data'],     10);
@@ -67,6 +68,7 @@
           logaccess($_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
+            "jack_class      =   " . $formVars['jack_class']      . "," .
             "jack_name       = \"" . $formVars['jack_name']       . "\"," .
             "jack_rating     =   " . $formVars['jack_rating']     . "," .
             "jack_data       =   " . $formVars['jack_data']       . "," .

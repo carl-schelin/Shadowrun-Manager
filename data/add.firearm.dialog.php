@@ -15,7 +15,7 @@
 </select></td>
 </tr>
 <tr>
-  <td class="ui-widget-content" colspan="3">Name <input type="text" name="fa_name" size="40"></td>
+  <td class="ui-widget-content">Name <input type="text" name="fa_name" size="40"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Accuracy <input type="text" name="fa_acc" size="3"> (sr5)</td>

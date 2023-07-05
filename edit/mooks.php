@@ -1772,6 +1772,8 @@ $(document).ready( function() {
 <?php
   $q_string  = "select meta_id,meta_name ";
   $q_string .= "from metatypes ";
+  $q_string .= "left join versions on versions.ver_id = metatypes.meta_book ";
+  $q_string .= "where ver_active = 1 ";
   $q_string .= "order by meta_name ";
   $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_metatypes = mysql_fetch_array($q_metatypes)) {
@@ -1838,7 +1840,7 @@ $(document).ready( function() {
 <?php
   $q_string  = "select ver_id,ver_book ";
   $q_string .= "from versions ";
-  $q_string .= "where ver_core = 1 ";
+  $q_string .= "where ver_core = 1 and ver_active = 1 ";
   $q_string .= "order by ver_book ";
   $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_versions = mysql_fetch_array($q_versions)) {
