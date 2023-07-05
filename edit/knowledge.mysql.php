@@ -31,6 +31,9 @@
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
+        if ($formVars['r_know_rank'] == '') {
+          $formVars['r_know_rank'] = 0;
+        }
 
         if ($formVars['r_know_number'] > 0) {
           logaccess($_SESSION['username'], $package, "Building the query.");
