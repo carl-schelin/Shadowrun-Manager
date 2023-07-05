@@ -14,14 +14,19 @@
 
   if (isset($_SESSION['username'])) {
     $package = "alchemy.mysql.php";
-    $formVars['update']              = clean($_GET['update'],               10);
-    $formVars['r_alc_character']     = clean($_GET['r_alc_character'],      10);
-    $formVars['spell_group']         = clean($_GET['spell_group'],          10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
     }
-    if ($formVars['spell_group'] == '') {
+    if (isset($_GET['r_alc_character'])) {
+      $formVars['r_alc_character'] = clean($_GET['r_alc_character'], 10);
+    } else {
+      $formVars['r_alc_character'] = 0;
+    }
+    if (isset($_GET['spell_group'])) {
+      $formVars['spell_group'] = clean($_GET['spell_group'], 10);
+    } else {
       $formVars['spell_group'] = 0;
     }
 

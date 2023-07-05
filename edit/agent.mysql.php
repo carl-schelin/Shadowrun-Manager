@@ -14,16 +14,22 @@
 
   if (isset($_SESSION['username'])) {
     $package = "agent.mysql.php";
-    $formVars['update']            = clean($_GET['update'],             10);
-#    $formVars['r_agt_character']   = clean($_GET['r_agt_character'],    10);
-#    $formVars['r_agt_id']          = clean($_GET['r_agt_id'],           10);
 
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
     }
-#    if ($formVars['r_agt_character'] == '') {
-#      $formVars['r_agt_character'] = -1;
-#    }
+    if (isset($_GET['r_agt_id'])) {
+      $formVars['r_agt_id'] = clean($_GET['r_agt_id'], 10);
+    } else {
+      $formVars['r_agt_id'] = -1;
+    }
+    if (isset($_GET['r_agt_id'])) {
+      $formVars['r_agt_character'] = clean($_GET['r_agt_character'], 10);
+    } else {
+      $formVars['r_agt_character'] = -1;
+    }
 
     if (check_userlevel(3)) {
 
@@ -74,6 +80,7 @@
         $q_string  = "select agt_id,agt_name,agt_rating,agt_avail,agt_perm,agt_cost,ver_book,agt_page ";
         $q_string .= "from agents ";
         $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
+        $q_string .= "where ver_active = 1 ";
         $q_string .= "order by agt_name,agt_rating,ver_version ";
         $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_agents) > 0) {

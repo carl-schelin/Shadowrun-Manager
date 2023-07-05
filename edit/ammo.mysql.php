@@ -14,16 +14,30 @@
 
   if (isset($_SESSION['username'])) {
     $package = "ammo.mysql.php";
-    $formVars['update']             = clean($_GET['update'],              10);
-    $formVars['r_ammo_id']          = clean($_GET['r_ammo_id'],           10);
-    $formVars['r_ammo_character']   = clean($_GET['r_ammo_character'],    10);
-    $formVars['ammo_class']         = clean($_GET['ammo_class'],          10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
     }
+    if (isset($_GET['r_ammo_id'])) {
+      $formVars['r_ammo_id'] = clean($_GET['r_ammo_id'], 10);
+    } else {
+      $formVars['r_ammo_id'] = 0;
+    }
+    if (isset($_GET['r_ammo_character'])) {
+      $formVars['r_ammo_character'] = clean($_GET['r_ammo_character'], 10);
+    } else {
+      $formVars['r_ammo_character'] = 0;
+    }
+    if (isset($_GET['ammo_class'])) {
+      $formVars['ammo_class'] = clean($_GET['ammo_class'], 10);
+    } else {
+      $formVars['ammo_class'] = 0;
+    }
+
+    if ($formVars['update'] == '') {
+    }
     if ($formVars['r_ammo_character'] == '') {
-      $formVars['r_ammo_character'] = -1;
     }
 
     if (check_userlevel(3)) {

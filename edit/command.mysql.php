@@ -14,9 +14,9 @@
 
   if (isset($_SESSION['username'])) {
     $package = "command.mysql.php";
-    $formVars['r_cmd_character']      = clean($_GET['r_cmd_character'],       10);
-
-    if ($formVars['r_cmd_character'] == '') {
+    if (isset($_GET['r_cmd_character'])) {
+      $formVars['r_cmd_character'] = clean($_GET['r_cmd_character'], 10);
+    } else {
       $formVars['r_cmd_character'] = -1;
     }
 

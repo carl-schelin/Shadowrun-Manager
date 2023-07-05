@@ -14,11 +14,15 @@
 
   if (isset($_SESSION['username'])) {
     $package = "adept.mysql.php";
-    $formVars['update']              = clean($_GET['update'],             10);
-    $formVars['r_adp_character']     = clean($_GET['r_adp_character'],    10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
+    }
+    if (isset($_GET['r_adp_character'])) {
+      $formVars['r_adp_character'] = clean($_GET['r_adp_character'], 10);
+    } else {
+      $formVars['r_adp_character'] = -1;
     }
 
     if (check_userlevel(3)) {

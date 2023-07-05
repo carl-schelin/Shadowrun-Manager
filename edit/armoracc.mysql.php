@@ -14,13 +14,14 @@
 
   if (isset($_SESSION['username'])) {
     $package = "armoracc.mysql.php";
-    $formVars['update']          = clean($_GET['update'],       10);
-    $formVars['r_arm_id']        = clean($_GET['r_arm_id'],     10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
     }
-    if ($formVars['r_arm_id'] == '') {
+    if (isset($_GET['r_arm_id'])) {
+      $formVars['r_arm_id'] = clean($_GET['r_arm_id'], 10);
+    } else {
       $formVars['r_arm_id'] = 0;
     }
 

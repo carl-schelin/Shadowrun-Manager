@@ -14,12 +14,20 @@
 
   if (isset($_SESSION['username'])) {
     $package = "commlink.mysql.php";
-    $formVars['update']             = clean($_GET['update'],              10);
-    $formVars['r_link_character']   = clean($_GET['r_link_character'],    10);
-    $formVars['r_link_id']          = clean($_GET['r_link_id'],           10);
-
-    if ($formVars['update'] == '') {
+    if (isset($_GET['update'])) {
+      $formVars['update'] = clean($_GET['update'], 10);
+    } else {
       $formVars['update'] = -1;
+    }
+    if (isset($_GET['r_link_character'])) {
+      $formVars['r_link_character'] = clean($_GET['r_link_character'], 10);
+    } else {
+      $formVars['r_link_character'] = 0;
+    }
+    if (isset($_GET['r_link_id'])) {
+      $formVars['r_link_id'] = clean($_GET['r_link_id'], 10);
+    } else {
+      $formVars['r_link_id'] = 0;
     }
 
     if (check_userlevel(3)) {
