@@ -118,9 +118,9 @@
         $q_string .= "from qualities ";
         $q_string .= "left join versions on versions.ver_id = qualities.qual_book ";
         if ($qualities == "positive") {
-          $q_string .= "where qual_value >= 0 ";
+          $q_string .= "where qual_value > 0 ";
         } else {
-          $q_string .= "where qual_value < 0 ";
+          $q_string .= "where qual_value <= 0 ";
         }
         $q_string .= "and ver_admin = 1 ";
         $q_string .= "order by qual_name,ver_version ";
