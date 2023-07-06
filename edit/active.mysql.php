@@ -352,8 +352,8 @@
       print "document.getElementById('active_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
 
       print "document.edit.r_act_group[0].selected = true;\n";
-
       print "document.edit.r_act_group.disabled = false;\n";
+      print "document.edit.r_act_specialize.value = '';\n";
       print "document.edit.r_act_update.disabled = true;\n";
     } else {
       logaccess($_SESSION['username'], $package, "Unauthorized access.");

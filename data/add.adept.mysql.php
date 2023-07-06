@@ -24,7 +24,7 @@
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']            = clean($_GET['id'],            10);
         $formVars['adp_name']      = clean($_GET['adp_name'],      60);
-        $formVars['adp_desc']      = clean($_GET['adp_desc'],     100);
+        $formVars['adp_desc']      = clean($_GET['adp_desc'],     128);
         $formVars['adp_power']     = clean($_GET['adp_power'],     10);
         $formVars['adp_level']     = clean($_GET['adp_level'],     10);
         $formVars['adp_book']      = clean($_GET['adp_book'],      10);

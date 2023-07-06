@@ -3,7 +3,7 @@
   <td class="ui-widget-content">Tradition <input type="text" name="trad_name" size="20"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Description <input type="text" name="trad_description" size="60"></td>
+  <td class="ui-widget-content">Description <input type="text" name="trad_description" size="70"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Combat <select name="trad_combat">

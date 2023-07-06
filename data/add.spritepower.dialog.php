@@ -3,7 +3,7 @@
   <td class="ui-widget-content">Name <input type="text" name="pow_name" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Description <input type="text" name="pow_description" size="30"></td>
+  <td class="ui-widget-content">Description <input type="text" name="pow_description" size="70"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Book <select name="pow_book">
