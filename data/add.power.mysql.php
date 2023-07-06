@@ -28,7 +28,7 @@
         $formVars['pow_range']         = clean($_GET['pow_range'],        10);
         $formVars['pow_action']        = clean($_GET['pow_action'],       10);
         $formVars['pow_duration']      = clean($_GET['pow_duration'],     10);
-        $formVars['pow_description']   = clean($_GET['pow_description'],  60);
+        $formVars['pow_description']   = clean($_GET['pow_description'], 128);
         $formVars['pow_book']          = clean($_GET['pow_book'],         10);
         $formVars['pow_page']          = clean($_GET['pow_page'],         10);
 

@@ -25,7 +25,7 @@
         $formVars['id']             = clean($_GET['id'],             10);
         $formVars['pgm_name']       = clean($_GET['pgm_name'],       50);
         $formVars['pgm_type']       = clean($_GET['pgm_type'],       10);
-        $formVars['pgm_desc']       = clean($_GET['pgm_desc'],      100);
+        $formVars['pgm_desc']       = clean($_GET['pgm_desc'],      128);
         $formVars['pgm_avail']      = clean($_GET['pgm_avail'],      10);
         $formVars['pgm_perm']       = clean($_GET['pgm_perm'],       10);
         $formVars['pgm_cost']       = clean($_GET['pgm_cost'],       10);
