@@ -72,6 +72,7 @@ function attach_adept(p_script_url, update) {
   aa_url += "&adp_name="    + encode_URI(aa_form.adp_name.value);
   aa_url += "&adp_desc="    + encode_URI(aa_form.adp_desc.value);
   aa_url += "&adp_power="   + encode_URI(aa_form.adp_power.value);
+  aa_url += "&adp_active="  + encode_URI(aa_form.adp_active.value);
   aa_url += "&adp_level="   + encode_URI(aa_form.adp_level.value);
   aa_url += "&adp_book="    + encode_URI(aa_form.adp_book.value);
   aa_url += "&adp_page="    + encode_URI(aa_form.adp_page.value);
@@ -94,7 +95,7 @@ $(document).ready( function() {
   $( "#dialogAdeptPower" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 250,
+    height: 275,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

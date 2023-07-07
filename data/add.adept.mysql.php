@@ -26,6 +26,7 @@
         $formVars['adp_name']      = clean($_GET['adp_name'],      60);
         $formVars['adp_desc']      = clean($_GET['adp_desc'],     128);
         $formVars['adp_power']     = clean($_GET['adp_power'],     10);
+        $formVars['adp_active']    = clean($_GET['adp_active'],    25);
         $formVars['adp_level']     = clean($_GET['adp_level'],     10);
         $formVars['adp_book']      = clean($_GET['adp_book'],      10);
         $formVars['adp_page']      = clean($_GET['adp_page'],      10);
@@ -47,6 +48,7 @@
             "adp_name       = \"" . $formVars['adp_name']   . "\"," .
             "adp_desc       = \"" . $formVars['adp_desc']   . "\"," .
             "adp_power      =   " . $formVars['adp_power']  . "," .
+            "adp_active     = \"" . $formVars['adp_active'] . "\"," .
             "adp_level      =   " . $formVars['adp_level']  . "," .
             "adp_book       = \"" . $formVars['adp_book']   . "\"," .
             "adp_page       =   " . $formVars['adp_page'];
@@ -108,11 +110,12 @@
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Description</th>\n";
       $output .=   "<th class=\"ui-state-default\">Power Points</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Activation</th>\n";
       $output .=   "<th class=\"ui-state-default\">Level</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select adp_id,adp_name,adp_desc,adp_power,adp_level,ver_book,adp_page ";
+      $q_string  = "select adp_id,adp_name,adp_desc,adp_power,adp_active,adp_level,ver_book,adp_page ";
       $q_string .= "from adept ";
       $q_string .= "left join versions on versions.ver_id = adept.adp_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -154,6 +157,7 @@
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_adept['adp_name']                         . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $a_adept['adp_desc']                                    . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_power']                                   . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_active']                                  . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $maxlevel                                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . return_Book($a_adept['ver_book'], $a_adept['adp_page']) . "</td>\n";
           $output .= "</tr>\n";
@@ -171,6 +175,7 @@
       print "document.dialog.adp_name.value = '';\n";
       print "document.dialog.adp_desc.value = '';\n";
       print "document.dialog.adp_power.value = '';\n";
+      print "document.dialog.adp_active.value = '';\n";
       print "document.dialog.adp_level.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

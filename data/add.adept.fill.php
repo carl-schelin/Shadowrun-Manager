@@ -22,19 +22,20 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from adept");
 
-      $q_string  = "select adp_name,adp_desc,adp_power,adp_level,adp_book,adp_page ";
+      $q_string  = "select adp_name,adp_desc,adp_power,adp_active,adp_level,adp_book,adp_page ";
       $q_string .= "from adept ";
       $q_string .= "where adp_id = " . $formVars['id'];
       $q_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_adept = mysql_fetch_array($q_adept);
       mysql_free_result($q_adept);
 
-      print "document.dialog.adp_name.value = '"  . mysql_real_escape_string($a_adept['adp_name'])  . "';\n";
-      print "document.dialog.adp_desc.value = '"  . mysql_real_escape_string($a_adept['adp_desc'])  . "';\n";
-      print "document.dialog.adp_power.value = '" . mysql_real_escape_string($a_adept['adp_power']) . "';\n";
-      print "document.dialog.adp_level.value = '" . mysql_real_escape_string($a_adept['adp_level']) . "';\n";
-      print "document.dialog.adp_book.value = '"  . mysql_real_escape_string($a_adept['adp_book'])  . "';\n";
-      print "document.dialog.adp_page.value = '"  . mysql_real_escape_string($a_adept['adp_page'])  . "';\n";
+      print "document.dialog.adp_name.value = '"        . mysql_real_escape_string($a_adept['adp_name'])       . "';\n";
+      print "document.dialog.adp_desc.value = '"        . mysql_real_escape_string($a_adept['adp_desc'])       . "';\n";
+      print "document.dialog.adp_power.value = '"       . mysql_real_escape_string($a_adept['adp_power'])      . "';\n";
+      print "document.dialog.adp_active.value = '"      . mysql_real_escape_string($a_adept['adp_active'])     . "';\n";
+      print "document.dialog.adp_level.value = '"       . mysql_real_escape_string($a_adept['adp_level'])      . "';\n";
+      print "document.dialog.adp_book.value = '"        . mysql_real_escape_string($a_adept['adp_book'])       . "';\n";
+      print "document.dialog.adp_page.value = '"        . mysql_real_escape_string($a_adept['adp_page'])       . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
