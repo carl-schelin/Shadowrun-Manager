@@ -187,6 +187,7 @@ $(document).ready( function() {
   <li><a href="#eyeware">Eyeware</a></li>
   <li><a href="#headware">Headware</a></li>
   <li><a href="#bodyware">Bodyware</a></li>
+  <li><a href="#cyberlimbs">Cyberlimbs</a></li>
   <li><a href="#cosmetic">Cosmetic Cyberware Modifications</a></li>
 </ul>
 
@@ -215,6 +216,13 @@ $(document).ready( function() {
 <div id="bodyware">
 
 <span id="bodyware_table"><?php print wait_Process('Loading Bodyware...')?></span>
+
+</div>
+
+
+<div id="cyberlimbs">
+
+<span id="cyberlimbs_table"><?php print wait_Process('Loading Cyberlimbs...')?></span>
 
 </div>
 
