@@ -12,6 +12,9 @@
   <td class="ui-widget-content">Power Points <input type="text" name="adp_power" size="5"></td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Activation <input type="text" name="adp_active" size="45"> (sr6)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Book <select name="adp_book">
 <?php
   $q_string  = "select ver_id,ver_short ";
