@@ -46,18 +46,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into weakness set weak_id = NULL, " . $q_string;
-            $message = "Weakness added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update weakness set " . $q_string . " where weak_id = " . $formVars['id'];
-            $message = "Weakness updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['weak_name']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }

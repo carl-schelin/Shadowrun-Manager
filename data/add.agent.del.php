@@ -31,8 +31,6 @@
       $q_string .= "from r_agents ";
       $q_string .= "where r_agt_number = " . $formVars['id'];
       $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-
-      print "alert('Agent deleted.');\n";
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
     }

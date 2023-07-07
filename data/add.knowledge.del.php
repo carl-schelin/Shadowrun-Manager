@@ -26,8 +26,6 @@
       $q_string .= "from knowledge ";
       $q_string .= "where know_id = " . $formVars['id'];
       $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-
-      print "alert('Knowledge Skill deleted.');\n";
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
     }

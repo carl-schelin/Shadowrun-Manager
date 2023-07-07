@@ -43,8 +43,6 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into sp_active set sp_act_id = NULL, " . $q_string;
-
-            $message = "Active Skill added.";
           }
 
           if ($formVars['update'] == 1) {
@@ -53,15 +51,11 @@
               "sp_act_specialize = \"" . $formVars['sp_act_specialize']  . "\"";
 
             $query = "update sp_active set " . $q_string . " where sp_act_id = " . $formVars['id'];
-
-            $message = "Active Skill updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sp_act_number']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
