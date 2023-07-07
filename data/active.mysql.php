@@ -3,7 +3,7 @@
 # Owner: Carl Schelin
 # Coding Standard 3.0 Applied
 # See: https://incowk01/makers/index.php/Coding_Standards
-# Description: Retrieve data and update the database with the new info. Prepare and display the table
+# Description: This is used with Spirits to add a description to the powers
 
   header('Content-Type: text/javascript');
 
