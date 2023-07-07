@@ -94,7 +94,7 @@ $(document).ready( function() {
   $( "#dialogAdeptPower" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 225,
+    height: 250,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
