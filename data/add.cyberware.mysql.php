@@ -108,7 +108,7 @@
 
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
-      $cyberware_list = array("earware", "eyeware", "headware", "bodyware", "cosmetic");
+      $cyberware_list = array("earware", "eyeware", "headware", "bodyware", "cyberlimbs", "cosmetic");
 
       foreach ($cyberware_list as &$cyberware) {
 
