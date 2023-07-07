@@ -3,7 +3,7 @@
 # Owner: Carl Schelin
 # Coding Standard 3.0 Applied
 # See: https://incowk01/makers/index.php/Coding_Standards
-# Description: Retrieve data and update the database with the new info. Prepare and display the table
+# Description: This is used for spirits to add/modify the description
 
   header('Content-Type: text/javascript');
 
@@ -28,7 +28,7 @@
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                       = clean($_GET['id'],                  10);
         $formVars['sp_weak_number']           = clean($_GET['weak_id'],             10);
-        $formVars['sp_weak_specialize']       = clean($_GET['sp_weak_specialize'],  10);
+        $formVars['sp_weak_specialize']       = clean($_GET['sp_weak_specialize'], 255);
 
         if ($formVars['sp_weak_number'] == '') {
           $formVars['sp_weak_number'] = 0;
