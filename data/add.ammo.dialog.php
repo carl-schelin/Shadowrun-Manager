@@ -27,6 +27,12 @@
   <td class="ui-widget-content">Damage Modifier <input type="text" name="ammo_mod" size="15"></td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Damage Modifier, Close <input type="text" name="ammo_close" size="15"> (sr6)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Damage Modifier, Near <input type="text" name="ammo_near" size="15"> (sr6)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">AP Modifier <input type="text" name="ammo_ap" size="5"></td>
 </tr>
 <tr>

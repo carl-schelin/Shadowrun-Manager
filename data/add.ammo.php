@@ -67,6 +67,8 @@ function attach_ammo(p_script_url, update) {
   aa_url += "&ammo_rounds="    + encode_URI(aa_form.ammo_rounds.value);
   aa_url += "&ammo_rating="    + encode_URI(aa_form.ammo_rating.value);
   aa_url += "&ammo_mod="       + encode_URI(aa_form.ammo_mod.value);
+  aa_url += "&ammo_close="     + encode_URI(aa_form.ammo_close.value);
+  aa_url += "&ammo_near="      + encode_URI(aa_form.ammo_near.value);
   aa_url += "&ammo_ap="        + encode_URI(aa_form.ammo_ap.value);
   aa_url += "&ammo_blast="     + encode_URI(aa_form.ammo_blast.value);
   aa_url += "&ammo_armor="     + encode_URI(aa_form.ammo_armor.value);
@@ -98,7 +100,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 425,
+    height: 475,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

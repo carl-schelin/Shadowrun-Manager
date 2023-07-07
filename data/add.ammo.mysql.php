@@ -26,6 +26,8 @@
         $formVars['ammo_class']       = clean($_GET['ammo_class'],       10);
         $formVars['ammo_name']        = clean($_GET['ammo_name'],        50);
         $formVars['ammo_mod']         = clean($_GET['ammo_mod'],         20);
+        $formVars['ammo_close']       = clean($_GET['ammo_close'],       20);
+        $formVars['ammo_near']        = clean($_GET['ammo_near'],        20);
         $formVars['ammo_rounds']      = clean($_GET['ammo_rounds'],      10);
         $formVars['ammo_rating']      = clean($_GET['ammo_rating'],      10);
         $formVars['ammo_ap']          = clean($_GET['ammo_ap'],          10);
@@ -72,6 +74,8 @@
             "ammo_class       =   " . $formVars['ammo_class']        . "," .
             "ammo_name        = \"" . $formVars['ammo_name']         . "\"," .
             "ammo_mod         = \"" . $formVars['ammo_mod']          . "\"," .
+            "ammo_close       = \"" . $formVars['ammo_close']        . "\"," .
+            "ammo_near        = \"" . $formVars['ammo_near']         . "\"," .
             "ammo_rounds      =   " . $formVars['ammo_rounds']       . "," .
             "ammo_rating      =   " . $formVars['ammo_rating']       . "," .
             "ammo_ap          =   " . $formVars['ammo_ap']           . "," .
@@ -145,6 +149,8 @@
       $output .=   "<th class=\"ui-state-default\">Rounds</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Damage Modifier</th>\n";
+      $output .=   "<th class=\"ui-state-default\">DV Close</th>\n";
+      $output .=   "<th class=\"ui-state-default\">DV Near</th>\n";
       $output .=   "<th class=\"ui-state-default\">AP Modifier</th>\n";
       $output .=   "<th class=\"ui-state-default\">Blast</th>\n";
       $output .=   "<th class=\"ui-state-default\">Armor</th>\n";
@@ -155,7 +161,7 @@
       $output .= "</tr>\n";
 
       $nuyen = '&yen;';
-      $q_string  = "select ammo_id,class_name,ammo_name,ammo_rounds,ammo_mod,ammo_ap,ammo_blast,";
+      $q_string  = "select ammo_id,class_name,ammo_name,ammo_rounds,ammo_mod,ammo_ap,ammo_blast,ammo_close,ammo_near,";
       $q_string .= "ammo_armor,ammo_rating,ammo_avail,ammo_perm,ammo_basetime,ammo_duration,ammo_index,ammo_cost,ver_book,ammo_page ";
       $q_string .= "from ammo ";
       $q_string .= "left join class on class.class_id = ammo.ammo_class ";
@@ -208,6 +214,8 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_rounds']                                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $ammo_rating                                                         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_mod']                                                  . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_close']                                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_near']                                                 . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $ammo_ap                                                             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_blast']                                                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_ammo['ammo_armor']                                                . "</td>\n";
@@ -230,6 +238,8 @@
       print "document.dialog.ammo_class.value = '';\n";
       print "document.dialog.ammo_name.value = '';\n";
       print "document.dialog.ammo_mod.value = '';\n";
+      print "document.dialog.ammo_close.value = '';\n";
+      print "document.dialog.ammo_near.value = '';\n";
       print "document.dialog.ammo_rounds.value = '';\n";
       print "document.dialog.ammo_rating.value = '';\n";
       print "document.dialog.ammo_ap.value = '';\n";

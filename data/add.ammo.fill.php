@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from ammo");
 
-      $q_string  = "select ammo_class,ammo_name,ammo_rounds,ammo_rating,ammo_mod,ammo_ap,";
+      $q_string  = "select ammo_class,ammo_name,ammo_rounds,ammo_rating,ammo_mod,ammo_ap,ammo_close,ammo_near,";
       $q_string .= "ammo_blast,ammo_armor,ammo_avail,ammo_perm,ammo_basetime,ammo_duration,ammo_index,ammo_cost,ammo_book,ammo_page ";
       $q_string .= "from ammo ";
       $q_string .= "where ammo_id = " . $formVars['id'];
@@ -35,6 +35,8 @@
       print "document.dialog.ammo_rounds.value = '"     . mysql_real_escape_string($a_ammo['ammo_rounds'])     . "';\n";
       print "document.dialog.ammo_rating.value = '"     . mysql_real_escape_string($a_ammo['ammo_rating'])     . "';\n";
       print "document.dialog.ammo_mod.value = '"        . mysql_real_escape_string($a_ammo['ammo_mod'])        . "';\n";
+      print "document.dialog.ammo_close.value = '"      . mysql_real_escape_string($a_ammo['ammo_close'])      . "';\n";
+      print "document.dialog.ammo_near.value = '"       . mysql_real_escape_string($a_ammo['ammo_near'])       . "';\n";
       print "document.dialog.ammo_ap.value = '"         . mysql_real_escape_string($a_ammo['ammo_ap'])         . "';\n";
       print "document.dialog.ammo_blast.value = '"      . mysql_real_escape_string($a_ammo['ammo_blast'])      . "';\n";
       print "document.dialog.ammo_armor.value = '"      . mysql_real_escape_string($a_ammo['ammo_armor'])      . "';\n";
