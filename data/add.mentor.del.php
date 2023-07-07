@@ -26,8 +26,6 @@
       $q_string .= "from mentor ";
       $q_string .= "where mentor_id = " . $formVars['id'];
       $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-
-      print "alert('Mentor Spirit deleted.');\n";
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
     }

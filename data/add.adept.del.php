@@ -25,8 +25,6 @@
       $q_string .= "from adept ";
       $q_string .= "where adp_id = " . $formVars['id'];
       $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-
-      print "alert('Adept Power deleted.');\n";
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
     }

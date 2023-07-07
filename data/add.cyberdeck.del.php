@@ -47,7 +47,6 @@
 
         }
       }
-      print "alert('Cyberdeck deleted.');\n";
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
     }

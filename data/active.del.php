@@ -26,8 +26,6 @@
       $q_string .= "from sp_active ";
       $q_string .= "where sp_act_id = " . $formVars['id'];
       $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-
-      print "alert('Active Skill removed.');\n";
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
     }

@@ -50,12 +50,6 @@
               "sp_power_optional    =   " . $formVars['sp_power_optional'];
 
             $query = "insert into sp_powers set sp_power_id = NULL, " . $q_string;
-
-            if ($formVars['sp_power_optional'] == 1) {
-              $message = "Optional Power added.";
-            } else {
-              $message = "Power added.";
-            }
           }
 
           if ($formVars['update'] == 1) {
@@ -63,12 +57,6 @@
               "sp_power_specialize    = \"" . $formVars['sp_power_specialize']  . "\"";
 
             $query = "update sp_powers set " . $q_string . " where sp_power_id = " . $formVars['id'];
-
-            if ($formVars['sp_power_optional'] == 1) {
-              $message = "Optional Power updated.";
-            } else {
-              $message = "Power updated.";
-            }
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sp_power_number']);
