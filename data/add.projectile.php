@@ -66,6 +66,11 @@ function attach_projectile(p_script_url, update) {
   ap_url += "&proj_name="       + encode_URI(ap_form.proj_name.value);
   ap_url += "&proj_rating="     + encode_URI(ap_form.proj_rating.value);
   ap_url += "&proj_acc="        + encode_URI(ap_form.proj_acc.value);
+  ap_url += "&proj_ar1="        + encode_URI(ap_form.proj_ar1.value);
+  ap_url += "&proj_ar2="        + encode_URI(ap_form.proj_ar2.value);
+  ap_url += "&proj_ar3="        + encode_URI(ap_form.proj_ar3.value);
+  ap_url += "&proj_ar4="        + encode_URI(ap_form.proj_ar4.value);
+  ap_url += "&proj_ar5="        + encode_URI(ap_form.proj_ar5.value);
   ap_url += "&proj_damage="     + encode_URI(ap_form.proj_damage.value);
   ap_url += "&proj_type="       + encode_URI(ap_form.proj_type.value);
   ap_url += "&proj_strength="   + ap_form.proj_strength.checked;
@@ -97,7 +102,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 400,
+    height: 425,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

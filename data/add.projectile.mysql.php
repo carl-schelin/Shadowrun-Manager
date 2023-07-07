@@ -27,6 +27,11 @@
         $formVars['proj_name']     = clean($_GET['proj_name'],     60);
         $formVars['proj_rating']   = clean($_GET['proj_rating'],   10);
         $formVars['proj_acc']      = clean($_GET['proj_acc'],      10);
+        $formVars['proj_ar1']      = clean($_GET['proj_ar1'],      10);
+        $formVars['proj_ar2']      = clean($_GET['proj_ar2'],      10);
+        $formVars['proj_ar3']      = clean($_GET['proj_ar3'],      10);
+        $formVars['proj_ar4']      = clean($_GET['proj_ar4'],      10);
+        $formVars['proj_ar5']      = clean($_GET['proj_ar5'],      10);
         $formVars['proj_damage']   = clean($_GET['proj_damage'],   10);
         $formVars['proj_type']     = clean($_GET['proj_type'],     10);
         $formVars['proj_strength'] = clean($_GET['proj_strength'], 10);
@@ -48,6 +53,21 @@
         }
         if ($formVars['proj_acc'] == '') {
           $formVars['proj_acc'] = 0;
+        }
+        if ($formVars['proj_ar1'] == '') {
+          $formVars['proj_ar1'] = 0;
+        }
+        if ($formVars['proj_ar2'] == '') {
+          $formVars['proj_ar2'] = 0;
+        }
+        if ($formVars['proj_ar3'] == '') {
+          $formVars['proj_ar3'] = 0;
+        }
+        if ($formVars['proj_ar4'] == '') {
+          $formVars['proj_ar4'] = 0;
+        }
+        if ($formVars['proj_ar5'] == '') {
+          $formVars['proj_ar5'] = 0;
         }
         if ($formVars['proj_damage'] == '') {
           $formVars['proj_damage'] = 0;
@@ -84,6 +104,11 @@
             "proj_name        = \"" . $formVars['proj_name']     . "\"," .
             "proj_rating      =   " . $formVars['proj_rating']   . "," .
             "proj_acc         =   " . $formVars['proj_acc']      . "," .
+            "proj_ar1         =   " . $formVars['proj_ar1']      . "," .
+            "proj_ar2         =   " . $formVars['proj_ar2']      . "," .
+            "proj_ar3         =   " . $formVars['proj_ar3']      . "," .
+            "proj_ar4         =   " . $formVars['proj_ar4']      . "," .
+            "proj_ar5         =   " . $formVars['proj_ar5']      . "," .
             "proj_damage      =   " . $formVars['proj_damage']   . "," .
             "proj_type        = \"" . $formVars['proj_type']     . "\"," .
             "proj_strength    =   " . $formVars['proj_strength'] . "," .
@@ -155,6 +180,7 @@
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Accuracy</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
       $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
       $output .=   "<th class=\"ui-state-default\">AP</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -164,7 +190,7 @@
       $output .= "</tr>\n";
 
       $nuyen = '&yen;';
-      $q_string  = "select proj_id,class_name,proj_name,proj_rating,proj_acc,proj_damage,proj_type,proj_strength, ";
+      $q_string  = "select proj_id,class_name,proj_name,proj_rating,proj_acc,proj_damage,proj_type,proj_strength,proj_ar1,proj_ar2,proj_ar3,proj_ar4,proj_ar5, ";
       $q_string .= "proj_ap,proj_avail,proj_perm,proj_basetime,proj_duration,proj_index,proj_cost,ver_book,proj_page ";
       $q_string .= "from projectile ";
       $q_string .= "left join class on class.class_id = projectile.proj_class ";
@@ -187,6 +213,8 @@
           $proj_damage = return_Strength($a_projectile['proj_damage'], $a_projectile['proj_type'], "", $a_projectile['proj_strength']);
 
           $proj_ap = return_Penetrate($a_projectile['proj_ap']);
+
+          $proj_attack = return_Attack($a_projectile['proj_ar1'], $a_projectile['proj_ar2'], $a_projectile['proj_ar3'], $a_projectile['proj_ar4'], $a_projectile['proj_ar5']);
 
           $proj_avail = return_Avail($a_projectile['proj_avail'], $a_projectile['proj_perm'], $a_projectile['proj_basetime'], $a_projectile['proj_duration']);
 
@@ -221,6 +249,7 @@
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_projectile['proj_name']                           . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $proj_rating                                                    . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_projectile['proj_acc']                                       . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_attack                                                    . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $proj_damage                                                    . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $proj_ap                                                        . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $proj_avail                                                     . "</td>\n";
@@ -231,7 +260,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"13\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"14\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -242,6 +271,11 @@
       print "document.dialog.proj_name.value = '';\n";
       print "document.dialog.proj_rating.value = '';\n";
       print "document.dialog.proj_acc.value = '';\n";
+      print "document.dialog.proj_ar1.value = '';\n";
+      print "document.dialog.proj_ar2.value = '';\n";
+      print "document.dialog.proj_ar3.value = '';\n";
+      print "document.dialog.proj_ar4.value = '';\n";
+      print "document.dialog.proj_ar5.value = '';\n";
       print "document.dialog.proj_damage.value = '';\n";
       print "document.dialog.proj_type.value = '';\n";
       print "document.dialog.proj_strength.checked = false;\n";

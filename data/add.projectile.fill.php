@@ -22,7 +22,7 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from projectile");
 
-      $q_string  = "select proj_class,proj_name,proj_acc,proj_damage,proj_type,proj_rating,proj_ap,proj_avail, ";
+      $q_string  = "select proj_class,proj_name,proj_acc,proj_damage,proj_type,proj_rating,proj_ap,proj_avail,proj_ar1,proj_ar2,proj_ar3,proj_ar4,proj_ar5, ";
       $q_string .= "proj_perm,proj_basetime,proj_duration,proj_index,proj_cost,proj_book,proj_page ";
       $q_string .= "from projectile ";
       $q_string .= "where proj_id = " . $formVars['id'];
@@ -34,6 +34,11 @@
       print "document.dialog.proj_name.value = '"     . mysql_real_escape_string($a_projectile['proj_name'])     . "';\n";
       print "document.dialog.proj_rating.value = '"   . mysql_real_escape_string($a_projectile['proj_rating'])   . "';\n";
       print "document.dialog.proj_acc.value = '"      . mysql_real_escape_string($a_projectile['proj_acc'])      . "';\n";
+      print "document.dialog.proj_ar1.value = '"      . mysql_real_escape_string($a_projectile['proj_ar1'])      . "';\n";
+      print "document.dialog.proj_ar2.value = '"      . mysql_real_escape_string($a_projectile['proj_ar2'])      . "';\n";
+      print "document.dialog.proj_ar3.value = '"      . mysql_real_escape_string($a_projectile['proj_ar3'])      . "';\n";
+      print "document.dialog.proj_ar4.value = '"      . mysql_real_escape_string($a_projectile['proj_ar4'])      . "';\n";
+      print "document.dialog.proj_ar5.value = '"      . mysql_real_escape_string($a_projectile['proj_ar5'])      . "';\n";
       print "document.dialog.proj_damage.value = '"   . mysql_real_escape_string($a_projectile['proj_damage'])   . "';\n";
       print "document.dialog.proj_type.value = '"     . mysql_real_escape_string($a_projectile['proj_type'])     . "';\n";
       print "document.dialog.proj_ap.value = '"       . mysql_real_escape_string($a_projectile['proj_ap'])       . "';\n";

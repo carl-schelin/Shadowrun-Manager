@@ -23,6 +23,9 @@
 <tr>
   <td class="ui-widget-content">ACC <input type="text" name="proj_acc" size="3"></td>
 </tr>
+</tr>
+  <td class="ui-widget-content">Attack Rating <input type="text" name="proj_ar1" size="3">/<input type="text" name="proj_ar2" size="3">/<input type="text" name="proj_ar3" size="3">/<input type="text" name="proj_ar4" size="3">/<input type="text" name="proj_ar5" size="3"> (sr6)</td>
+</tr>
 <tr>
   <td class="ui-widget-content">Damage <input type="text" name="proj_damage" size="3"><input type="text" name="proj_type" size="3"></td>
 </tr>
