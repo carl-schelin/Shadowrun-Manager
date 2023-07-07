@@ -23,7 +23,6 @@
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>
-</select></td>
-  <td class="ui-widget-content">Page <input type="text" name="adp_page" size="5"></td>
+</select>: <input type="text" name="adp_page" size="5"></td>
 </tr>
 </table>
