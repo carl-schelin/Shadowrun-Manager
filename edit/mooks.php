@@ -1660,9 +1660,9 @@ $(document).ready( function() {
   <li><a href="#active">Active Skills</a></li>
   <li><a href="#knowledge">Knowledge Skills</a></li>
   <li><a href="#language">Language Skills</a></li>
-  <li><a href="#lifestyle">Lifestyles</a></li>
   <li><a href="#qualities">Qualities</a></li>
   <li><a href="#contacts">Contacts</a></li>
+  <li><a href="#lifestyle">Lifestyles</a></li>
   <li><a href="#identity">Identity</a></li>
   <li><a href="#magic">Magic</a></li>
   <li><a href="#matrix">Matrix</a></li>
@@ -2229,38 +2229,6 @@ $(document).ready( function() {
 </div>
 
 
-<div id="lifestyle">
-
-<table class="ui-styled-table" width="100%">
-<tr>
-  <th class="ui-state-default"><a href="javascript:;" onmousedown="toggleDiv('lifestyle-hide');">Lifestyle Management</a></th>
-  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('lifestyle-help');">Help</a></th>
-</tr>
-</table>
-
-<div id="lifestyle-help" style="display: none">
-
-<div class="main-help ui-widget-content">
-
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
-
-</div>
-
-</div>
-
-<div id="lifestyle-hide" style="display: none">
-
-<span id="lifestyle_form"><?php print wait_Process("Please Wait"); ?></span>
-
-</div>
-
-<span id="lifestyle_table"><?php print wait_Process("Please Wait"); ?></span>
-
-</div>
-
-
 <div id="qualities">
 
 <table class="ui-styled-table" width="100%">
@@ -2321,6 +2289,38 @@ $(document).ready( function() {
 </div>
 
 <span id="contact_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+<div id="lifestyle">
+
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default"><a href="javascript:;" onmousedown="toggleDiv('lifestyle-hide');">Lifestyle Management</a></th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('lifestyle-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="lifestyle-help" style="display: none">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Notes</strong></li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="lifestyle-hide" style="display: none">
+
+<span id="lifestyle_form"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+<span id="lifestyle_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
 
