@@ -121,7 +121,8 @@
         foreach ($armor_list as &$armor) {
 
 # now display the information for the types of armor.
-          $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
+          $output  = "<p></p>\n";
+          $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
           $output .= "<tr>\n";
           $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Armor Listing</th>\n";
           $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('" . $armor . "-listing-help');\">Help</a></th>\n";
