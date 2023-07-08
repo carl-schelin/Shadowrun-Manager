@@ -388,6 +388,7 @@
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $acc_avail            . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $acc_cost             . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $acc_book             . "</td>\n";
