@@ -293,7 +293,7 @@
           $output .= "</tr>\n";
         }
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"10\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"12\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
         $output .= "</tr>\n";
 
       } else {
