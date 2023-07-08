@@ -202,9 +202,9 @@
             $acc_avail = return_Avail($a_accessory['acc_avail'], $a_accessory['acc_perm']);
 
             $acc_cost = return_Cost($a_accessory['acc_cost']);
-            if ($a_accessory['acc_cost'] == -1) {
-              $acc_cost = return_Cost($a_r_firearms['fa_cost']);
-            }
+#            if ($a_accessory['acc_cost'] == -1) {
+#              $acc_cost = return_Cost($a_r_firearms['fa_cost']);
+#            }
 
             $acc_book = return_Book($a_accessory['ver_book'], $a_accessory['acc_page']);
 
