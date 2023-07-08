@@ -73,18 +73,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_lifestyle set r_life_id = NULL," . $q_string;
-            $message = "Lifestyle added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update r_lifestyle set " . $q_string . " where r_life_id = " . $formVars['r_life_id'];
-            $message = "Lifestyle updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_life_number']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
