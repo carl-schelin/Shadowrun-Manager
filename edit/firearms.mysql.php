@@ -48,6 +48,7 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_firearms set r_fa_id = NULL," . $q_string;
+            $message = "Firearm added.";
           }
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
@@ -56,6 +57,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_number']);
 
+          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -359,15 +361,15 @@
                 $acc_name = $a_r_accessory['acc_name'] . " (" . $a_r_accessory['acc_mount'] . ")";
               }
 
-# if the cost is '-1' then the cost is the cost of the weapon.
+              $acc_cost = return_Cost($a_r_accessory['acc_cost']);
+
+# if the cost is '-1' then the cost is included
               if ($a_r_accessory['acc_cost'] == -1) {
-                $a_r_accessory['acc_cost'] = $a_r_firearms['fa_cost'];
+                $a_r_accessory['acc_cost'] = 0;
               }
               $costtotal += $a_r_accessory['acc_cost'];
 
               $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
-
-              $acc_cost = return_Cost($a_r_accessory['acc_cost']);
 
               $acc_book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
 

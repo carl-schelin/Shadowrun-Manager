@@ -178,7 +178,7 @@
         $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
         $q_string .= "left join class on class.class_id = accessory.acc_class ";
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
-        $q_string .= $where;
+        $q_string .= $where . " and ver_active = 1 ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
         $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
@@ -202,9 +202,9 @@
             $acc_avail = return_Avail($a_accessory['acc_avail'], $a_accessory['acc_perm']);
 
             $acc_cost = return_Cost($a_accessory['acc_cost']);
-            if ($a_accessory['acc_cost'] == -1) {
-              $acc_cost = return_Cost($a_r_firearms['fa_cost']);
-            }
+#            if ($a_accessory['acc_cost'] == -1) {
+#              $acc_cost = return_Cost($a_r_firearms['fa_cost']);
+#            }
 
             $acc_book = return_Book($a_accessory['ver_book'], $a_accessory['acc_page']);
 
