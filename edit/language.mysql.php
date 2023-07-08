@@ -46,18 +46,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_language set r_lang_id = NULL," . $q_string;
-            $message = "Language added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update r_language set " . $q_string . " where r_lang_id = " . $formVars['r_lang_id'];
-            $message = "Language updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_lang_number']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
