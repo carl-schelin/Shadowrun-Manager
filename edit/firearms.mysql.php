@@ -388,6 +388,7 @@
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "--"                  . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $acc_avail            . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $acc_cost             . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $acc_book             . "</td>\n";
@@ -441,11 +442,11 @@
           }
         }
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"12\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"13\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
         $output .= "</tr>\n";
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"12\">No Firearms added.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"13\">No Firearms added.</td>\n";
         $output .= "</tr>\n";
       }
       $output .= "</table>\n";
