@@ -31,9 +31,7 @@
 # delete accessories
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";
-      $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
-      $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
-      $q_string .= "where sub_name = \"Consoles\" and r_acc_character = " . $a_r_command['r_cmd_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
+      $q_string .= "where r_acc_character = " . $a_r_command['r_cmd_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
       $result = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
 # delete all the programs associated with the deleted console

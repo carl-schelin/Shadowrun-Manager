@@ -55,18 +55,14 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_active set r_act_id = NULL," . $q_string;
-            $message = "Active Skill added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update r_active set " . $q_string . " where r_act_id = " . $formVars['r_act_id'];
-            $message = "Active Skill updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_act_number']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         }
 
         if ($formVars['r_act_group'] > 0) {
