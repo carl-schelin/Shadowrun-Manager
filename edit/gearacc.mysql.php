@@ -184,7 +184,7 @@
             $linkstart .= "');";
             $linkstart .= "show_file('gear.mysql.php";
             $linkstart .= "?update=-1";
-            $linkstart .= "&r_gear_character=" . $a_r_armor['r_gear_character'];
+            $linkstart .= "&r_gear_character=" . $a_r_gear['r_gear_character'];
             $linkstart .= "');\">";
 
             $linkend   = "</a>";
@@ -213,7 +213,7 @@
           }
         } else {
           $output .= "<tr>\n";
-          $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">There are no appropriate Accessories for this item.</td>\n";
+          $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">Either you've reached gear capacity or there are no appropriate Accessories for this item.</td>\n";
           $output .= "</tr>\n";
         }
         $output .= "</table>\n";
