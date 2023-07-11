@@ -355,7 +355,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"16\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 

@@ -216,7 +216,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"14\">No Cyberdeck found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">No Cyberdeck found.</td>\n";
         $output .= "</tr>\n";
       }
 
