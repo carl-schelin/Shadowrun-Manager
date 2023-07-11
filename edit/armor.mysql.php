@@ -214,7 +214,8 @@
 
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
-      $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
+      $output  = "<p></p>\n";
+      $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
       $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Armor Listing</th>\n";
       $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('my-armor-listing-help');\">Help</a></th>\n";
