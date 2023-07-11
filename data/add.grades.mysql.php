@@ -121,6 +121,7 @@
       $q_string  = "select grade_id,grade_name,grade_essence,grade_avail,grade_cost,ver_book,grade_page ";
       $q_string .= "from grades ";
       $q_string .= "left join versions on versions.ver_id = grades.grade_book ";
+      $q_string .= "where ver_active = 1 ";
       $q_string .= "order by grade_name ";
       $q_grades = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_grades) > 0) {
@@ -130,14 +131,20 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_grade('add.grades.del.php?id=" . $a_grades['grade_id'] . "');\">";
           $linkend = "</a>";
 
+          $grade_avail = return_Avail($a_grades['grade_avail'], "");
+
+          $grade_cost = return_Cost($a_grades['grade_cost']);
+
+          $grade_book = return_Book($a_grades['ver_book'], $a_grades['grade_page']);
+
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_grades['grade_id']                                  . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_grades['grade_name']                     . $linkend . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_grades['grade_essence']                             . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_grades['grade_avail']                               . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_grades['grade_cost']                                . "</td>\n";
-          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_grades['ver_book'] . ": " . $a_grades['grade_page'] . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\" width=\"60\">" . $linkdel                              . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">" . $a_grades['grade_id']                 . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">"        . $linkstart . $a_grades['grade_name']    . $linkend . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">"              . $a_grades['grade_essence']            . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">"              . $grade_avail                          . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">"              . $grade_cost                           . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">"              . $grade_book                           . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

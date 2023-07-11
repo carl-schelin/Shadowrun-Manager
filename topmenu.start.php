@@ -54,6 +54,7 @@
       <li><a href="<?php print $Dataroot; ?>/add.accessory.php">Accessories</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.ammo.php">Ammunition</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.armor.php">Armor</a></li>
+      <li><a href="<?php print $Dataroot; ?>/add.grades.php">Bio/Cyberware Grades</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.bioware.php">Bioware</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.cyberware.php">Cyberware</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.firearm.php">Firearms</a></li>
@@ -64,7 +65,6 @@
     </ul>
   <li id="tm_manage"><a href="<?php print $Siteroot; ?>/index.admin.php">Admins</a>
     <ul>
-      <li><a href="<?php print $Adminroot; ?>/add.grades.php">Bio/Cyberware Grades</a></li>
       <li><a href="<?php print $Adminroot; ?>/add.class.php">Classes</a></li>
       <li><a href="<?php print $Adminroot; ?>/add.books.php">Library</a></li>
       <li><a href="<?php print $Adminroot; ?>/add.orphan.php">Orphans</a></li>
