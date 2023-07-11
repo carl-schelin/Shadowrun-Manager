@@ -348,7 +348,7 @@
 
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">No Gear added.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">No Gear added.</td>\n";
         $output .= "</tr>\n";
       }
       $output .= "</table>\n";
