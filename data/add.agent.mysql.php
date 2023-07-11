@@ -124,7 +124,7 @@
       $q_string  = "select agt_id,agt_name,agt_rating,agt_avail,agt_perm,agt_cost,ver_book,agt_page ";
       $q_string .= "from agents ";
       $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
-      $q_string .= "where ver_admin = 1 ";
+      $q_string .= "where ver_admin = 1 and ver_active = 1 ";
       $q_string .= "order by agt_name,agt_rating,ver_version ";
       $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_agents) > 0) {
