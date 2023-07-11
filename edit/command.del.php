@@ -24,7 +24,7 @@
 
       $q_string  = "select r_cmd_character ";
       $q_string .= "from r_command ";
-      $q_string .= "where r_link_id = " . $formVars['id'] . " ";
+      $q_string .= "where r_cmd_id = " . $formVars['id'] . " ";
       $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_command = mysql_fetch_array($q_r_command);
 
