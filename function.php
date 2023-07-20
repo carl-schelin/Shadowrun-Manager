@@ -198,6 +198,13 @@ function check_owner( $p_string ) {
   return $visible;
 }
 
+
+
+###
+# General data processing functions to properly manipulate character data
+###
+
+
 # assumes value passed is kilograms
 function return_Pounds( $p_kilograms ) {
   return(number_format(($p_kilograms * 2.20462), 2, '.', ','));
@@ -687,17 +694,22 @@ function return_Complex($p_fading, $p_level) {
   return(trim($r_fading));
 }
 
-function return_Cost($p_min, $p_max = 0) {
-  $nuyen = '&yen;';
+function return_Cost($p_min, $p_meta = 0, $p_max = 0) {
+  $f_nuyen = '&yen;';
+  $f_multiplier = "1";
   $r_cost = "No Charge";
+
+  if ($p_meta == 1) {
+    $f_multiplier = '1.10';
+
   if ($p_min == -1) {
     $r_cost = 'Included';
   }
   if ($p_min > 0) {
-    $r_cost = number_format($p_min, 0, '.', ',') . $nuyen;
+    $r_cost = number_format(($p_min * $f_multiplier), 0, '.', ',') . $f_nuyen;
   }
   if ($p_max > 0) {
-    $r_cost .= "-" . number_format($p_max, 0, '.', ',') . $nuyen;
+    $r_cost .= "-" . number_format(($p_max * $f_multiplier), 0, '.', ',') . $f_nuyen;
   }
   return($r_cost);
 }

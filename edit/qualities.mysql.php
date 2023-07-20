@@ -55,28 +55,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_qual_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_qual_number,r_qual_details ";
-          $q_string .= "from r_qualities ";
-          $q_string .= "where r_qual_character = " . $formVars['copyfrom'];
-          $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_qualities = mysql_fetch_array($q_r_qualities)) {
-
-            $q_string =
-              "r_qual_character     =   " . $formVars['r_qual_character']      . "," .
-              "r_qual_number        =   " . $a_r_qualities['r_qual_number']    . "," .
-              "r_qual_details       =   " . $a_r_qualities['r_qual_details']   . "\"";
-  
-            $query = "insert into r_qualities set r_qual_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       if ($formVars['update'] == -3) {
 
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
@@ -88,30 +66,6 @@
         $output .= "<input type=\"button\" name=\"r_qual_update\"  value=\"Update Quality\"          onClick=\"javascript:attach_qualities('qualities.mysql.php', 1);hideDiv('qualities-hide');\">\n";
         $output .= "<input type=\"hidden\" name=\"r_qual_id\"      value=\"0\">\n";
         $output .= "<input type=\"button\" name=\"r_qual_addbtn\"  value=\"Add Quality\"             onClick=\"javascript:attach_qualities('qualities.mysql.php', 0);\">\n";
-        $output .= "</tr>\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"copyitem\"  value=\"Copy Quality Table From:\" onClick=\"javascript:attach_qualities('qualities.mysql.php', -2);\">\n";
-        $output .= "<select name=\"r_qual_copyfrom\">\n";
-        $output .= "<option value=\"0\">None</option>\n";
-
-        $q_string  = "select runr_id,runr_aliases ";
-        $q_string .= "from runners ";
-        $q_string .= "order by runr_aliases ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
-          $q_string  = "select r_qual_id ";
-          $q_string .= "from r_qualities ";
-          $q_string .= "where r_qual_character = " . $a_runners['runr_id'] . " ";
-          $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $r_qual_total = mysql_num_rows($q_r_qualities);
-
-          if ($r_qual_total > 0) {
-            $output .= "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_aliases'] . " (" . $r_qual_total . ")</option>\n";
-          }
-        }
-
-        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 

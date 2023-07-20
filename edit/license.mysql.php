@@ -46,44 +46,18 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_license set lic_id = NULL," . $q_string;
-            $message = "License added.";
           }
           if ($formVars['update'] == 1) {
             $query = "update r_license set " . $q_string . " where lic_id = " . $formVars['lic_id'];
-            $message = "License updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['lic_type']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
-
-
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['lic_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select lic_type ";
-          $q_string .= "from r_license ";
-          $q_string .= "where r_lic_character = " . $formVars['copyfrom'];
-          $q_r_license = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_license = mysql_fetch_array($q_r_license)) {
-
-            $q_string =
-              "lic_character     =   " . $formVars['lic_character'] . "," .
-              "lic_type          = \"" . $a_r_license['lic_type']   . "\"";
-  
-            $query = "insert into r_license set r_lic_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
     } else {
       logaccess($_SESSION['username'], $package, "Unauthorized access.");
     }

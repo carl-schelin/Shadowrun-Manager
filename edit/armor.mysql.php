@@ -68,27 +68,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_arm_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_arm_number ";
-          $q_string .= "from r_armor ";
-          $q_string .= "where r_arm_character = " . $formVars['copyfrom'];
-          $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
-
-            $q_string =
-              "r_arm_character     =   " . $formVars['r_arm_character']      . "," .
-              "r_arm_number        =   " . $a_r_armor['r_arm_number'];
-  
-            $query = "insert into r_armor set r_arm_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
 
       if ($formVars['update'] == -3) {

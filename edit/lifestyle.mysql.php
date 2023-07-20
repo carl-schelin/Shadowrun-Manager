@@ -87,42 +87,24 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_life_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_life_number,r_life_desc,r_life_months ";
-          $q_string .= "from r_lifestyle ";
-          $q_string .= "where r_life_character = " . $formVars['copyfrom'];
-          $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
-
-            $q_string =
-              "r_life_character     =   " . $formVars['r_life_character']      . "," .
-              "r_life_number        =   " . $a_r_lifestyle['r_life_number']    . "," .
-              "r_life_desc          = \"" . $a_r_lifestyle['r_life_desc']      . "\"";
-              "r_life_months        =   " . $a_r_lifestyle['r_life_months'];
-  
-            $query = "insert into r_lifestyle set r_life_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-      $q_string  = "select meta_name ";
+# need the runner name and game version
+      $q_string  = "select meta_name,runr_version ";
       $q_string .= "from metatypes ";
       $q_string .= "left join runners on runners.runr_metatype = metatypes.meta_id ";
       $q_string .= "where runr_id = " . $formVars['r_life_character'] . " ";
       $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_metatypes = mysql_fetch_array($q_metatypes);
+# if SR5 (id 2)
 # if troll, * 2;
 # if dwarf, * 1.2;
       $multiplier = 1;
-      if ($a_metatypes['meta_name'] == 'Dwarf') {
-        $multiplier = 1.2;
-      }
-      if ($a_metatypes['meta_name'] == 'Troll') {
-        $multiplier = 2;
+      if ($a_metatypes['runr_version'] == 2) {
+        if ($a_metatypes['meta_name'] == 'Dwarf') {
+          $multiplier = 1.2;
+        }
+        if ($a_metatypes['meta_name'] == 'Troll') {
+          $multiplier = 2;
+        }
       }
 
       if ($formVars['update'] == -3) {
@@ -136,30 +118,6 @@
         $output .= "<input type=\"button\" name=\"r_life_update\"  value=\"Update Lifestyle\"          onClick=\"javascript:attach_lifestyle('lifestyle.mysql.php', 1);hideDiv('lifestyle-hide');\">\n";
         $output .= "<input type=\"hidden\" name=\"r_life_id\"      value=\"0\">\n";
         $output .= "<input type=\"button\" name=\"r_life_addbtn\"  value=\"Add Lifestyle\"             onClick=\"javascript:attach_lifestyle('lifestyle.mysql.php', 0);\">\n";
-        $output .= "</tr>\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"copyitem\"  value=\"Copy Lifestyle Table From:\" onClick=\"javascript:attach_lifestyle('lifestyle.mysql.php', -2);\">\n";
-        $output .= "<select name=\"r_life_copyfrom\">\n";
-        $output .= "<option value=\"0\">None</option>\n";
-
-        $q_string  = "select runr_id,runr_aliases ";
-        $q_string .= "from runners ";
-        $q_string .= "order by runr_aliases ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
-          $q_string  = "select r_life_id ";
-          $q_string .= "from r_lifestyle ";
-          $q_string .= "where r_life_character = " . $a_runners['runr_id'] . " ";
-          $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $r_life_total = mysql_num_rows($q_r_lifestyle);
-
-          if ($r_life_total > 0) {
-            $output .= "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_aliases'] . " (" . $r_life_total . ")</option>\n";
-          }
-        }
-
-        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 

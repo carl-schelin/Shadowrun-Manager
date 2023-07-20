@@ -78,28 +78,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_bio_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_bio_number,r_bio_specialize ";
-          $q_string .= "from r_bioware ";
-          $q_string .= "where r_bio_character = " . $formVars['copyfrom'];
-          $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
-
-            $q_string =
-              "r_bio_character     =   " . $formVars['r_bio_character']   . "," .
-              "r_bio_number        =   " . $a_r_bioware['r_bio_number']   . "," .
-              "r_bio_specialize    = \"" . $a_r_bioware['r_bio_specialize'] . "\"";
-  
-            $query = "insert into r_bioware set r_bio_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {
