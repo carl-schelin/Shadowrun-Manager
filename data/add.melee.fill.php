@@ -53,10 +53,15 @@
       print "document.dialog.melee_book.value = '"     . mysql_real_escape_string($a_melee['melee_book'])     . "';\n";
       print "document.dialog.melee_page.value = '"     . mysql_real_escape_string($a_melee['melee_page'])     . "';\n";
 
-      if ($a_melee['melee_strength']) {
+      if ($a_melee['melee_strength'] > 0) {
         print "document.dialog.melee_strength.checked = true;\n";
       } else {
         print "document.dialog.melee_strength.checked = false;\n";
+      }
+      if ($a_melee['melee_strength'] == 2) {
+        print "document.dialog.melee_half.checked = true;\n";
+      } else {
+        print "document.dialog.melee_half.checked = false;\n";
       }
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";

@@ -198,6 +198,13 @@ function check_owner( $p_string ) {
   return $visible;
 }
 
+
+
+###
+# General data processing functions to properly manipulate character data
+###
+
+
 # assumes value passed is kilograms
 function return_Pounds( $p_kilograms ) {
   return(number_format(($p_kilograms * 2.20462), 2, '.', ','));
@@ -546,11 +553,18 @@ function return_Strength($p_damage, $p_type, $p_flag, $p_strength) {
   $s_start = "";
   $s_plus  = "";
   $s_end   = "";
-  if ($p_strength) {
+
+  if ($p_strength == 1) {
     $s_start = "(STR";
     $s_plus  = " + ";
     $s_end   = ")";
   }
+  if ($p_strength == 2) {
+    $s_start = "((STR / 2)";
+    $s_plus  = " + ";
+    $s_end   = ")";
+  }
+
   $r_damage = $s_start;
   if ($p_damage != 0) {
     $r_damage .= $s_plus . $p_damage;
@@ -560,6 +574,7 @@ function return_Strength($p_damage, $p_type, $p_flag, $p_strength) {
   if (strlen($p_type) > 0) {
     $r_damage .= $p_type;
   }
+
   if (strlen($p_flag) > 0) {
     $r_damage .= "(" . $p_flag . ")";
   }
@@ -687,17 +702,23 @@ function return_Complex($p_fading, $p_level) {
   return(trim($r_fading));
 }
 
-function return_Cost($p_min, $p_max = 0) {
-  $nuyen = '&yen;';
+function return_Cost($p_min, $p_meta = 0, $p_max = 0) {
+  $f_nuyen = '&yen;';
+  $f_multiplier = "1";
   $r_cost = "No Charge";
+
+  if ($p_meta == 1) {
+    $f_multiplier = '1.10';
+  }
+
   if ($p_min == -1) {
     $r_cost = 'Included';
   }
   if ($p_min > 0) {
-    $r_cost = number_format($p_min, 0, '.', ',') . $nuyen;
+    $r_cost = number_format(($p_min * $f_multiplier), 0, '.', ',') . $f_nuyen;
   }
   if ($p_max > 0) {
-    $r_cost .= "-" . number_format($p_max, 0, '.', ',') . $nuyen;
+    $r_cost .= "-" . number_format(($p_max * $f_multiplier), 0, '.', ',') . $f_nuyen;
   }
   return($r_cost);
 }

@@ -84,27 +84,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_ammo_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_ammo_number ";
-          $q_string .= "from r_ammo ";
-          $q_string .= "where r_ammo_character = " . $formVars['copyfrom'];
-          $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
-
-            $q_string =
-              "r_ammo_character     =   " . $formVars['r_ammo_character']   . "," .
-              "r_ammo_number        =   " . $a_r_ammo['r_ammo_number'];
-  
-            $query = "insert into r_ammo set r_ammo_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {

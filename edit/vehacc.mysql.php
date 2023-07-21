@@ -132,6 +132,13 @@
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
+
+        if ($formVars['update'] == 4) {
+          $formVars['r_gear_id'] = clean($_GET['r_gear_id'], 10);
+          $formVars['r_gear_parentveh'] = clean($_GET['r_gear_parentveh'], 10);
+
+
+        }
       }
 
 
@@ -260,6 +267,97 @@
         $output .= "</table>\n";
 
         mysql_free_result($q_accessory);
+
+
+# display autosofts and the selected program
+# reminder that in this case, your console dictates how many autosofts and programs you can have (per 6th edition of course)
+        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output .= "<tr>\n";
+        $output .= "  <th class=\"ui-state-default\">Autosofts</th>\n";
+        $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('fireacc-listing-help');\">Help</a></th>\n";
+        $output .= "</tr>\n";
+        $output .= "</table>\n";
+        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output .= "<tr>\n";
+        $output .=   "<th class=\"ui-state-default\">Class</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Name</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
+        $output .= "</tr>\n";
+
+        $q_string  = "select r_gear_id,gear_id,class_name,gear_name,gear_rating,gear_avail,gear_perm,ver_book,gear_page ";
+        $q_string .= "from r_gear ";
+        $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
+        $q_string .= "left join class on class.class_id = gear.gear_class ";
+        $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
+        $q_string .= "where r_gear_character = " . $a_r_vehicles['r_veh_character'] . " and r_gear_parentid = 0 and gear_name = \"Autosoft\" ";
+        $q_string .= "order by gear_name,class_name ";
+        $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        if (mysql_num_rows($q_r_gear) > 0) {
+          while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+
+            $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('vehacc.mysql.php";
+            $linkstart .= "?update=2";
+            $linkstart .= "&r_veh_id="      . $formVars['r_veh_id'];
+            $linkstart .= "&r_fa_id="       . $a_r_firearms['r_fa_id'];
+            $linkstart .= "&r_fa_parentid=" . $formVars['r_veh_id'];
+            $linkstart .= "');";
+            $linkstart .= "show_file('vehicles.mysql.php";
+            $linkstart .= "?update=-1";
+            $linkstart .= "&r_veh_character=" . $a_r_vehicles['r_veh_character'];
+            $linkstart .= "');\">";
+
+            $linkend   = "</a>";
+
+            $gear_avail = return_Avail($a_r_gear['gear_avail'], $a_r_gear['gear_perm']);
+
+            $gear_book = return_Book($a_r_gear['ver_book'], $a_r_gear['gear_page']);
+
+            $class = return_Class($a_r_gear['gear_perm']);
+
+            $output .= "<tr>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $a_r_gear['class_name']                      . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_r_gear['gear_name'] . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">" . $a_r_gear['gear_rating']                                        . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">" . $gear_avail                                        . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">" . $gear_book                                         . "</td>\n";
+            $output .= "</tr>\n";
+
+
+# now get any accessories. They don't need to be linkable, just listed so we know which autosoft goes with with vehicle.
+# have the 
+            $q_string  = "select acc_name,acc_avail,acc_perm,ver_book,acc_page ";
+            $q_string .= "from r_accessory "; 
+            $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
+            $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
+            $q_string .= "where r_acc_character = " . $a_r_vehicles['r_veh_character'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
+            $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            if (mysql_num_rows($q_r_accessory) > 0) {
+              while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+
+                $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
+
+                $acc_book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
+
+                $output .= "<tr>\n";
+                $output .= "  <td class=\"" . $class . "\">"        .                        " &nbsp; "            . "</td>\n";
+                $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+                $output .= "  <td class=\"" . $class . " delete\">" . "--"                                              . "</td>\n";
+                $output .= "  <td class=\"" . $class . " delete\">" . $acc_avail                                        . "</td>\n";
+                $output .= "  <td class=\"" . $class . " delete\">" . $acc_book                                         . "</td>\n";
+                $output .= "</tr>\n";
+
+              }
+            }
+          }
+        } else {
+          $output .= "<tr>\n";
+          $output .= "  <td class=\"ui-widget-content\" colspan=\"10\">You need to purchase Autosofts in order to associate it with a Vehicle.</td>\n";
+          $output .= "</tr>\n";
+        }
+        $output .= "</table>\n";
+
 
 # now display the available weapons
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";

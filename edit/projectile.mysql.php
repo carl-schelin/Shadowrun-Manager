@@ -59,27 +59,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_proj_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_proj_number ";
-          $q_string .= "from r_projectile ";
-          $q_string .= "where r_proj_character = " . $formVars['copyfrom'];
-          $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_projectile = mysql_fetch_array($q_r_projectile)) {
-
-            $q_string =
-              "r_proj_character     =   " . $formVars['r_proj_character']   . "," .
-              "r_proj_number        =   " . $a_r_projectile['r_proj_number'];
-  
-            $query = "insert into r_projectile set r_proj_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {

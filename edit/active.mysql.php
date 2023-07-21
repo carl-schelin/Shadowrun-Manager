@@ -110,28 +110,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_act_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_act_number,r_act_specialize ";
-          $q_string .= "from r_active ";
-          $q_string .= "where r_act_character = " . $formVars['copyfrom'];
-          $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_active = mysql_fetch_array($q_r_active)) {
-
-            $q_string =
-              "r_act_character     =   " . $formVars['r_act_character']      . "," .
-              "r_act_number        =   " . $a_r_active['r_act_number']       . "," .
-              "r_act_specialize    =   " . $a_r_active['r_act_specialize']   . "\"";
-  
-            $query = "insert into r_active set r_act_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       if ($formVars['update'] == -3) {
 
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
@@ -143,29 +121,6 @@
         $output .= "<input type=\"button\" name=\"r_act_update\"  value=\"Update Active Skill\"          onClick=\"javascript:attach_active('active.mysql.php', 1);hideDiv('active-hide');\">\n";
         $output .= "<input type=\"hidden\" name=\"r_act_id\"      value=\"0\">\n";
         $output .= "<input type=\"button\" name=\"r_act_addbtn\"  value=\"Add Active Skill\"             onClick=\"javascript:attach_active('active.mysql.php', 0);\">\n";
-        $output .= "</tr>\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"copyitem\"  value=\"Copy Quality Table From:\" onClick=\"javascript:attach_active('active.mysql.php', -2);\">\n";
-        $output .= "<select name=\"r_act_copyfrom\">\n";
-        $output .= "<option value=\"0\">None</option>\n";
-
-        $q_string  = "select runr_id,runr_aliases ";
-        $q_string .= "from runners ";
-        $q_string .= "order by runr_aliases ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
-          $q_string  = "select r_act_id ";
-          $q_string .= "from r_active ";
-          $q_string .= "where r_act_character = " . $a_runners['runr_id'] . " ";
-          $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $r_act_total = mysql_num_rows($q_r_active);
-
-          if ($r_act_total > 0) {
-            $output .= "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_aliases'] . " (" . $r_act_total . ")</option>\n";
-          }
-        }
-        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 

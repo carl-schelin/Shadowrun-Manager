@@ -36,6 +36,7 @@
         $formVars['melee_type']     = clean($_GET['melee_type'],     10);
         $formVars['melee_flag']     = clean($_GET['melee_flag'],     10);
         $formVars['melee_strength'] = clean($_GET['melee_strength'], 10);
+        $formVars['melee_half']     = clean($_GET['melee_half'],     10);
         $formVars['melee_ap']       = clean($_GET['melee_ap'],       10);
         $formVars['melee_avail']    = clean($_GET['melee_avail'],    10);
         $formVars['melee_perm']     = clean($_GET['melee_perm'],     10);
@@ -75,6 +76,9 @@
         }
         if ($formVars['melee_strength'] == 'true') {
           $formVars['melee_strength'] = 1;
+          if ($formVars['melee_half'] == 'true') {
+            $formVars['melee_strength'] = 2;
+          }
         } else {
           $formVars['melee_strength'] = 0;
         }
@@ -281,6 +285,7 @@
       print "document.dialog.melee_type.value = '';\n";
       print "document.dialog.melee_flag.value = '';\n";
       print "document.dialog.melee_strength.checked = false;\n";
+      print "document.dialog.melee_half.checked = false;\n";
       print "document.dialog.melee_ap.value = '';\n";
       print "document.dialog.melee_avail.value = '';\n";
       print "document.dialog.melee_basetime.value = '';\n";

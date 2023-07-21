@@ -363,7 +363,7 @@
           }
         } else {
           $output .= "<tr>\n";
-          $output .= "  <td class=\"ui-widget-content\" colspan=\"25\">No Vehicles found.</td>\n";
+          $output .= "  <td class=\"ui-widget-content\" colspan=\"27\">No Vehicles found.</td>\n";
           $output .= "</tr>\n";
         }
 

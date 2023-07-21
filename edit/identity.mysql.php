@@ -62,27 +62,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['id_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select id_name ";
-          $q_string .= "from r_identity ";
-          $q_string .= "where id_character = " . $formVars['copyfrom'];
-          $q_r_identity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_identity = mysql_fetch_array($q_r_identity)) {
-
-            $q_string =
-              "id_character     =   " . $formVars['id_character'] . "," .
-              "id_name          = \"" . $a_r_identity['id_type']  . "\"";
-  
-            $query = "insert into r_identity set id_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       if ($formVars['update'] == -3) {
 
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
@@ -95,30 +74,6 @@
         $output .= "<input type=\"button\" name=\"id_update\"  value=\"Update Identity\"          onClick=\"javascript:attach_identity('identity.mysql.php', 1);hideDiv('identity-hide');\">\n";
         $output .= "<input type=\"hidden\" name=\"id_id\"      value=\"0\">\n";
         $output .= "<input type=\"button\" name=\"id_addbtn\"  value=\"Add Identity\"             onClick=\"javascript:attach_identity('identity.mysql.php', 0);\">\n";
-        $output .= "</tr>\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"copyitem\"  value=\"Copy Identity Table From:\" onClick=\"javascript:attach_identity('identity.mysql.php', -2);\">\n";
-        $output .= "<select name=\"id_copyfrom\">\n";
-        $output .= "<option value=\"0\">None</option>\n";
-
-        $q_string  = "select runr_id,runr_aliases ";
-        $q_string .= "from runners ";
-        $q_string .= "order by runr_aliases ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
-          $q_string  = "select id_id ";
-          $q_string .= "from r_identity ";
-          $q_string .= "where id_character = " . $a_runners['runr_id'] . " ";
-          $q_r_identity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $id_total = mysql_num_rows($q_r_identity);
-
-          if ($id_total > 0) {
-            $output .= "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_aliases'] . " (" . $id_total . ")</option>\n";
-          }
-        }
-
-        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
@@ -153,30 +108,6 @@
         $output .= "<input type=\"button\" name=\"lic_update\"  value=\"Update License\"          onClick=\"javascript:attach_license('license.mysql.php', 1);hideDiv('license-hide');\">\n";
         $output .= "<input type=\"hidden\" name=\"lic_id\"      value=\"0\">\n";
         $output .= "<input type=\"button\" name=\"lic_addbtn\"  value=\"Add License\"             onClick=\"javascript:attach_license('license.mysql.php', 0);\">\n";
-        $output .= "</tr>\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"copyitem\"  value=\"Copy License Table From:\" onClick=\"javascript:attach_license('license.mysql.php', -2);\">\n";
-        $output .= "<select name=\"lic_copyfrom\">\n";
-        $output .= "<option value=\"0\">None</option>\n";
-
-        $q_string  = "select runr_id,runr_aliases ";
-        $q_string .= "from runners ";
-        $q_string .= "order by runr_aliases ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
-          $q_string  = "select lic_id ";
-          $q_string .= "from r_license ";
-          $q_string .= "where lic_character = " . $a_runners['runr_id'] . " ";
-          $q_r_license = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $lic_total = mysql_num_rows($q_r_license);
-
-          if ($lic_total > 0) {
-            $output .= "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_aliases'] . " (" . $lic_total . ")</option>\n";
-          }
-        }
-
-        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 

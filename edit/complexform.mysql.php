@@ -59,27 +59,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_form_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_form_number ";
-          $q_string .= "from r_complexform ";
-          $q_string .= "where r_form_character = " . $formVars['copyfrom'];
-          $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_complexform = mysql_fetch_array($q_r_complexform)) {
-
-            $q_string =
-              "r_form_character     =   " . $formVars['r_form_character']   . "," .
-              "r_form_number        =   " . $a_r_complexform['r_form_number'];
-  
-            $query = "insert into r_complexform set r_bio_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {

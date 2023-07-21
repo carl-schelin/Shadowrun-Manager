@@ -57,27 +57,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_mentor_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_mentor_number ";
-          $q_string .= "from r_mentor ";
-          $q_string .= "where r_mentor_character = " . $formVars['copyfrom'];
-          $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
-
-            $q_string =
-              "r_mentor_character     =   " . $formVars['r_mentor_character']      . "," .
-              "r_mentor_number        =   " . $a_r_mentor['r_mentor_number'];
-  
-            $query = "insert into r_mentor set r_mentor_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       if ($formVars['update'] == -3) {
 
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");

@@ -114,6 +114,13 @@
       logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_cyberware");
 
       $q_string  = "delete ";
+      $q_string .= "from r_cyberjack ";
+      $q_string .= "where r_jack_character= " . $formVars['id'];
+      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+
+      logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_cyberjack");
+
+      $q_string  = "delete ";
       $q_string .= "from r_cyberware ";
       $q_string .= "where r_ware_character= " . $formVars['id'];
       $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));

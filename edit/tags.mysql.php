@@ -63,29 +63,6 @@
         }
       }
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select tag_name,tag_view,tag_owner,tag_group ";
-          $q_string .= "from tags ";
-          $q_string .= "where tag_character = " . $formVars['copyfrom'] . " and tag_view = " . $a_tags['tag_view'] . " ";
-          $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_tags = mysql_fetch_array($q_tags)) {
-
-            $q_string =
-              "tag_character =   " . $formVars['tag_character']   . "," .
-              "tag_name      = \"" . $a_tags['tag_name']      . "\"," .
-              "tag_view      =   " . $a_tags['tag_view']      . "," .
-              "tag_owner     =   " . $a_tags['tag_owner']     . "," .
-              "tag_group     =   " . $a_tags['tag_group'];
-
-            $query = "insert into tags set tag_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
 
       if ($formVars['update'] == -3) {
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
@@ -97,21 +74,6 @@
         $output .= "<input type=\"button\" name=\"tag_update\"  value=\"Update Tag\"           onClick=\"javascript:attach_tags('tags.mysql.php', 1);hideDiv('tags-hide');\">\n";
         $output .= "<input type=\"hidden\" name=\"tag_id\"      value=\"0\">\n";
         $output .= "<input type=\"button\" name=\"tag_addbtn\"  value=\"Add New Tag\"          onClick=\"javascript:attach_tags('tags.mysql.php', 0);\">\n";
-        $output .= "</tr>\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"copyitem\" value=\"Copy Tags From:\" onClick=\"javascript:attach_tags('tags.mysql.php', -2);\">\n";
-        $output .= "<select name=\"tag_copyfrom\">\n";
-        $output .= "<option value=\"0\">None</option>\n";
-
-        $q_string  = "select runr_id,runr_name ";
-        $q_string .= "from runners ";
-        $q_string .= "order by runr_name";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
-          $output .= "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_name'] . "</option>\n";
-        }
-        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 

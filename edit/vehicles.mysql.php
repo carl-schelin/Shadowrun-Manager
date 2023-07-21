@@ -58,27 +58,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_veh_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_veh_number ";
-          $q_string .= "from r_vehicles ";
-          $q_string .= "where r_veh_character = " . $formVars['copyfrom'];
-          $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
-
-            $q_string =
-              "r_veh_character     =   " . $formVars['r_veh_character']   . "," .
-              "r_veh_number        =   " . $a_r_vehicles['r_veh_number'];
-  
-            $query = "insert into r_vehicles set r_veh_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {

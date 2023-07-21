@@ -65,28 +65,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_spell_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_spell_number,r_spell_special ";
-          $q_string .= "from r_spells ";
-          $q_string .= "where r_spell_character = " . $formVars['copyfrom'];
-          $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
-
-            $q_string =
-              "r_spell_character     =   " . $formVars['r_spell_character']   . "," .
-              "r_spell_number        =   " . $a_r_spells['r_spell_number']    . "," .
-              "r_spell_special       =   " . $a_r_spells['r_spell_special']   . "\"";
-  
-            $query = "insert into r_spells set r_spell_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       if ($formVars['update'] == -3) {
 
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
@@ -98,30 +76,6 @@
         $output .= "<input type=\"button\" name=\"r_spell_update\"  value=\"Update Spell\"          onClick=\"javascript:attach_spells('spells.mysql.php', 1);hideDiv('spells-hide');\">\n";
         $output .= "<input type=\"hidden\" name=\"r_spell_id\"      value=\"0\">\n";
         $output .= "<input type=\"hidden\" name=\"r_spell_number\"  value=\"0\">\n";
-        $output .= "</tr>\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"copyitem\"  value=\"Copy Spell Table From:\" onClick=\"javascript:attach_spells('spells.mysql.php', -2);\">\n";
-        $output .= "<select name=\"r_spell_copyfrom\">\n";
-        $output .= "<option value=\"0\">None</option>\n";
-
-        $q_string  = "select runr_id,runr_aliases ";
-        $q_string .= "from runners ";
-        $q_string .= "order by runr_aliases ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
-          $q_string  = "select r_spell_id ";
-          $q_string .= "from r_spells ";
-          $q_string .= "where r_spell_character = " . $a_runners['runr_id'] . " ";
-          $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $r_spell_total = mysql_num_rows($q_r_spells);
-
-          if ($r_spell_total > 0) {
-            $output .= "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_aliases'] . " (" . $r_spell_total . ")</option>\n";
-          }
-        }
-
-        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 

@@ -124,28 +124,6 @@
       }
 
 
-      if ($formVars['update'] == -2) {
-        $formVars['copyfrom'] = clean($_GET['r_deck_copyfrom'], 10);
-
-        if ($formVars['copyfrom'] > 0) {
-          $q_string  = "select r_deck_number ";
-          $q_string .= "from r_cyberdeck ";
-          $q_string .= "where r_deck_character = " . $formVars['copyfrom'];
-          $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
-
-            $q_string =
-              "r_deck_character     =   " . $formVars['r_deck_character']   . "," .
-              "r_deck_number        =   " . $a_r_cyberdeck['r_deck_number'] . "," .
-              "r_deck_rate          =   " . $a_r_cyberdeck['r_deck_rate  '];
-  
-            $query = "insert into r_cyberdeck set r_deck_id = NULL, " . $q_string;
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-          }
-        }
-      }
-
-
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
 # list all the available cyberdecks
