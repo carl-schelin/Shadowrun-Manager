@@ -553,11 +553,18 @@ function return_Strength($p_damage, $p_type, $p_flag, $p_strength) {
   $s_start = "";
   $s_plus  = "";
   $s_end   = "";
-  if ($p_strength) {
+
+  if ($p_strength == 1) {
     $s_start = "(STR";
     $s_plus  = " + ";
     $s_end   = ")";
   }
+  if ($p_strength == 2) {
+    $s_start = "((STR / 2)";
+    $s_plus  = " + ";
+    $s_end   = ")";
+  }
+
   $r_damage = $s_start;
   if ($p_damage != 0) {
     $r_damage .= $s_plus . $p_damage;
@@ -567,6 +574,7 @@ function return_Strength($p_damage, $p_type, $p_flag, $p_strength) {
   if (strlen($p_type) > 0) {
     $r_damage .= $p_type;
   }
+
   if (strlen($p_flag) > 0) {
     $r_damage .= "(" . $p_flag . ")";
   }
@@ -701,6 +709,7 @@ function return_Cost($p_min, $p_meta = 0, $p_max = 0) {
 
   if ($p_meta == 1) {
     $f_multiplier = '1.10';
+  }
 
   if ($p_min == -1) {
     $r_cost = 'Included';

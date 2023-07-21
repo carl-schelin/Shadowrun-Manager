@@ -75,6 +75,7 @@ function attach_melee(p_script_url, update) {
   am_url += "&melee_type="       + encode_URI(am_form.melee_type.value);
   am_url += "&melee_flag="       + encode_URI(am_form.melee_flag.value);
   am_url += "&melee_strength="   + am_form.melee_strength.checked;
+  am_url += "&melee_half="       + am_form.melee_half.checked;
   am_url += "&melee_ap="         + encode_URI(am_form.melee_ap.value);
   am_url += "&melee_avail="      + encode_URI(am_form.melee_avail.value);
   am_url += "&melee_perm="       + encode_URI(am_form.melee_perm.value);

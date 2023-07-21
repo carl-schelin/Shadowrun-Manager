@@ -24,7 +24,7 @@
   <td class="ui-widget-content">Reach <input type="text" name="melee_reach" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Damage <input type="text" name="melee_damage" size="3"><input type="text" name="melee_type" size="3">(<input type="text" name="melee_flag" size="3">) Use Strength? <input type="checkbox" name="melee_strength"></td>
+  <td class="ui-widget-content">Damage <input type="text" name="melee_damage" size="3"><input type="text" name="melee_type" size="3">(<input type="text" name="melee_flag" size="3">) Use Strength? <input type="checkbox" name="melee_strength"> /2? <input type="checkbox" name="melee_half"></td>
 </tr>
 </tr>
   <td class="ui-widget-content">Attack Rating <input type="text" name="melee_ar1" size="3">/<input type="text" name="melee_ar2" size="3">/<input type="text" name="melee_ar3" size="3">/<input type="text" name="melee_ar4" size="3">/<input type="text" name="melee_ar5" size="3"> (sr6)</td>
