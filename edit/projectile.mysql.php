@@ -139,7 +139,7 @@
         if ($formVars['proj_class'] > 0) {
           $q_string .= "and proj_class = " . $formVars['proj_class'] . " ";
         }
-        $q_string .= "order by proj_name,proj_acc,proj_damage,proj_class,ver_version ";
+        $q_string .= "order by proj_name,proj_rating,proj_acc,proj_damage,proj_class,ver_version ";
         $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_projectile) > 0) {
           while ($a_projectile = mysql_fetch_array($q_projectile)) {
