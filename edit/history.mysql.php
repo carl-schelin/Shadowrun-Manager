@@ -45,19 +45,15 @@
 
           if ($formVars['update'] == 0) {
             $query = "insert into history set his_id = null," . $q_string;
-            $message = "Character History added.";
           }
 
           if ($formVars['update'] == 1) {
             $query = "update history set " . $q_string . " where his_id = " . $formVars['his_id'];
-            $message = "Character History updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['his_id']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');";
         }
 
       }

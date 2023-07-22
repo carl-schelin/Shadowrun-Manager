@@ -412,6 +412,7 @@
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                    . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                    . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                    . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                    . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $ammo_avail                                             . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                    . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . $ammo_book                                              . "</td>\n";
