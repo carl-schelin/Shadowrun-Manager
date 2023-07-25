@@ -62,14 +62,14 @@
       $output .= "  <th class=\"ui-state-default\">Archetype</th>\n";
       $output .= "  <th class=\"ui-state-default\">Metatype</th>\n";
       $output .= "  <th class=\"ui-state-default\">Release</th>\n";
-      $output .= "  <th class=\"ui-state-default\">AGI</th>\n";
       $output .= "  <th class=\"ui-state-default\">BOD</th>\n";
+      $output .= "  <th class=\"ui-state-default\">AGI</th>\n";
       $output .= "  <th class=\"ui-state-default\">REA</th>\n";
       $output .= "  <th class=\"ui-state-default\">STR</th>\n";
-      $output .= "  <th class=\"ui-state-default\">CHA</th>\n";
-      $output .= "  <th class=\"ui-state-default\">INT</th>\n";
-      $output .= "  <th class=\"ui-state-default\">LOG</th>\n";
       $output .= "  <th class=\"ui-state-default\">WIL</th>\n";
+      $output .= "  <th class=\"ui-state-default\">LOG</th>\n";
+      $output .= "  <th class=\"ui-state-default\">INT</th>\n";
+      $output .= "  <th class=\"ui-state-default\">CHA</th>\n";
       $output .= "  <th class=\"ui-state-default\">EDG</th>\n";
       $output .= "</tr>\n";
 
@@ -140,14 +140,14 @@
             $output .= "  <td class=\"ui-widget-content\">"                           . $a_runners['runr_archetype']                                      . "</td>\n";
             $output .= "  <td class=\"ui-widget-content\">"                           . $a_runners['meta_name']                                           . "</td>\n";
             $output .= "  <td class=\"ui-widget-content\">"                           . $release                                                          . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_agility']                                        . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_body']                                           . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_agility']                                        . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_reaction']                                       . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_strength']                                       . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_charisma']                                       . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_intuition']                                      . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_logic']                                          . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_willpower']                                      . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_logic']                                          . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_intuition']                                      . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_charisma']                                       . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_totaledge']                                      . "</td>\n";
             $output .= "</tr>\n";
           }
