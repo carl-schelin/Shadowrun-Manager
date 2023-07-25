@@ -463,6 +463,18 @@ function delete_fireammo( p_script_url ) {
   }
 }
 
+function delete_vehauto( p_script_url ) {
+  var answer = confirm("Remove this Autosoft from this Vehicle?")
+
+  if (answer) {
+    script = document.createElement('script');
+    script.src = p_script_url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('vehicles.mysql.php' + '?update=-1' + '&r_veh_character=<?php print $formVars['id']; ?>');
+    show_file('vehacc.mysql.php' + '?update=-1' + '&r_veh_character=<?php print $formVars['id']; ?>');
+  }
+}
+
 function delete_vehfire( p_script_url ) {
   var answer = confirm("Remove this Firearm from this Vehicle?")
 
