@@ -66,18 +66,16 @@
           if ($formVars['update'] == 0) {
             $query = "insert into r_ammo set r_ammo_id = null," . $q_string;
             $message = "Ammunition Added.";
+            print "alert('" . $message . "');\n";
           }
 
           if ($formVars['update'] == 1) {
             $query = "update r_ammo set " . $q_string . " where r_ammo_id = " . $formVars['r_ammo_id'];
-            $message = "Ammunition Updated.";
           }
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_ammo_number']);
 
           mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-
-          print "alert('" . $message . "');\n";
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
