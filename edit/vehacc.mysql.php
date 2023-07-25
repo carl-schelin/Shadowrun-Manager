@@ -63,13 +63,17 @@
         }
       }
 
-# Associate vehicle with a weapon
+# Associate weapon with a vehicle
       if ($formVars['update'] == 2) {
         $formVars['r_fa_id']        = clean($_GET['r_fa_id'],        10);
+        $formVars['r_fa_character'] = clean($_GET['r_fa_character'], 10);
         $formVars['r_fa_parentid']  = clean($_GET['r_fa_parentid'],  10);
 
         if ($formVars['r_fa_id'] == '') {
           $formVars['r_fa_id'] = 0;
+        }
+        if ($formVars['r_fa_character'] == '') {
+          $formVars['r_fa_character'] = 0;
         }
         if ($formVars['r_fa_parentid'] == '') {
           $formVars['r_fa_parentid'] = 1;
@@ -93,16 +97,16 @@
           print "alert('" . $message . "');\n";
 
 # redisplay the 'myvehicles' part for the new weapon.
-          print "show_file('vehicles.mysql.php?update=-1');\n";
+          print "show_file('vehicles.mysql.php?update=-1&r_veh_character=" . $formVars['r_fa_character'] . "');\n";
 
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
-# Associate vehicle with ammunition (grenades, rockets, and missiles)
+# Associate ammunition (grenades, rockets, and missiles) with vehicle
       if ($formVars['update'] == 3) {
-        $formVars['r_ammo_id']        = clean($_GET['r_ammo_id'],        10);
+        $formVars['r_ammo_id']         = clean($_GET['r_ammo_id'],        10);
         $formVars['r_ammo_parentveh']  = clean($_GET['r_ammo_parentveh'],  10);
 
         if ($formVars['r_ammo_id'] == '') {
@@ -132,12 +136,46 @@
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
+      }
 
-        if ($formVars['update'] == 4) {
-          $formVars['r_gear_id'] = clean($_GET['r_gear_id'], 10);
-          $formVars['r_gear_parentveh'] = clean($_GET['r_gear_parentveh'], 10);
+# Associate autosoft with a vehicle
+      if ($formVars['update'] == 4) {
+        $formVars['r_gear_id']        = clean($_GET['r_gear_id'], 10);
+        $formVars['r_gear_character'] = clean($_GET['r_gear_character'], 10);
+        $formVars['r_gear_parentid']  = clean($_GET['r_gear_parentid'], 10);
 
+        if ($formVars['r_gear_id'] == '') {
+          $formVars['r_gear_id'] = 0;
+        }
+        if ($formVars['r_gear_character'] == '') {
+          $formVars['r_gear_character'] = 0;
+        }
+        if ($formVars['r_gear_parentid'] == '') {
+          $formVars['r_gear_parentid'] = 1;
+        }
 
+        if ($formVars['r_gear_parentid'] > 0) {
+          logaccess($_SESSION['username'], $package, "Building the query.");
+
+          $q_string =
+            "r_gear_parentid =   " . $formVars['r_gear_parentid'];
+
+          if ($formVars['update'] == 4) {
+            $query = "update r_gear set " . $q_string . " where r_gear_id = " . $formVars['r_gear_id'];
+            $message = "Vehicle Autosoft added.";
+          }
+
+          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_gear_id']);
+
+          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+
+          print "alert('" . $message . "');\n";
+
+# redisplay the 'myvehicles' part for the new autosoft.
+          print "show_file('vehicles.mysql.php?update=-1&r_veh_character=" . $formVars['r_gear_character'] . "');\n";
+
+        } else {
+          print "alert('You must input data before saving changes.');\n";
         }
       }
 
@@ -286,22 +324,23 @@
         $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
 
-        $q_string  = "select r_gear_id,gear_id,class_name,gear_name,gear_rating,gear_avail,gear_perm,ver_book,gear_page ";
+        $q_string  = "select r_gear_id,r_gear_details,gear_id,class_name,gear_name,gear_rating,gear_avail,gear_perm,ver_book,gear_page ";
         $q_string .= "from r_gear ";
         $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
         $q_string .= "left join class on class.class_id = gear.gear_class ";
         $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
         $q_string .= "where r_gear_character = " . $a_r_vehicles['r_veh_character'] . " and r_gear_parentid = 0 and gear_name = \"Autosoft\" ";
-        $q_string .= "order by gear_name,class_name ";
+        $q_string .= "order by gear_name,r_gear_details,gear_rating,class_name ";
         $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_gear) > 0) {
           while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('vehacc.mysql.php";
-            $linkstart .= "?update=2";
-            $linkstart .= "&r_veh_id="      . $formVars['r_veh_id'];
-            $linkstart .= "&r_fa_id="       . $a_r_firearms['r_fa_id'];
-            $linkstart .= "&r_fa_parentid=" . $formVars['r_veh_id'];
+            $linkstart .= "?update=4";
+            $linkstart .= "&r_veh_id="         . $formVars['r_veh_id'];
+            $linkstart .= "&r_gear_id="        . $a_r_gear['r_gear_id'];
+            $linkstart .= "&r_gear_character=" . $a_r_vehicles['r_veh_character'];
+            $linkstart .= "&r_gear_parentid="  . $formVars['r_veh_id'];
             $linkstart .= "');";
             $linkstart .= "show_file('vehicles.mysql.php";
             $linkstart .= "?update=-1";
@@ -310,6 +349,11 @@
 
             $linkend   = "</a>";
 
+            $gear_name = $a_r_gear['gear_name'];
+            if ($a_r_gear['r_gear_details'] != '') {
+              $gear_name .= " (" . $a_r_gear['r_gear_details'] . ")";
+            }
+
             $gear_avail = return_Avail($a_r_gear['gear_avail'], $a_r_gear['gear_perm']);
 
             $gear_book = return_Book($a_r_gear['ver_book'], $a_r_gear['gear_page']);
@@ -317,11 +361,11 @@
             $class = return_Class($a_r_gear['gear_perm']);
 
             $output .= "<tr>\n";
-            $output .= "  <td class=\"" . $class . "\">"        . $a_r_gear['class_name']                      . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_r_gear['gear_name'] . $linkend . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">" . $a_r_gear['gear_rating']                                        . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">" . $gear_avail                                        . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">" . $gear_book                                         . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $a_r_gear['class_name']             . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $gear_name  . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">" . $a_r_gear['gear_rating']            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">" . $gear_avail                         . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">" . $gear_book                          . "</td>\n";
             $output .= "</tr>\n";
 
 
@@ -395,9 +439,10 @@
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('vehacc.mysql.php";
             $linkstart .= "?update=2";
-            $linkstart .= "&r_veh_id="      . $formVars['r_veh_id'];
-            $linkstart .= "&r_fa_id="       . $a_r_firearms['r_fa_id'];
-            $linkstart .= "&r_fa_parentid=" . $formVars['r_veh_id'];
+            $linkstart .= "&r_veh_id="       . $formVars['r_veh_id'];
+            $linkstart .= "&r_fa_id="        . $a_r_firearms['r_fa_id'];
+            $linkstart .= "&r_fa_character=" . $a_r_vehicles['r_veh_character'];
+            $linkstart .= "&r_fa_parentid="  . $formVars['r_veh_id'];
             $linkstart .= "');";
             $linkstart .= "show_file('vehicles.mysql.php";
             $linkstart .= "?update=-1";

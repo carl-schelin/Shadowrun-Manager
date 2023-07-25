@@ -369,6 +369,78 @@
           }
 
 
+# display the autosofts
+          $q_string  = "select r_gear_id,gear_id,gear_name,gear_avail,gear_perm,ver_book,gear_page ";
+          $q_string .= "from r_gear ";
+          $q_string .= "left join gear     on gear.gear_id    = r_gear.r_gear_number ";
+          $q_string .= "left join class    on class.class_id  = gear.gear_class ";
+          $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
+          $q_string .= "where r_gear_character = " . $formVars['r_veh_character'] . " and r_gear_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
+          $q_string .= "order by gear_name,r_gear_details,gear_rating,gear_class ";
+          $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          if (mysql_num_rows($q_r_gear) > 0) {
+            while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+
+              $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_vehauto('vehauto.del.php?id="  . $a_r_gear['r_gear_id'] . "');\">";
+
+              $gear_avail = return_Avail($a_r_gear['gear_avail'], $a_r_gear['gear_perm']);
+
+              $gear_book = return_Book($a_r_gear['ver_book'], $a_r_gear['gear_page']);
+
+              $output .= "<tr>\n";
+              $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $linkdel              . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_gear['gear_name']   . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . $gear_avail                        . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                           . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">" . $gear_book                         . "</td>\n";
+              $output .= "</tr>\n";
+
+
+              $q_string  = "select acc_name,acc_avail,acc_perm,ver_book,acc_page ";
+              $q_string .= "from r_accessory ";
+              $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
+              $q_string .= "left join versions  on versions.ver_id  = accessory.acc_book ";
+              $q_string .= "where r_acc_character = " . $formVars['r_veh_character'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
+              $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+              if (mysql_num_rows($q_r_accessory) > 0) {
+                while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+
+                  $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
+
+                  $acc_book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
+
+                  $output .= "<tr>\n";
+                  $output .= "  <td class=\"" . $class . "\">"        .                        " &nbsp; "   . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . "\">" . "&gt;&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . $acc_avail                          . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . "--"                                . "</td>\n";
+                  $output .= "  <td class=\"" . $class . " delete\">" . $acc_book                           . "</td>\n";
+                  $output .= "</tr>\n";
+
+                }
+              }
+            }
+          }
 
 # now display the attached firearms
           $q_string  = "select r_fa_id,fa_id,class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
