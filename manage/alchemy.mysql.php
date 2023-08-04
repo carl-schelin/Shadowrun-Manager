@@ -22,7 +22,7 @@
     $output  = "<p></p>\n";
     $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
     $output .= "<tr>\n";
-    $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Spell Listing</th>\n";
+    $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Alchemical Listing</th>\n";
     $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('spells-listing-help');\">Help</a></th>\n";
     $output .= "</tr>\n";
     $output .= "</table>\n";
@@ -32,7 +32,7 @@
     $output .= "<div class=\"main-help ui-widget-content\">\n";
 
     $output .= "<ul>\n";
-    $output .= "  <li><strong>Spell Listing</strong>\n";
+    $output .= "  <li><strong>Alchemical Listing</strong>\n";
     $output .= "  <ul>\n";
     $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>\n";
     $output .= "    <li><strong>Editing</strong> - Click on an association to edit it.</li>\n";
@@ -81,10 +81,7 @@
           $spell_name = $a_r_alchemy['spell_name'] . " (" . $a_r_alchemy['r_alc_special'] . ")";
         }
 
-        $spell_drain = "F" . $a_r_alchemy['spell_drain'];
-        if ($a_r_alchemy['spell_drain'] == 0) {
-          $spell_drain = "F";
-        }
+        $spell_drain = return_Drain($a_r_alchemy['spell_drain']);
 
         $spell_book = return_Book($a_r_alchemy['ver_book'], $a_r_alchemy['spell_page']);
 

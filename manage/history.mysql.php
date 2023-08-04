@@ -1,5 +1,5 @@
 <?php
-# Script: game.mysql.php
+# Script: history.mysql.php
 # Owner: Carl Schelin
 # Coding Standard 3.0 Applied
 # See: https://incowk01/makers/index.php/Coding_Standards
@@ -9,7 +9,7 @@
   $called = 'yes';
   include($Sitepath . '/guest.php');
 
-  $package = "game.mysql.php";
+  $package = "history.mysql.php";
 
   logaccess($formVars['username'], $package, "Accessing the script.");
 
@@ -28,16 +28,16 @@
     $output .= "</a>";
   }
   $output .= "</th>";
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('game-help');\">Help</a></th>";
+  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('history-help');\">Help</a></th>";
   $output .= "</tr>";
   $output .= "</table>";
 
-  $output .= "<div id=\"game-help\" style=\"display: none\">";
+  $output .= "<div id=\"history-help\" style=\"display: none\">";
 
   $output .= "<div class=\"main-help ui-widget-content\">";
 
   $output .= "<ul>";
-  $output .= "  <li><strong>Game</strong> - .</li>";
+  $output .= "  <li><strong>History</strong> - .</li>";
   $output .= "</ul>";
 
   $output .= "</div>";
@@ -85,5 +85,5 @@
 
 ?>
 
-document.getElementById('game_mysql').innerHTML = '<?php print mysql_real_escape_string($output); ?>';
+document.getElementById('character_mysql').innerHTML = '<?php print mysql_real_escape_string($output); ?>';
 

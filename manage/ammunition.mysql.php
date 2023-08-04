@@ -114,7 +114,12 @@
       $output .= "  <td class=\"ui-widget-content\" colspan=\"11\">Total Cost: " . return_Cost($costtotal) . ".</td>\n";
       $output .= "</tr>\n";
 
+    } else {
+      $output .= "<tr>";
+      $output .= "<td class=\"ui-widget-content\" colspan=\"10\">No Ammunition selected.</td>";
+      $output .= "</tr>";
     }
+
     $output .= "</table>\n";
 
     mysql_free_result($q_r_ammo);

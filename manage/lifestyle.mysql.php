@@ -83,7 +83,7 @@
     }
   } else {
     $output .= "<tr>";
-    $output .= "<td class=\"ui-widget-content\" colspan=\"5\">No Lifestyles indentified.</td>";
+    $output .= "<td class=\"ui-widget-content\" colspan=\"9\">No Lifestyles indentified.</td>";
     $output .= "</tr>";
   }
 

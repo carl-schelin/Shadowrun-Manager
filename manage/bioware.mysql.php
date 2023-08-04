@@ -18,7 +18,8 @@
   $formVars['id'] = clean($_GET['id'], 10);
   $output = '';
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {

@@ -149,6 +149,10 @@
           }
         }
       }
+    } else {
+      $output .= "<tr>";
+      $output .= "<td class=\"ui-widget-content\" colspan=\"9\">No Projectiles selected.</td>";
+      $output .= "</tr>";
     }
 
     $output .= "</table>\n";

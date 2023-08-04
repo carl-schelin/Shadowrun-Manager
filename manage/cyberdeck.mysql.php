@@ -34,41 +34,45 @@
 
     while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
 
-      $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
-      $output .= "<tr>";
-      $output .= "  <th class=\"ui-state-default\" colspan=\"10\">Cyberdeck ID: " . $a_r_cyberdeck['r_deck_access'] . "</th>";
-      $output .= "</tr>";
-      $output .= "<tr>";
-      $output .= "  <th class=\"ui-state-default\">Cyberdeck</th>";
-      $output .= "  <th class=\"ui-state-default\">Rating</th>";
-      $output .= "  <th class=\"ui-state-default\">Attack</th>";
-      $output .= "  <th class=\"ui-state-default\">Sleaze</th>";
-      $output .= "  <th class=\"ui-state-default\">Data Processing</th>";
-      $output .= "  <th class=\"ui-state-default\">Firewall</th>";
-      $output .= "  <th class=\"ui-state-default\">Programs</th>";
-      $output .= "  <th class=\"ui-state-default\">Availability</th>";
-      $output .= "  <th class=\"ui-state-default\">Cost</th>";
-      $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
-      $output .= "</tr>";
+      $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
+      $output .= "<tr>\n";
+      $output .= "  <th class=\"ui-state-default\" colspan=\"10\">Cyberdeck ID: " . $a_r_cyberdeck['r_deck_access'] . "</th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th class=\"ui-state-default\">Cyberdeck</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Rating</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Attack</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Sleaze</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Data Processing</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Firewall</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Programs</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Availability</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Cost</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
+      $output .= "</tr>\n";
 
       $rating = return_Rating($a_r_cyberdeck['deck_rating']);
 
       $avail = return_Avail($a_r_cyberdeck['deck_avail'], $a_r_cyberdeck['deck_perm']);
 
-      $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberdeck['deck_brand'] . " " . $a_r_cyberdeck['deck_model'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $rating                                                           . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_attack']                                   . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_sleaze']                                   . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_data']                                     . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_firewall']                                 . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['deck_programs']                                   . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $avail                                                            . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . number_format($a_r_cyberdeck['deck_cost'], 0, '.', ',') . $nuyen  . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['ver_book'] . ": " . $a_r_cyberdeck['deck_page']   . "</td>";
-      $output .= "</tr>";
+      $cost = return_Cost($a_r_cyberdeck['deck_cost']);
 
-      $output .= "</table>";
+      $book = return_Book($a_r_cyberdeck['ver_book'], $a_r_cyberdeck['deck_page']);
+
+      $output .= "<tr>\n";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberdeck['deck_brand'] . " " . $a_r_cyberdeck['deck_model'] . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $rating                                                           . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_attack']                                   . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_sleaze']                                   . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_data']                                     . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['r_deck_firewall']                                 . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberdeck['deck_programs']                                   . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $avail                                                            . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $cost                                                             . "</td>\n";
+      $output .= "<td class=\"ui-widget-content delete\">" . $book                                                             . "</td>\n";
+      $output .= "</tr>\n";
+
+      $output .= "</table>\n";
       
 # legal programs first
       $q_string  = "select pgm_name,pgm_desc,r_pgm_active,pgm_cost,pgm_avail,pgm_perm,ver_book,pgm_page ";
@@ -80,31 +84,35 @@
       $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_program) > 0) {
 
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-        $output .= "<tr>";
-        $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Programs</th>";
-        $output .= "</tr>";
-        $output .= "<tr>";
-        $output .= "  <th class=\"ui-state-default\">Program</th>";
-        $output .= "  <th class=\"ui-state-default\">Description</th>";
-        $output .= "  <th class=\"ui-state-default\">Availability</th>";
-        $output .= "  <th class=\"ui-state-default\">Cost</th>";
-        $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
-        $output .= "</tr>";
+        $output .= "<table class=\"ui-styled-table\" width=\"100%\"\n>";
+        $output .= "<tr>\n";
+        $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Programs</th>\n";
+        $output .= "</tr>\n";
+        $output .= "<tr>\n";
+        $output .= "  <th class=\"ui-state-default\">Program</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Description</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Availability</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Cost</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
+        $output .= "</tr>\n";
 
         while ($a_r_program = mysql_fetch_array($q_r_program)) {
 
           $avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
-          $output .= "<tr>";
-          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
-          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . $avail                                                        . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . number_format($a_r_program['pgm_cost'], 0, '.', ',') . $nuyen . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_program['ver_book'] . ": " . $a_r_program['pgm_page']    . "</td>";
-          $output .= "</tr>";
+          $cost = return_Cost($a_r_program['pgm_cost']);
+
+          $book = return_Book($a_r_program['ver_book'], $a_r_program['pgm_page']);
+
+          $output .= "<tr>\n";
+          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name'] . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc'] . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $avail                   . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $cost                    . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $book                    . "</td>\n";
+          $output .= "</tr>\n";
         }
-        $output .= "</table>";
+        $output .= "</table>\n";
       }
 
 # now Hacking programs
@@ -117,32 +125,36 @@
       $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_program) > 0) {
 
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-        $output .= "<tr>";
-        $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Hacking Programs</th>";
-        $output .= "</tr>";
-        $output .= "<tr>";
-        $output .= "  <th class=\"ui-state-default\">Program</th>";
-        $output .= "  <th class=\"ui-state-default\">Description</th>";
-        $output .= "  <th class=\"ui-state-default\">Availability</th>";
-        $output .= "  <th class=\"ui-state-default\">Cost</th>";
-        $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
+        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output .= "<tr>\n";
+        $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Hacking Programs</th>\n";
+        $output .= "</tr>\n";
+        $output .= "<tr>\n";
+        $output .= "  <th class=\"ui-state-default\">Program</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Description</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Availability</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Cost</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>";
 
         while ($a_r_program = mysql_fetch_array($q_r_program)) {
 
           $avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
-          $output .= "<tr>";
-          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
-          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . $avail                                                        . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . number_format($a_r_program['pgm_cost'], 0, '.', ',') . $nuyen . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_program['ver_book'] . ": " . $a_r_program['pgm_page']    . "</td>";
-          $output .= "</tr>";
+          $cost = return_Cost($a_r_program['pgm_cost']);
+
+          $book = return_Book($a_r_program['ver_book'], $a_r_program['pgm_page']);
+
+          $output .= "<tr>\n";
+          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name'] . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc'] . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $avail                   . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $cost                    . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $book                    . "</td>\n";
+          $output .= "</tr>\n";
 
         }
-        $output .= "</table>";
+        $output .= "</table>\n";
 
       }
 
@@ -156,17 +168,17 @@
       $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_agents) > 0) {
 
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-        $output .= "<tr>";
-        $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Agents</th>";
-        $output .= "</tr>";
-        $output .= "<tr>";
-        $output .= "  <th class=\"ui-state-default\">Agent</th>";
-        $output .= "  <th class=\"ui-state-default\">Rating</th>";
-        $output .= "  <th class=\"ui-state-default\">Availability</th>";
-        $output .= "  <th class=\"ui-state-default\">Cost</th>";
-        $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
-        $output .= "</tr>";
+        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output .= "<tr>\n";
+        $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Agents</th>\n";
+        $output .= "</tr>\n";
+        $output .= "<tr>\n";
+        $output .= "  <th class=\"ui-state-default\">Agent</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Rating</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Availability</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Cost</th>\n";
+        $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
+        $output .= "</tr>\n";
 
         while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
 
@@ -174,38 +186,42 @@
 
           $avail = return_Avail($a_r_agents['agt_avail'], $a_r_agents['agt_perm']);
 
-          $output .= "<tr>";
-          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_agents['agt_name']                                      . "</td>";
-          $output .= "  <td class=\"ui-widget-content\">"        . $rating                                                      . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . $avail                                                       . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . number_format($a_r_agents['agt_cost'], 0, '.', ',') . $nuyen . "</td>";
-          $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_agents['ver_book'] . ": " . $a_r_agents['agt_page']     . "</td>";
-          $output .= "</tr>";
+          $cost = return_Cost($a_r_agents['agt_cost']);
+
+          $book = return_Book($a_r_agents['ver_book'], $a_r_agents['agt_page']);
+
+          $output .= "<tr>\n";
+          $output .= "  <td class=\"ui-widget-content\">"        . $a_r_agents['agt_name'] . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">"        . $rating                 . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $avail                  . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $cost                   . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content delete\">" . $book                   . "</td>\n";
+          $output .= "</tr>\n";
 
         }
-        $output .= "</table>";
+        $output .= "</table>\n";
 
       }
 
       print "document.getElementById('" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
     }
   } else {
-    $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
-    $output .= "<tr>";
-    $output .= "  <th class=\"ui-state-default\" colspan=\"10\">Cyberdeck ID:</th>";
-    $output .= "</tr>";
-    $output .= "<tr>";
-    $output .= "  <th class=\"ui-state-default\">Cyberdeck</th>";
-    $output .= "  <th class=\"ui-state-default\">Rating</th>";
-    $output .= "  <th class=\"ui-state-default\">Attack</th>";
-    $output .= "  <th class=\"ui-state-default\">Sleaze</th>";
-    $output .= "  <th class=\"ui-state-default\">Data Processing</th>";
-    $output .= "  <th class=\"ui-state-default\">Firewall</th>";
-    $output .= "  <th class=\"ui-state-default\">Programs</th>";
-    $output .= "  <th class=\"ui-state-default\">Availability</th>";
-    $output .= "  <th class=\"ui-state-default\">Cost</th>";
-    $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
-    $output .= "</tr>";
+    $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
+    $output .= "<tr>\n";
+    $output .= "  <th class=\"ui-state-default\" colspan=\"10\">Cyberdeck ID:</th>\n";
+    $output .= "</tr>\n";
+    $output .= "<tr>\n";
+    $output .= "  <th class=\"ui-state-default\">Cyberdeck</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Rating</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Attack</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Sleaze</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Data Processing</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Firewall</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Programs</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Availability</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Cost</th>\n";
+    $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
+    $output .= "</tr>\n";
     $output .= "<tr>\n";
     $output .= "  <td class=\"ui-widget-content\" colspan=\"10\">No Cyberdecks added.</td>\n";
     $output .= "</tr>\n";

@@ -18,7 +18,8 @@
   $formVars['id'] = clean($_GET['id'], 10);
   $output = '';
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -61,10 +62,12 @@
   if (mysql_num_rows($q_r_tradition) > 0) {
     while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
 
+      $tradition_book = return_Book($a_r_tradition['ver_book'], $a_r_tradition['trad_page']);
+
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_tradition['trad_name']     . "</td>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_tradition['trad_description']    . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_tradition['ver_book'] . ": " . $a_r_tradition['trad_page'] . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_tradition['trad_name']        . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_tradition['trad_description'] . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $tradition_book                    . "</td>";
       $output .= "</tr>";
 
     }
