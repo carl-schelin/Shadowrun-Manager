@@ -1421,7 +1421,7 @@
 
   $header = "Lifestyles";
   $lifestyle = "";
-  $q_string  = "select life_style,life_comforts,life_security,life_neighborhood,life_entertainment,r_life_desc,r_life_months ";
+  $q_string  = "select life_style,r_life_desc,r_life_months ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";

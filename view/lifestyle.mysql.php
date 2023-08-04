@@ -32,7 +32,7 @@
   $output .= "</tr>";
 
   $nuyen = '&yen;';
-  $q_string  = "select r_life_id,r_life_desc,r_life_months,life_style,life_comforts,life_security,life_neighborhood,life_entertainment ";
+  $q_string  = "select r_life_id,r_life_desc,r_life_months,life_style,r_life_comforts,r_life_security,r_life_neighborhood,r_life_entertainment ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";
@@ -42,13 +42,13 @@
     while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
 
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_lifestyle['life_style']          . "</td>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_lifestyle['r_life_desc']         . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['r_life_months']       . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['life_comforts']       . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['life_security']       . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['life_neighborhood']   . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['life_entertainment']  . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_lifestyle['life_style']            . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_lifestyle['r_life_desc']           . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['r_life_months']         . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['r_life_comforts']       . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['r_life_security']       . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['r_life_neighborhood']   . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_lifestyle['r_life_entertainment']  . "</td>";
       $output .= "</tr>";
 
     }
