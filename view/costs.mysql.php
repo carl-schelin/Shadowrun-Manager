@@ -17,7 +17,7 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
-  $q_string  = "select runr_body,runr_agility,runr_reaction,runr_strength,runr_willpower,runr_logic,runr_intuition,runr_charisma,runr_magic,runr_resonance,meta_name ";
+  $q_string  = "select runr_body,runr_agility,runr_reaction,runr_strength,runr_willpower,runr_logic,runr_intuition,runr_charisma,runr_magic,runr_initiate,runr_resonance,meta_name ";
   $q_string .= "from metatypes ";
   $q_string .= "left join runners on runners.runr_metatype = metatypes.meta_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -550,7 +550,11 @@
   $output .= "<td class=\"ui-widget-content delete\">Metatype: "   . $a_metatypes['meta_name'] . "</td>";
   $output .= "<td class=\"ui-widget-content delete\">Attributes: " . $attributes . "</td>";
   if ($a_metatypes['runr_magic'] > 0) {
-    $output .= "<td class=\"ui-widget-content delete\">Magic: " . $a_metatypes['runr_magic'] . "</td>";
+    $initiate = '';
+    if ($a_metatypes['runr_initiate'] > 0) {
+      $initiate = " (" . ($a_metatypes['runr_magic'] + $a_metatypes['runr_initiate']) . ")";
+    }
+    $output .= "<td class=\"ui-widget-content delete\">Magic: " . $a_metatypes['runr_magic'] . $initiate . "</td>";
   }
   if ($a_metatypes['runr_resonance'] > 0) {
     $output .= "<td class=\"ui-widget-content delete\">Resonance: " . $a_metatypes['runr_resonance'] . "</td>";

@@ -57,7 +57,7 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
-  $nuyen = '&yen;';
+  $totalcost = 0;
   $q_string  = "select r_ware_id,class_name,ware_class,ware_name,ware_rating,ware_multiply,ware_essence,ware_capacity,ware_avail,ware_perm,ware_cost,ver_book,ware_page ";
   $q_string .= "from r_cyberware ";
   $q_string .= "left join cyberware on cyberware.ware_id = r_cyberware.r_ware_number ";
@@ -77,6 +77,7 @@
 
       $avail = return_Avail($a_r_cyberware['ware_avail'], $a_r_cyberware['ware_perm']);
 
+      $totalcost += $a_r_cyberware['ware_cost'];
       $cost = return_Cost($a_r_cyberware['ware_cost']);
 
       $book = return_Book($a_r_cyberware['ver_book'], $a_r_cyberware['ware_page']);
@@ -113,6 +114,11 @@
 
           $capacity = return_Capacity($a_r_accessory['acc_capacity']);
 
+          $totalcost += $a_r_accessory['acc_cost'];
+          $cost = return_Cost($a_r_accessory['acc_cost']);
+
+          $book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
+
           $avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
 
           $class = "ui-widget-content";
@@ -121,18 +127,21 @@
           }
 
           $output .= "<tr>\n";
-          $output .= "  <td class=\"" . $class . "\">"        . $a_r_accessory['class_name']                                       . "</td>\n";
-          $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_accessory['acc_name']                               . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $rating                                                            . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $essence                                                           . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $capacity                                                          . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $avail                                                             . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . number_format($a_r_accessory['acc_cost'], 0, '.', ',') . $nuyen   . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $a_r_accessory['ver_book']    . ": " . $a_r_accessory['acc_page'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $a_r_accessory['class_name']         . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $rating                              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $essence                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $capacity                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $avail                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $cost                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $book                                . "</td>\n";
           $output .= "</tr>\n";
         }
       }
     }
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "</tr>\n";
   } else {
     $output .= "<tr>";
     $output .= "<td class=\"ui-widget-content\" colspan=\"8\">No Cyberware selected.</td>";

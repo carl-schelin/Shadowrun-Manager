@@ -22,7 +22,7 @@
     if (check_userlevel(3)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_active");
 
-      $q_string  = "select r_act_number,r_act_rank,r_act_specialize ";
+      $q_string  = "select r_act_number,r_act_rank,r_act_specialize,r_act_expert ";
       $q_string .= "from r_active ";
       $q_string .= "where r_act_id = " . $formVars['id'];
       $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -33,8 +33,13 @@
       print "document.edit.r_act_rank.value = '"       . mysql_real_escape_string($a_r_active['r_act_rank'])       . "';\n";
       print "document.edit.r_act_specialize.value = '" . mysql_real_escape_string($a_r_active['r_act_specialize']) . "';\n";
 
+      if ($a_r_active['r_act_expert']) {
+        print "document.edit.r_act_expert.checked = true;\n";
+      } else {
+        print "document.edit.r_act_expert.checked = false;\n";
+      }
+
       print "document.edit.r_act_id.value = " . $formVars['id'] . ";\n";
-      print "document.edit.r_act_group.disabled = true;\n\n";
       print "document.edit.r_act_update.disabled = false;\n\n";
 
     } else {

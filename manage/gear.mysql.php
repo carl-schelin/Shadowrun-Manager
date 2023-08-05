@@ -57,6 +57,7 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
+  $totalcost = 0;
   $q_string  = "select r_gear_id,r_gear_amount,class_name,gear_id,gear_class,gear_name,gear_rating,gear_capacity,";
   $q_string .= "gear_avail,gear_perm,ver_book,gear_page,gear_cost ";
   $q_string .= "from r_gear ";
@@ -75,6 +76,7 @@
 
       $avail = return_Avail($a_r_gear['gear_avail'], $a_r_gear['gear_perm']);
 
+      $totalcost += $a_r_gear['gear_cost'];
       $cost = return_Cost($a_r_gear['gear_cost']);
 
       $book = return_Book($a_r_gear['ver_book'], $a_r_gear['gear_page']);
@@ -114,6 +116,7 @@
 
           $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
 
+          $totalcost += $a_r_accessory['acc_cost'];
           $acc_cost = return_Cost($a_r_accessory['acc_cost']);
 
           $acc_book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
@@ -136,6 +139,9 @@
         }
       }
     }
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "</tr>\n";
   } else {
     $output .= "<tr>";
     $output .= "<td class=\"ui-widget-content\" colspan=\"8\">No Gear selected.</td>";

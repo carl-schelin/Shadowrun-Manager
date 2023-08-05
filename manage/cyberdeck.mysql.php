@@ -21,7 +21,6 @@
 # people can have more than one cyberdeck so get the cyberdecks and then check for system info and finally build the program listing and stats
 # a basic cyberdeck might have just the normal info. A decker will have common programs and possibly hacking programs (separate listing)
 
-  $nuyen = '&yen;';
   $q_string  = "select r_deck_id,deck_brand,deck_model,deck_rating,deck_programs,r_deck_attack,r_deck_sleaze,";
   $q_string .= "r_deck_data,r_deck_firewall,r_deck_access,deck_avail,deck_perm,deck_cost,ver_book,deck_page ";
   $q_string .= "from r_cyberdeck ";

@@ -17,6 +17,13 @@
 
   logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
+  $q_string  = "select ver_version ";
+  $q_string .= "from versions ";
+  $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+  $q_string .= "where runr_id = " . $formVars['id'] . " ";
+  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $a_versions = mysql_fetch_array($q_versions);
+
   $output  = "<p></p>\n";
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
@@ -59,24 +66,32 @@
   $output .= "<tr>\n";
   $output .=   "<th class=\"ui-state-default\">Class</th>\n";
   $output .=   "<th class=\"ui-state-default\">Name</th>\n";
-  $output .=   "<th class=\"ui-state-default\">Accuracy</th>\n";
-  $output .=   "<th class=\"ui-state-default\">Reach</th>\n";
+  if ($a_versions['ver_version'] == 5.0) {
+    $output .=   "<th class=\"ui-state-default\">Accuracy</th>\n";
+    $output .=   "<th class=\"ui-state-default\">Reach</th>\n";
+  }
   $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
-  $output .=   "<th class=\"ui-state-default\">AP</th>\n";
+  if ($a_versions['ver_version'] == 5.0) {
+    $output .=   "<th class=\"ui-state-default\">AP</th>\n";
+  }
+  if ($a_versions['ver_version'] == 6.0) {
+    $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
+  }
   $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
   $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
   $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
   $output .= "</tr>\n";
 
-  $nuyen = '&yen;';
-  $q_string  = "select r_melee_id,melee_class,melee_name,melee_acc,melee_reach,melee_damage,";
+  $totalcost = 0;
+  $q_string  = "select r_melee_id,class_name,melee_name,melee_acc,melee_reach,melee_damage,";
   $q_string .= "melee_type,melee_flag,melee_strength,melee_ap,melee_avail,";
-  $q_string .= "melee_perm,melee_cost,ver_book,melee_page ";
+  $q_string .= "melee_perm,melee_cost,ver_book,melee_page,melee_ar1,melee_ar2,melee_ar3,melee_ar4,melee_ar5 ";
   $q_string .= "from r_melee ";
   $q_string .= "left join melee on melee.melee_id = r_melee.r_melee_number ";
+  $q_string .= "left join class on class.class_id = melee.melee_class ";
   $q_string .= "left join versions on versions.ver_id = melee.melee_book ";
   $q_string .= "where r_melee_character = " . $formVars['id'] . " ";
-  $q_string .= "order by melee_class,melee_name ";
+  $q_string .= "order by class_name,melee_name ";
   $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_melee) > 0) {
     while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
@@ -118,20 +133,37 @@
         $melee_ap = $a_r_melee['melee_ap'];
       }
 
+      $attack = return_Attack($a_r_melee['melee_ar1'], $a_r_melee['melee_ar2'], $a_r_melee['melee_ar3'], $a_r_melee['melee_ar4'], $a_r_melee['melee_ar5']);
+
       $avail = return_Avail($a_r_melee['melee_avail'], $a_r_melee['melee_perm']);
 
+      $totalcost += $a_r_melee['melee_cost'];
+      $cost = return_Cost($a_r_melee['melee_cost']);
+
+      $book = return_Book($a_r_melee['ver_book'], $a_r_melee['melee_page']);
+
       $output .= "<tr>\n";
-      $output .= "  <td class=\"ui-widget-content\">"                . $a_r_melee['melee_class']                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content\">"                . $a_r_melee['melee_name']                                      . "</td>\n";
-      $output .= "  <td class=\"delete ui-widget-content\">"         . $a_r_melee['melee_acc']                                       . "</td>\n";
-      $output .= "  <td class=\"delete ui-widget-content\">"         . $melee_reach                                                  . "</td>\n";
-      $output .= "  <td class=\"delete ui-widget-content\" title=\"" . $melee_title . "\">" . $melee_damage                          . "</td>\n";
-      $output .= "  <td class=\"delete ui-widget-content\">"         . $melee_ap                                                     . "</td>\n";
-      $output .= "  <td class=\"delete ui-widget-content\">"         . $avail                                                        . "</td>\n";
-      $output .= "  <td class=\"delete ui-widget-content\">"         . number_format($a_r_melee['melee_cost'], 0, '.', ',') . $nuyen . "</td>\n";
-      $output .= "  <td class=\"delete ui-widget-content\">"         . $a_r_melee['ver_book'] . ": " . $a_r_melee['melee_page']      . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content\">"                . $a_r_melee['class_name']             . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content\">"                . $a_r_melee['melee_name']             . "</td>\n";
+      if ($a_versions['ver_version'] == 5.0) {
+        $output .= "  <td class=\"delete ui-widget-content\">"       . $a_r_melee['melee_acc']              . "</td>\n";
+        $output .= "  <td class=\"delete ui-widget-content\">"       . $melee_reach                         . "</td>\n";
+      }
+      $output .= "  <td class=\"delete ui-widget-content\" title=\"" . $melee_title . "\">" . $melee_damage . "</td>\n";
+      if ($a_versions['ver_version'] == 5.0) {
+        $output .= "  <td class=\"delete ui-widget-content\">"       . $melee_ap                            . "</td>\n";
+      }
+      if ($a_versions['ver_version'] == 6.0) {
+        $output .= "  <td class=\"delete ui-widget-content\">"       . $attack                              . "</td>\n";
+      }
+      $output .= "  <td class=\"delete ui-widget-content\">"         . $avail                               . "</td>\n";
+      $output .= "  <td class=\"delete ui-widget-content\">"         . $cost                                . "</td>\n";
+      $output .= "  <td class=\"delete ui-widget-content\">"         . $book                                . "</td>\n";
       $output .= "</tr>\n";
     }
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "</tr>\n";
   } else {
     $output .= "<tr>\n";
     $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">No Melee Weapons added.</td>\n";

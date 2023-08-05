@@ -17,6 +17,13 @@
 
   logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
+  $q_string  = "select ver_version ";
+  $q_string .= "from versions ";
+  $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+  $q_string .= "where runr_id = " . $formVars['id'] . " ";
+  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $a_versions = mysql_fetch_array($q_versions);
+
   $output  = "<p></p>\n";
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
@@ -62,8 +69,11 @@
   $output .=   "<th class=\"ui-state-default\">Make</th>\n";
   $output .=   "<th class=\"ui-state-default\">Model</th>\n";
   $output .=   "<th class=\"ui-state-default\">Handling</th>\n";
-  $output .=   "<th class=\"ui-state-default\">Speed</th>\n";
   $output .=   "<th class=\"ui-state-default\">Acceleration</th>\n";
+  if ($a_versions['ver_version'] == 6.0) {
+    $output .=   "<th class=\"ui-state-default\">Interval</th>\n";
+  }
+  $output .=   "<th class=\"ui-state-default\">Speed</th>\n";
   $output .=   "<th class=\"ui-state-default\">Body</th>\n";
   $output .=   "<th class=\"ui-state-default\">Armor</th>\n";
   $output .=   "<th class=\"ui-state-default\">Pilot</th>\n";
@@ -74,12 +84,13 @@
   $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
   $output .= "</tr>\n";
 
-  $nuyen = '&yen;';
-  $q_string  = "select r_veh_id,veh_class,veh_type,veh_make,veh_model,veh_onacc,veh_offacc,veh_onhand,";
-  $q_string .= "veh_offhand,veh_onspeed,veh_offspeed,veh_pilot,veh_body,veh_armor,veh_sensor,";
+  $totalcost = 0;
+  $q_string  = "select r_veh_id,class_name,veh_type,veh_make,veh_model,veh_onacc,veh_offacc,veh_onhand,";
+  $q_string .= "veh_offhand,veh_onspeed,veh_offspeed,veh_interval,veh_pilot,veh_body,veh_armor,veh_sensor,";
   $q_string .= "veh_onseats,veh_offseats,veh_avail,veh_perm,veh_cost,ver_book,veh_page ";
   $q_string .= "from r_vehicles ";
   $q_string .= "left join vehicles on vehicles.veh_id = r_vehicles.r_veh_number ";
+  $q_string .= "left join class on class.class_id = vehicles.veh_class ";
   $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
   $q_string .= "where r_veh_character = " . $formVars['id'] . " ";
   $q_string .= "order by veh_class,veh_type,veh_make ";
@@ -97,27 +108,35 @@
 
       $veh_avail = return_Avail($a_r_vehicles['veh_avail'], $a_r_vehicles['veh_perm']);
 
+      $totalcost += $a_r_vehicles['veh_cost'];
+      $veh_cost = return_Cost($a_r_vehicles['veh_cost']);
+
+      $veh_book = return_Book($a_r_vehicles['ver_book'], $a_r_vehicles['veh_page']);
+
       $output .= "<tr>\n";
-      $output .= "  <td class=\"ui-widget-content\">"                     . $a_r_vehicles['veh_class']                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content\">"                     . $a_r_vehicles['veh_type']                                      . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $a_r_vehicles['veh_make']                                      . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $a_r_vehicles['veh_model']                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $veh_handling                                                  . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $veh_speed                                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $veh_acceleration                                              . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $a_r_vehicles['veh_body']                                      . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $a_r_vehicles['veh_armor']                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $a_r_vehicles['veh_pilot']                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $a_r_vehicles['veh_sensor']                                    . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $veh_seats                                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $veh_avail                                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . number_format($a_r_vehicles['veh_cost'], 0, '.', ',') . $nuyen . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">"              . $a_r_vehicles['ver_book']   . ": " . $a_r_vehicles['veh_page'] . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content\">"        . $a_r_vehicles['class_name']   . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content\">"        . $a_r_vehicles['veh_type']     . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_vehicles['veh_make']     . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_vehicles['veh_model']    . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $veh_handling                 . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $veh_acceleration             . "</td>\n";
+      if ($a_versions['ver_version'] == 6.0) {
+        $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_vehicles['veh_interval'] . "</td>\n";
+      }
+      $output .= "  <td class=\"ui-widget-content delete\">" . $veh_speed                    . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_vehicles['veh_body']     . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_vehicles['veh_armor']    . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_vehicles['veh_pilot']    . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_vehicles['veh_sensor']   . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $veh_seats                    . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $veh_avail                    . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $veh_cost                     . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $veh_book                     . "</td>\n";
       $output .= "</tr>\n";
 
       $output .= "<tr>\n";
       $a_veh_damage = intval(($a_r_vehicles['veh_body'] + .5) / 2) + 8;
-      $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">" . "Damage: (" . $a_veh_damage . "): ";
+      $output .= "  <td class=\"ui-widget-content\" colspan=\"16\">" . "Damage: (" . $a_veh_damage . "): ";
       for ($i = 0; $i < 18; $i++) {
         if ($a_veh_damage > $i) {
           $disabled = "";
@@ -131,6 +150,9 @@
       $output .= "</tr>\n";
 
     }
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"19\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "</tr>\n";
   } else {
     $output .= "  <td class=\"ui-widget-content\" colspan=\"19\">No Vehicles added.</td>\n";
   }

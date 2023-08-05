@@ -32,6 +32,7 @@
         $formVars['r_act_group']       = clean($_GET['r_act_group'],        10);
         $formVars['r_act_rank']        = clean($_GET['r_act_rank'],         10);
         $formVars['r_act_specialize']  = clean($_GET['r_act_specialize'],   60);
+        $formVars['r_act_expert']      = clean($_GET['r_act_expert'],       10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
@@ -43,6 +44,11 @@
         if ($formVars['r_act_rank'] == '') {
           $formVars['r_act_rank'] = 0;
         }
+        if ($formVars['r_act_expert'] == 'false') {
+          $formVars['r_act_expert'] = 0;
+        } else {
+          $formVars['r_act_expert'] = 1;
+        }
 
         if ($formVars['r_act_number'] > 0) {
           logaccess($_SESSION['username'], $package, "Building the query.");
@@ -51,7 +57,8 @@
             "r_act_character   =   " . $formVars['r_act_character']   . "," .
             "r_act_number      =   " . $formVars['r_act_number']      . "," .
             "r_act_rank        =   " . $formVars['r_act_rank']        . "," .
-            "r_act_specialize  = \"" . $formVars['r_act_specialize']  . "\"";
+            "r_act_specialize  = \"" . $formVars['r_act_specialize']  . "\"," . 
+            "r_act_expert      =   " . $formVars['r_act_expert'];
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_active set r_act_id = NULL," . $q_string;
@@ -158,7 +165,7 @@
 
         $output .= "</select></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Rank: <input type=\"text\" name=\"r_act_rank\" size=\"10\">\n";
-        $output .= "  <td class=\"ui-widget-content\">Specialize: <input type=\"text\" name=\"r_act_specialize\" size=\"30\">\n";
+        $output .= "  <td class=\"ui-widget-content\">Specialize: <input type=\"text\" name=\"r_act_specialize\" size=\"30\"> Expert? <input type=\"checkbox\" name=\"r_act_expert\">\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
@@ -212,7 +219,8 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select r_act_id,r_act_rank,r_act_group,r_act_specialize,act_id,act_name,act_group,att_name,att_column,ver_book,act_page ";
+      $q_string  = "select r_act_id,r_act_rank,r_act_group,r_act_specialize,r_act_expert,act_id,";
+      $q_string .= "act_name,act_group,att_name,att_column,ver_book,act_page ";
       $q_string .= "from r_active ";
       $q_string .= "left join active on active.act_id = r_active.r_act_number ";
       $q_string .= "left join attributes on attributes.att_id = active.act_attribute ";
@@ -276,14 +284,24 @@
             $output .= "</tr>\n";
 
             if (strlen($a_r_active['r_act_specialize']) > 0) {
+
+              $highlight = "";
+              $increase = " + 2";
+              $expert = 0;
+              if ($a_r_active['r_act_expert'] == 1) {
+                $highlight = " *";
+                $increase = " + 3";
+                $expert = 1;
+              }
+
               $output .= "<tr>\n";
               $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                                                                               . "</td>\n";
               $output .= "  <td class=\"" . $class . "\">"        . "&nbsp;"                                                                               . "</td>\n";
-              $output .= "  <td class=\"" . $class . "\">"        . $linkstart . "&gt; " . $a_r_active['r_act_specialize']                      . $linkend . "</td>\n";
-              $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_active['r_act_rank'] . " + 2"                                        . "</td>\n";
+              $output .= "  <td class=\"" . $class . "\">"        . $linkstart . "&gt; " . $a_r_active['r_act_specialize'] . $highlight         . $linkend . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_active['r_act_rank'] . $increase                                     . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_active['att_name']                                                   . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">"              . $a_runners[$a_r_active['att_column']]                                     . "</td>\n";
-              $output .= "  <td class=\"" . $class . " delete\">"              . ($a_runners[$a_r_active['att_column']]  + $a_r_active['r_act_rank'] + 2)  . "</td>\n";
+              $output .= "  <td class=\"" . $class . " delete\">"              . ($a_runners[$a_r_active['att_column']]  + $a_r_active['r_act_rank'] + 2 + $expert)  . "</td>\n";
               $output .= "  <td class=\"" . $class . " delete\">"              . $act_book                                                                 . "</td>\n";
               $output .= "</tr>\n";
             }
@@ -305,6 +323,7 @@
       print "document.edit.r_act_group[0].selected = true;\n";
       print "document.edit.r_act_group.disabled = false;\n";
       print "document.edit.r_act_specialize.value = '';\n";
+      print "document.edit.r_act_expert.checked = false;\n";
       print "document.edit.r_act_update.disabled = true;\n";
     } else {
       logaccess($_SESSION['username'], $package, "Unauthorized access.");

@@ -59,7 +59,6 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
-  $nuyen = '&yen;';
   $q_string  = "select r_link_id,link_brand,link_model,link_rating,link_avail,link_perm,ver_book,link_page,link_cost,r_link_access ";
   $q_string .= "from r_commlink ";
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";

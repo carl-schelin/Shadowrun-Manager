@@ -20,11 +20,12 @@
   $q_string  = "select runr_owner,runr_aliases,runr_name,runr_archetype,runr_agility,";
   $q_string .= "runr_body,runr_reaction,runr_strength,runr_charisma,runr_intuition,";
   $q_string .= "runr_logic,runr_willpower,runr_essence,runr_totaledge,runr_currentedge,";
-  $q_string .= "runr_magic,runr_resonance,runr_age,runr_sex,runr_height,runr_weight,";
+  $q_string .= "runr_magic,runr_initiate,runr_resonance,runr_age,runr_sex,runr_height,runr_weight,";
   $q_string .= "runr_physicalcon,runr_stuncon,runr_desc,runr_sop,runr_available,meta_name,";
-  $q_string .= "meta_walk,meta_run,meta_swim ";
+  $q_string .= "meta_walk,meta_run,meta_swim,ver_version ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
+  $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysql_fetch_array($q_runners);
@@ -112,23 +113,27 @@
   $output .= "  <th class=\"ui-state-default\" width=\"18%\">Derived</th>";
   $output .= "</tr>";
   $output .= "<tr>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Agility</strong>: "    . $a_runners['runr_agility']    . "</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Charisma</strong>: "   . $a_runners['runr_charisma']   . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Body</strong>: "         . $a_runners['runr_body']      . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Willpower</strong>: " . $a_runners['runr_willpower'] . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Edge</strong>: "       . $a_runners['runr_totaledge']  . "</td>";
   $output .= "  <td class=\"ui-widget-content\" title=\"REA+INT\"><strong>Initiative</strong>: " . ($a_runners['runr_reaction'] + $a_runners['runr_intuition']) . " + 1d6</td>";
   $output .= "  <td class=\"ui-widget-content\" title=\"WIL+CHA sr5/152\"><strong>Composure</strong>: "  . ($a_runners['runr_willpower'] + $a_runners['runr_charisma']) . "</td>";
   $output .= "</tr>";
   $output .= "<tr>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Body</strong>: "         . $a_runners['runr_body']      . "</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Intuition</strong>: "    . $a_runners['runr_intuition'] . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Agility</strong>: "    . $a_runners['runr_agility']    . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Logic</strong>: "      . $a_runners['runr_logic']    . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Essence</strong>: "      . $a_runners['runr_essence']   . "</td>";
   $output .= "  <td class=\"ui-widget-content\" title=\"INT*2\"><strong>Astral</strong>: " . ($a_runners['runr_intuition'] + $a_runner['runr_intuition']) . " + 2d6</td>";
   $output .= "  <td class=\"ui-widget-content\" title=\"INT+CHA sr5/152\"><strong>Judge Intent</strong>: " . ($a_runners['runr_intuition'] + $a_runners['runr_charisma']) . "</td>";
   $output .= "</tr>";
   $output .= "<tr>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Reaction</strong>: "   . $a_runners['runr_reaction'] . "</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Logic</strong>: "      . $a_runners['runr_logic']    . "</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Magic</strong>: "      . $a_runners['runr_magic']    . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Intuition</strong>: "    . $a_runners['runr_intuition'] . "</td>";
+  $initiate = '';
+  if ($a_runners['runr_initiate'] > 0) {
+    $initiate = " (" . ($a_runners['runr_magic'] + $a_runners['runr_initiate']) . ")";
+  }
+  $output .= "  <td class=\"ui-widget-content\"><strong>Magic</strong>: "      . $a_runners['runr_magic']    . $initiate . "</td>";
   $output .= "  <td class=\"ui-widget-content\" title=\"REA+INT\"><strong>Matrix: AR</strong> " . ($a_runners['runr_reaction'] + $a_runners['runr_intuition']) . " + 1d6";
   if ($data_processing > 0) {
     $output .= "/<strong>cold-sim VR</strong>: " . ($data_processing + $a_runners['runr_intuition']) . " + 3d6";
@@ -139,27 +144,29 @@
   $output .= "</tr>";
   $output .= "<tr>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Strength</strong>: "  . $a_runners['runr_strength']  . "</td>";
-  $output .= "  <td class=\"ui-widget-content\"><strong>Willpower</strong>: " . $a_runners['runr_willpower'] . "</td>";
+  $output .= "  <td class=\"ui-widget-content\"><strong>Charisma</strong>: "   . $a_runners['runr_charisma']   . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Resonance</strong>: " . $a_runners['runr_resonance'] . "</td>";
   $output .= "  <td class=\"ui-widget-content\" title=\"REA+INT\"><strong>Rigging AR</strong>: " . ($a_runners['runr_reaction'] + $a_runners['runr_intuition']) . " + 1d6</td>";
   $output .= "  <td class=\"ui-widget-content\" title=\"LOG+WIL sr5/152\"><strong>Memory</strong>: "    . ($a_runners['runr_logic'] + $a_runners['runr_willpower']) . "</td>";
   $output .= "</tr>";
   $output .= "</table>";
 
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\" colspan=\"3\">Limits</th>";
-  $output .= "</tr>";
+  if ($a_runners['ver_version'] == 5.0) {
+    $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
+    $output .= "<tr>";
+    $output .= "  <th class=\"ui-state-default\" colspan=\"3\">Limits</th>";
+    $output .= "</tr>";
 
-  $mental_limit   = ceil((($a_runners['runr_logic'] * 2)    + $a_runners['runr_intuition'] + $a_runners['runr_willpower']) /3);
-  $physical_limit = ceil((($a_runners['runr_strength'] * 2) + $a_runners['runr_body']      + $a_runners['runr_reaction'])  /3);
-  $social_limit   = ceil((($a_runners['runr_charisma'] * 2) + $a_runners['runr_willpower'] + $a_runners['runr_essence'])   /3);
-  $output .= "<tr>";
-  $output .= "  <td class=\"ui-widget-content\" title=\"((LOGx2)+INT+WIL)/3 sr5/101\"><strong>Mental</strong>: "   . $mental_limit   . "</td>";
-  $output .= "  <td class=\"ui-widget-content\" title=\"((STRx2)+BOD+REA)/3 sr5/101\"><strong>Physical</strong>: " . $physical_limit . "</td>";
-  $output .= "  <td class=\"ui-widget-content\" title=\"((CHAx2)+WIL+ESS)/3 sr5/101\"><strong>Social</strong>: "   . $social_limit   . "</td>";
-  $output .= "</tr>";
-  $output .= "</table>";
+    $mental_limit   = ceil((($a_runners['runr_logic'] * 2)    + $a_runners['runr_intuition'] + $a_runners['runr_willpower']) /3);
+    $physical_limit = ceil((($a_runners['runr_strength'] * 2) + $a_runners['runr_body']      + $a_runners['runr_reaction'])  /3);
+    $social_limit   = ceil((($a_runners['runr_charisma'] * 2) + $a_runners['runr_willpower'] + $a_runners['runr_essence'])   /3);
+    $output .= "<tr>";
+    $output .= "  <td class=\"ui-widget-content\" title=\"((LOGx2)+INT+WIL)/3 sr5/101\"><strong>Mental</strong>: "   . $mental_limit   . "</td>";
+    $output .= "  <td class=\"ui-widget-content\" title=\"((STRx2)+BOD+REA)/3 sr5/101\"><strong>Physical</strong>: " . $physical_limit . "</td>";
+    $output .= "  <td class=\"ui-widget-content\" title=\"((CHAx2)+WIL+ESS)/3 sr5/101\"><strong>Social</strong>: "   . $social_limit   . "</td>";
+    $output .= "</tr>";
+    $output .= "</table>";
+  }
 
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";

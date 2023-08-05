@@ -54,7 +54,7 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
-  $nuyen = '&yen;';
+  $totalcost = 0;
   $q_string  = "select r_arm_id,arm_name,arm_rating,arm_avail,arm_perm,ver_book,arm_page,arm_cost ";
   $q_string .= "from r_armor ";
   $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
@@ -69,6 +69,7 @@
 
       $avail = return_Avail($a_r_armor['arm_avail'], $a_r_armor['arm_perm']);
 
+      $totalcost += $a_r_armor['arm_cost'];
       $cost = return_Cost($a_r_armor['arm_cost']);
 
       $book = return_Book($a_r_armor['ver_book'], $a_r_armor['arm_page']);
@@ -105,6 +106,7 @@
             $class = "ui-state-error";
           }
 
+          $totalcost += $a_r_accessory['acc_cost'];
           $cost = return_Cost($a_r_accessory['acc_cost']);
 
           $book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
@@ -119,6 +121,9 @@
         }
       }
     }
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "</tr>\n";
   } else {
     $output .= "<tr>";
     $output .= "<td class=\"ui-widget-content\" colspan=\"5\">No Armor selected.</td>";
