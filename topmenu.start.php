@@ -24,6 +24,7 @@
       <li><a href="<?php print $Dataroot; ?>/add.knowledge.php">Knowledge Skills</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.language.php">Language Skills</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.lifestyle.php">Lifestyles</a></li>
+      <li><a href="<?php print $Dataroot; ?>/add.points.php">Lifestyle Points</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.metatypes.php">Metatypes</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.qualities.php">Qualities</a></li>
     </ul>
@@ -31,6 +32,7 @@
     <ul>
       <li><a href="<?php print $Dataroot; ?>/add.adept.php">Adept Powers</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.mentor.php">Mentor Spirits</a></li>
+      <li><a href="<?php print $Dataroot; ?>/add.metamagics.php">Metamagics</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.power.php">Powers</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.spells.php">Spells</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.spirits.php">Spirits</a></li>

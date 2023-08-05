@@ -18,7 +18,8 @@
   $formVars['id'] = clean($_GET['id'], 10);
   $output = '';
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -79,21 +80,21 @@
       }
 
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_spirit['spirit_name']     . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_spirit['spirit_name']       . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['r_spirit_force']    . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['r_spirit_services'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $bound                         . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_body'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_agility'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_reaction'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_strength'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_willpower'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_logic'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_intuition'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_charisma'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_edge'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_essence'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_magic'] . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $bound                           . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_body']       . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_agility']    . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_reaction']   . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_strength']   . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_willpower']  . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_logic']      . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_intuition']  . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_charisma']   . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_edge']       . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_essence']    . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_spirit['spirit_magic']      . "</td>";
       $output .= "</tr>";
 
     }

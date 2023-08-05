@@ -22,7 +22,8 @@
 # a basic commlink might have just the normal info. A decker will have programs and possibly black programs (separate listing)
 
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -58,7 +59,6 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
-  $nuyen = '&yen;';
   $q_string  = "select r_link_id,link_brand,link_model,link_rating,link_avail,link_perm,ver_book,link_page,link_cost,r_link_access ";
   $q_string .= "from r_commlink ";
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
@@ -69,17 +69,21 @@
   if (mysql_num_rows($q_r_commlink) > 0) {
     while ($a_r_commlink = mysql_fetch_array($q_r_commlink)) {
 
-      $rating = return_Rating($a_r_commlink['link_rating']);
+      $commlink_rating = return_Rating($a_r_commlink['link_rating']);
 
-      $avail = return_Avail($a_r_commlink['link_avail'], $a_r_commlink['link_perm']);
+      $commlink_avail = return_Avail($a_r_commlink['link_avail'], $a_r_commlink['link_perm']);
+
+      $commlink_cost = return_Cost($a_r_commlink['link_cost']);
+
+      $commlink_book = return_Book($a_r_commlink['ver_book'], $a_r_commlink['link_page']);
 
       $output .= "<tr>";
       $output .= "<td class=\"ui-widget-content\">"        . $a_r_commlink['link_brand'] . " " . $a_r_commlink['link_model'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $rating                                                         . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $commlink_rating                                                . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $a_r_commlink['r_link_access']                                  . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $avail                                                          . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . number_format($a_r_commlink['link_cost'], 0, '.', ',') . $nuyen . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_commlink['ver_book'] . ": " . $a_r_commlink['link_page']   . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $commlink_avail                                                 . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $commlink_cost                                                  . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $commlink_book                                                  . "</td>";
       $output .= "</tr>";
 
     }

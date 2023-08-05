@@ -19,9 +19,10 @@
 
   $q_string  = "select meta_name,runr_archetype,runr_essence,runr_totaledge,runr_body,";
   $q_string .= "runr_agility,runr_reaction,runr_strength,runr_willpower,runr_logic,";
-  $q_string .= "runr_intuition,runr_charisma,runr_resonance,runr_magic ";
+  $q_string .= "runr_intuition,runr_charisma,runr_resonance,runr_magic,runr_initiate,ver_version ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
+  $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysql_fetch_array($q_runners);
@@ -125,26 +126,28 @@
   }
 
 
-  $mental_limit   = ceil((($a_runners['runr_logic'] * 2)    + $a_runners['runr_intuition'] + $a_runners['runr_willpower']) /3);
-  $physical_limit = ceil((($a_runners['runr_strength'] * 2) + $a_runners['runr_body']      + $a_runners['runr_reaction'])  /3);
-  $social_limit   = ceil((($a_runners['runr_charisma'] * 2) + $a_runners['runr_willpower'] + $a_runners['runr_essence'])   /3);
+  if ($a_runners['ver_version'] == 5.0) {
+    $mental_limit   = ceil((($a_runners['runr_logic'] * 2)    + $a_runners['runr_intuition'] + $a_runners['runr_willpower']) /3);
+    $physical_limit = ceil((($a_runners['runr_strength'] * 2) + $a_runners['runr_body']      + $a_runners['runr_reaction'])  /3);
+    $social_limit   = ceil((($a_runners['runr_charisma'] * 2) + $a_runners['runr_willpower'] + $a_runners['runr_essence'])   /3);
 
-  if ($mental_limit > $social_limit) {
-    $astral_limit = $mental_limit;
-  } else {
-    $astral_limit = $social_limit;
-  }
+    if ($mental_limit > $social_limit) {
+      $astral_limit = $mental_limit;
+    } else {
+      $astral_limit = $social_limit;
+    }
 
-  $output .= "<tr>\n";
-  $output .= "  <th class=\"ui-state-default\" colspan=\"2\">Limits</th>";
-  $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Physical " . $physical_limit . ", ";
-  $output .= "Mental " . $mental_limit . ", ";
-  $output .= "Social " . $social_limit;
-  if ($a_runners['runr_magic'] > 0) {
-    $output .= ", Astral " . $astral_limit . "";
+    $output .= "<tr>\n";
+    $output .= "  <th class=\"ui-state-default\" colspan=\"2\">Limits</th>";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Physical " . $physical_limit . ", ";
+    $output .= "Mental " . $mental_limit . ", ";
+    $output .= "Social " . $social_limit;
+    if ($a_runners['runr_magic'] > 0) {
+      $output .= ", Astral " . $astral_limit . "";
+    }
+    $output .= "</td>\n";
+    $output .= "</tr>\n";
   }
-  $output .= "</td>\n";
-  $output .= "</tr>\n";
 
 
   $output .= "<tr>\n";
@@ -311,7 +314,7 @@
   $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_active = mysql_fetch_array($q_active)) {
 
-    $q_string  = "select r_act_rank,r_act_specialize ";
+    $q_string  = "select r_act_rank,r_act_specialize,r_act_expert ";
     $q_string .= "from r_active ";
     $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
     $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -321,14 +324,18 @@
       $act_name = $a_active['act_name'] . " ";
       $act_rank = $a_r_active['r_act_rank'];
 
+      $expert = ' + 2';
+      if ($a_r_active['r_act_expert']) {
+        $expert = "* + 3";
+      }
+
       $r_act_name = '';
       $r_act_rank = '';
       if (strlen($a_r_active['r_act_specialize']) > 0) {
-        $r_act_name = " (" . $a_r_active['r_act_specialize'] . ") ";
-        $r_act_rank = "(+2)";
+        $r_act_name = " (" . $a_r_active['r_act_specialize'] . $expert . ") ";
       }
 
-      $active .= $comma . $act_name . $r_act_name . $act_rank . $r_act_rank;
+      $active .= $comma . $act_name . $act_rank . $r_act_name;
       $comma = ", ";
     }
   }
@@ -1421,7 +1428,7 @@
 
   $header = "Lifestyles";
   $lifestyle = "";
-  $q_string  = "select life_style,life_comforts,life_security,life_neighborhood,life_entertainment,r_life_desc,r_life_months ";
+  $q_string  = "select life_style,r_life_desc,r_life_months ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";

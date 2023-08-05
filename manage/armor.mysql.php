@@ -18,7 +18,8 @@
   $formVars['id'] = clean($_GET['id'], 10);
   $output = '';
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -53,7 +54,7 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
-  $nuyen = '&yen;';
+  $totalcost = 0;
   $q_string  = "select r_arm_id,arm_name,arm_rating,arm_avail,arm_perm,ver_book,arm_page,arm_cost ";
   $q_string .= "from r_armor ";
   $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
@@ -68,12 +69,17 @@
 
       $avail = return_Avail($a_r_armor['arm_avail'], $a_r_armor['arm_perm']);
 
+      $totalcost += $a_r_armor['arm_cost'];
+      $cost = return_Cost($a_r_armor['arm_cost']);
+
+      $book = return_Book($a_r_armor['ver_book'], $a_r_armor['arm_page']);
+
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_armor['arm_name']                                      . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $rating                                                     . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $avail                                                      . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . number_format($a_r_armor['arm_cost'], 0, '.', ',') . $nuyen . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_armor['ver_book'] . ": " . $a_r_armor['arm_page']      . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_armor['arm_name'] . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $rating                . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $avail                 . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $cost                  . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $book                  . "</td>";
       $output .= "</tr>";
 
 # now get any accessories. Simple enough; check for r_accessory for character and the id of the parent, then get the info
@@ -100,16 +106,24 @@
             $class = "ui-state-error";
           }
 
+          $totalcost += $a_r_accessory['acc_cost'];
+          $cost = return_Cost($a_r_accessory['acc_cost']);
+
+          $book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
+
           $output .= "<tr>\n";
-          $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_accessory['acc_name']                               . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $rating                                                            . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $avail                                                             . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . number_format($a_r_accessory['acc_cost'], 0, '.', ',') . $nuyen   . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">" . $a_r_accessory['ver_book']    . ": " . $a_r_accessory['acc_page'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $rating                              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $avail                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $cost                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $book                                . "</td>\n";
           $output .= "</tr>\n";
         }
       }
     }
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "</tr>\n";
   } else {
     $output .= "<tr>";
     $output .= "<td class=\"ui-widget-content\" colspan=\"5\">No Armor selected.</td>";

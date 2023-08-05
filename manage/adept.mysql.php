@@ -17,7 +17,8 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -91,15 +92,17 @@
         $powerpoints = ($a_r_adept['adp_power'] * $a_r_adept['r_adp_level']);
       }
 
+      $adept_book = return_Book($a_r_adept['ver_book'], $a_r_adept['adp_page']);
+
       $class = "ui-widget-content";
 
       $output .= "<tr>\n";
-      $output .= "  <td class=\"" . $class . "\">"        . $a_r_adept['adp_name'] . $specialize                   . "</td>\n";
-      $output .= "  <td class=\"" . $class . "\">"        . $a_r_adept['adp_desc']                                 . "</td>\n";
-      $output .= "  <td class=\"" . $class . " delete\">" . $a_r_adept['adp_power'] . $level                        . "</td>\n";
-      $output .= "  <td class=\"" . $class . " delete\">" . $a_r_adept['r_adp_level']                              . "</td>\n";
-      $output .= "  <td class=\"" . $class . " delete\">" . number_format($cost, 2, '.', ',')                      . "</td>\n";
-      $output .= "  <td class=\"" . $class . " delete\">" . $a_r_adept['ver_book'] . ": " . $a_r_adept['adp_page'] . "</td>\n";
+      $output .= "  <td class=\"" . $class . "\">"        . $a_r_adept['adp_name'] . $specialize . "</td>\n";
+      $output .= "  <td class=\"" . $class . "\">"        . $a_r_adept['adp_desc']               . "</td>\n";
+      $output .= "  <td class=\"" . $class . " delete\">" . $a_r_adept['adp_power'] . $level     . "</td>\n";
+      $output .= "  <td class=\"" . $class . " delete\">" . $a_r_adept['r_adp_level']            . "</td>\n";
+      $output .= "  <td class=\"" . $class . " delete\">" . number_format($cost, 2, '.', ',')    . "</td>\n";
+      $output .= "  <td class=\"" . $class . " delete\">" . $adept_book                          . "</td>\n";
       $output .= "</tr>\n";
     }
   } else {

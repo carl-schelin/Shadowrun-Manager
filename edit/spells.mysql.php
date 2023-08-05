@@ -152,7 +152,7 @@
           while ($a_spells = mysql_fetch_array($q_spells)) {
 
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('spells.mysql.php?update=-3&r_spell_character=" . $formVars['r_spell_character'] . "&spell_group=" . $a_spells['spell_group'] . "');\">";
-            $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('spells.mysql.php?update=0&r_spell_character=" . $formVars['r_spell_character'] . "&r_spell_number=" . $a_spells['spell_id'] . "');\">";
+            $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('spells.mysql.php?update=0&r_spell_character=" . $formVars['r_spell_character'] . "&r_spell_number=" . $a_spells['spell_id'] . "');return false;\">";
             $linkend   = "</a>";
 
             $spell_drain = return_Drain($a_spells['spell_drain'], $a_spells['spell_force']);

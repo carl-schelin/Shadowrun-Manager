@@ -18,7 +18,8 @@
   $formVars['id'] = clean($_GET['id'], 10);
   $output = '';
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -54,6 +55,7 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
   $output .= "</tr>";
 
+  $totalcost = 0;
   $q_string  = "select r_bio_id,class_name,bio_class,bio_name,r_bio_specialize,bio_rating,bio_essence,bio_avail,";
   $q_string .= "bio_perm,ver_book,bio_page,bio_cost,grade_name,grade_essence ";
   $q_string .= "from r_bioware ";
@@ -81,6 +83,7 @@
 
       $essence = return_Essence($a_r_bioware['bio_essence']);
 
+      $totalcost += $a_r_bioware['bio_cost'];
       $cost = return_Cost($a_r_bioware['bio_cost']);
 
       $book = return_Book($a_r_bioware['ver_book'], $a_r_bioware['bio_page']);
@@ -98,6 +101,9 @@
       $output .= "</tr>";
 
     }
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "</tr>\n";
   } else {
     $output .= "<tr>";
     $output .= "<td class=\"ui-widget-content\" colspan=\"7\">No Bioware selected.</td>";

@@ -271,7 +271,7 @@
       if (mysql_num_rows($q_r_firearms) > 0) {
         while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
 
-          $linkstart = "<a href=\"#\" onclick=\"javascript:attach_fireacc(" . $a_r_firearms['r_fa_id'] . ");showDiv('firearms-hide');\">";
+          $linkstart = "<a href=\"#\" onclick=\"javascript:attach_fireacc(" . $a_r_firearms['r_fa_id'] . ");showDiv('firearms-hide');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_firearms('firearms.del.php?id="  . $a_r_firearms['r_fa_id'] . "');\">";
           $linkend   = "</a>";
 

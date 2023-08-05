@@ -18,7 +18,8 @@
   $formVars['id'] = clean($_GET['id'], 10);
   $output = '';
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -65,19 +66,21 @@
   if (mysql_num_rows($q_r_mentor) > 0) {
     while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
 
+      $mentor_book = return_Book($a_r_mentor['ver_book'], $a_r_mentor['mentor_page']);
+
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_mentor['mentor_name']                                  . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_all']                                   . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_mage']                                  . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_adept']                                 . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_disadvantage']                          . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['ver_book'] . ": " . $a_r_mentor['mentor_page'] . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_mentor['mentor_name']         . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_all']          . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_mage']         . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_adept']        . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_mentor['mentor_disadvantage'] . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $mentor_book                       . "</td>";
       $output .= "</tr>";
 
     }
   } else {
     $output .= "<tr>";
-    $output .= "<td class=\"ui-widget-content\" colspan=\"5\">No Mentor Spirit selected.</td>";
+    $output .= "<td class=\"ui-widget-content\" colspan=\"6\">No Mentor Spirit selected.</td>";
     $output .= "</tr>";
   }
 

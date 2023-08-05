@@ -51,7 +51,7 @@
     $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     $a_runners = mysql_fetch_array($q_runners);
 
-    $q_string  = "select r_act_rank,r_act_group,r_act_specialize ";
+    $q_string  = "select r_act_rank,r_act_group,r_act_specialize,r_act_expert ";
     $q_string .= "from r_active ";
     $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
     $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -75,13 +75,19 @@
       $output .= "</tr>\n";
 
       if (strlen($a_r_active['r_act_specialize']) > 0) {
+
+        $expert = 2;
+        if ($a_r_active['r_act_expert']) {
+          $expert = 3;
+        }
+
         $output .= "<tr>\n";
         $output .= "  <td class=\"" . $class . "\">"        . "&nbsp;"                                                              . "</td>\n";
-        $output .= "  <td class=\"" . $class . "\">"        . $a_r_active['r_act_specialize']                                       . "</td>\n";
-        $output .= "  <td class=\"" . $class . " delete\">" . $a_r_active['r_act_rank'] . " + 2"                                    . "</td>\n";
+        $output .= "  <td class=\"" . $class . "\">"        . "&gt; " . $a_r_active['r_act_specialize']                                       . "</td>\n";
+        $output .= "  <td class=\"" . $class . " delete\">" . $a_r_active['r_act_rank'] . " + " . $expert                           . "</td>\n";
         $output .= "  <td class=\"" . $class . " delete\">" . $a_active['att_name']                                                 . "</td>\n";
         $output .= "  <td class=\"" . $class . " delete\">" . $a_runners[$a_active['att_column']]                                   . "</td>\n";
-        $output .= "  <td class=\"" . $class . " delete\">" . ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank'] + 2) . "</td>\n";
+        $output .= "  <td class=\"" . $class . " delete\">" . ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank'] + $expert) . "</td>\n";
         $output .= "</tr>\n";
       }
 

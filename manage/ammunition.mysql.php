@@ -19,6 +19,13 @@
 
     logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
 
+    $q_string  = "select ver_version ";
+    $q_string .= "from versions ";
+    $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+    $q_string .= "where runr_id = " . $formVars['id'] . " ";
+    $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $a_versions = mysql_fetch_array($q_versions);
+
     $output  = "<p></p>\n";
     $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
     $output .= "<tr>\n";
@@ -57,15 +64,17 @@
     $output .=   "<th class=\"ui-state-default\">Rounds</th>\n";
     $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
     $output .=   "<th class=\"ui-state-default\">Damage Modifier</th>\n";
-    $output .=   "<th class=\"ui-state-default\">AP Modifier</th>\n";
-    $output .=   "<th class=\"ui-state-default\">Blast Radius</th>\n";
+    if ($a_versions['ver_version'] == 5.0) {
+      $output .=   "<th class=\"ui-state-default\">AP Modifier</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Blast Radius</th>\n";
+    }
     $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
     $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
     $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
     $output .= "</tr>\n";
 
     $costgrade = 0;
-    $costtotal = 0;
+    $totalcost = 0;
     $q_string  = "select r_ammo_id,r_ammo_rounds,ammo_id,class_name,ammo_name,ammo_rounds,ammo_rating,ammo_mod,ammo_ap,";
     $q_string .= "ammo_blast,ammo_avail,ammo_perm,ammo_cost,ver_book,ammo_page ";
     $q_string .= "from r_ammo ";
@@ -85,7 +94,7 @@
         $ammo_avail = return_Avail($a_r_ammo['ammo_avail'], $a_r_ammo['ammo_perm']);
 
         $costgrade = ($a_r_ammo['ammo_cost'] * $a_r_ammo['r_ammo_rounds']);
-        $costtotal += $costgrade;
+        $totalcost += $costgrade;
 
         $ammo_cost = return_Cost($a_r_ammo['ammo_cost']);
 
@@ -102,8 +111,10 @@
         $output .= "  <td class=\"" . $class . " delete\">" . ($a_r_ammo['r_ammo_rounds'] * $a_r_ammo['ammo_rounds'])     . "</td>\n";
         $output .= "  <td class=\"" . $class . " delete\">" . $ammo_rating                                                . "</td>\n";
         $output .= "  <td class=\"" . $class . " delete\">" . $a_r_ammo['ammo_mod']                                       . "</td>\n";
-        $output .= "  <td class=\"" . $class . " delete\">" . $ammo_ap                                                    . "</td>\n";
-        $output .= "  <td class=\"" . $class . " delete\">" . $a_r_ammo['ammo_blast']                                     . "</td>\n";
+        if ($a_versions['ver_version'] == 5.0) {
+          $output .= "  <td class=\"" . $class . " delete\">" . $ammo_ap                                                    . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $a_r_ammo['ammo_blast']                                     . "</td>\n";
+        }
         $output .= "  <td class=\"" . $class . " delete\">" . $ammo_avail                                                 . "</td>\n";
         $output .= "  <td class=\"" . $class . " delete\">" . $ammo_cost                                                  . "</td>\n";
         $output .= "  <td class=\"" . $class . " delete\">" . $ammo_book                                                  . "</td>\n";
@@ -111,10 +122,15 @@
 
       }
       $output .= "<tr>\n";
-      $output .= "  <td class=\"ui-widget-content\" colspan=\"11\">Total Cost: " . return_Cost($costtotal) . ".</td>\n";
+      $output .= "  <td class=\"ui-widget-content\" colspan=\"11\">Total Cost: " . return_Cost($totalcost) . ".</td>\n";
       $output .= "</tr>\n";
 
+    } else {
+      $output .= "<tr>";
+      $output .= "<td class=\"ui-widget-content\" colspan=\"10\">No Ammunition selected.</td>";
+      $output .= "</tr>";
     }
+
     $output .= "</table>\n";
 
     mysql_free_result($q_r_ammo);

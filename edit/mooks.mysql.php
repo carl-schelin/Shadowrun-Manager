@@ -42,6 +42,7 @@
         $formVars["runr_totaledge"]    = clean($_GET["runr_totaledge"],      10);
         $formVars["runr_currentedge"]  = clean($_GET["runr_currentedge"],    10);
         $formVars["runr_magic"]        = clean($_GET["runr_magic"],          10);
+        $formVars["runr_initiate"]     = clean($_GET["runr_initiate"],       10);
         $formVars["runr_resonance"]    = clean($_GET["runr_resonance"],      10);
         $formVars["runr_age"]          = clean($_GET["runr_age"],            10);
         $formVars["runr_sex"]          = clean($_GET["runr_sex"],            10);
@@ -94,6 +95,9 @@
         if ($formVars['runr_magic'] == '') {
           $formVars['runr_magic'] = 0;
         }
+        if ($formVars['runr_initiate'] == '') {
+          $formVars['runr_initiate'] = 0;
+        }
         if ($formVars['runr_resonance'] == '') {
           $formVars['runr_resonance'] = 0;
         }
@@ -138,6 +142,7 @@
             "runr_totaledge       =   " . $formVars['runr_totaledge']    . "," .
             "runr_currentedge     =   " . $formVars['runr_currentedge']  . "," . 
             "runr_magic           =   " . $formVars['runr_magic']        . "," .
+            "runr_initiate        =   " . $formVars['runr_initiate']     . "," .
             "runr_resonance       =   " . $formVars['runr_resonance']    . "," .
             "runr_age             =   " . $formVars['runr_age']          . "," .
             "runr_sex             =   " . $formVars['runr_sex']          . "," . 

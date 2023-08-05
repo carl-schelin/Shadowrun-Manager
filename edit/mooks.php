@@ -24,7 +24,7 @@
 
   $q_string  = "select runr_owner,runr_aliases,runr_name,runr_archetype,runr_agility,runr_body,runr_reaction,runr_strength,";
   $q_string .= "runr_charisma,runr_intuition,runr_logic,runr_willpower,runr_metatype,runr_essence,runr_totaledge,";
-  $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,";
+  $q_string .= "runr_currentedge,runr_magic,runr_initiate,runr_resonance,runr_age,runr_sex,runr_height,";
   $q_string .= "runr_physicalcon,runr_stuncon,runr_desc,runr_sop,runr_available,runr_version ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -669,6 +669,7 @@ function attach_detail( p_script_url, update ) {
   ad_url += "&runr_totaledge="      + encode_URI(ad_form.runr_totaledge.value);
   ad_url += "&runr_currentedge="    + encode_URI(ad_form.runr_currentedge.value);
   ad_url += "&runr_magic="          + encode_URI(ad_form.runr_magic.value);
+  ad_url += "&runr_initiate="       + encode_URI(ad_form.runr_initiate.value);
   ad_url += "&runr_resonance="      + encode_URI(ad_form.runr_resonance.value);
   ad_url += "&runr_age="            + encode_URI(ad_form.runr_age.value);
   ad_url += "&runr_sex="            + ad_form.runr_sex.value;
@@ -829,6 +830,7 @@ function attach_active(p_script_url, update) {
   aa_url += "&r_act_group="        + aa_form.r_act_group.value;
   aa_url += "&r_act_rank="         + encode_URI(aa_form.r_act_rank.value);
   aa_url += "&r_act_specialize="   + encode_URI(aa_form.r_act_specialize.value);
+  aa_url += "&r_act_expert="       + aa_form.r_act_expert.checked;
 
   script = document.createElement('script');
   script.src = p_script_url + aa_url;
@@ -1499,6 +1501,21 @@ function attach_bioware( p_script_url, update ) {
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
+function attach_metamagics( p_script_url, update ) {
+  var am_form = document.edit;
+  var am_url;
+
+  am_url  = '?update='      + update;
+
+  am_url += '&r_meta_id='            + am_form.r_meta_id.value;
+  am_url += "&r_meta_character="     + <?php print $formVars['id']; ?>;
+  am_url += "&r_meta_number="        + am_form.r_meta_number.value;
+
+  script = document.createElement('script');
+  script.src = p_script_url + am_url;
+  document.getElementsByTagName('head')[0].appendChild(script);
+}
+
 function attach_gear( p_script_url, update ) {
   var ag_form = document.edit;
   var ag_url;
@@ -1587,6 +1604,7 @@ function clear_fields() {
   show_file('melee.mysql.php'           + '?update=-3&r_melee_character=<?php print $formVars['id']; ?>');
   show_file('melacc.mysql.php'          + '?update=-3&r_melee_id=0');
   show_file('mentor.mysql.php'          + '?update=-3&r_mentor_character=<?php print $formVars['id']; ?>');
+  show_file('metamagics.mysql.php'      + '?update=-3&r_meta_character=<?php print $formVars['id']; ?>');
   show_file('mycommand.mysql.php'       + '?update=-3&r_cmd_character=<?php print $formVars['id']; ?>');
   show_file('mycyberdeck.mysql.php'     + '?update=-3&r_deck_character=<?php print $formVars['id']; ?>');
   show_file('notoriety.mysql.php'       + '?update=-3&not_character=<?php print $formVars['id']; ?>');
@@ -1633,6 +1651,7 @@ $(document).ready( function() {
   $( "#spritetabs"       ).tabs( ).addClass( "tab-shadow" );
   $( "#traditiontabs"    ).tabs( ).addClass( "tab-shadow" );
   $( "#mentortabs"       ).tabs( ).addClass( "tab-shadow" );
+  $( "#metamagicstabs"   ).tabs( ).addClass( "tab-shadow" );
   $( "#adepttabs"        ).tabs( ).addClass( "tab-shadow" );
   $( "#matrix"           ).tabs( ).addClass( "tab-shadow" );
   $( "#meatspace"        ).tabs( ).addClass( "tab-shadow" );
@@ -1732,6 +1751,7 @@ $(document).ready( function() {
     <li><strong>Edge</strong> - </li>
     <li><strong>Essence</strong> - </li>
     <li><strong>Magic</strong> - </li>
+    <li><strong>Initiate</strong> - </li>
     <li><strong>Resonence</strong> - </li>
   </ul></li>
   <li><strong>Statistics Form</strong>
@@ -1818,6 +1838,7 @@ $(document).ready( function() {
   <td class="ui-widget-content">Charisma <input type="text" name="runr_charisma" size="3"></td>
   <td class="ui-widget-content">Essence <input type="text" name="runr_essence" size="5"></td>
   <td class="ui-widget-content">Magic <input type="text" name="runr_magic" size="3"></td>
+  <td class="ui-widget-content">Initiate <input type="text" name="runr_initiate" size="3"></td>
   <td class="ui-widget-content">Resonance <input type="text" name="runr_resonance" size="3"></td>
 </tr>
 </table>
@@ -2402,6 +2423,7 @@ $(document).ready( function() {
   <li><a href="#mentor">Mentor Spirits</a></li>
   <li><a href="#spirit">Spirits</a></li>
   <li><a href="#alchemy">Alchemy</a></li>
+  <li><a href="#metamagics">Metamagics</a></li>
   <li><a href="#adept">Adept</a></li>
 </ul>
 
@@ -2610,6 +2632,11 @@ $(document).ready( function() {
 </div>
 
 
+
+
+
+
+
 <div id="alchemy">
 
 <table class="ui-styled-table" width="100%">
@@ -2662,6 +2689,62 @@ $(document).ready( function() {
 </div>
 
 </div>
+
+
+
+<div id="metamagics">
+
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default"><a href="javascript:;" onmousedown="toggleDiv('metamagics-hide');">Metamagics Management</a></th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('metamagics-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="metamagics-help" style="display: none">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Metamagics Listing</strong></li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="metamagics-hide" style="display: none">
+
+<span id="metamagics_form"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+<div id="metamagicstabs">
+
+<ul>
+  <li><a href="#my_magics">My Metamagics</a></li>
+  <li><a href="#magics">Metamagics</a></li>
+</ul>
+
+<div id="my_magics">
+
+<span id="my_magics_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+<div id="magics">
+
+<span id="magics_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 
 <div id="adept">

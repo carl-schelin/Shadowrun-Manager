@@ -24,7 +24,7 @@
 
       $q_string  = "select runr_aliases,runr_name,runr_archetype,runr_agility,runr_body,runr_reaction,runr_strength,";
       $q_string .= "runr_charisma,runr_intuition,runr_logic,runr_willpower,runr_metatype,runr_essence,runr_totaledge,";
-      $q_string .= "runr_currentedge,runr_magic,runr_resonance,runr_age,runr_sex,runr_height,runr_weight,";
+      $q_string .= "runr_currentedge,runr_magic,runr_initiate,runr_resonance,runr_age,runr_sex,runr_height,runr_weight,";
       $q_string .= "runr_physicalcon,";
       $q_string .= "runr_stuncon,runr_desc,runr_sop,runr_available ";
       $q_string .= "from runners ";
@@ -53,6 +53,7 @@
         print "document.edit.runr_totaledge.value = '"    . mysql_real_escape_string($a_runners['runr_totaledge'])    . "';\n";
         print "document.edit.runr_essence.value = '"      . mysql_real_escape_string($a_runners['runr_essence'])      . "';\n";
         print "document.edit.runr_magic.value = '"        . mysql_real_escape_string($a_runners['runr_magic'])        . "';\n";
+        print "document.edit.runr_initiate.value = '"     . mysql_real_escape_string($a_runners['runr_initiate'])     . "';\n";
         print "document.edit.runr_resonance.value = '"    . mysql_real_escape_string($a_runners['runr_resonance'])    . "';\n";
 
         print "document.edit.runr_weight.value = '"       . mysql_real_escape_string($a_runners['runr_weight'])       . "';\n";

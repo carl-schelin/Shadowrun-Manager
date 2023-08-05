@@ -330,6 +330,7 @@ $(document).ready( function() {
 
 <div id="cyberdeck">
 
+<p></p>
 <table class="ui-styled-table" width="100%">
 <tr>
   <th class="ui-state-default">

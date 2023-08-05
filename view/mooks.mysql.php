@@ -18,10 +18,11 @@
   $formVars['id'] = clean($_GET['id'], 10);
 
   $q_string  = "select runr_name,runr_aliases,meta_name,runr_archetype,runr_archetype,meta_notes,";
-  $q_string .= "runr_age,runr_sex,runr_height,runr_weight,";
-  $q_string .= "runr_essence,runr_currentedge,runr_totaledge ";
+  $q_string .= "runr_age,runr_sex,runr_height,runr_weight,runr_essence,runr_currentedge,runr_totaledge,";
+  $q_string .= "ver_version ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
+  $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysql_fetch_array($q_runners);
@@ -119,7 +120,7 @@
 
 
   $q_string  = "select runr_body,runr_agility,runr_reaction,runr_strength,runr_willpower,runr_logic,";
-  $q_string .= "runr_intuition,runr_charisma,runr_essence,runr_resonance,runr_magic ";
+  $q_string .= "runr_intuition,runr_charisma,runr_essence,runr_resonance,runr_magic,runr_initiate ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -153,29 +154,31 @@
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
-  $mental_limit   = ceil((($a_runners['runr_logic'] * 2)    + $a_runners['runr_intuition'] + $a_runners['runr_willpower']) /3);
-  $physical_limit = ceil((($a_runners['runr_strength'] * 2) + $a_runners['runr_body']      + $a_runners['runr_reaction'])  /3);
-  $social_limit   = ceil((($a_runners['runr_charisma'] * 2) + $a_runners['runr_willpower'] + $a_runners['runr_essence'])   /3);
+  if ($a_runners['ver_version'] == 5.0) {
+    $mental_limit   = ceil((($a_runners['runr_logic'] * 2)    + $a_runners['runr_intuition'] + $a_runners['runr_willpower']) /3);
+    $physical_limit = ceil((($a_runners['runr_strength'] * 2) + $a_runners['runr_body']      + $a_runners['runr_reaction'])  /3);
+    $social_limit   = ceil((($a_runners['runr_charisma'] * 2) + $a_runners['runr_willpower'] + $a_runners['runr_essence'])   /3);
 
-  if ($mental_limit > $social_limit) {
-    $astral_limit = $mental_limit;
-  } else {
-    $astral_limit = $social_limit;
-  }
+    if ($mental_limit > $social_limit) {
+      $astral_limit = $mental_limit;
+    } else {
+      $astral_limit = $social_limit;
+    }
 
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
-  $output .= "<tr>\n";
-  $output .= "  <th class=\"ui-state-default\" colspan=\"4\">Limits</th>";
-  $output .= "</tr>\n";
-  $output .= "<tr>\n";
-  $output .= "  <td class=\"ui-widget-content\">Physical Limit: " . $physical_limit . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Mental Limit: "   . $mental_limit   . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Social Limit: "   . $social_limit   . "</td>\n";
-  if ($a_runners['runr_magic'] > 0) {
-    $output .= "  <td class=\"ui-widget-content\">Astral Limit: "   . $astral_limit   . "</td>\n";
+    $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+    $output .= "<tr>\n";
+    $output .= "  <th class=\"ui-state-default\" colspan=\"4\">Limits</th>";
+    $output .= "</tr>\n";
+    $output .= "<tr>\n";
+    $output .= "  <td class=\"ui-widget-content\">Physical Limit: " . $physical_limit . "</td>\n";
+    $output .= "  <td class=\"ui-widget-content\">Mental Limit: "   . $mental_limit   . "</td>\n";
+    $output .= "  <td class=\"ui-widget-content\">Social Limit: "   . $social_limit   . "</td>\n";
+    if ($a_runners['runr_magic'] > 0) {
+      $output .= "  <td class=\"ui-widget-content\">Astral Limit: "   . $astral_limit   . "</td>\n";
+    }
+    $output .= "</tr>\n";
+    $output .= "</table>\n";
   }
-  $output .= "</tr>\n";
-  $output .= "</table>\n";
 
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";

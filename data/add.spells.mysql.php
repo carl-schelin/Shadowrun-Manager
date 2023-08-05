@@ -133,7 +133,7 @@
         $q_string .= "left join class on class.class_id = spells.spell_group ";
         $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
         $q_string .= "where class_name = \"" . $spell . "\" and ver_admin = 1 ";
-        $q_string .= "order by spell_group,spell_name,ver_version ";
+        $q_string .= "order by class_name,spell_name,ver_version ";
         $q_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_spells) > 0) {
           while ($a_spells = mysql_fetch_array($q_spells)) {

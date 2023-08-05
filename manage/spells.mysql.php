@@ -17,7 +17,8 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
-  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<p></p>";
+  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
   if (check_userlevel('1') || check_owner($formVars['id'])) {
@@ -93,13 +94,14 @@
   $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
   $output .= "</tr>\n";
 
-  $q_string  = "select r_spell_special,spell_name,spell_class,spell_group,spell_type,spell_test,spell_range,";
+  $q_string  = "select r_spell_special,spell_name,class_name,spell_class,spell_group,spell_type,spell_test,spell_range,";
   $q_string .= "spell_damage,spell_duration,spell_drain,ver_book,spell_page ";
   $q_string .= "from r_spells ";
   $q_string .= "left join spells on spells.spell_id = r_spells.r_spell_number ";
+  $q_string .= "left join class on class.class_id = spells.spell_group ";
   $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
   $q_string .= "where r_spell_character = " . $formVars['id'] . " ";
-  $q_string .= "order by spell_group,spell_name ";
+  $q_string .= "order by class_name,spell_name ";
   $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_spells) > 0) {
     while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
@@ -110,22 +112,21 @@
         $special = '';
       }
 
-      $drain = "F" . $a_r_spells['spell_drain'];
-      if ($a_r_spells['spell_drain'] == 0) {
-        $drain = "F";
-      }
+      $spell_drain = return_Drain($a_r_spells['spell_drain']);
+
+      $spell_book = return_Book($a_r_spells['ver_book'], $a_r_spells['spell_page']);
 
       $output .= "<tr>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_group']                                 . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content\">"        . $a_r_spells['spell_name']                       . $special . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_class']                                 . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_type']                                  . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_test']                                  . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_range']                                 . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_damage']                                . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_duration']                              . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $drain                                                     . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['ver_book'] . ": " . $a_r_spells['spell_page'] . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['class_name']                . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content\">"        . $a_r_spells['spell_name']     . $special . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_class']               . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_type']                . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_test']                . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_range']               . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_damage']              . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $a_r_spells['spell_duration']            . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $spell_drain                             . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $spell_book                              . "</td>\n";
       $output .= "</tr>\n";
     }
   } else {
