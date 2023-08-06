@@ -27,12 +27,18 @@
         $formVars['r_lang_number']      = clean($_GET['r_lang_number'],       10);
         $formVars['r_lang_rank']        = clean($_GET['r_lang_rank'],         10);
         $formVars['r_lang_specialize']  = clean($_GET['r_lang_specialize'],   60);
+        $formVars['r_lang_expert']      = clean($_GET['r_lang_expert'],       10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
         if ($formVars['r_lang_rank'] == '') {
           $formVars['r_lang_rank'] = 0;
+        }
+        if ($formVars['r_lang_expert'] == 'true') {
+          $formVars['r_lang_expert'] = 1;
+        } else {
+          $formVars['r_lang_expert'] = 0;
         }
 
         if ($formVars['r_lang_number'] > 0) {
@@ -42,7 +48,8 @@
             "r_lang_character   =   " . $formVars['r_lang_character']   . "," .
             "r_lang_number      =   " . $formVars['r_lang_number']      . "," .
             "r_lang_rank        =   " . $formVars['r_lang_rank']        . "," .
-            "r_lang_specialize  = \"" . $formVars['r_lang_specialize']  . "\"";
+            "r_lang_specialize  = \"" . $formVars['r_lang_specialize']  . "\"," .
+            "r_lang_expert      =   " . $formVars['r_lang_expert'];
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_language set r_lang_id = NULL," . $q_string;
@@ -92,7 +99,7 @@
 
         $output .= "</select></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Rank: <input type=\"text\" name=\"r_lang_rank\" size=\"10\"> Zero for Native Speaker\n";
-        $output .= "  <td class=\"ui-widget-content\">Specialize: <input type=\"text\" name=\"r_lang_specialize\" size=\"30\">\n";
+        $output .= "  <td class=\"ui-widget-content\">Specialize: <input type=\"text\" name=\"r_lang_specialize\" size=\"30\"> Expert? <input type=\"checkbox\" name=\"r_lang_expert\">\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
@@ -152,10 +159,9 @@
       $output .=   "<th class=\"ui-state-default\">Associated Attribute</th>\n";
       $output .=   "<th class=\"ui-state-default\">Score</th>\n";
       $output .=   "<th class=\"ui-state-default\">Dice Pool</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select r_lang_id,r_lang_rank,r_lang_specialize,lang_id,lang_name,att_name,att_column,ver_book,s_lang_page ";
+      $q_string  = "select r_lang_id,r_lang_rank,r_lang_specialize,r_lang_expert,lang_id,lang_name,att_name,att_column,ver_book,s_lang_page ";
       $q_string .= "from r_language ";
       $q_string .= "left join language on language.lang_id = r_language.r_lang_number ";
       $q_string .= "left join s_language on s_language.s_lang_id = language.lang_attribute ";
@@ -185,8 +191,6 @@
             $r_dice_pool = "Native Speaker";
           }
 
-          $lang_book = return_Book($a_r_language['ver_book'], $a_r_language['s_lang_page']);
-
           $class = "ui-widget-content";
           if (isset($formVars['r_lang_number']) && $formVars['r_lang_number'] == $a_r_language['lang_id']) {
             $class = "ui-state-error";
@@ -199,34 +203,38 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_language['att_name']                          . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_runners[$a_r_language['att_column']]            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $r_dice_pool                                       . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $lang_book                                         . "</td>\n";
           $output .= "</tr>\n";
 
           if (strlen($a_r_language['r_lang_specialize']) > 0) {
+
+            $expert = "";
+            $increase = 2;
+            if ($a_r_language['r_lang_expert']) {
+              $expert = " *";
+              $increase = 3;
+            }
+
             if ($a_r_language['r_lang_rank'] > 0) {
-              $r_lang_rank = $a_r_language['r_lang_rank'] . " + 2";
-              $r_dice_pool = ($a_r_language['r_lang_rank'] + $a_runners[$a_r_language['att_column']] + 2);
+              $r_lang_rank = $a_r_language['r_lang_rank'] . " + " . $increase;
+              $r_dice_pool = ($a_r_language['r_lang_rank'] + $a_runners[$a_r_language['att_column']] + $increase);
             } else {
               $r_lang_rank = "Native Speaker";
               $r_dice_pool = "Native Speaker";
             }
 
-            $lang_book = return_Book($a_r_language['ver_book'], $a_r_language['s_lang_page']);
-
             $output .= "<tr>\n";
             $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                                                             . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . "&gt; " . $a_r_language['r_lang_specialize'] . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . "&gt; " . $a_r_language['r_lang_specialize'] . $expert . $linkend . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $r_lang_rank                                            . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_language['att_name']                               . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_runners[$a_r_language['att_column']]                 . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $r_dice_pool                                            . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $lang_book                                              . "</td>\n";
             $output .= "</tr>\n";
           }
 
         }
       } else {
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">No Languages added.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"6\">No Languages added.</td>\n";
       }
       $output .= "</table>\n";
 

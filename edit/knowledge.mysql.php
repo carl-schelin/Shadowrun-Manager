@@ -27,12 +27,18 @@
         $formVars['r_know_number']      = clean($_GET['r_know_number'],       10);
         $formVars['r_know_rank']        = clean($_GET['r_know_rank'],         10);
         $formVars['r_know_specialize']  = clean($_GET['r_know_specialize'],   60);
+        $formVars['r_know_expert']      = clean($_GET['r_know_expert'],       10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
         if ($formVars['r_know_rank'] == '') {
           $formVars['r_know_rank'] = 0;
+        }
+        if ($formVars['r_know_expert'] == "true") {
+          $formVars['r_know_expert'] = 1;
+        } else {
+          $formVars['r_know_expert'] = 1;
         }
 
         if ($formVars['r_know_number'] > 0) {
@@ -42,7 +48,8 @@
             "r_know_character   =   " . $formVars['r_know_character']   . "," .
             "r_know_number      =   " . $formVars['r_know_number']      . "," .
             "r_know_rank        =   " . $formVars['r_know_rank']        . "," .
-            "r_know_specialize  = \"" . $formVars['r_know_specialize']  . "\"";
+            "r_know_specialize  = \"" . $formVars['r_know_specialize']  . "\"," .
+            "r_know_expert      =   " . $formVars['r_know_expert'];
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_knowledge set r_know_id = NULL," . $q_string;
@@ -92,7 +99,7 @@
 
         $output .= "</select></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Rank: <input type=\"text\" name=\"r_know_rank\" size=\"10\">\n";
-        $output .= "  <td class=\"ui-widget-content\">Specialize: <input type=\"text\" name=\"r_know_specialize\" size=\"30\">\n";
+        $output .= "  <td class=\"ui-widget-content\">Specialize: <input type=\"text\" name=\"r_know_specialize\" size=\"30\"> Expert? <input type=\"checkbox\" name=\"r_know_expert\">\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
@@ -167,7 +174,8 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select r_know_id,r_know_rank,r_know_specialize,know_id,know_name,att_name,att_column,s_know_name,ver_book,s_know_page ";
+      $q_string  = "select r_know_id,r_know_rank,r_know_specialize,r_know_expert,know_id,know_name,";
+      $q_string .= "att_name,att_column,s_know_name,ver_book,s_know_page ";
       $q_string .= "from r_knowledge ";
       $q_string .= "left join knowledge on knowledge.know_id = r_knowledge.r_know_number ";
       $q_string .= "left join s_knowledge on s_knowledge.s_know_id = knowledge.know_attribute ";
@@ -208,14 +216,21 @@
           $output .= "</tr>\n";
 
           if (strlen($a_r_knowledge['r_know_specialize']) > 0) {
+            $expert = "";
+            $increase = "2";
+            if ($a_r_knowledge['r_know_expert']) {
+              $expert = " *";
+              $increase = "3";
+            }
+
             $output .= "<tr>\n";
             $output .= "  <td class=\"" . $class . " delete\">" . "&nbsp;"                                                                                    . "</td>\n";
             $output .= "  <td class=\"" . $class . "\">"        . "&nbsp;"                                                                                    . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . "&gt; " . $a_r_knowledge['r_know_specialize']                                  . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_knowledge['r_know_rank'] . " + 2"                                         . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . "&gt; " . $a_r_knowledge['r_know_specialize'] . $expert                        . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_knowledge['r_know_rank'] . " + " . $increase                              . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_r_knowledge['att_name']                                                     . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $a_runners[$a_r_knowledge['att_column']]                                       . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_r_knowledge['att_column']] + 2) . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_r_knowledge['att_column']] + $increase) . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $know_book                                                                     . "</td>\n";
             $output .= "</tr>\n";
           }

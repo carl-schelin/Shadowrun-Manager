@@ -22,7 +22,7 @@
     if (check_userlevel(3)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_language");
 
-      $q_string  = "select r_lang_number,r_lang_rank,r_lang_specialize ";
+      $q_string  = "select r_lang_number,r_lang_rank,r_lang_specialize,r_lang_expert ";
       $q_string .= "from r_language ";
       $q_string .= "where r_lang_id = " . $formVars['id'];
       $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -32,6 +32,12 @@
       print "document.edit.r_lang_number.value = '"     . mysql_real_escape_string($a_r_language['r_lang_number'])     . "';\n";
       print "document.edit.r_lang_rank.value = '"       . mysql_real_escape_string($a_r_language['r_lang_rank'])       . "';\n";
       print "document.edit.r_lang_specialize.value = '" . mysql_real_escape_string($a_r_language['r_lang_specialize']) . "';\n";
+
+      if ($a_r_language['r_lang_expert']) {
+        print "document.edit.r_lang_expert.checked = true;\n";
+      } else {
+        print "document.edit.r_lang_expert.checked = false;\n";
+      }
 
       print "document.edit.r_lang_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_lang_update.disabled = false;\n\n";
