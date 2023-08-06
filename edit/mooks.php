@@ -848,6 +848,7 @@ function attach_knowledge(p_script_url, update) {
   ak_url += "&r_know_number="       + ak_form.r_know_number.value;
   ak_url += "&r_know_rank="         + encode_URI(ak_form.r_know_rank.value);
   ak_url += "&r_know_specialize="   + encode_URI(ak_form.r_know_specialize.value);
+  ak_url += "&r_know_expert="       + ak_form.r_know_expert.checked;
 
   script = document.createElement('script');
   script.src = p_script_url + ak_url;
@@ -880,6 +881,7 @@ function attach_language(p_script_url, update) {
   al_url += "&r_lang_number="       + al_form.r_lang_number.value;
   al_url += "&r_lang_rank="         + encode_URI(al_form.r_lang_rank.value);
   al_url += "&r_lang_specialize="   + encode_URI(al_form.r_lang_specialize.value);
+  al_url += "&r_lang_expert="       + al_form.r_lang_expert.checked;
 
   script = document.createElement('script');
   script.src = p_script_url + al_url;

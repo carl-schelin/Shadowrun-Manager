@@ -57,10 +57,9 @@
   $output .= "  <th class=\"ui-state-default\">Associated Attribute</th>\n";
   $output .= "  <th class=\"ui-state-default\">Attribute Score</th>\n";
   $output .= "  <th class=\"ui-state-default\">Dice Pool</th>\n";
-  $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
   $output .= "</tr>\n";
 
-  $q_string  = "select know_name,know_attribute,r_know_rank,r_know_specialize ";
+  $q_string  = "select know_name,know_attribute,r_know_rank,r_know_specialize,r_know_expert ";
   $q_string .= "from r_knowledge ";
   $q_string .= "left join knowledge on knowledge.know_id = r_knowledge.r_know_number ";
   $q_string .= "where r_know_character = " . $formVars['id'] . " ";
@@ -95,18 +94,23 @@
       $output .= "  <td class=\"ui-widget-content\">"        . $a_attributes['att_name']                                                 . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . $a_runners[$a_attributes['att_column']]                                   . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_attributes['att_column']]) . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_s_knowledge['ver_book'] . ": " . $a_s_knowledge['s_know_page']         . "</td>\n";
       $output .= "</tr>\n";
 
       if (strlen($a_r_knowledge['r_know_specialize']) > 0) {
+        $expert = "";
+        $increase = 2;
+        if ($a_r_knowledge['r_know_expert']) {
+          $expert = " *";
+          $increase = 3;
+        }
+
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">"        . $a_r_knowledge['know_name']                                                   . "</td>\n";
-        $output .= "  <td class=\"ui-widget-content\">"        . "&gt; " . $a_r_knowledge['r_know_specialize']                                 . "</td>\n";
-        $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + 2)                                           . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\">"        . "&gt; " . $a_r_knowledge['r_know_specialize'] . $expert                       . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $increase)                                   . "</td>\n";
         $output .= "  <td class=\"ui-widget-content\">"        . $a_attributes['att_name']                                                     . "</td>\n";
         $output .= "  <td class=\"ui-widget-content delete\">" . $a_runners[$a_attributes['att_column']]                                       . "</td>\n";
-        $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_attributes['att_column']] + 2) . "</td>\n";
-        $output .= "  <td class=\"ui-widget-content delete\">" . $a_s_knowledge['ver_book'] . ": " . $a_s_knowledge['s_know_page']             . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_attributes['att_column']] + $increase) . "</td>\n";
         $output .= "</tr>\n";
       }
     }

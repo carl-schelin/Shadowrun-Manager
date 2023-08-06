@@ -52,10 +52,9 @@
   $output .= "  <th class=\"ui-state-default\">Associated Attribute</th>\n";
   $output .= "  <th class=\"ui-state-default\">Attribute Score</th>\n";
   $output .= "  <th class=\"ui-state-default\">Dice Pool</th>\n";
-  $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
   $output .= "</tr>\n";
 
-  $q_string  = "select lang_name,lang_attribute,r_lang_rank,r_lang_specialize ";
+  $q_string  = "select lang_name,lang_attribute,r_lang_rank,r_lang_specialize,r_lang_expert ";
   $q_string .= "from r_language ";
   $q_string .= "left join language on language.lang_id = r_language.r_lang_number ";
   $q_string .= "where r_lang_character = " . $formVars['id'] . " ";
@@ -97,25 +96,30 @@
       $output .= "  <td class=\"ui-widget-content\">"        . $a_attributes['att_name']                                       . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . $a_runners[$a_attributes['att_column']]                         . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . $r_lang_dicepool                                                . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $a_s_language['ver_book'] . ": " . $a_s_language['s_lang_page'] . "</td>\n";
       $output .= "</tr>\n";
 
       if (strlen($a_r_language['r_lang_specialize']) > 0) {
+        $expert = "";
+        $increase = 2;
+        if ($a_r_language['r_lang_expert']) {
+          $expert = " *";
+          $increase = 3;
+        }
+
         if ($a_r_language['r_lang_rank'] == 0) {
           $r_lang_rank = "Native Speaker";
           $r_lang_dicepool = "Native Speaker";
         } else {
-          $r_lang_rank = $a_r_language['r_lang_rank'] + 2;
-          $r_lang_dicepool = $a_r_language['r_lang_rank'] + 2 + $a_runners[$a_attributes['att_column']];
+          $r_lang_rank = $a_r_language['r_lang_rank'] + $increase;
+          $r_lang_dicepool = $a_r_language['r_lang_rank'] + $a_runners[$a_attributes['att_column']] + $increase;
         }
 
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\">"        . "&gt; " . $a_r_language['r_lang_specialize']                    . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\">"        . "&gt; " . $a_r_language['r_lang_specialize'] . $expert          . "</td>\n";
         $output .= "  <td class=\"ui-widget-content delete\">" . $r_lang_rank                                                    . "</td>\n";
         $output .= "  <td class=\"ui-widget-content\">"        . $a_attributes['att_name']                                       . "</td>\n";
         $output .= "  <td class=\"ui-widget-content delete\">" . $a_runners[$a_attributes['att_column']]                         . "</td>\n";
         $output .= "  <td class=\"ui-widget-content delete\">" . $r_lang_dicepool                                                . "</td>\n";
-        $output .= "  <td class=\"ui-widget-content delete\">" . $a_s_language['ver_book'] . ": " . $a_s_language['s_lang_page'] . "</td>\n";
         $output .= "</tr>\n";
       }
     }

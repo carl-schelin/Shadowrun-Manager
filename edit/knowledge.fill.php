@@ -22,7 +22,7 @@
     if (check_userlevel(3)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_knowledge");
 
-      $q_string  = "select r_know_number,r_know_rank,r_know_specialize ";
+      $q_string  = "select r_know_number,r_know_rank,r_know_specialize,r_know_expert ";
       $q_string .= "from r_knowledge ";
       $q_string .= "where r_know_id = " . $formVars['id'];
       $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -32,6 +32,13 @@
       print "document.edit.r_know_number.value = '"     . mysql_real_escape_string($a_r_knowledge['r_know_number'])     . "';\n";
       print "document.edit.r_know_rank.value = '"       . mysql_real_escape_string($a_r_knowledge['r_know_rank'])       . "';\n";
       print "document.edit.r_know_specialize.value = '" . mysql_real_escape_string($a_r_knowledge['r_know_specialize']) . "';\n";
+
+
+      if ($a_r_knowledge['r_know_expert']) {
+        print "document.edit.r_know_expert.checked = true;\n";
+      } else {
+        print "document.edit.r_know_expert.checked = false;\n";
+      }
 
       print "document.edit.r_know_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_know_update.disabled = false;\n\n";
