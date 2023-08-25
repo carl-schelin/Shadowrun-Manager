@@ -73,6 +73,7 @@ function attach_cyberware(p_script_url, update) {
   ac_url += "&ware_basetime=" + encode_URI(ac_form.ware_basetime.value);
   ac_url += "&ware_duration=" + encode_URI(ac_form.ware_duration.value);
   ac_url += "&ware_index="    + encode_URI(ac_form.ware_index.value);
+  ac_url += "&ware_legality=" + encode_URI(ac_form.ware_legality.value);
   ac_url += "&ware_cost="     + encode_URI(ac_form.ware_cost.value);
   ac_url += "&ware_book="     + encode_URI(ac_form.ware_book.value);
   ac_url += "&ware_page="     + encode_URI(ac_form.ware_page.value);
@@ -97,7 +98,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 350,
+    height: 375,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

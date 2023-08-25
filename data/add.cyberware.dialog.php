@@ -44,6 +44,9 @@
   <td class="ui-widget-content">Street Index <input type="text" name="ware_index" size="6"> (sr3)</td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Legality <input type="text" name="ware_legality" size="10"> (sr3)</td>
+</tr>
+<tr>
   <td class="ui-widget-content">Cost <input type="text" name="ware_cost" size="10"></td>
 </tr>
 <tr>
