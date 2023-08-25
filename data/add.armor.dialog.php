@@ -33,7 +33,7 @@
   <td class="ui-widget-content">Cost <input type="text" name="arm_cost" size="10"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="arm_avail" size="3"><input type="text" name="arm_perm" size="3"> Base Time <input type="text" name="arm_basetime" size="6"> Duration <select name="arm_duration">
+  <td class="ui-widget-content">Availability <input type="text" name="arm_avail" size="3"><input type="text" name="arm_perm" size="3"> Base Time <input type="text" name="arm_basetime" size="6"> Duration <select name="arm_duration">
 <option value="0">Unset</option>
 <?php
   $q_string  = "select dur_id,dur_name ";

@@ -90,7 +90,7 @@ $(document).ready( function() {
   $( "#dialogProgram" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 300,
+    height: 275,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

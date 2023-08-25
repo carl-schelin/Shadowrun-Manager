@@ -18,13 +18,13 @@
   <td class="ui-widget-content">Name <input type="text" name="bio_name" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Rate <input type="text" name="bio_rating" size="3"></td>
+  <td class="ui-widget-content">Rating <input type="text" name="bio_rating" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Essence <input type="text" name="bio_essence" size="10"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="bio_avail" size="3"><input type="text" name="bio_perm" size="3"> Base Time <input type="text" name="bio_basetime" size="6"> Duration <select name="bio_duration">
+  <td class="ui-widget-content">Availability <input type="text" name="bio_avail" size="3"><input type="text" name="bio_perm" size="3"> Base Time <input type="text" name="bio_basetime" size="6"> Duration <select name="bio_duration">
 <option value="0">Unset</option>
 <?php
   $q_string  = "select dur_id,dur_name ";

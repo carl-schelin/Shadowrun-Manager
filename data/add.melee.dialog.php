@@ -18,7 +18,7 @@
   <td class="ui-widget-content">Name <input type="text" name="melee_name" size="20"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">ACC <input type="text" name="melee_acc" size="3"></td>
+  <td class="ui-widget-content">Accuracy <input type="text" name="melee_acc" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Reach <input type="text" name="melee_reach" size="3"></td>
@@ -30,10 +30,10 @@
   <td class="ui-widget-content">Attack Rating <input type="text" name="melee_ar1" size="3">/<input type="text" name="melee_ar2" size="3">/<input type="text" name="melee_ar3" size="3">/<input type="text" name="melee_ar4" size="3">/<input type="text" name="melee_ar5" size="3"> (sr6)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">AP <input type="text" name="melee_ap" size="3"></td>
+  <td class="ui-widget-content">Armor Penetration (AP) <input type="text" name="melee_ap" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="melee_avail" size="3"><input type="text" name="melee_perm" size="3"> Base Time <input type="text" name="melee_basetime" size="6"> Duration <select name="melee_duration">
+  <td class="ui-widget-content">Availability <input type="text" name="melee_avail" size="3"><input type="text" name="melee_perm" size="3"> Base Time <input type="text" name="melee_basetime" size="6"> Duration <select name="melee_duration">
 <option value="0">Unset</option>
 <?php
   $q_string  = "select dur_id,dur_name ";

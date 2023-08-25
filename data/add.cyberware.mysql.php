@@ -34,6 +34,7 @@
         $formVars['ware_basetime']  = clean($_GET['ware_basetime'], 10);
         $formVars['ware_duration']  = clean($_GET['ware_duration'], 10);
         $formVars['ware_index']     = clean($_GET['ware_index'],    10);
+        $formVars['ware_legality']  = clean($_GET['ware_legality'], 10);
         $formVars['ware_cost']      = clean($_GET['ware_cost'],     10);
         $formVars['ware_book']      = clean($_GET['ware_book'],     10);
         $formVars['ware_page']      = clean($_GET['ware_page'],     10);
@@ -86,6 +87,7 @@
             "ware_basetime   =   " . $formVars['ware_basetime']   . "," .
             "ware_duration   =   " . $formVars['ware_duration']   . "," .
             "ware_index      =   " . $formVars['ware_index']      . "," .
+            "ware_legality   = \"" . $formVars['ware_legality']   . "\"," .
             "ware_cost       =   " . $formVars['ware_cost']       . "," .
             "ware_book       = \"" . $formVars['ware_book']       . "\"," .
             "ware_page       =   " . $formVars['ware_page'];
@@ -154,13 +156,14 @@
         $output .=   "<th class=\"ui-state-default\">Capacity</th>\n";
         $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
         $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Legality</th>\n";
         $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
         $output .=   "<th class=\"ui-state-default\">Book</th>\n";
         $output .= "</tr>\n";
 
         $nuyen = '&yen;';
-        $q_string  = "select ware_id,ware_name,ware_rating,ware_essence,ware_capacity,";
-        $q_string .= "ware_avail,ware_perm,ware_basetime,ware_duration,ware_index,ware_cost,ver_book,ware_page ";
+        $q_string  = "select ware_id,ware_name,ware_rating,ware_essence,ware_capacity,ware_avail,ware_perm,";
+        $q_string .= "ware_basetime,ware_duration,ware_index,ware_legality,ware_cost,ver_book,ware_page ";
         $q_string .= "from cyberware ";
         $q_string .= "left join versions on versions.ver_id = cyberware.ware_book ";
         $q_string .= "left join class on class.class_id = cyberware.ware_class ";
@@ -215,13 +218,14 @@
             $output .= "  <td class=\"" . $class . " delete\">"              . $capacity                            . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $avail                               . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $index                               . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberware['ware_legality']        . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $cost                                . "</td>\n";
             $output .= "  <td class=\"" . $class . " delete\">"              . $book                                . "</td>\n";
             $output .= "</tr>\n";
           }
         } else {
           $output .= "<tr>\n";
-          $output .= "  <td class=\"ui-widget-content\" colspan=\"11\">No Cyberware found.</td>\n";
+          $output .= "  <td class=\"ui-widget-content\" colspan=\"12\">No Cyberware found.</td>\n";
           $output .= "</tr>\n";
         }
 
@@ -241,6 +245,7 @@
       print "document.dialog.ware_basetime.value = '';\n";
       print "document.dialog.ware_duration.value = 0;\n";
       print "document.dialog.ware_index.value = '';\n";
+      print "document.dialog.ware_legality.value = '';\n";
       print "document.dialog.ware_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";

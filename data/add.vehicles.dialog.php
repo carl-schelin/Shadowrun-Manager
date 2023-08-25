@@ -72,7 +72,7 @@
   <td class="ui-widget-content">Seats <input type="text" name="veh_onseats" size="3">/<input type="text" name="veh_offseats" size="3"> (sr3/sr5/sr6)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="veh_avail" size="3"><input type="text" name="veh_perm" size="3"> Base Time <input type="text" name="veh_basetime" size="6"> Duration <select name="veh_duration">
+  <td class="ui-widget-content">Availability <input type="text" name="veh_avail" size="3"><input type="text" name="veh_perm" size="3"> Base Time <input type="text" name="veh_basetime" size="6"> Duration <select name="veh_duration">
 <option value="0">Unset</option>
 <?php
   $q_string  = "select dur_id,dur_name ";
