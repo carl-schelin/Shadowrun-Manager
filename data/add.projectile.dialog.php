@@ -21,7 +21,7 @@
   <td class="ui-widget-content">Rating <input type="text" name="proj_rating" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">ACC <input type="text" name="proj_acc" size="3"></td>
+  <td class="ui-widget-content">Accuracy <input type="text" name="proj_acc" size="3"></td>
 </tr>
 </tr>
   <td class="ui-widget-content">Attack Rating <input type="text" name="proj_ar1" size="3">/<input type="text" name="proj_ar2" size="3">/<input type="text" name="proj_ar3" size="3">/<input type="text" name="proj_ar4" size="3">/<input type="text" name="proj_ar5" size="3"> (sr6)</td>
@@ -33,10 +33,10 @@
   <td class="ui-widget-content">Use Strength? <input type="checkbox" name="proj_strength"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">AP <input type="text" name="proj_ap" size="3"></td>
+  <td class="ui-widget-content">Armor Penetration (AP) <input type="text" name="proj_ap" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="proj_avail" size="3"><input type="text" name="proj_perm" size="3"> Base Time <input type="text" name="proj_basetime" size="6"> Duration <select name="proj_duration">
+  <td class="ui-widget-content">Availability <input type="text" name="proj_avail" size="3"><input type="text" name="proj_perm" size="3"> Base Time <input type="text" name="proj_basetime" size="6"> Duration <select name="proj_duration">
 <option value="0">Unset</option>
 <?php
   $q_string  = "select dur_id,dur_name ";

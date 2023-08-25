@@ -21,13 +21,13 @@
   <td class="ui-widget-content">Firewall <input type="text" name="deck_firewall" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Programs <input type="text" name="deck_programs" size="3"></td>
+  <td class="ui-widget-content">Number of Programs <input type="text" name="deck_programs" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Company ID <input type="text" name="deck_access" size="18"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="deck_avail" size="3"><input type="text" name="deck_perm" size="3"></td>
+  <td class="ui-widget-content">Availability <input type="text" name="deck_avail" size="3"><input type="text" name="deck_perm" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Cost <input type="text" name="deck_cost" size="10"></td>

@@ -33,7 +33,7 @@
   <td class="ui-widget-content">Essence <input type="text" name="jack_essence" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="jack_avail" size="3"><input type="text" name="jack_perm" size="3"></td>
+  <td class="ui-widget-content">Availability <input type="text" name="jack_avail" size="3"><input type="text" name="jack_perm" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Cost <input type="text" name="jack_cost" size="10"></td>

@@ -18,7 +18,7 @@
   <td class="ui-widget-content">Programs <input type="text" name="cmd_programs" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="cmd_avail" size="3"><input type="text" name="cmd_perm" size="2"></td>
+  <td class="ui-widget-content">Availability <input type="text" name="cmd_avail" size="3"><input type="text" name="cmd_perm" size="2"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Cost <input type="text" name="cmd_cost" size="6"></td>

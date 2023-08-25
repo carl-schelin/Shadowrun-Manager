@@ -33,7 +33,7 @@
   <td class="ui-widget-content">Damage Modifier, Near <input type="text" name="ammo_near" size="15"> (sr6)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">AP Modifier <input type="text" name="ammo_ap" size="5"></td>
+  <td class="ui-widget-content">Armor Penetration (AP) Modifier <input type="text" name="ammo_ap" size="5"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Blast <input type="text" name="ammo_blast" size="10"></td>
@@ -42,7 +42,7 @@
   <td class="ui-widget-content">Armor Used <input type="text" name="ammo_armor" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="ammo_avail" size="3"><input type="text" name="ammo_perm" size="3"> Base Time <input type="text" name="ammo_basetime" size="6"> Duration <select name="ammo_duration">
+  <td class="ui-widget-content">Availability <input type="text" name="ammo_avail" size="3"><input type="text" name="ammo_perm" size="3"> Base Time <input type="text" name="ammo_basetime" size="6"> Duration <select name="ammo_duration">
 <option value="0">Unset</option>
 <?php
   $q_string  = "select dur_id,dur_name ";

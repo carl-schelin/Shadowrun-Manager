@@ -14,10 +14,7 @@
   <td class="ui-widget-content">Description <input type="text" name="pgm_desc" size="70"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="pgm_avail" size="10"></td>
-</tr>
-<tr>
-  <td class="ui-widget-content">Perm <input type="text" name="pgm_perm" size="10"></td>
+  <td class="ui-widget-content">Availability <input type="text" name="pgm_avail" size="10"><td class="ui-widget-content">Perm <input type="text" name="pgm_perm" size="4"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Cost <input type="text" name="pgm_cost" size="10"></td>

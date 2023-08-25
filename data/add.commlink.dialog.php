@@ -18,7 +18,7 @@
   <td class="ui-widget-content">Cost <input type="text" name="link_cost" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Avail <input type="text" name="link_avail" size="5"><input type="text" name="link_perm" size="5"></td>
+  <td class="ui-widget-content">Availability <input type="text" name="link_avail" size="5"><input type="text" name="link_perm" size="5"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Manufacturer's Code <input type="text" name="link_access" size="15"></td>
