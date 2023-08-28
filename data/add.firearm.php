@@ -66,8 +66,10 @@ function attach_firearm(p_script_url, update) {
   af_url += "&fa_name="         + encode_URI(af_form.fa_name.value);
   af_url += "&fa_acc="          + encode_URI(af_form.fa_acc.value);
   af_url += "&fa_damage="       + encode_URI(af_form.fa_damage.value);
+  af_url += "&fa_weight="       + encode_URI(af_form.fa_weight.value);
   af_url += "&fa_type="         + encode_URI(af_form.fa_type.value);
   af_url += "&fa_flag="         + encode_URI(af_form.fa_flag.value);
+  af_url += "&fa_conceal="      + encode_URI(af_form.fa_conceal.value);
   af_url += "&fa_ap="           + encode_URI(af_form.fa_ap.value);
   af_url += "&fa_mode1="        + encode_URI(af_form.fa_mode1.value);
   af_url += "&fa_mode2="        + encode_URI(af_form.fa_mode2.value);
@@ -112,7 +114,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 450,
+    height: 500,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

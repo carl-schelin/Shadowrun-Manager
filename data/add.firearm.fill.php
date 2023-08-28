@@ -22,9 +22,9 @@
     if (check_userlevel(1)) {
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from firearm");
 
-      $q_string  = "select fa_class,fa_name,fa_acc,fa_damage,fa_type,fa_flag,fa_ap,fa_mode1,";
-      $q_string .= "fa_mode2,fa_mode3,fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,fa_rc,fa_fullrc,";
-      $q_string .= "fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,fa_basetime,fa_duration,fa_index,fa_cost,fa_book,fa_page ";
+      $q_string  = "select fa_class,fa_name,fa_acc,fa_damage,fa_weight,fa_type,fa_flag,fa_conceal,fa_ap,fa_mode1,fa_mode2,";
+      $q_string .= "fa_mode3,fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,fa_rc,fa_fullrc,fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,";
+      $q_string .= "fa_avail,fa_perm,fa_basetime,fa_duration,fa_index,fa_cost,fa_book,fa_page ";
       $q_string .= "from firearms ";
       $q_string .= "where fa_id = " . $formVars['id'];
       $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -35,8 +35,10 @@
       print "document.dialog.fa_name.value = '"       . mysql_real_escape_string($a_firearms['fa_name'])       . "';\n";
       print "document.dialog.fa_acc.value = '"        . mysql_real_escape_string($a_firearms['fa_acc'])        . "';\n";
       print "document.dialog.fa_damage.value = '"     . mysql_real_escape_string($a_firearms['fa_damage'])     . "';\n";
+      print "document.dialog.fa_weight.value = '"     . mysql_real_escape_string($a_firearms['fa_weight'])     . "';\n";
       print "document.dialog.fa_type.value = '"       . mysql_real_escape_string($a_firearms['fa_type'])       . "';\n";
       print "document.dialog.fa_flag.value = '"       . mysql_real_escape_string($a_firearms['fa_flag'])       . "';\n";
+      print "document.dialog.fa_conceal.value = '"    . mysql_real_escape_string($a_firearms['fa_conceal'])    . "';\n";
       print "document.dialog.fa_ap.value = '"         . mysql_real_escape_string($a_firearms['fa_ap'])         . "';\n";
       print "document.dialog.fa_mode1.value = '"      . mysql_real_escape_string($a_firearms['fa_mode1'])      . "';\n";
       print "document.dialog.fa_mode2.value = '"      . mysql_real_escape_string($a_firearms['fa_mode2'])      . "';\n";
