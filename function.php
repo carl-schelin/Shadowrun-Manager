@@ -777,6 +777,14 @@ function return_Conceal($p_conceal) {
   return($r_conceal);
 }
 
+function return_Accuracy($p_accuracy) {
+  $r_accuracy = "--";
+  if ($p_accuracy != 0) {
+    $r_accuracy = $p_accuracy;
+  }
+  return($r_accuracy);
+}
+
 function return_Drain($p_drain, $p_force) {
   $r_drain = $p_drain;
   if ($p_force == 1) {

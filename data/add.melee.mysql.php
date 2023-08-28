@@ -241,6 +241,8 @@
 
           $melee_conceal = return_Conceal($a_melee['melee_conceal']);
 
+          $melee_accuracy = return_Accuracy($a_melee['melee_acc']);
+
           $melee_weight = return_Weight($a_melee['melee_weight']);
 
           $melee_book = return_Book($a_melee['ver_book'], $a_melee['melee_page']);
@@ -269,7 +271,7 @@
           $output .= "  <td class=\"" . $class . "\">"                     . $a_melee['class_name']            . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_melee['melee_name'] . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_conceal                    . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_melee['melee_acc']             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $melee_accuracy                   . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_reach                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_attack                     . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_damage                     . "</td>\n";
