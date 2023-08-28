@@ -24,7 +24,7 @@
 
       $q_string  = "select melee_class,melee_name,melee_acc,melee_reach,melee_damage,melee_type,melee_ar1,melee_ar2,melee_ar3,melee_ar4,melee_ar5,";
       $q_string .= "melee_flag,melee_strength,melee_ap,melee_avail,melee_perm,melee_basetime,melee_duration,melee_index,";
-      $q_string .= "melee_cost,melee_book,melee_page ";
+      $q_string .= "melee_cost,melee_book,melee_page,melee_conceal,melee_weight ";
       $q_string .= "from melee ";
       $q_string .= "where melee_id = " . $formVars['id'];
       $q_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -41,8 +41,10 @@
       print "document.dialog.melee_ar4.value = '"      . mysql_real_escape_string($a_melee['melee_ar4'])      . "';\n";
       print "document.dialog.melee_ar5.value = '"      . mysql_real_escape_string($a_melee['melee_ar5'])      . "';\n";
       print "document.dialog.melee_damage.value = '"   . mysql_real_escape_string($a_melee['melee_damage'])   . "';\n";
+      print "document.dialog.melee_weight.value = '"   . mysql_real_escape_string($a_melee['melee_weight'])   . "';\n";
       print "document.dialog.melee_type.value = '"     . mysql_real_escape_string($a_melee['melee_type'])     . "';\n";
       print "document.dialog.melee_flag.value = '"     . mysql_real_escape_string($a_melee['melee_flag'])     . "';\n";
+      print "document.dialog.melee_conceal.value = '"  . mysql_real_escape_string($a_melee['melee_conceal'])  . "';\n";
       print "document.dialog.melee_ap.value = '"       . mysql_real_escape_string($a_melee['melee_ap'])       . "';\n";
       print "document.dialog.melee_avail.value = '"    . mysql_real_escape_string($a_melee['melee_avail'])    . "';\n";
       print "document.dialog.melee_perm.value = '"     . mysql_real_escape_string($a_melee['melee_perm'])     . "';\n";

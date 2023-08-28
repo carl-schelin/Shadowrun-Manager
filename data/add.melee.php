@@ -72,8 +72,10 @@ function attach_melee(p_script_url, update) {
   am_url += "&melee_ar4="        + encode_URI(am_form.melee_ar4.value);
   am_url += "&melee_ar5="        + encode_URI(am_form.melee_ar5.value);
   am_url += "&melee_damage="     + encode_URI(am_form.melee_damage.value);
+  am_url += "&melee_weight="     + encode_URI(am_form.melee_weight.value);
   am_url += "&melee_type="       + encode_URI(am_form.melee_type.value);
   am_url += "&melee_flag="       + encode_URI(am_form.melee_flag.value);
+  am_url += "&melee_conceal="    + encode_URI(am_form.melee_conceal.value);
   am_url += "&melee_strength="   + am_form.melee_strength.checked;
   am_url += "&melee_half="       + am_form.melee_half.checked;
   am_url += "&melee_ap="         + encode_URI(am_form.melee_ap.value);
@@ -104,7 +106,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 400,
+    height: 450,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

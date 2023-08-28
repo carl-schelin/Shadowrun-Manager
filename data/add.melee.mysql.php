@@ -33,8 +33,10 @@
         $formVars['melee_ar4']      = clean($_GET['melee_ar4'],      10);
         $formVars['melee_ar5']      = clean($_GET['melee_ar5'],      10);
         $formVars['melee_damage']   = clean($_GET['melee_damage'],   10);
+        $formVars['melee_weight']   = clean($_GET['melee_weight'],   10);
         $formVars['melee_type']     = clean($_GET['melee_type'],     10);
         $formVars['melee_flag']     = clean($_GET['melee_flag'],     10);
+        $formVars['melee_conceal']  = clean($_GET['melee_conceal'],  10);
         $formVars['melee_strength'] = clean($_GET['melee_strength'], 10);
         $formVars['melee_half']     = clean($_GET['melee_half'],     10);
         $formVars['melee_ap']       = clean($_GET['melee_ap'],       10);
@@ -55,6 +57,12 @@
         }
         if ($formVars['melee_damage'] == '') {
           $formVars['melee_damage'] = 0;
+        }
+        if ($formVars['melee_weight'] == '') {
+          $formVars['melee_weight'] = 0.00;
+        }
+        if ($formVars['melee_conceal'] == '') {
+          $formVars['melee_conceal'] = 0.00;
         }
         if ($formVars['melee_reach'] == '') {
           $formVars['melee_reach'] = 0;
@@ -115,8 +123,10 @@
             "melee_ar4         =   " . $formVars['melee_ar4']      . "," .
             "melee_ar5         =   " . $formVars['melee_ar5']      . "," .
             "melee_damage      =   " . $formVars['melee_damage']   . "," .
+            "melee_weight      =   " . $formVars['melee_weight']   . "," .
             "melee_type        = \"" . $formVars['melee_type']     . "\"," .
             "melee_flag        = \"" . $formVars['melee_flag']     . "\"," .
+            "melee_conceal     =   " . $formVars['melee_conceal']  . "," .
             "melee_strength    =   " . $formVars['melee_strength'] . "," .
             "melee_ap          =   " . $formVars['melee_ap']       . "," .
             "melee_avail       =   " . $formVars['melee_avail']    . "," .
@@ -184,10 +194,12 @@
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Conceal</th>\n";
       $output .=   "<th class=\"ui-state-default\">Accuracy</th>\n";
       $output .=   "<th class=\"ui-state-default\">Reach</th>\n";
       $output .=   "<th class=\"ui-state-default\">Attack Rating</th>\n";
       $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Weight</th>\n";
       $output .=   "<th class=\"ui-state-default\">AP</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
       $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
@@ -197,7 +209,7 @@
 
       $nuyen = '&yen;';
       $q_string  = "select melee_id,class_name,melee_class,melee_name,melee_acc,melee_reach,";
-      $q_string .= "melee_ar1,melee_ar2,melee_ar3,melee_ar4,melee_ar5,";
+      $q_string .= "melee_ar1,melee_ar2,melee_ar3,melee_ar4,melee_ar5,melee_conceal,melee_weight,";
       $q_string .= "melee_damage,melee_type,melee_flag,melee_strength,melee_ap,melee_avail,";
       $q_string .= "melee_perm,melee_basetime,melee_duration,melee_index,melee_cost,ver_book,melee_page ";
       $q_string .= "from melee ";
@@ -252,10 +264,12 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                            . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"                     . $a_melee['class_name']            . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_melee['melee_name'] . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $melee_conceal                    . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_melee['melee_acc']             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_reach                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_attack                     . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_damage                     . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $melee_weight                     . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_ap                         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_avail                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $melee_index                      . "</td>\n";
