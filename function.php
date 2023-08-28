@@ -761,6 +761,22 @@ function return_Mount($p_mount) {
   return($r_mount);
 }
 
+function return_Weight($p_weight) {
+  $r_weight = "--";
+  if ($p_weight != '') {
+    $r_weight = $p_weight;
+  }
+  return($r_weight);
+}
+
+function return_Conceal($p_conceal) {
+  $r_conceal = "--";
+  if ($p_conceal != '') {
+    $r_conceal = $p_conceal;
+  }
+  return($r_conceal);
+}
+
 function return_Drain($p_drain, $p_force) {
   $r_drain = $p_drain;
   if ($p_force == 1) {
