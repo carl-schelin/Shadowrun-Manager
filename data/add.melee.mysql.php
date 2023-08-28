@@ -239,6 +239,10 @@
 
           $melee_cost = return_Cost($a_melee['melee_cost']);
 
+          $melee_conceal = return_Conceal($a_melee['melee_conceal']);
+
+          $melee_weight = return_Weight($a_melee['melee_weight']);
+
           $melee_book = return_Book($a_melee['ver_book'], $a_melee['melee_page']);
 
           $class = return_Class($a_melee['melee_perm']);
@@ -296,8 +300,10 @@
       print "document.dialog.melee_ar4.value = '';\n";
       print "document.dialog.melee_ar5.value = '';\n";
       print "document.dialog.melee_damage.value = '';\n";
+      print "document.dialog.melee_weight.value = '';\n";
       print "document.dialog.melee_type.value = '';\n";
       print "document.dialog.melee_flag.value = '';\n";
+      print "document.dialog.melee_conceal.value = '';\n";
       print "document.dialog.melee_strength.checked = false;\n";
       print "document.dialog.melee_half.checked = false;\n";
       print "document.dialog.melee_ap.value = '';\n";
