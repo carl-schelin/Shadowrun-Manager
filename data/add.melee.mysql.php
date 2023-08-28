@@ -194,7 +194,7 @@
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Class</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Conceal</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Conceal<sup>12</sup></th>\n";
       $output .=   "<th class=\"ui-state-default\">Accuracy</th>\n";
       $output .=   "<th class=\"ui-state-default\">Reach</th>\n";
       $output .=   "<th class=\"ui-state-default\">Attack Rating</th>\n";

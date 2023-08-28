@@ -21,7 +21,7 @@
   <td class="ui-widget-content">Accuracy <input type="text" name="melee_acc" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Concealability <input type="text" name="melee_conceal" size="5"> (sr1)</td>
+  <td class="ui-widget-content">Concealability <input type="text" name="melee_conceal" size="5"> (sr1/sr2)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Reach <input type="text" name="melee_reach" size="3"></td>
