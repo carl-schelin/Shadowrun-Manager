@@ -763,7 +763,7 @@ function return_Mount($p_mount) {
 
 function return_Weight($p_weight) {
   $r_weight = "--";
-  if ($p_weight != '') {
+  if ($p_weight != 0.00) {
     $r_weight = $p_weight;
   }
   return($r_weight);
@@ -771,7 +771,7 @@ function return_Weight($p_weight) {
 
 function return_Conceal($p_conceal) {
   $r_conceal = "--";
-  if ($p_conceal != '') {
+  if ($p_conceal != 0) {
     $r_conceal = $p_conceal;
   }
   return($r_conceal);
