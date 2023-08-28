@@ -27,8 +27,10 @@
         $formVars['fa_name']          = clean($_GET['fa_name'],         100);
         $formVars['fa_acc']           = clean($_GET['fa_acc'],           10);
         $formVars['fa_damage']        = clean($_GET['fa_damage'],        10);
+        $formVars['fa_weight']        = clean($_GET['fa_weight'],        10);
         $formVars['fa_type']          = clean($_GET['fa_type'],          10);
         $formVars['fa_flag']          = clean($_GET['fa_flag'],          10);
+        $formVars['fa_conceal']       = clean($_GET['fa_conceal'],       10);
         $formVars['fa_ap']            = clean($_GET['fa_ap'],            10);
         $formVars['fa_mode1']         = clean($_GET['fa_mode1'],         10);
         $formVars['fa_mode2']         = clean($_GET['fa_mode2'],         10);
@@ -61,6 +63,12 @@
         }
         if ($formVars['fa_damage'] == '') {
           $formVars['fa_damage'] = 0;
+        }
+        if ($formVars['fa_weight'] == '') {
+          $formVars['fa_weight'] = 0.00;
+        }
+        if ($formVars['fa_conceal'] == '') {
+          $formVars['fa_conceal'] = 0;
         }
         if ($formVars['fa_ap'] == '') {
           $formVars['fa_ap'] = 0;
@@ -116,8 +124,10 @@
             "fa_name        = \"" . $formVars['fa_name']       . "\"," .
             "fa_acc         =   " . $formVars['fa_acc']        . "," .
             "fa_damage      =   " . $formVars['fa_damage']     . "," .
+            "fa_weight      =   " . $formVars['fa_weight']     . "," .
             "fa_type        = \"" . $formVars['fa_type']       . "\"," .
             "fa_flag        = \"" . $formVars['fa_flag']       . "\"," .
+            "fa_conceal     =   " . $formVars['fa_conceal']    . "," .
             "fa_ap          =   " . $formVars['fa_ap']         . "," .
             "fa_mode1       = \"" . $formVars['fa_mode1']      . "\"," .
             "fa_mode2       = \"" . $formVars['fa_mode2']      . "\"," .
@@ -202,8 +212,10 @@
         $output .=   "<th class=\"ui-state-default\">Total</th>\n";
         $output .=   "<th class=\"ui-state-default\">Class</th>\n";
         $output .=   "<th class=\"ui-state-default\">Name</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Conceal</th>\n";
         $output .=   "<th class=\"ui-state-default\">Accuracy</th>\n";
         $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
+        $output .=   "<th class=\"ui-state-default\">Weight</th>\n";
         $output .=   "<th class=\"ui-state-default\">AP</th>\n";
         $output .=   "<th class=\"ui-state-default\">Mode</th>\n";
         $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
@@ -281,7 +293,7 @@
         $q_string  = "select fa_id,class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
         $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,";
         $q_string .= "fa_rc,fa_fullrc,fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,";
-        $q_string .= "fa_basetime,fa_duration,fa_index,fa_cost,ver_book,fa_page ";
+        $q_string .= "fa_basetime,fa_duration,fa_index,fa_cost,ver_book,fa_page,fa_weight,fa_conceal ";
         $q_string .= "from firearms ";
         $q_string .= "left join class on class.class_id = firearms.fa_class ";
         $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
@@ -305,6 +317,10 @@
             $fa_attack = return_Attack($a_firearms['fa_ar1'], $a_firearms['fa_ar2'], $a_firearms['fa_ar3'], $a_firearms['fa_ar4'], $a_firearms['fa_ar5']);
 
             $fa_damage = return_Damage($a_firearms['fa_damage'], $a_firearms['fa_type'], $a_firearms['fa_flag']);
+
+            $fa_weight = return_Weight($a_firearms['fa_weight']);
+
+            $fa_conceal = return_Conceal($a_firearms['fa_conceal']);
 
             $fa_rc = return_Recoil($a_firearms['fa_rc'], $a_firearms['fa_fullrc']);
 
@@ -337,28 +353,30 @@
             if ($total > 0) {
               $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                        . "</td>\n";
             }
-            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_firearms['fa_id']                                        . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                      . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['class_name']                        . $linkend . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['fa_name']                           . $linkend . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_accuracy                                                . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_damage                                                  . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_ap                                                      . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_mode                                                    . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_attack                                                  . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_rc                                                      . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_ammo                                                    . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_avail                                                   . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_index                                                   . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_cost                                                    . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_book                                                    . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_firearms['fa_id']                 . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['class_name'] . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_firearms['fa_name']    . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_conceal                          . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_accuracy                         . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_damage                           . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_weight                           . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_ap                               . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_mode                             . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_attack                           . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_rc                               . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_ammo                             . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_avail                            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_index                            . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_cost                             . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $fa_book                             . "</td>\n";
             $output .= "</tr>\n";
           }
         } else {
           $output .= "<tr>\n";
-          $output .= "  <td class=\"ui-widget-content\" colspan=\"16\">No records found.</td>\n";
+          $output .= "  <td class=\"ui-widget-content\" colspan=\"18\">No records found.</td>\n";
           $output .= "</tr>\n";
         }
 
@@ -368,8 +386,10 @@
       }
 
       print "document.dialog.fa_name.value = '';\n";
+      print "document.dialog.fa_conceal.value = '';\n";
       print "document.dialog.fa_acc.value = '';\n";
       print "document.dialog.fa_damage.value = '';\n";
+      print "document.dialog.fa_weight.value = '';\n";
       print "document.dialog.fa_type.value = '';\n";
       print "document.dialog.fa_flag.value = '';\n";
       print "document.dialog.fa_ap.value = '';\n";

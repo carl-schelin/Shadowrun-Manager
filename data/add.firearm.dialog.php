@@ -21,7 +21,13 @@
   <td class="ui-widget-content">Accuracy <input type="text" name="fa_acc" size="3"> (sr5)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Damage Value <input type="text" name="fa_damage" size="2"><input type="text" name="fa_type" size="2">(<input type="text" name="fa_flag" size="2">)</td>
+  <td class="ui-widget-content">Concealability <input type="text" name="fa_conceal" size="5"> (sr1)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Damage Value <input type="text" name="fa_damage" size="3"><input type="text" name="fa_type" size="3">(<input type="text" name="fa_flag" size="3">)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Weight <input type="text" name="fa_weight" size="5"> (sr1)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Armor Penetration (AP) <input type="text" name="fa_ap" size="3"> (sr4a/sr5)</td>
