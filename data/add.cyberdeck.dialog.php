@@ -50,7 +50,7 @@
 </select> (sr2/sr3)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Street Index <input type="text" name="deck_avail" size="3"><input type="text" name="deck_perm" size="3"></td>
+  <td class="ui-widget-content">Street Index <input type="text" name="deck_index" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Cost <input type="text" name="deck_cost" size="10"></td>

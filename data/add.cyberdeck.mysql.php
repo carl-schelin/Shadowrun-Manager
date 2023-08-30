@@ -42,6 +42,7 @@
         $formVars['deck_perm']        = clean($_GET['deck_perm'],        10);
         $formVars['deck_basetime']    = clean($_GET['deck_basetime'],    10);
         $formVars['deck_duration']    = clean($_GET['deck_duration'],    10);
+        $formVars['deck_index']       = clean($_GET['deck_index'],       10);
         $formVars['deck_cost']        = clean($_GET['deck_cost'],        10);
         $formVars['deck_book']        = clean($_GET['deck_book'],        10);
         $formVars['deck_page']        = clean($_GET['deck_page'],        10);
@@ -91,6 +92,9 @@
         if ($formVars['deck_basetime'] == '') {
           $formVars['deck_basetime'] = 0;
         }
+        if ($formVars['deck_index'] == '') {
+          $formVars['deck_index'] = 0.00;
+        }
         if ($formVars['deck_cost'] == '') {
           $formVars['deck_cost'] = 0;
         }
@@ -121,6 +125,7 @@
             "deck_perm       = \"" . $formVars['deck_perm']        . "\"," .
             "deck_basetime   =   " . $formVars['deck_basetime']    . "," .
             "deck_duration   =   " . $formVars['deck_duration']    . "," .
+            "deck_index      =   " . $formVars['deck_index']       . "," .
             "deck_cost       =   " . $formVars['deck_cost']        . "," .
             "deck_book       = \"" . $formVars['deck_book']        . "\"," .
             "deck_page       =   " . $formVars['deck_page'];
@@ -195,12 +200,13 @@
       $output .=   "<th class=\"ui-state-default\">Programs</th>\n";
       $output .=   "<th class=\"ui-state-default\">Company ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book</th>\n";
       $output .= "</tr>\n";
 
       $nuyen = '&yen;';
-      $q_string  = "select deck_id,deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,";
+      $q_string  = "select deck_id,deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,deck_index,";
       $q_string .= "deck_firewall,deck_programs,deck_access,deck_avail,deck_perm,deck_cost,ver_book,deck_page,";
       $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration ";
       $q_string .= "from cyberdeck ";
@@ -218,6 +224,8 @@
           $deck_avail = return_Avail($a_cyberdeck['deck_avail'], $a_cyberdeck['deck_perm'], $a_cyberdeck['deck_basetime'], $a_cyberdeck['deck_duration']);
 
           $deck_rating = return_Rating($a_cyberdeck['deck_rating']);
+
+          $deck_index = return_Index($a_cyberdeck['deck_index']);
 
           $deck_cost = return_Cost($a_cyberdeck['deck_cost']);
 
@@ -260,13 +268,14 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_programs']         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_access']           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $deck_avail                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $deck_index                           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $deck_cost                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $deck_book                            . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"21\">No Cyberdeck found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"22\">No Cyberdeck found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -281,10 +290,19 @@
       print "document.dialog.deck_sleaze.value = '';\n";
       print "document.dialog.deck_data.value = '';\n";
       print "document.dialog.deck_firewall.value = '';\n";
+      print "document.dialog.deck_persona.value = '';\n";
+      print "document.dialog.deck_hardening.value = '';\n";
+      print "document.dialog.deck_memory.value = '';\n";
+      print "document.dialog.deck_storage.value = '';\n";
+      print "document.dialog.deck_load.value = '';\n";
+      print "document.dialog.deck_io.value = '';\n";
       print "document.dialog.deck_programs.value = '';\n";
       print "document.dialog.deck_access.value = '';\n";
       print "document.dialog.deck_avail.value = '';\n";
       print "document.dialog.deck_perm.value = '';\n";
+      print "document.dialog.deck_basetime.value = '';\n";
+      print "document.dialog.deck_duration.value = 0;\n";
+      print "document.dialog.deck_index.value = '';\n";
       print "document.dialog.deck_cost.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";
