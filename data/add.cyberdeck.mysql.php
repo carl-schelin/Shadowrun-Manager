@@ -225,7 +225,7 @@
 
           $deck_rating = return_Rating($a_cyberdeck['deck_rating']);
 
-          $deck_index = $a_cyberdeck['deck_index'];
+          $deck_index = return_Street($a_cyberdeck['deck_index']);
 
           $deck_cost = return_Cost($a_cyberdeck['deck_cost']);
 
