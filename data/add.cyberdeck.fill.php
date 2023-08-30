@@ -23,7 +23,7 @@
       logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from cyberdeck");
 
       $q_string  = "select deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,deck_firewall,";
-      $q_string .= "deck_programs,deck_access,deck_avail,deck_perm,deck_cost,deck_book,deck_page,";
+      $q_string .= "deck_programs,deck_access,deck_avail,deck_perm,deck_cost,deck_book,deck_page,deck_index,";
       $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration ";
       $q_string .= "from cyberdeck ";
       $q_string .= "where deck_id = " . $formVars['id'];
@@ -50,6 +50,7 @@
       print "document.dialog.deck_perm.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_perm'])      . "';\n";
       print "document.dialog.deck_basetime.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_basetime'])  . "';\n";
       print "document.dialog.deck_duration.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_duration'])  . "';\n";
+      print "document.dialog.deck_index.value = '"     . mysql_real_escape_string($a_cyberdeck['deck_index'])     . "';\n";
       print "document.dialog.deck_cost.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_cost'])      . "';\n";
       print "document.dialog.deck_book.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_book'])      . "';\n";
       print "document.dialog.deck_page.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_page'])      . "';\n";
