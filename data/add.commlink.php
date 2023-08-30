@@ -65,6 +65,8 @@ function attach_commlink(p_script_url, update) {
   ac_url += "&link_brand="     + encode_URI(ac_form.link_brand.value);
   ac_url += "&link_model="     + encode_URI(ac_form.link_model.value);
   ac_url += "&link_rating="    + encode_URI(ac_form.link_rating.value);
+  ac_url += "&link_response="  + encode_URI(ac_form.link_response.value);
+  ac_url += "&link_signal="    + encode_URI(ac_form.link_signal.value);
   ac_url += "&link_data="      + encode_URI(ac_form.link_data.value);
   ac_url += "&link_firewall="  + encode_URI(ac_form.link_firewall.value);
   ac_url += "&link_avail="     + encode_URI(ac_form.link_avail.value);
@@ -93,7 +95,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 350,
+    height: 400,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

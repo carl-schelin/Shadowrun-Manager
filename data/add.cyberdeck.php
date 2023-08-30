@@ -75,6 +75,7 @@ function attach_cyberdeck(p_script_url, update) {
   ac_url += "&deck_storage="   + encode_URI(ac_form.deck_storage.value);
   ac_url += "&deck_load="      + encode_URI(ac_form.deck_load.value);
   ac_url += "&deck_io="        + encode_URI(ac_form.deck_io.value);
+  ac_url += "&deck_response="  + encode_URI(ac_form.deck_response.value);
   ac_url += "&deck_programs="  + encode_URI(ac_form.deck_programs.value);
   ac_url += "&deck_access="    + encode_URI(ac_form.deck_access.value);
   ac_url += "&deck_avail="     + encode_URI(ac_form.deck_avail.value);
@@ -103,7 +104,7 @@ $(document).ready( function() {
   $( "#dialogCyberdeck" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 525,
+    height: 550,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

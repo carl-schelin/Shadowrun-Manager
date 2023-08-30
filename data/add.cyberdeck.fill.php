@@ -24,7 +24,8 @@
 
       $q_string  = "select deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,deck_firewall,";
       $q_string .= "deck_programs,deck_access,deck_avail,deck_perm,deck_cost,deck_book,deck_page,deck_index,";
-      $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration ";
+      $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration,";
+      $q_string .= "deck_response ";
       $q_string .= "from cyberdeck ";
       $q_string .= "where deck_id = " . $formVars['id'];
       $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
@@ -44,6 +45,7 @@
       print "document.dialog.deck_storage.value = '"   . mysql_real_escape_string($a_cyberdeck['deck_storage'])   . "';\n";
       print "document.dialog.deck_load.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_load'])      . "';\n";
       print "document.dialog.deck_io.value = '"        . mysql_real_escape_string($a_cyberdeck['deck_io'])        . "';\n";
+      print "document.dialog.deck_response.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_response'])  . "';\n";
       print "document.dialog.deck_programs.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_programs'])  . "';\n";
       print "document.dialog.deck_access.value = '"    . mysql_real_escape_string($a_cyberdeck['deck_access'])    . "';\n";
       print "document.dialog.deck_avail.value = '"     . mysql_real_escape_string($a_cyberdeck['deck_avail'])     . "';\n";

@@ -36,6 +36,7 @@
         $formVars['deck_storage']     = clean($_GET['deck_storage'],     10);
         $formVars['deck_load']        = clean($_GET['deck_load'],        10);
         $formVars['deck_io']          = clean($_GET['deck_io'],          10);
+        $formVars['deck_response']    = clean($_GET['deck_response'],    10);
         $formVars['deck_programs']    = clean($_GET['deck_programs'],    10);
         $formVars['deck_access']      = clean($_GET['deck_access'],      15);
         $formVars['deck_avail']       = clean($_GET['deck_avail'],       10);
@@ -83,6 +84,9 @@
         if ($formVars['deck_io'] == '') {
           $formVars['deck_io'] = 0;
         }
+        if ($formVars['deck_response'] == '') {
+          $formVars['deck_response'] = 0;
+        }
         if ($formVars['deck_programs'] == '') {
           $formVars['deck_programs'] = 0;
         }
@@ -119,6 +123,7 @@
             "deck_storage    =   " . $formVars['deck_storage']     . "," .
             "deck_load       =   " . $formVars['deck_load']        . "," .
             "deck_io         =   " . $formVars['deck_io']          . "," .
+            "deck_response   =   " . $formVars['deck_response']    . "," .
             "deck_programs   =   " . $formVars['deck_programs']    . "," .
             "deck_access     = \"" . $formVars['deck_access']      . "\"," .
             "deck_avail      =   " . $formVars['deck_avail']       . "," .
@@ -197,6 +202,7 @@
       $output .=   "<th class=\"ui-state-default\">Storage</th>\n";
       $output .=   "<th class=\"ui-state-default\">Load</th>\n";
       $output .=   "<th class=\"ui-state-default\">I/O</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Response</th>\n";
       $output .=   "<th class=\"ui-state-default\">Programs</th>\n";
       $output .=   "<th class=\"ui-state-default\">Company ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -208,7 +214,8 @@
       $nuyen = '&yen;';
       $q_string  = "select deck_id,deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,deck_index,";
       $q_string .= "deck_firewall,deck_programs,deck_access,deck_avail,deck_perm,deck_cost,ver_book,deck_page,";
-      $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration ";
+      $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration,";
+      $q_string .= "deck_response ";
       $q_string .= "from cyberdeck ";
       $q_string .= "left join versions on versions.ver_id = cyberdeck.deck_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -265,6 +272,7 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_storage']          . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_load']             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_io']               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_response']         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_programs']         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_access']           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $deck_avail                           . "</td>\n";
@@ -275,7 +283,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"22\">No Cyberdeck found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"23\">No Cyberdeck found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -296,6 +304,7 @@
       print "document.dialog.deck_storage.value = '';\n";
       print "document.dialog.deck_load.value = '';\n";
       print "document.dialog.deck_io.value = '';\n";
+      print "document.dialog.deck_response.value = '';\n";
       print "document.dialog.deck_programs.value = '';\n";
       print "document.dialog.deck_access.value = '';\n";
       print "document.dialog.deck_avail.value = '';\n";

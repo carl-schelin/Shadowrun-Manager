@@ -9,6 +9,12 @@
   <td class="ui-widget-content">Rating <input type="text" name="link_rating" size="3"></td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Response <input type="text" name="link_response" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Signal <input type="text" name="link_signal" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Data Processing <input type="text" name="link_data" size="3"></td>
 </tr>
 <tr>
