@@ -22,21 +22,29 @@
 
     if (check_userlevel(1)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        $formVars['id']            = clean($_GET['id'],             10);
-        $formVars['deck_brand']    = clean($_GET['deck_brand'],     30);
-        $formVars['deck_model']    = clean($_GET['deck_model'],     30);
-        $formVars['deck_rating']   = clean($_GET['deck_rating'],    10);
-        $formVars['deck_attack']   = clean($_GET['deck_attack'],    10);
-        $formVars['deck_sleaze']   = clean($_GET['deck_sleaze'],    10);
-        $formVars['deck_data']     = clean($_GET['deck_data'],      10);
-        $formVars['deck_firewall'] = clean($_GET['deck_firewall'],  10);
-        $formVars['deck_programs'] = clean($_GET['deck_programs'],  10);
-        $formVars['deck_access']   = clean($_GET['deck_access'],    15);
-        $formVars['deck_avail']    = clean($_GET['deck_avail'],     10);
-        $formVars['deck_perm']     = clean($_GET['deck_perm'],      10);
-        $formVars['deck_cost']     = clean($_GET['deck_cost'],      10);
-        $formVars['deck_book']     = clean($_GET['deck_book'],      10);
-        $formVars['deck_page']     = clean($_GET['deck_page'],      10);
+        $formVars['id']               = clean($_GET['id'],               10);
+        $formVars['deck_brand']       = clean($_GET['deck_brand'],       30);
+        $formVars['deck_model']       = clean($_GET['deck_model'],       30);
+        $formVars['deck_rating']      = clean($_GET['deck_rating'],      10);
+        $formVars['deck_attack']      = clean($_GET['deck_attack'],      10);
+        $formVars['deck_sleaze']      = clean($_GET['deck_sleaze'],      10);
+        $formVars['deck_data']        = clean($_GET['deck_data'],        10);
+        $formVars['deck_firewall']    = clean($_GET['deck_firewall'],    10);
+        $formVars['deck_persona']     = clean($_GET['deck_persona'],     10);
+        $formVars['deck_hardening']   = clean($_GET['deck_hardening'],   10);
+        $formVars['deck_memory']      = clean($_GET['deck_memory'],      10);
+        $formVars['deck_storage']     = clean($_GET['deck_storage'],     10);
+        $formVars['deck_load']        = clean($_GET['deck_load'],        10);
+        $formVars['deck_io']          = clean($_GET['deck_io'],          10);
+        $formVars['deck_programs']    = clean($_GET['deck_programs'],    10);
+        $formVars['deck_access']      = clean($_GET['deck_access'],      15);
+        $formVars['deck_avail']       = clean($_GET['deck_avail'],       10);
+        $formVars['deck_perm']        = clean($_GET['deck_perm'],        10);
+        $formVars['deck_basetime']    = clean($_GET['deck_basetime'],    10);
+        $formVars['deck_duration']    = clean($_GET['deck_duration'],    10);
+        $formVars['deck_cost']        = clean($_GET['deck_cost'],        10);
+        $formVars['deck_book']        = clean($_GET['deck_book'],        10);
+        $formVars['deck_page']        = clean($_GET['deck_page'],        10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
@@ -56,11 +64,32 @@
         if ($formVars['deck_firewall'] == '') {
           $formVars['deck_firewall'] = 0;
         }
+        if ($formVars['deck_persona'] == '') {
+          $formVars['deck_persona'] = 0;
+        }
+        if ($formVars['deck_hardening'] == '') {
+          $formVars['deck_hardening'] = 0;
+        }
+        if ($formVars['deck_memory'] == '') {
+          $formVars['deck_memory'] = 0;
+        }
+        if ($formVars['deck_storage'] == '') {
+          $formVars['deck_storage'] = 0;
+        }
+        if ($formVars['deck_load'] == '') {
+          $formVars['deck_load'] = 0;
+        }
+        if ($formVars['deck_io'] == '') {
+          $formVars['deck_io'] = 0;
+        }
         if ($formVars['deck_programs'] == '') {
           $formVars['deck_programs'] = 0;
         }
         if ($formVars['deck_avail'] == '') {
           $formVars['deck_avail'] = 0;
+        }
+        if ($formVars['deck_basetime'] == '') {
+          $formVars['deck_basetime'] = 0;
         }
         if ($formVars['deck_cost'] == '') {
           $formVars['deck_cost'] = 0;
@@ -73,19 +102,27 @@
           logaccess($_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
-            "deck_brand      = \"" . $formVars['deck_brand']    . "\"," .
-            "deck_model      = \"" . $formVars['deck_model']    . "\"," .
-            "deck_rating     =   " . $formVars['deck_rating']   . "," .
-            "deck_attack     =   " . $formVars['deck_attack']   . "," .
-            "deck_sleaze     =   " . $formVars['deck_sleaze']   . "," .
-            "deck_data       =   " . $formVars['deck_data']     . "," .
-            "deck_firewall   =   " . $formVars['deck_firewall'] . "," .
-            "deck_programs   =   " . $formVars['deck_programs'] . "," .
-            "deck_access     = \"" . $formVars['deck_access']   . "\"," .
-            "deck_avail      =   " . $formVars['deck_avail']    . "," .
-            "deck_perm       = \"" . $formVars['deck_perm']     . "\"," .
-            "deck_cost       =   " . $formVars['deck_cost']     . "," .
-            "deck_book       = \"" . $formVars['deck_book']     . "\"," .
+            "deck_brand      = \"" . $formVars['deck_brand']       . "\"," .
+            "deck_model      = \"" . $formVars['deck_model']       . "\"," .
+            "deck_rating     =   " . $formVars['deck_rating']      . "," .
+            "deck_attack     =   " . $formVars['deck_attack']      . "," .
+            "deck_sleaze     =   " . $formVars['deck_sleaze']      . "," .
+            "deck_data       =   " . $formVars['deck_data']        . "," .
+            "deck_firewall   =   " . $formVars['deck_firewall']    . "," .
+            "deck_persona    =   " . $formVars['deck_persona']     . "," .
+            "deck_hardening  =   " . $formVars['deck_hardening']   . "," .
+            "deck_memory     =   " . $formVars['deck_memory']      . "," .
+            "deck_storage    =   " . $formVars['deck_storage']     . "," .
+            "deck_load       =   " . $formVars['deck_load']        . "," .
+            "deck_io         =   " . $formVars['deck_io']          . "," .
+            "deck_programs   =   " . $formVars['deck_programs']    . "," .
+            "deck_access     = \"" . $formVars['deck_access']      . "\"," .
+            "deck_avail      =   " . $formVars['deck_avail']       . "," .
+            "deck_perm       = \"" . $formVars['deck_perm']        . "\"," .
+            "deck_basetime   =   " . $formVars['deck_basetime']    . "," .
+            "deck_duration   =   " . $formVars['deck_duration']    . "," .
+            "deck_cost       =   " . $formVars['deck_cost']        . "," .
+            "deck_book       = \"" . $formVars['deck_book']        . "\"," .
             "deck_page       =   " . $formVars['deck_page'];
 
           if ($formVars['update'] == 0) {
@@ -149,6 +186,12 @@
       $output .=   "<th class=\"ui-state-default\">Sleaze</th>\n";
       $output .=   "<th class=\"ui-state-default\">Data Processing</th>\n";
       $output .=   "<th class=\"ui-state-default\">Firewall</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Persona</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Hardening</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Memory</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Storage</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Load</th>\n";
+      $output .=   "<th class=\"ui-state-default\">I/O</th>\n";
       $output .=   "<th class=\"ui-state-default\">Programs</th>\n";
       $output .=   "<th class=\"ui-state-default\">Company ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -158,7 +201,8 @@
 
       $nuyen = '&yen;';
       $q_string  = "select deck_id,deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,";
-      $q_string .= "deck_firewall,deck_programs,deck_access,deck_avail,deck_perm,deck_cost,ver_book,deck_page ";
+      $q_string .= "deck_firewall,deck_programs,deck_access,deck_avail,deck_perm,deck_cost,ver_book,deck_page,";
+      $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration ";
       $q_string .= "from cyberdeck ";
       $q_string .= "left join versions on versions.ver_id = cyberdeck.deck_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -171,7 +215,7 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberdeck('add.cyberdeck.del.php?id=" . $a_cyberdeck['deck_id'] . "');\">";
           $linkend = "</a>";
 
-          $deck_avail = return_Avail($a_cyberdeck['deck_avail'], $a_cyberdeck['deck_perm'], 0, 0);
+          $deck_avail = return_Avail($a_cyberdeck['deck_avail'], $a_cyberdeck['deck_perm'], $a_cyberdeck['deck_basetime'], $a_cyberdeck['deck_duration']);
 
           $deck_rating = return_Rating($a_cyberdeck['deck_rating']);
 
@@ -207,6 +251,12 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_sleaze']           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_data']             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_firewall']         . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_persona']          . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_hardening']        . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_memory']           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_storage']          . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_load']             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_io']               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_programs']         . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberdeck['deck_access']           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $deck_avail                           . "</td>\n";
@@ -216,7 +266,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">No Cyberdeck found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"21\">No Cyberdeck found.</td>\n";
         $output .= "</tr>\n";
       }
 
