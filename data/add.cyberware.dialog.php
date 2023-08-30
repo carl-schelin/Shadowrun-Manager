@@ -21,13 +21,13 @@
   <td class="ui-widget-content">Rating <input type="text" name="ware_rating" size="3"> Multi <input type="checkbox" name="ware_multiply"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Essence <input type="text" name="ware_essence" size="5"></td>
+  <td class="ui-widget-content">Essence <input type="text" name="ware_essence" size="5"> (sr1/sr2)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Capacity <input type="text" name="ware_capacity" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Availability <input type="text" name="ware_avail" size="3"><input type="text" name="ware_perm" size="3"> Base Time <input type="text" name="ware_basetime" size="6"> Duration <select name="ware_duration">
+  <td class="ui-widget-content">Availability <input type="text" name="ware_avail" size="3"> (sr2)<input type="text" name="ware_perm" size="3"> Base Time <input type="text" name="ware_basetime" size="6"> Duration <select name="ware_duration">
 <option value="0">Unset</option>
 <?php
   $q_string  = "select dur_id,dur_name ";
@@ -38,10 +38,10 @@
     print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
   }
 ?>
-</select> (sr3)</td>
+</select> (sr2/sr3)</td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Street Index <input type="text" name="ware_index" size="6"> (sr3)</td>
+  <td class="ui-widget-content">Street Index <input type="text" name="ware_index" size="6"> (sr2/sr3)</td>
 </tr>
 <tr>
   <td class="ui-widget-content">Legality <input type="text" name="ware_legality" size="10"> (sr3)</td>

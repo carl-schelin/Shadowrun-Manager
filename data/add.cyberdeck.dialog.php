@@ -9,16 +9,25 @@
   <td class="ui-widget-content">Rating <input type="text" name="deck_rating" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Attack <input type="text" name="deck_attack" size="3"></td>
+  <td class="ui-widget-content">Attack <input type="text" name="deck_attack" size="3">/Sleaze <input type="text" name="deck_sleaze" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Sleaze <input type="text" name="deck_sleaze" size="3"></td>
+  <td class="ui-widget-content">Data Processing <input type="text" name="deck_data" size="3">/Firewall <input type="text" name="deck_firewall" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Data Processing <input type="text" name="deck_data" size="3"></td>
+  <td class="ui-widget-content">Persona <input type="text" name="deck_persona" size="3"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Firewall <input type="text" name="deck_firewall" size="3"></td>
+  <td class="ui-widget-content">Hardening <input type="text" name="deck_hardening" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Memory <input type="text" name="deck_memory" size="3">/Storage <input type="text" name="deck_storage" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Load <input type="text" name="deck_load" size="3"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">I/O <input type="text" name="deck_io" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Number of Programs <input type="text" name="deck_programs" size="3"></td>
@@ -27,7 +36,21 @@
   <td class="ui-widget-content">Company ID <input type="text" name="deck_access" size="18"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Availability <input type="text" name="deck_avail" size="3"><input type="text" name="deck_perm" size="3"></td>
+  <td class="ui-widget-content">Availability <input type="text" name="deck_avail" size="3"><input type="text" name="deck_perm" size="3"> Base Time <input type="text" name="deck_basetime" size="6"> Duration <select name="deck_duration">
+<option value="0">Unset</option>
+<?php
+  $q_string  = "select dur_id,dur_name ";
+  $q_string .= "from duration ";
+  $q_string .= "order by dur_id ";
+  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  while ($a_duration = mysql_fetch_array($q_duration)) {
+    print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
+  }
+?>
+</select> (sr2/sr3)</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Street Index <input type="text" name="deck_avail" size="3"><input type="text" name="deck_perm" size="3"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Cost <input type="text" name="deck_cost" size="10"></td>

@@ -69,10 +69,18 @@ function attach_cyberdeck(p_script_url, update) {
   ac_url += "&deck_sleaze="    + encode_URI(ac_form.deck_sleaze.value);
   ac_url += "&deck_data="      + encode_URI(ac_form.deck_data.value);
   ac_url += "&deck_firewall="  + encode_URI(ac_form.deck_firewall.value);
+  ac_url += "&deck_persona="   + encode_URI(ac_form.deck_persona.value);
+  ac_url += "&deck_hardening=" + encode_URI(ac_form.deck_hardening.value);
+  ac_url += "&deck_memory="    + encode_URI(ac_form.deck_memory.value);
+  ac_url += "&deck_storage="   + encode_URI(ac_form.deck_storage.value);
+  ac_url += "&deck_load="      + encode_URI(ac_form.deck_load.value);
+  ac_url += "&deck_io="        + encode_URI(ac_form.deck_io.value);
   ac_url += "&deck_programs="  + encode_URI(ac_form.deck_programs.value);
   ac_url += "&deck_access="    + encode_URI(ac_form.deck_access.value);
   ac_url += "&deck_avail="     + encode_URI(ac_form.deck_avail.value);
   ac_url += "&deck_perm="      + encode_URI(ac_form.deck_perm.value);
+  ac_url += "&deck_basetime="  + encode_URI(ac_form.deck_basetime.value);
+  ac_url += "&deck_duration="  + encode_URI(ac_form.deck_duration.value);
   ac_url += "&deck_cost="      + encode_URI(ac_form.deck_cost.value);
   ac_url += "&deck_book="      + encode_URI(ac_form.deck_book.value);
   ac_url += "&deck_page="      + encode_URI(ac_form.deck_page.value);
