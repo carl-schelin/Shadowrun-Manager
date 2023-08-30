@@ -30,6 +30,9 @@
   <td class="ui-widget-content">I/O <input type="text" name="deck_io" size="3"></td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Response Increase <input type="text" name="deck_response" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Number of Programs <input type="text" name="deck_programs" size="3"></td>
 </tr>
 <tr>

@@ -26,6 +26,8 @@
         $formVars['link_brand']     = clean($_GET['link_brand'],    30);
         $formVars['link_model']     = clean($_GET['link_model'],    30);
         $formVars['link_rating']    = clean($_GET['link_rating'],   10);
+        $formVars['link_response']  = clean($_GET['link_response'], 10);
+        $formVars['link_signal']    = clean($_GET['link_signal'],   10);
         $formVars['link_data']      = clean($_GET['link_data'],     10);
         $formVars['link_firewall']  = clean($_GET['link_firewall'], 10);
         $formVars['link_cost']      = clean($_GET['link_cost'],     10);
@@ -41,6 +43,12 @@
         }
         if ($formVars['link_rating'] == '') {
           $formVars['link_rating'] = 0;
+        }
+        if ($formVars['link_response'] == '') {
+          $formVars['link_response'] = 0;
+        }
+        if ($formVars['link_signal'] == '') {
+          $formVars['link_signal'] = 0;
         }
         if ($formVars['link_data'] == '') {
           $formVars['link_data'] = 0;
@@ -60,6 +68,8 @@
             "link_model    = \"" . $formVars['link_model']    . "\"," .
             "link_cost     =   " . $formVars['link_cost']     . "," .
             "link_rating   =   " . $formVars['link_rating']   . "," .
+            "link_response =   " . $formVars['link_response'] . "," .
+            "link_signal   =   " . $formVars['link_signal']   . "," .
             "link_data     =   " . $formVars['link_data']     . "," .
             "link_firewall =   " . $formVars['link_firewall'] . "," .
             "link_access   = \"" . $formVars['link_access']   . "\"," .
@@ -123,6 +133,8 @@
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Commlink</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Response</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Signal</th>\n";
       $output .=   "<th class=\"ui-state-default\">Data Processing</th>\n";
       $output .=   "<th class=\"ui-state-default\">Firewall</th>\n";
       $output .=   "<th class=\"ui-state-default\">Company ID</th>\n";
@@ -131,7 +143,8 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select link_id,link_brand,link_model,link_rating,link_data,link_firewall,link_cost,link_access,link_avail,link_perm,ver_book,link_page ";
+      $q_string  = "select link_id,link_brand,link_model,link_rating,link_response,link_signal,link_data,";
+      $q_string .= "link_firewall,link_cost,link_access,link_avail,link_perm,ver_book,link_page ";
       $q_string .= "from commlink ";
       $q_string .= "left join versions on versions.ver_id = commlink.link_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -175,8 +188,10 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                                   . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_commlink['link_brand'] . " " . $a_commlink['link_model']   . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $rating                                                                  . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_data']                                               . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_firewall']                                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_response']                                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_signal']                                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_data']                                                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_firewall']                                             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_access']                                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $avail                                                                   . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $cost                                                                    . "</td>\n";
@@ -185,7 +200,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"11\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"13\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -196,6 +211,8 @@
       print "document.dialog.link_brand.value = '';\n";
       print "document.dialog.link_model.value = '';\n";
       print "document.dialog.link_rating.value = '';\n";
+      print "document.dialog.link_response.value = '';\n";
+      print "document.dialog.link_signal.value = '';\n";
       print "document.dialog.link_data.value = '';\n";
       print "document.dialog.link_firewall.value = '';\n";
       print "document.dialog.link_cost.value = '';\n";
