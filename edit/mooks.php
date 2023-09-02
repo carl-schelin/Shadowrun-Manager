@@ -689,8 +689,11 @@ function check_runner() {
   var cr_form = document.edit;
   var cr_url;
 
-  cr_url  = '?id='        + cr_form.id.value;
-  cr_url += "&runr_name=" + encode_URI(cr_form.runr_name.value);
+alert('popup');
+
+  cr_url  = '?id='           + cr_form.id.value;
+  cr_url += "&runr_name="    + encode_URI(cr_form.runr_name.value);
+  cr_url += "&runr_version=" + cr_form.runr_version.value;
 
   show_file('validate.runner.php' + cr_url);
 }
@@ -1801,6 +1804,8 @@ $(document).ready( function() {
 </select></td>
   <td class="ui-widget-content" id="edit_runner">Character Name <input type="text" name="runr_name" size="20" onkeyup="check_runner();"><span id="runner_name"></span></td>
   <td class="ui-widget-content">Aliases <input type="text" name="runr_aliases" size="50"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Metatype <select name="runr_metatype">
 <option value="0">None</option>
 <?php
@@ -1815,8 +1820,6 @@ $(document).ready( function() {
   }
 ?>
 </select></td>
-</tr>
-<tr>
   <td class="ui-widget-content">Archetype <input type="text" name="runr_archetype" size="30"></td>
 </tr>
 <tr>
@@ -1834,10 +1837,14 @@ $(document).ready( function() {
   <td class="ui-widget-content">Agility <input type="text" name="runr_agility" size="3"></td>
   <td class="ui-widget-content">Reaction <input type="text" name="runr_reaction" size="3"></td>
   <td class="ui-widget-content">Strength <input type="text" name="runr_strength" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Willpower <input type="text" name="runr_willpower" size="3"></td>
   <td class="ui-widget-content">Logic <input type="text" name="runr_logic" size="3"></td>
   <td class="ui-widget-content">Intuition <input type="text" name="runr_intuition" size="3"></td>
   <td class="ui-widget-content">Charisma <input type="text" name="runr_charisma" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Essence <input type="text" name="runr_essence" size="5"></td>
   <td class="ui-widget-content">Magic <input type="text" name="runr_magic" size="3"></td>
   <td class="ui-widget-content">Initiate <input type="text" name="runr_initiate" size="3"></td>
@@ -1870,7 +1877,7 @@ $(document).ready( function() {
 </tr>
 <tr>
   <td class="ui-widget-content">Character available for runs? <input type="checkbox" <?php print $available; ?> name="runr_available"></td>
-  <td class="ui-widget-content">What Shadowrun Release? <select name="runr_version">
+  <td class="ui-widget-content">What Shadowrun Release? <select name="runr_version" onChange="check_runner();>
 <option value="0">Any Version</option>
 <?php
   $q_string  = "select ver_id,ver_book ";

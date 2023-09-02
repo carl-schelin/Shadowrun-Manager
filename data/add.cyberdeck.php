@@ -14,6 +14,11 @@
 
   logaccess($_SESSION['username'], $package, "Accessing script");
 
+  $formVars['sort'] = '';
+  if (isset($_GET['sort'])) {
+    $formVars['sort'] = clean($_GET['sort'], 50);
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -93,7 +98,7 @@ function attach_cyberdeck(p_script_url, update) {
 }
 
 function clear_fields() {
-  show_file('add.cyberdeck.mysql.php?update=-1');
+  show_file('add.cyberdeck.mysql.php?update=-1&sort=<?php print $formVars['sort']; ?>');
 }
 
 $(document).ready( function() {
