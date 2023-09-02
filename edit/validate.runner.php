@@ -12,19 +12,20 @@
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
 
-  $formVars['id']        = clean($_GET['id'],        10);
-  $formVars['runr_name'] = clean($_GET['runr_name'], 60);
+  $formVars['id']           = clean($_GET['id'],            10);
+  $formVars['runr_name']    = clean($_GET['runr_name'],     60);
+  $formVars['runr_version'] = clean($_GET['runr_version'],  10);
 
 # search for the name in the database of runners
 
   $q_string  = "select runr_id ";
   $q_string .= "from runners ";
-  $q_string .= "where runr_name = \"" . $formVars['runr_name'] . "\" ";
+  $q_string .= "where runr_name = \"" . $formVars['runr_name'] . "\" and runr_version = " . $formVars['runr_version'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
-# if a runner record is found, make sure we don't overwrite an existing
-# runner that's not the one we're working on. If the ID passed is the same
-# as the ID found, then update button is enabled, add button is disabled.
+# if a runner record is found for the same edition, make sure we don't overwrite 
+# an existing runner that's not the one we're working on. If the ID passed is the 
+# same as the ID found, then update button is enabled, add button is disabled.
 
   if (mysql_num_rows($q_runners) > 0) {
     $a_runners = mysql_fetch_array($q_runners);
@@ -53,8 +54,9 @@
 <?php
     }
   } else {
+# we want to be able to rename a runner just in case so don't disable update
 ?>
-    document.edit.update.disabled = true;
+    document.edit.update.disabled = false;
     document.edit.addnew.disabled = false;
     document.getElementById('runner_name').textContent = 'New Runner';
     if (navigator.appName == "Microsoft Internet Explorer") {
