@@ -15,9 +15,16 @@
   if (isset($_SESSION['username'])) {
     $package = "add.cyberdeck.mysql.php";
     $formVars['update']         = clean($_GET['update'],         10);
+    $formVars['sort']           = clean($_GET['sort'],           50);
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
+    }
+
+    if ($formVars['sort'] == '') {
+      $orderby = "order by deck_rating,deck_cost,ver_version ";
+    } else {
+      $orderby = "order by " . $formVars['sort'] . " ";
     }
 
     if (check_userlevel(1)) {
@@ -184,31 +191,38 @@
 
       $output .= "</div>\n";
 
+      $linkstart = "<a href=\"add.cyberdeck.php?sort=";
+      if ($formVars['sort'] == '') {
+        $linkend = "\">";
+      } else {
+        $linkend = "," . $formVars['sort'] . "\">";
+      }
+
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
-      $output .=   "<th class=\"ui-state-default\">ID</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">" . $linkstart . "\">Delete</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_id"              . $linkend . "ID</a></th>\n";
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Brand</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Model</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Sleaze</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Data Processing</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Firewall</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Persona</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Hardening</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Memory</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Storage</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Load</th>\n";
-      $output .=   "<th class=\"ui-state-default\">I/O</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Response</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Programs</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Company ID</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Street Index</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Book</th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_brand"           . $linkend . "Brand</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_model"           . $linkend . "Model</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_rating"          . $linkend . "Rating</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_attack"          . $linkend . "Attack</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_sleaze"          . $linkend . "Sleaze</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_data"            . $linkend . "Data Processing</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_firewall"        . $linkend . "Firewall</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_persona"         . $linkend . "Persona</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_hardening"       . $linkend . "Hardening</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_memory"          . $linkend . "Memory</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_storage"         . $linkend . "Storage</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_load"            . $linkend . "Load</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_io"              . $linkend . "I/O</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_response"        . $linkend . "Response</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_programsid"      . $linkend . "Programs</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_access"          . $linkend . "Company ID</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_avail"           . $linkend . "Availability</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_index"           . $linkend . "Street Index</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "deck_cost"            . $linkend . "Cost</a></th>\n";
+      $output .=   "<th class=\"ui-state-default\">" . $linkstart . "ver_book,deck_page"   . $linkend . "Book</a></th>\n";
       $output .= "</tr>\n";
 
       $nuyen = '&yen;';
@@ -219,7 +233,7 @@
       $q_string .= "from cyberdeck ";
       $q_string .= "left join versions on versions.ver_id = cyberdeck.deck_book ";
       $q_string .= "where ver_admin = 1 ";
-      $q_string .= "order by deck_rating,deck_cost,ver_version ";
+      $q_string .= $orderby;
       $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_cyberdeck) > 0) {
         while ($a_cyberdeck = mysql_fetch_array($q_cyberdeck)) {
