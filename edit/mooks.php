@@ -689,8 +689,6 @@ function check_runner() {
   var cr_form = document.edit;
   var cr_url;
 
-alert('popup');
-
   cr_url  = '?id='           + cr_form.id.value;
   cr_url += "&runr_name="    + encode_URI(cr_form.runr_name.value);
   cr_url += "&runr_version=" + cr_form.runr_version.value;
