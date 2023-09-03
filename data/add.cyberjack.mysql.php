@@ -137,7 +137,10 @@
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Attributes (D/F)</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Sleaze</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Data Processing</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Firewall</th>\n";
       $output .=   "<th class=\"ui-state-default\">Matrix Bonus</th>\n";
       $output .=   "<th class=\"ui-state-default\">Essence</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
@@ -195,7 +198,10 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_cyberjack['jack_name'] . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $rating                              . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $jack                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . "0"                                  . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . "0"                                  . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_data']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_firewall']        . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_matrix']          . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $essence                             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $avail                               . "</td>\n";
@@ -205,7 +211,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"12\">No Cyberjacks found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"15\">No Cyberjacks found.</td>\n";
         $output .= "</tr>\n";
       }
 
