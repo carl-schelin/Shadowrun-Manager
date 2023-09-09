@@ -151,21 +151,6 @@ function clear_fields() {
   show_file('sprites.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('traditions.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('vehicles.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.combat.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.hacking.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.ranged.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.matrix.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.melee.mysql.php?id=<?php print $formVars['id']; ?>');
-<?php
-    if ($a_runners['runr_magic'] > 0) {
-?>
-  show_file('test.astral.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.conjuring.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.enchanting.mysql.php?id=<?php print $formVars['id']; ?>');
-  show_file('test.sorcery.mysql.php?id=<?php print $formVars['id']; ?>');
-<?php
-    }
-?>
   show_file('visible.mysql.php?id=<?php print $formVars['id']; ?>');
 }
 
@@ -188,28 +173,6 @@ $(document).ready( function() {
 <ul>
   <li><a href="#character">Character</a></li>
   <li><a href="#active">Skills</a></li>
-  <li><a href="#combat">Combat Sequence</a></li>
-  <li><a href="#ranged">Ranged Combat</a></li>
-  <li><a href="#melee">Melee Combat</a></li>
-<?php
-  if ($vehicles == 'yes') {
-?>
-  <li><a href="#vehicle">Vehicle Combat</a></li>
-<?php
-  }
-?>
-  <li><a href="#matrix">Cybercombat</a></li>
-  <li><a href="#hacking">Hacking</a></li>
-<?php
-    if ($a_runners['runr_magic'] > 0) {
-?>
-  <li><a href="#astral">Astral Combat</a></li>
-  <li><a href="#sorcery">Sorcery</a></li>
-  <li><a href="#conjuring">Conjuring</a></li>
-  <li><a href="#enchanting">Enchanting</a></li>
-<?php
-    }
-?>
   <li><a href="#visible">Visible</a></li>
   <li><a href="#pregens">Pregen View</a></li>
 </ul>
@@ -285,75 +248,6 @@ $(document).ready( function() {
 <span id="language_mysql"><?php wait_Process('Language Skills Loading...'); ?></span>
 
 </div>
-
-
-<div id="combat">
-
-<span id="test_combat_mysql"><?php print wait_Process('Combat Sequence Loading...')?></span>
-
-</div>
-
-
-<div id="ranged">
-
-<span id="test_ranged_mysql"><?php print wait_Process('Ranged Attack Tests Loading...')?></span>
-
-</div>
-
-
-<div id="melee">
-
-<span id="test_melee_mysql"><?php print wait_Process('Melee Tests Loading...')?></span>
-
-</div>
-
-
-<div id="matrix">
-
-<span id="test_matrix_mysql"><?php print wait_Process('Matrix Combat Tests Loading...')?></span>
-
-</div>
-
-
-<div id="hacking">
-
-<span id="test_hacking_mysql"><?php print wait_Process('Hacking Tests Loading...')?></span>
-
-</div>
-
-
-<?php
-    if ($a_runners['runr_magic'] > 0) {
-?>
-<div id="astral">
-
-<span id="test_astral_mysql"><?php print wait_Process('Astral Combat Tests Loading...')?></span>
-
-</div>
-
-
-<div id="sorcery">
-
-<span id="test_sorcery_mysql"><?php print wait_Process('Sorcery Tests Loading...')?></span>
-
-</div>
-
-
-<div id="conjuring">
-
-<span id="test_conjuring_mysql"><?php print wait_Process('Conjuring Tests Loading...')?></span>
-
-</div>
-
-
-<div id="enchanting">
-
-<span id="test_enchanting_mysql"><?php print wait_Process('Enchanting Tests Loading...')?></span>
-
-</div>
-<?php
-    }
-?>
 
 
 <div id="visible">
