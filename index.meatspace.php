@@ -30,7 +30,11 @@
 <script type="text/javascript">
 
 $(document).ready( function() {
-  $( "#tabs" ).tabs( ).addClass( "tab-shadow" );
+  $( "#tabs"        ).tabs( ).addClass( "tab-shadow" );
+  $( "#combattabs"  ).tabs( ).addClass( "tab-shadow" );
+  $( "#rangedtabs"  ).tabs( ).addClass( "tab-shadow" );
+  $( "#meleetabs"   ).tabs( ).addClass( "tab-shadow" );
+  $( "#vehicletabs" ).tabs( ).addClass( "tab-shadow" );
 });
 
 </script>
@@ -53,6 +57,48 @@ $(document).ready( function() {
 </ul>
 
 <div id="combat">
+
+<div id="combattabs">
+
+<ul>
+  <li><a href="#com1st">1st Edition</a></li>
+  <li><a href="#com2nd">2nd Edition</a></li>
+  <li><a href="#com3rd">3rd Edition</a></li>
+  <li><a href="#com4th">4th Edition</a></li>
+  <li><a href="#com5th">5th Edition</a></li>
+  <li><a href="#com6th">6th Edition</a></li>
+</ul>
+
+
+<div id="com1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="com2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="com3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="com4th">
+
+<p>Fourth</p>
+
+</div>
+
+
+<div id="com5th">
 
 <p>Starts SR5 - Page 158</p>
 <ol>
@@ -112,11 +158,64 @@ $(document).ready( function() {
   <li>Start over</li>
 </ol>
 
+</div>
+
+
+<div id="com6th">
+
+<p>Sixth</p>
+
+</div>
+
+
+</div>
 
 </div>
 
 
 <div id="ranged">
+
+<div id="rangedtabs">
+
+<ul>
+  <li><a href="#ran1st">1st Edition</a></li>
+  <li><a href="#ran2nd">2nd Edition</a></li>
+  <li><a href="#ran3rd">3rd Edition</a></li>
+  <li><a href="#ran4th">4th Edition</a></li>
+  <li><a href="#ran5th">5th Edition</a></li>
+  <li><a href="#ran6th">6th Edition</a></li>
+</ul>
+
+
+<div id="ran1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="ran2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="ran3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="ran4th">
+
+<p>Fourth</p>
+
+</div>
+
+
+<div id="ran5th">
 
 <p>Starts SR5 - Page 172</p>
 <ol>
@@ -192,7 +291,61 @@ $(document).ready( function() {
 </div>
 
 
+<div id="ran6th">
+
+<p>Sixth</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
 <div id="melee">
+
+<div id="meleetabs">
+
+<ul>
+  <li><a href="#mel1st">1st Edition</a></li>
+  <li><a href="#mel2nd">2nd Edition</a></li>
+  <li><a href="#mel3rd">3rd Edition</a></li>
+  <li><a href="#mel4th">4th Edition</a></li>
+  <li><a href="#mel5th">5th Edition</a></li>
+  <li><a href="#mel6th">6th Edition</a></li>
+</ul>
+
+
+<div id="mel1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="mel2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="mel3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="mel4th">
+
+<p>Fourth</p>
+
+</div>
+
+
+<div id="mel5th">
 
 <p>Starts SR5 - Page 184</p>
 <ol>
@@ -211,13 +364,83 @@ $(document).ready( function() {
 </div>
 
 
+<div id="mel6th">
+
+<p>Sixth</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
 <div id="vehicle">
 
-<p>Nothing yet</p>
+<div id="vehicletabs">
+
+<ul>
+  <li><a href="#veh1st">1st Edition</a></li>
+  <li><a href="#veh2nd">2nd Edition</a></li>
+  <li><a href="#veh3rd">3rd Edition</a></li>
+  <li><a href="#veh4th">4th Edition</a></li>
+  <li><a href="#veh5th">5th Edition</a></li>
+  <li><a href="#veh6th">6th Edition</a></li>
+</ul>
+
+
+<div id="veh1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="veh2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="veh3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="veh4th">
+
+<p>Fourth</p>
+
+</div>
+
+
+<div id="veh5th">
+
+<p>Fifth</p>
+
+</div>
+
+
+<div id="veh6th">
+
+<p>Sixth</p>
+
+</div>
+
 
 </div>
 
 </div>
+
+
+</div>
+
+</div>
+
 
 <?php include($Sitepath . '/footer.php'); ?>
 

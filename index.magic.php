@@ -6,12 +6,17 @@
 
   logaccess($_SESSION['username'], "index.php", "Checking out the index.");
 
+  $formVars['start'] = clean($_GET['start'], 10);
+  if ($formVars['start'] == '') {
+    $formVars['start'] = 'inventory';
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Magic Details</title>
+<title>Mooks Manager</title>
 
 <style type="text/css" title="currentStyle" media="screen">
 <?php include($Sitepath . "/mobile.php"); ?>
@@ -25,7 +30,11 @@
 <script type="text/javascript">
 
 $(document).ready( function() {
-  $( "#tabs" ).tabs( ).addClass( "tab-shadow" );
+  $( "#tabs"            ).tabs( ).addClass( "tab-shadow" );
+  $( "#astraltabs"      ).tabs( ).addClass( "tab-shadow" );
+  $( "#sorcerytabs"     ).tabs( ).addClass( "tab-shadow" );
+  $( "#conjuringtabs"   ).tabs( ).addClass( "tab-shadow" );
+  $( "#enchantingtabs"  ).tabs( ).addClass( "tab-shadow" );
 });
 
 </script>
@@ -36,7 +45,7 @@ $(document).ready( function() {
 <?php include($Sitepath . '/topmenu.start.php'); ?>
 <?php include($Sitepath . '/topmenu.end.php'); ?>
 
-<div id="main">
+<div id="main"> 
 
 <div id="tabs">
 
@@ -49,20 +58,40 @@ $(document).ready( function() {
 
 <div id="astral">
 
-<p>Starts SR5 - Page 315</p>
-<p>Astral Combat - Same as Physical combat except no ranged combat (yes spells).</p>
-<ol>
-  <li>Agility is replaced by Logic</li>
-  <li>Body is replaced by Willpower</li>
-  <li>Reaction is replaced by Intuition</li>
-  <li>Strength is replaced by Charisma</li>
-  <li>Normal combat for physical or dual natured</li>
-  <li>Astral Combat + willpower for astral entities</li>
-  <li>Unarmed: Astral Combat + Willpower [Astral] vs Intuition + Logic, DV is Charisma</li>
-  <li>Weapon Foci: Astral Combat + Willpower [Accuracy] vs Intuition + Logic, DV is by weapon; CHA vs STR</li>
-  <li>Spirit DV is Force</li>
-  <li>Watcher DV is 1</li>
-</ol>
+<div id="astraltabs">
+
+<ul>
+  <li><a href="#ast1st">1st Edition</a></li>
+  <li><a href="#ast2nd">2nd Edition</a></li>
+  <li><a href="#ast3rd">3rd Edition</a></li>
+  <li><a href="#ast4th">4th Edition</a></li>
+  <li><a href="#ast5th">5th Edition</a></li>
+  <li><a href="#ast6th">6th Edition</a></li>
+</ul>
+
+
+<div id="ast1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="ast2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="ast3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="ast4th">
 
 <p>From sR4: 184</p>
 <ul>
@@ -100,34 +129,74 @@ $(document).ready( function() {
 </div>
 
 
+<div id="ast5th">
+
+<p>Starts SR5 - Page 315</p>
+<p>Astral Combat - Same as Physical combat except no ranged combat (yes spells).</p>
+<ol>
+  <li>Agility is replaced by Logic</li>
+  <li>Body is replaced by Willpower</li>
+  <li>Reaction is replaced by Intuition</li>
+  <li>Strength is replaced by Charisma</li>
+  <li>Normal combat for physical or dual natured</li>
+  <li>Astral Combat + willpower for astral entities</li>
+  <li>Unarmed: Astral Combat + Willpower [Astral] vs Intuition + Logic, DV is Charisma</li>
+  <li>Weapon Foci: Astral Combat + Willpower [Accuracy] vs Intuition + Logic, DV is by weapon; CHA vs STR</li>
+  <li>Spirit DV is Force</li>
+  <li>Watcher DV is 1</li>
+</ol>
+
+</div>
+
+
+<div id="ast6th">
+
+<p>Sixth</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
 <div id="sorcery">
 
-<p>Starts SR5 - Page 281</p>
-<p>Spellcasting</p>
-<ol>
-  <li>Choose Spell</li>
-  <li>Choose the Target</li>
-  <li>Choose Spell Force - Up to twice; if hits [limit] exceed Magic rating, then Physical damage, otherwise Stun</li>
-  <li>Cast Spell - Spellcasting + Magic [Force].</li>
-  <li>Determine Effect</li>
-  <li>Resist Drain - Tradition drain pool. Cannot be lower than 2. </li>
-  <li>Determine Ongoing Effects</li>
-</ol>
+<div id="sorcerytabs">
 
-<p>Counterspelling</p>
-<p>Used to aid others by adding to their or your pool. Or Dispelling to counter a sustained or quickened spell</p>
+<ul>
+  <li><a href="#sor1st">1st Edition</a></li>
+  <li><a href="#sor2nd">2nd Edition</a></li>
+  <li><a href="#sor3rd">3rd Edition</a></li>
+  <li><a href="#sor4th">4th Edition</a></li>
+  <li><a href="#sor5th">5th Edition</a></li>
+  <li><a href="#sor6th">6th Edition</a></li>
+</ul>
 
-<p>Ritual Spellcasting</p>
-<ol>
-  <li>Choose Ritual Leader</li>
-  <li>Choose Ritual</li>
-  <li>Choose the Force of the Ritual Spell</li>
-  <li>Set Up The Foundatin</li>
-  <li>Give The Offering</li>
-  <li>Perform The Ritual</li>
-  <li>Seal The Ritual</li>
-</ol>
 
+<div id="sor1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="sor2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="sor3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="sor4th">
 
 <p>Spellcasting from SR4: 182</p>
 <ul>
@@ -162,26 +231,85 @@ $(document).ready( function() {
 </div>
 
 
+<div id="sor5th">
+
+<p>Starts SR5 - Page 281</p>
+<p>Spellcasting</p>
+<ol>
+  <li>Choose Spell</li>
+  <li>Choose the Target</li>
+  <li>Choose Spell Force - Up to twice; if hits [limit] exceed Magic rating, then Physical damage, otherwise Stun</li>
+  <li>Cast Spell - Spellcasting + Magic [Force].</li>
+  <li>Determine Effect</li>
+  <li>Resist Drain - Tradition drain pool. Cannot be lower than 2. </li>
+  <li>Determine Ongoing Effects</li>
+</ol>
+
+<p>Counterspelling</p>
+<p>Used to aid others by adding to their or your pool. Or Dispelling to counter a sustained or quickened spell</p>
+
+<p>Ritual Spellcasting</p>
+<ol>
+  <li>Choose Ritual Leader</li>
+  <li>Choose Ritual</li>
+  <li>Choose the Force of the Ritual Spell</li>
+  <li>Set Up The Foundatin</li>
+  <li>Give The Offering</li>
+  <li>Perform The Ritual</li>
+  <li>Seal The Ritual</li>
+</ol>
+
+</div>
+
+
+<div id="sor6th">
+
+<p>Sixth</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
 <div id="conjuring">
 
-<p>Starts SR5 - Page 300</p>
-<ol>
-  <li>Choose Spirit Type and Force - Based on your Tradition, and up to Twice Magic</li>
-  <li>Attempt Summoning - Opposed test: Summoning + Magic [Force] vs Spirit's Force. Spend reagents to change the [limit]</li>
-  <li>Resist Drain - DV = Spirit Hits x 2. If the Spirits force is greater than your magic, then Physical otherwise Stun.</li>
-</ol>
+<div id="conjuringtabs">
 
-<ol>
-  <li>Attempt Binding - Opposed test: Summoning + Magic [Force] vs Spirit's Force. Spend reagents to change the [limit]</li>
-  <li>Resist Drain - DV = Spirit Hits x 2, minimum of 2. If the Spirits force is greater than your magic, then Physical otherwise Stun.</li>
-</ol>
-
-<ol>
-  <li>Attempt Banishing - Opposed test: Banishing + Magic [Astral] vs Spirit's Force. Spend reagents to change the [limit]</li>
-  <li>Resist Drain - DV = Spirit Hits x 2, minimum of 2. If the Spirits force is greater than your magic, then Physical otherwise Stun.</li>
-</ol>
+<ul>
+  <li><a href="#con1st">1st Edition</a></li>
+  <li><a href="#con2nd">2nd Edition</a></li>
+  <li><a href="#con3rd">3rd Edition</a></li>
+  <li><a href="#con4th">4th Edition</a></li>
+  <li><a href="#con5th">5th Edition</a></li>
+  <li><a href="#con6th">6th Edition</a></li>
+</ul>
 
 
+<div id="con1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="con2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="con3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="con4th">
 
 <p>Summoning: SR4 page 188</p>
 <ul>
@@ -239,7 +367,83 @@ $(document).ready( function() {
 </div>
 
 
+<div id="con5th">
+
+<p>Starts SR5 - Page 300</p>
+<ol>
+  <li>Choose Spirit Type and Force - Based on your Tradition, and up to Twice Magic</li>
+  <li>Attempt Summoning - Opposed test: Summoning + Magic [Force] vs Spirit's Force. Spend reagents to change the [limit]</li>
+  <li>Resist Drain - DV = Spirit Hits x 2. If the Spirits force is greater than your magic, then Physical otherwise Stun.</li>
+</ol>
+
+<ol>
+  <li>Attempt Binding - Opposed test: Summoning + Magic [Force] vs Spirit's Force. Spend reagents to change the [limit]</li>
+  <li>Resist Drain - DV = Spirit Hits x 2, minimum of 2. If the Spirits force is greater than your magic, then Physical otherwise Stun.</li>
+</ol>
+
+<ol>
+  <li>Attempt Banishing - Opposed test: Banishing + Magic [Astral] vs Spirit's Force. Spend reagents to change the [limit]</li>
+  <li>Resist Drain - DV = Spirit Hits x 2, minimum of 2. If the Spirits force is greater than your magic, then Physical otherwise Stun.</li>
+</ol>
+
+</div>
+
+
+<div id="con6th">
+
+<p>Sixth</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
 <div id="enchanting">
+
+<div id="enchantingtabs">
+
+<ul>
+  <li><a href="#enc1st">1st Edition</a></li>
+  <li><a href="#enc2nd">2nd Edition</a></li>
+  <li><a href="#enc3rd">3rd Edition</a></li>
+  <li><a href="#enc4th">4th Edition</a></li>
+  <li><a href="#enc5th">5th Edition</a></li>
+  <li><a href="#enc6th">6th Edition</a></li>
+</ul>
+
+
+<div id="enc1st">
+
+<p>First</p>
+
+</div>
+
+
+<div id="enc2nd">
+
+<p>Second</p>
+
+</div>
+
+
+<div id="enc3rd">
+
+<p>Third</p>
+
+</div>
+
+
+<div id="enc4th">
+
+<p>Fourth</p>
+
+</div>
+
+
+<div id="enc5th">
 
 <p>Starts SR5 - Page 304</p>
 <p>Alchemy - Creating a Preparation</p>
@@ -264,9 +468,23 @@ $(document).ready( function() {
 
 </div>
 
+
+<div id="enc6th">
+
+<p>Sixth</p>
+
+</div>
+
+
 </div>
 
 </div>
+
+
+</div>
+
+</div>
+
 
 <?php include($Sitepath . '/footer.php'); ?>
 
