@@ -34,6 +34,9 @@
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
+        if ($formVars['adp_level'] == '') {
+          $formVars['adp_level'] = 0;
+        }
         if ($formVars['adp_power'] == '') {
           $formVars['adp_power'] = 0.00;
         }
