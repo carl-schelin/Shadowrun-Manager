@@ -21,10 +21,10 @@
   <td class="ui-widget-content">Threshold <input type="text" name="rit_threshold" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Length <input type="text" name="rit_length" size="5"></td>
+  <td class="ui-widget-content">Length <input type="text" name="rit_length" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Duration <input type="text" name="rit_duration" size="5"></td>
+  <td class="ui-widget-content">Duration <input type="text" name="rit_duration" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Book  <select name="rit_book">
