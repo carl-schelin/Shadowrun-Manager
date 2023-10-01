@@ -69,8 +69,8 @@ function attach_ritual(p_script_url, update) {
   ar_url += "&rit_spell="      + ar_form.rit_spell.checked;
   ar_url += "&rit_spotter="    + ar_form.rit_spotter.checked;
   ar_url += "&rit_threshold="  + encode_URI(ar_form.rit_threshold.value);
-  ar_url += "&rit_length="     + encode_URI(ar_form.rit_length.value);
-  ar_url += "&rit_duration="   + encode_URI(ar_form.rit_duration.value);
+  ar_url += "&rit_length="     + ar_form.rit_length.value;
+  ar_url += "&rit_duration="   + ar_form.rit_duration.value;
   ar_url += "&rit_book="       + encode_URI(ar_form.rit_book.value);
   ar_url += "&rit_page="       + encode_URI(ar_form.rit_page.value);
 

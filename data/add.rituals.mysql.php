@@ -30,8 +30,8 @@
         $formVars['rit_spell']      = clean($_GET['rit_spell'],      10);
         $formVars['rit_spotter']    = clean($_GET['rit_spotter'],    10);
         $formVars['rit_threshold']  = clean($_GET['rit_threshold'],  10);
-        $formVars['rit_length']     = clean($_GET['rit_length'],     10);
-        $formVars['rit_duration']   = clean($_GET['rit_duration'],   10);
+        $formVars['rit_length']     = clean($_GET['rit_length'],     30);
+        $formVars['rit_duration']   = clean($_GET['rit_duration'],   30);
         $formVars['rit_book']       = clean($_GET['rit_book'],       10);
         $formVars['rit_page']       = clean($_GET['rit_page'],       10);
 
@@ -66,12 +66,6 @@
         if ($formVars['rit_threshold'] == '') {
           $formVars['rit_threshold'] = 0;
         }
-        if ($formVars['rit_length'] == '') {
-          $formVars['rit_length'] = 0;
-        }
-        if ($formVars['rit_duration'] == '') {
-          $formVars['rit_duration'] = 0;
-        }
         if ($formVars['rit_page'] == '') {
           $formVars['rit_page'] = 0;
         }
@@ -87,8 +81,8 @@
             "rit_spell =        " . $formVars['rit_spell']     . "," .
             "rit_spotter =      " . $formVars['rit_spotter']   . "      ," .
             "rit_threshold =    " . $formVars['rit_threshold'] . "," .
-            "rit_length =       " . $formVars['rit_length']    . "," .
-            "rit_duration =     " . $formVars['rit_duration']  . "," .
+            "rit_length =     \"" . $formVars['rit_length']    . "\"," .
+            "rit_duration =   \"" . $formVars['rit_duration']  . "\"," .
             "rit_book =         " . $formVars['rit_book']      . "," .
             "rit_page =         " . $formVars['rit_page'];
 
