@@ -6,7 +6,7 @@
   <td class="ui-widget-content">Anchor <input type="checkbox" name="rit_anchor"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Link <input type="checkbox" name="rit_link"></td>
+  <td class="ui-widget-content">Material Link <input type="checkbox" name="rit_link"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Minion <input type="checkbox" name="rit_minion"></td>
@@ -21,10 +21,10 @@
   <td class="ui-widget-content">Threshold <input type="text" name="rit_threshold" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Length <input type="text" name="rit_length" size="30"></td>
+  <td class="ui-widget-content">Length of Time to Cast <input type="text" name="rit_length" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Duration <input type="text" name="rit_duration" size="30"></td>
+  <td class="ui-widget-content">Duration of Ritual <input type="text" name="rit_duration" size="30"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Book  <select name="rit_book">
