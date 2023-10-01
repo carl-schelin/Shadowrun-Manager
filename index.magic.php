@@ -31,6 +31,7 @@
 
 $(document).ready( function() {
   $( "#tabs"            ).tabs( ).addClass( "tab-shadow" );
+  $( "#generaltabs"     ).tabs( ).addClass( "tab-shadow" );
   $( "#astraltabs"      ).tabs( ).addClass( "tab-shadow" );
   $( "#sorcerytabs"     ).tabs( ).addClass( "tab-shadow" );
   $( "#conjuringtabs"   ).tabs( ).addClass( "tab-shadow" );
@@ -50,11 +51,124 @@ $(document).ready( function() {
 <div id="tabs">
 
 <ul>
+  <li><a href="#general">General Spellcasting</a></li>
   <li><a href="#astral">Astral Combat</a></li>
   <li><a href="#sorcery">Sorcery</a></li>
   <li><a href="#conjuring">Conjuring</a></li>
   <li><a href="#enchanting">Enchanting</a></li>
 </ul>
+
+
+<div id="general">
+
+<div id="generaltabs">
+
+<ul>
+  <li><a href="#gen1st">1st Edition</a></li>
+  <li><a href="#gen2nd">2nd Edition</a></li>
+  <li><a href="#gen3rd">3rd Edition</a></li>
+  <li><a href="#gen4th">4th Edition</a></li>
+  <li><a href="#gen5th">5th Edition</a></li>
+  <li><a href="#gen6th">6th Edition</a></li>
+</ul>
+
+<div id="gen1st">
+
+<p>First</p>
+
+</div>
+
+<div id="gen2nd">
+
+<p>Second</p>
+
+</div>
+
+<div id="gen3rd">
+
+<p>Third</p>
+
+</div>
+
+<div id="gen4th">
+
+<p>Fourth</p>
+
+</div>
+
+<div id="gen5th">
+
+<p>Fifth</p>
+
+</div>
+
+<div id="gen6th">
+
+<p>Noticing Magic requires a Perception + Intuition (Casters Magic Rating) (pg 129)</p>
+
+<p>Object Resistance (pg 129)</p>
+
+<table class="ui-styled-table" width="100%">
+<tr>
+  <td class="ui-widget-content">Natural objects</td>
+  <td class="ui-widget-content">3</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Manufactured low-tech objects and materials</td>
+  <td class="ui-widget-content">6</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Manufactured high-tech objects and materials</td>
+  <td class="ui-widget-content">9</td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Highly processes objects</td>
+  <td class="ui-widget-content">15+</td>
+</tr>
+</table>
+
+<p>Counterspelling (pg 143)</p>
+
+<p>Boosted Defense</p>
+
+<ol>
+  <li>Counterspell Major Action</li>
+  <li>Sorcer + Magic</li>
+  <li>LOS, 2 meter radius, +1m per dram of reagents)</li>
+  <li>Net hits added to radius for Magic combat rounds</li>
+</ol>
+
+<p>Dispelling</p>
+
+<ol>
+  <li>Counterspell Action</li>
+  <li>Sorcery + Magic vs Drain Value x 2</li>
+  <li>Net hits cancels spell net hits</li>
+</ol>
+
+<p>Ritual Spellcasting (pg 144)</p>
+
+<ol>
+  <li>Choose a Ritual Leader (-2 for any with a different tradition)</li>
+  <li>Choose the Ritual (see list)</li>
+  <li>Set up the Foundation (aka the magical lodge)</li>
+  <li>Spend Reagents. If spending more than required, reduce drain by 1 to a minimum of 2</li>
+  <li>Perform the Ritual</li>
+  <li>Seal the Ritual. Sorcery + Magic vs Ritual Threshold</li>
+  <li>Participant drain = Threshold x 2, minimum 2. If Leader Sealing hits is greater than participant Magic, drain is physical otherwise stun</li>
+</ol>
+
+<p>Failure</p>
+
+<p>Drain = roll Threshold x 2 in Stun</p>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 <div id="astral">
 
@@ -93,7 +207,7 @@ $(document).ready( function() {
 
 <div id="ast4th">
 
-<p>From sR4: 184</p>
+<p>Page 184</p>
 <ul>
   <li>Attacker is a Mage, Spirit, or Watcher Spirit (pg: )</li>
   <li>Willpower (pg: )</li>
@@ -131,8 +245,10 @@ $(document).ready( function() {
 
 <div id="ast5th">
 
-<p>Starts SR5 - Page 315</p>
+<p>Page 315</p>
+
 <p>Astral Combat - Same as Physical combat except no ranged combat (yes spells).</p>
+
 <ol>
   <li>Agility is replaced by Logic</li>
   <li>Body is replaced by Willpower</li>
@@ -151,7 +267,26 @@ $(document).ready( function() {
 
 <div id="ast6th">
 
-<p>Sixth</p>
+<p>Page 160</p>
+
+<p>Similar to regular combat</p>
+
+<ul>
+  <li>Attack Rating: Magic + Tradition attribute (Hermetic: Logic, Shaman: Charisma)</li>
+  <li>Defence Rating: Intuition + Innate Armor + Armor Spell</li>
+</ul>
+
+<p>Combat</p>
+
+<ul>
+  <li>Spellcasting: Sorcery + Magic vs Intuition + Logic</li>
+  <li>Unarmed combat: Astral + Willpower vs Intuition + Logic</li>
+  <li>Damage: ceil(Tradition Attribute / 2)</li>
+  <li>Weapon focus: Close Combat + Willpower vs Intuition + Logic</li>
+  <li>Damage: Weapon damage.</li>
+</li>
+
+<p>Damage resistance: Willpower</p>
 
 </div>
 
@@ -198,7 +333,8 @@ $(document).ready( function() {
 
 <div id="sor4th">
 
-<p>Spellcasting from SR4: 182</p>
+<p>Page 182</p>
+
 <ul>
   <li>Spell Force (pg: )</li>
   <li>Magic (pg: )</li>
@@ -233,7 +369,7 @@ $(document).ready( function() {
 
 <div id="sor5th">
 
-<p>Starts SR5 - Page 281</p>
+<p>Page 281</p>
 <p>Spellcasting</p>
 <ol>
   <li>Choose Spell</li>
@@ -264,7 +400,21 @@ $(document).ready( function() {
 
 <div id="sor6th">
 
-<p>Sixth</p>
+<p>Spellcasting. Page 131</p>
+
+<ul>
+  <li>Adjust the spell</li>
+  <li>Spellcasting Test: Sorcery + Magic</li>
+  <li>Deal with drain: Willpower + Tradition (Charisma or Logic). If equal or greater, no effect. If hits is less than Magic, Stun. Otherwise Physical.</li>
+</ul>
+
+<p>Adjust the spell: Max adjustments == Magic or Sorcery, whichever is higher</p>
+
+<ul>
+  <li>Amp Up: Combat Spells only. For each point of damage, +2 points of drain</li>
+  <li>Increase Area: Increase area effect 2 meters, increase drain by 1</li>
+  <li>Shift Area: Shift certain area-effect spells; see spell. Minor Action. No additional drain</li>
+</ul>
 
 </div>
 
@@ -311,7 +461,7 @@ $(document).ready( function() {
 
 <div id="con4th">
 
-<p>Summoning: SR4 page 188</p>
+<p>Summoning: page 188</p>
 <ul>
   <li>Magic (pg: )</li>
   <li>Summoning Skill (pg: )</li>
@@ -336,10 +486,10 @@ $(document).ready( function() {
 </ul>
 
 
-<p>Binding: SR4 page 188</p>
+<p>Binding: page 188</p>
 
 
-<p>Banishing: SR4 page 188</p>
+<p>Banishing: page 188</p>
 <ul>
   <li>Magic (pg: )</li>
   <li>Banishing Skill (pg: )</li>
@@ -369,7 +519,8 @@ $(document).ready( function() {
 
 <div id="con5th">
 
-<p>Starts SR5 - Page 300</p>
+<p>Page 300</p>
+
 <ol>
   <li>Choose Spirit Type and Force - Based on your Tradition, and up to Twice Magic</li>
   <li>Attempt Summoning - Opposed test: Summoning + Magic [Force] vs Spirit's Force. Spend reagents to change the [limit]</li>
@@ -391,7 +542,11 @@ $(document).ready( function() {
 
 <div id="con6th">
 
-<p>Sixth</p>
+<p>Page 146</p>
+
+
+
+
 
 </div>
 
