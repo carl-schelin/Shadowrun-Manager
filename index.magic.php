@@ -542,11 +542,31 @@ $(document).ready( function() {
 
 <div id="con6th">
 
-<p>Page 146</p>
+<p>Reminder that Spirits are self-aware entities unlike Watcher spirits. If an unpleasant or painful service, reduce Spirit Reputation by 1.</p>
 
 
+<p>Summoning: Page 146</p>
 
+<ul>
+  <li>Decide on the Force of the Spirit you're summoning</li>
+  <li>Roll Conjuring + Magic vs Force x 2.</li>
+  <li>services are equal to Net Hits</li>
+  <li>Resist drain == Number of total Hits.</li>
+  <li>stun unless greater than Magic rank then Physical</li>
+  <li>Spirit is released when services are completed, or after the second sunrise or sunset, or Willpower based condition is filled.</li>
+  <li>Spend reagents equal to the spirit Force to gain a point of Edge.</li>
+  <li>No more than Magic x 3 in total Spirit Force is allowed.</li>
+</ul>
 
+<p>Banishing: Page 147</p>
+
+<ul>
+  <li>Major Action</li>
+  <li>Conjuring + Magic vs Force x 2.</li>
+  <li>Net hits reduce Spirit Services.</li>
+  <li>Drain is twice the number of total Hits</li>
+  <li>stun unless greater than Magic rank then Physical</li>
+</ul>
 
 </div>
 
