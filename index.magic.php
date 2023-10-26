@@ -646,7 +646,46 @@ $(document).ready( function() {
 
 <div id="enc6th">
 
-<p>Sixth</p>
+<p>There are two types of Enchanting. Alchemy, creating objects that store spells and Artificing creating objects that aid the spellcaster.
+
+<p><strong>Alchemy</strong> pg 149</p>
+
+<p>Creator's Astral Signature recognized with a successful Astral + Intuition</p>
+
+<p>Making a Preparation</p>
+
+<ol>
+  <li>Choose an Object. Something that will contain the spell</li>
+  <li>Choose a Spell - You can Amp up or Increase Area but not Shift Area.</li>
+  <li>Choose a Trigger - Command (act of will) +2 to Drain and only Health. Contact (next touch) +1 to Drain. Time. If time exceeds potency, spell is a fizzle. +2 to Drain</li>
+  <li>Create the Preparation - Number of hours = total Drain to prepare. Up to 2 Reagents to reduce DV. Enchanting + Magic vs DV, Net Hits is Potency.</li>
+  <li>Resist Drain - Tradition Attribute + Willpower to reduce drain. If remaining DV is greater than Magic, physical damage otherwise stun</li>
+</ol>
+
+<p>Potency: Full power for Potency x 2 (hours). Reduce by one every Px2. When == zero, fizzles.</p>
+
+<p>Using a Preparation</p>
+
+<p>For it to successfully trigger, Potency + Magic.</p>
+
+<p>Range: Touch - direct contact, Line of Sight - enchanter selects target otherwise closest, Area - centered on object.</p>
+
+<p>Resist as normal. Sustained = 1 minute per remaining Potency.</p>
+
+<p><strong>Artificing</strong> pg 151</p>
+
+<p>Creator's Aura. Opposed Test of Enchating + Magic vs Force x 2 of Focus. Net hits describes the creator. Only once per day.</p>
+
+<ol>
+  <li>Choose Focus Formula - Formula as a Focus Type, Force, Form (quarterstaff, gold ring, vibroknife), and Tradition. Basically get it from a Talismonger.</li>
+  <li>Obtain the Telesma - Appropriate for the focus. The more unprocessed or work you did to prepare, the easier it is to enchant.</li>
+  <li>Prepare the Magical Lodge - Needs to be a Force at least equal to the formula's Force.</li>
+  <li>Spend Reagents - Amount of Karma the focus requires to be bonded at the Force, with a minimum of Force.</li>
+  <li>Craft the Focus - Number of days equal to Force. Enchanting + Magic vs Force + Object Resistance. Can't use Edge. Success = Final Force. Glitch, can't resist drain. Critical, lose 1 Essence.</li>
+  <li>Resist Drain - DV = Formula Force not Final Force, plus 2 for each gross hit. </li>
+</ol>
+
+
 
 </div>
 
