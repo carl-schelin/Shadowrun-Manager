@@ -818,4 +818,39 @@ function return_Cyberjack($p_data, $p_firewall) {
   return $r_cyberjack;
 }
 
+function return_Access($p_outsider, $p_user, $p_admin) {
+  $f_slash = '';
+  if ($p_outsider) {
+    $r_access = "Outsider";
+    $f_slash = '/';
+  }
+  if ($p_user) {
+    $r_access .= $f_slash . "User";
+    $f_slash = '/';
+  }
+  if ($p_admin) {
+    $r_access .= $f_slash . "Admin";
+  }
+
+  return $r_access;
+}
+
+function return_Type($p_type) {
+  $r_type = "Legal";
+  if ($p_type) {
+    $r_type = "Illegal";
+  }
+
+  return $r_type;
+}
+
+function return_Level($p_level) {
+  $r_level = "Minor";
+  if ($p_level) {
+    $r_level = "Major";
+  }
+
+  return $r_level;
+}
+
 ?>

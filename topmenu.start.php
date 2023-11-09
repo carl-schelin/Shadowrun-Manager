@@ -48,6 +48,8 @@
       <li><a href="<?php print $Dataroot; ?>/add.complexform.php">Complex Forms</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.cyberdeck.php">Cyberdeck</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.cyberjack.php">Cyberjack</a></li>
+      <li><a href="<?php print $Dataroot; ?>/add.ic.php">Intrusion Countermeasures</a></li>
+      <li><a href="<?php print $Dataroot; ?>/add.actions.php">Matrix Actions</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.program.php">Programs</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.spritepower.php">Sprite Powers</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.sprites.php">Sprites</a></li>
