@@ -111,23 +111,6 @@ $(document).ready( function() {
 
 <p></p>
 
-<ul>
-  <li>1 Edge - Emergency Boost. Temporarily increase Matrix attribute by 1 for one test.</li>
-  <li>2 Edge - Hog. </li>
-  <li>2 Edge - Signal Scream. Ignore noise penalty for next action.</li>
-  <li>2 Edge - Technobabble. Use Charisma instead of Logic. Technomancer only.</li>
-  <li>3 Edge - Under the Radar. OS does not increase for the next illegal action.</li>
-</ul>
-
-<ul>
-  <li>Grab Dice. Legal is Electronics+Logic. Illegal is Cracking+Logic.</li>
-  <li>Distribute Edge. See above.</li>
-  <li>Roll Dice.</li>
-  <li>Determine Effect.</li>
-</ul>
-
-
-
 <p>This section provides a list of matrix tasks and how to accomplish them.</p>
 
 
@@ -537,18 +520,44 @@ $(document).ready( function() {
 
 <p><strong>Damage</strong></p>
 
-<p>Matrix Condition Monitor: ceil(Device Rating / 2) + 8</p>
+<p>Matrix Condition Monitor: ceil(Device Rating / 2) + 8. Filling the MCM bricks the device.</p>
+
+<p>Note from Page 176: "Cyberjacks are a fairly invasive piece of gear, implanted deep into the brain"</p>
 
 <p>Biofeedback Resistance: Willpower</p>
 
 <p>Matrix Damage: Firewall</p>
 
+<p><strong>Attacking a Persona (IC is also a Persona)</strong></p>
 
-<p><strong>Attacking a Persona or IC</strong></p>
+<p>Matrix stats for a Decker based Persona. ASDF of the device replaces physical stats. Mental stats remain.</p>
+
+<p>For non Decker Personas such as IC, Agents, and Programs, they use the Host Attack Rating (A+S) and MCM is Data Processing x 2 + 3d6. An agent does have CILW equal to rating.</p>
+
+<p>Hosts ratings range from 1-12. ASDF is Rating plus 1, plus 2, plus 3, plus 4 in any order. (pg 185)</p>
+
+
 
 <p>Attack Rating: Attack + Sleaze</p>
 
 <p>Defense Rating: Data Processing + Firewall</p>
+
+<ul>
+  <li>1 Edge - Emergency Boost. Temporarily increase Matrix attribute by 1 for one test.</li>
+  <li>2 Edge - Hog. </li>
+  <li>2 Edge - Signal Scream. Ignore noise penalty for next action.</li>
+  <li>2 Edge - Technobabble. Use Charisma instead of Logic. Technomancer only.</li>
+  <li>3 Edge - Under the Radar. OS does not increase for the next illegal action.</li>
+</ul>
+
+<ul>
+  <li>Grab Dice. Legal is Electronics+Logic. Illegal is Cracking+Logic.</li>
+  <li>Distribute Edge. See above.</li>
+  <li>Roll Dice.</li>
+  <li>Determine Effect.</li>
+</ul>
+
+
 
 
 
