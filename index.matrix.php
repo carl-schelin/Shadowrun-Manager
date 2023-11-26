@@ -113,41 +113,83 @@ $(document).ready( function() {
 
 <p>This section provides a list of matrix tasks and how to accomplish them.</p>
 
+<p><a href="https://www.shadowrunsixthworld.com/shadowrun-sixth-world-faq/#matrix-device">Matrix FAQ</a> - If you need to find some clarity.</p>
+
+<p><strong>Preparation</strong></p>
+
+<p>You can rotate your non-zero stats (pg 174) between the ASDF to find the best combo, even between devices. However when starting a hack, your AS cannot be changed. Pg 178</p>
+
+<p>If you use an Action or Program that is linked to Sleaze or Attack and the attribute is lower than the other, the difference is a negative to the dice pool.</p>
+
+<p><strong>Illegal Actions</strong></p>
+
+<ul>
+  <li>Backdoor Entry - Linked to Sleaze</li>
+  <li>Brute Force - Linked to Attack</li>
+  <li>Data Spike - Linked to Attack</li>
+  <li>Probe - Linked to Sleaze</li>
+  <li>Tarpit - Linked to Attack</li>
+</ul>
+
+<p><strong>Illegal Programs</strong></p>
+
+<ul>
+  <li>Biofeedback: Causes Stun if cold-sim or Physical if hot-sim. - Linked to Attack</li>
+  <li>Blackout: Causes Stun damage only.</li - Linked to Attack>
+  <li>Stealth: When Hide action, gain 1 Edge. - Linked to Sleaze</li>
+  <li>Trace: When Trace Icon action, add 1 Edge. - Linked to Sleaze</li>
+</ul>
+
+<p><strong>Matrix Access</strong></p>
+
+<p>This is the process for accessing the following Matrix Devices</p>
+
+<p>Both Brute Force and Probe are Illegal actions.
+
+<p>As a reminder, the discussion is about default values of the following devices. Since you can shift values around, functions follow the values.</p>
 
 
 <p><strong>Access a Commlink</strong></p>
 
+<p>Commlinks have a Data Processing between 1 and 3 and the Firewall stat is either 0 or 1.</p>
 
+<p>with such low values, either method will work however Probe is best as the owner isn't alerted by the attempt.</p>
 
-<p><strong>Attack a Commlink</strong></p>
-
+<p>If a Brute Force is attempted and the owner is a hacker, they might reboot to clear the attack. Otherwise the owner will futz with it for a bit, maybe ignore it, maybe take it to a Stuffshack or repair location to investigate.</p>
 
 
 <p><strong>Access a Cyberdeck</strong></p>
 
+<p>A Cyberdeck treats D/F as 0/0 (pg 174). Hence attacking a Cyberdeck is easy, however with a D of 0, it can't run programs.</p>
 
-<p><strong>Attack a Cyberdeck</strong></p>
 
+<p><strong>Access a Cyberjack</strong></p>
+
+<p>This device does have a D/F so you'll use normal actions as described below.</p>
 
 
 <p><strong>Access a Personal Area Network (PAN)</strong></p>
 
+<p>A PAN is a collection of Matrix gear. It can also incorporate the PANs of the team, as long as they're withing 100 meters. The Persona of the Network Controller becomes the collected PAN defense.</p>
 
-<p><strong>Attack a Personal Area Network (PAN)</strong></p>
+<p>Controlling a PAN depends on the devices that incorporate it. For a single, non Runner, it might simply be the Commlink. For a decker, likely it would be the Cyberdeck+CyberJack combo or Cyberdeck+Commlink combo.</p>
 
 
 
 <p><strong>Access a Host</strong></p>
 
+<p>A host has a rating of 1-12 and the ASDF are rating, +1, +2, and +3 in any order (and can be shifted before an attack).</p>
 
-<p><strong>Attack a Host</strong></p>
+<p>The Patrol IC monitors the network, going from host to host. It does a Matrix Perception Action against Icons/Personas on a host.</p>
+
+<p>If detected, IC up to the host rating can be started (remember Patrol is IC). The security staff are also notified.</p>
+
 
 
 
 <p><strong>Access a Drone</strong></p>
 
 
-<p><strong>Attack a Drone</strong></p>
 
 
 
@@ -358,46 +400,46 @@ $(document).ready( function() {
 <p>Illegal Outsider Actions: Outsider only actions are bolded.</p>
 
 <ul>
-  <li><strong>Backdoor Entry</strong></li>
-  <li>Brute Force</li>
-  <li>Data Spike</li>
+  <li><strong>Backdoor Entry</strong> - Linked to Sleaze</li>
+  <li>Brute Force - Linked to Attack</li>
+  <li>Data Spike - Linked to Attack</li>
   <li>Hide</li>
-  <li>Probe</li>
+  <li>Probe - Linked to Sleaze</li>
   <li>Spoof Command</li>
-  <li>Tarpit</li>
+  <li>Tarpit - Linked to Attack</li>
 </ul>
 
 <p>Illegal User Actions: You must have used the Brute Force action for this level. Plus 1 per round to your Overwatch Score for each host.</p>
 
 <ul>
-  <li>Brute Force</li>
+  <li>Brute Force - Linked to Attack</li>
   <li>Crack File</li>
-  <li>Data Spike</li>
+  <li>Data Spike - Linked to Attack</li>
   <li>Erase Matrix Signature</li>
   <li>Hash Check</li>
   <li>Hide</li>
-  <li>Probe</li>
+  <li>Probe - Linked to Sleaze</li>
   <li>Spoof Command</li>
-  <li>Tarpit</li>
+  <li>Tarpit - Linked to Attack</li>
 </ul>
 
 <p>Illegal Admin Actions: You must have used Brute Force or Backdoor Entry for this leve. Admin only actions are bolded. Plus 3 per round to your Overwatch Score for each host.</p>
 
 <ul>
-  <li>Brute Force</li>
+  <li>Brute Force - Linked to Attack</li>
   <li><strong>Check OS (Overwatch Score)</strong></li>
   <li>Crack File</li>
   <li><strong>Crash Program</strong></li>
-  <li>Data Spike</li>
+  <li>Data Spike - Linked to Attack</li>
   <li>Erase Matrix Signature</li>
   <li>Hash Check</li>
   <li>Hide</li>
   <li><strong>Jam Signals</strong></li>
-  <li>Probe</li>
+  <li>Probe - Linked to Sleaze</li>
   <li><strong>Set Data Bomb</strong></li>
   <li><strong>Snoop</strong></li>
   <li>Spoof Command</li>
-  <li>Tarpit</li>
+  <li>Tarpit - Linked to Attack</li>
   <li><strong>Trace Icon</strong></li>
 </ul>
 
@@ -407,17 +449,17 @@ $(document).ready( function() {
 
 <ul>
   <li>Armor: +2 to Defense Rating</li>
-  <li>Biofeedback: Causes Stun if cold-sim or Physical if hot-sim.</li>
+  <li>Biofeedback: Causes Stun if cold-sim or Physical if hot-sim. - Linked to Attack</li>
   <li>Biofeedback Filter: Allow Device Rating or Body roll to soak Matrix Damage.</li>
-  <li>Blackout: Causes Stun damage only.</li>
+  <li>Blackout: Causes Stun damage only.</li - Linked to Attack>
   <li>Decription: +2 on Crack File action.</li>
   <li>Defuse: Allow Device Rating or Body roll to soak Data Bomb Damage.</li>
   <li>Exploit: Reduce target Defense Rating by 2.</li>
   <li>Fork: Hit two targets with a single Matrix action.</li>
   <li>Lockdown: Cause link-lock when doing Matrix Damage.</li>
   <li>Overclock: Add 2 to any Matrix action. One is a Wild Die</li>
-  <li>Stealth: When Hide action, gain 1 Edge.</li>
-  <li>Trace: When Trace Icon action, add 1 Edge.</li>
+  <li>Stealth: When Hide action, gain 1 Edge. - Linked to Sleaze</li>
+  <li>Trace: When Trace Icon action, add 1 Edge. - Linked to Sleaze</li>
 </ul>
 
 </div>
