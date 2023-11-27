@@ -154,7 +154,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"14\">No Runners to display.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"18\">No Runners to display.</td>\n";
         $output .= "</tr>\n";
       }
 
