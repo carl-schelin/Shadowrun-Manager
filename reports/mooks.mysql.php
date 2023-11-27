@@ -16,6 +16,11 @@
     $package = "mooks.mysql.php";
     $formVars['group'] = clean($_GET['group'], 10);
 
+    $where = '';
+    if ($formVars['group'] > 0) {
+      $where = " and mem_group = " . $formVars['group'] . " ";
+    }
+
     if (check_userlevel(3)) {
 
       logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
@@ -77,10 +82,11 @@
       $q_string .= "runr_reaction,runr_strength,runr_charisma,runr_intuition,runr_logic,runr_willpower, ";
       $q_string .= "runr_totaledge,runr_version,ver_book,runr_available ";
       $q_string .= "from runners ";
-      $q_string .= "left join users     on users.usr_id      = runners.runr_owner ";
-      $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
-      $q_string .= "left join versions  on versions.ver_id   = runners.runr_version ";
-      $q_string .= "where ver_active = 1 or runr_version = 0 ";
+      $q_string .= "left join members   on members.mem_runner = runners.runr_id ";
+      $q_string .= "left join users     on users.usr_id       = runners.runr_owner ";
+      $q_string .= "left join metatypes on metatypes.meta_id  = runners.runr_metatype ";
+      $q_string .= "left join versions  on versions.ver_id    = runners.runr_version ";
+      $q_string .= "where (ver_active = 1 or runr_version = 0) " . $where;
       $q_string .= "order by runr_owner,runr_archetype ";
       $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_runners) > 0) {
