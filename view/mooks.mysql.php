@@ -120,7 +120,7 @@
 
 
   $q_string  = "select runr_body,runr_agility,runr_reaction,runr_strength,runr_willpower,runr_logic,";
-  $q_string .= "runr_intuition,runr_charisma,runr_essence,runr_resonance,runr_magic,runr_initiate ";
+  $q_string .= "runr_intuition,runr_charisma,runr_essence,runr_resonance,runr_magic,runr_initiate,runr_version ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -145,12 +145,110 @@
   $output .= "  <td class=\"ui-widget-content\">Intuition: " . $a_runners['runr_intuition'] . "</td>\n";
   $output .= "  <td class=\"ui-widget-content\">Charisma: " . $a_runners['runr_charisma'] . "</td>\n";
   $output .= "</tr>\n";
+
+# first edition
+  if ($a_runners['runr_version'] == 21) {
+    $composure  = "WIL+CHA:138";
+    $comvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_charisma']);
+    $intentions = "INT+CHA:139";
+    $intvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+WIL:139";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_willpower']);
+    $liftcarry  = "STR+BOD:139";
+    $lftvalue   = ($a_runners['runr_strength'] + $a_runners['runr_body']);
+  }
+
+# second edition
+  if ($a_runners['runr_version'] == 23) {
+    $composure  = "WIL+CHA:138";
+    $comvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_charisma']);
+    $intentions = "INT+CHA:139";
+    $intvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+WIL:139";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_willpower']);
+    $liftcarry  = "STR+BOD:139";
+    $lftvalue   = ($a_runners['runr_strength'] + $a_runners['runr_body']);
+  }
+
+# third edition FASA
+  if ($a_runners['runr_version'] == 24) {
+    $composure  = "WIL+CHA:138";
+    $comvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_charisma']);
+    $intentions = "INT+CHA:139";
+    $intvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+WIL:139";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_willpower']);
+    $liftcarry  = "STR+BOD:139";
+    $lftvalue   = ($a_runners['runr_strength'] + $a_runners['runr_body']);
+  }
+
+# third edition FanPro
+  if ($a_runners['runr_version'] == 40) {
+    $composure  = "WIL+CHA:138";
+    $comvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_charisma']);
+    $intentions = "INT+CHA:139";
+    $intvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+WIL:139";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_willpower']);
+    $liftcarry  = "STR+BOD:139";
+    $lftvalue   = ($a_runners['runr_strength'] + $a_runners['runr_body']);
+  }
+
+# fourth edition FanPro
+  if ($a_runners['runr_version'] == 25) {
+    $composure  = "WIL+CHA:138";
+    $comvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_charisma']);
+    $intentions = "INT+CHA:139";
+    $intvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+WIL:139";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_willpower']);
+    $liftcarry  = "STR+BOD:139";
+    $lftvalue   = ($a_runners['runr_strength'] + $a_runners['runr_body']);
+  }
+
+# note the 1st - 4th are copies of 20th anniversary. just need to update (if it even exists)
+# 4th 20th Anniversary
+  if ($a_runners['runr_version'] == 42) {
+    $composure  = "WIL+CHA:138";
+    $comvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_charisma']);
+    $intentions = "INT+CHA:139";
+    $intvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+WIL:139";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_willpower']);
+    $liftcarry  = "STR+BOD:139";
+    $lftvalue   = ($a_runners['runr_strength'] + $a_runners['runr_body']);
+  }
+
+# fifth edition
+  if ($a_runners['runr_version'] == 2) {
+    $composure  = "CHA+WIL:152";
+    $comvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_willpower']);
+    $intentions = "CHA+INT:152";
+    $intvalue   = ($a_runners['runr_charisma'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+WIL:152";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_willpower']);
+    $liftcarry  = "BOD+STR:152";
+    $lftvalue   = ($a_runners['runr_body'] + $a_runners['runr_strength']);
+  }
+
+# sixth world
+  if ($a_runners['runr_version'] == 31) {
+    $composure  = "WIL+CHA:67";
+    $comvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_charisma']);
+    $intentions = "WIL+INT:67";
+    $intvalue   = ($a_runners['runr_willpower'] + $a_runners['runr_intuition']);
+    $memory     = "LOG+INT:67";
+    $memvalue   = ($a_runners['runr_logic'] + $a_runners['runr_intuition']);
+    $liftcarry  = "BOD+WIL:67";
+    $lftvalue   = ($a_runners['runr_body'] + $a_runners['runr_willpower']);
+  }
+
   $output .= "<tr>\n";
   $output .= "  <td class=\"ui-widget-content\">Derived Attributes: </td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Composure: " . ($a_runners['runr_willpower'] + $a_runners['runr_charisma']) . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Judge Intentions: " . ($a_runners['runr_intuition'] + $a_runners['runr_charisma']) . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Memory: " . ($a_runners['runr_logic'] + $a_runners['runr_willpower']) . "</td>\n";
-  $output .= "  <td class=\"ui-widget-content\">Lift/Carry: " . ($a_runners['runr_strength'] + $a_runners['runr_body']) . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\" title=\"" . $composure  . "\">Composure: "        . $comvalue . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\" title=\"" . $intentions . "\">Judge Intentions: " . $intvalue . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\" title=\"" . $memory     . "\">Memory: "           . $memvalue . "</td>\n";
+  $output .= "  <td class=\"ui-widget-content\" title=\"" . $liftcarry  . "\">Lift/Carry: "       . $lftvalue . "</td>\n";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
