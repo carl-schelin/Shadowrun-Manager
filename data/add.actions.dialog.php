@@ -3,10 +3,13 @@
   <td class="ui-widget-content">Name <input type="text" name="action_name" size="30"></td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Marks Required <input type="text" name="action_marks" size="3"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Legal <input type="radio" value="0" checked="true" name="action_type"> Illegal <input type="radio" value="1" name="action_type"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Minor Action <input type="radio" value="0" checked="true" name="action_level"> Major Action <input type="radio" value="1" name="action_level"></td>
+  <td class="ui-widget-content">Simple/Minor Action <input type="radio" value="0" checked="true" name="action_level"> Complex/Major Action <input type="radio" value="1" name="action_level"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Attack <input type="text" name="action_attack" size="30"></td>
