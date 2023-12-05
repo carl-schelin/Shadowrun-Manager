@@ -73,6 +73,7 @@ function clear_fields() {
   show_file('commlink.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('command.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('cyberdeck.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('cyberjack.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('sprites.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('complex.mysql.php?id=<?php print $formVars['id']; ?>');
 
@@ -309,6 +310,7 @@ $(document).ready( function() {
   <li><a href="#commlink">Commlinks</a></li>
   <li><a href="#command">Command Consoles</a></li>
   <li><a href="#cyberdeck">Cyberdecks</a></li>
+  <li><a href="#cyberjack">Cyberjacks</a></li>
   <li><a href="#sprites">Sprites</a></li>
   <li><a href="#complex">Complex Forms</a></li>
 </ul>
@@ -400,6 +402,13 @@ Cyberdeck Information
 ?>
 
 </div>
+
+</div>
+
+
+<div id="cyberjack">
+
+<span id="cyberjacks_mysql"><?php print wait_Process('Cyberjacks Loading...')?></span>
 
 </div>
 
