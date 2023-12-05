@@ -322,7 +322,7 @@
         }
 
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">Total Essence: " . $essencetotal . ", Total Cost: " . return_Cost($costtotal) . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">Total Essence: " . return_Essence($essencetotal) . ", Total Cost: " . return_Cost($costtotal) . "</td>\n";
         $output .= "</tr>\n";
 
       } else {
