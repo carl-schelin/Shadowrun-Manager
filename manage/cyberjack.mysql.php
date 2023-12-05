@@ -44,17 +44,8 @@
 
   $output .= "</div>";
 
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">Cyberjack</th>";
-  $output .= "  <th class=\"ui-state-default\">Rating</th>";
-  $output .= "  <th class=\"ui-state-default\">Cyberjack ID</th>";
-  $output .= "  <th class=\"ui-state-default\">Availability</th>";
-  $output .= "  <th class=\"ui-state-default\">Cost</th>";
-  $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
-  $output .= "</tr>";
-
-  $q_string  = "select r_jack_id,jack_name,jack_rating,jack_avail,jack_perm,ver_book,jack_page,jack_cost ";
+  $q_string  = "select r_jack_id,jack_name,jack_rating,r_jack_data,r_jack_firewall,r_jack_access,";
+  $q_string .= "jack_essence,jack_avail,jack_perm,ver_book,jack_page,jack_cost ";
   $q_string .= "from r_cyberjack ";
   $q_string .= "left join cyberjack on cyberjack.jack_id = r_cyberjack.r_jack_number ";
   $q_string .= "left join versions on versions.ver_id = cyberjack.jack_book ";
@@ -64,7 +55,25 @@
   if (mysql_num_rows($q_r_cyberjack) > 0) {
     while ($a_r_cyberjack = mysql_fetch_array($q_r_cyberjack)) {
 
+# well, since there's only one jack to a person...
+      $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
+      $output .= "<tr>";
+      $output .= "  <th class=\"ui-state-default\" colspan=\"10\">Cyberjack ID: " . $a_r_cyberjack['r_jack_access'] . "</th>\n";
+      $output .= "</tr>";
+      $output .= "<tr>";
+      $output .= "  <th class=\"ui-state-default\">Cyberjack</th>";
+      $output .= "  <th class=\"ui-state-default\">Rating</th>";
+      $output .= "  <th class=\"ui-state-default\">Data Processing</th>";
+      $output .= "  <th class=\"ui-state-default\">Firewall</th>";
+      $output .= "  <th class=\"ui-state-default\">Essence</th>";
+      $output .= "  <th class=\"ui-state-default\">Availability</th>";
+      $output .= "  <th class=\"ui-state-default\">Cost</th>";
+      $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
+      $output .= "</tr>";
+
       $cyberjack_rating = return_Rating($a_r_cyberjack['jack_rating']);
+
+      $cyberjack_essence = return_Essence($a_r_cyberjack['jack_essence']);
 
       $cyberjack_avail = return_Avail($a_r_cyberjack['jack_avail'], $a_r_cyberjack['jack_perm']);
 
@@ -75,7 +84,9 @@
       $output .= "<tr>";
       $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberjack['jack_name']     . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $cyberjack_rating               . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberjack['r_jack_access'] . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberjack['r_jack_data'] . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_cyberjack['r_jack_firewall'] . "</td>";
+      $output .= "<td class=\"ui-widget-content delete\">" . $cyberjack_essence . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $cyberjack_avail                . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $cyberjack_cost                 . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $cyberjack_book                 . "</td>";
@@ -84,7 +95,7 @@
     }
   } else {
     $output .= "<tr>";
-    $output .= "<td class=\"ui-widget-content\" colspan=\"6\">No Cyberjacks selected</td>";
+    $output .= "<td class=\"ui-widget-content\" colspan=\"8\">No Cyberjacks installed</td>";
     $output .= "</tr>";
   }
 
