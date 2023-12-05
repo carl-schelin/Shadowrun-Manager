@@ -275,6 +275,18 @@ function delete_cmdpgm( p_script_url ) {
   }
 }
 
+function delete_cyberjack( p_script_url ) {
+  var answer = confirm("Delete this Cyberjack?")
+
+  if (answer) {
+    script = document.createElement('script');
+    script.src = p_script_url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('cyberjack.mysql.php'   + '?update=-3&r_jack_character=<?php print $formVars['id']; ?>');
+    show_file('mycyberjack.mysql.php' + '?update=-1' + '&r_jack_character=<?php print $formVars['id']; ?>');
+  }
+}
+
 function delete_cyberdeck( p_script_url ) {
   var answer = confirm("Delete this Cyberdeck?")
 
@@ -1108,29 +1120,40 @@ function select_cmdpgm(p_script_url) {
   show_file('mycommand.mysql.php'  + '?update=-1&r_cmd_character=<?php print $formVars['id']; ?>');
 }
 
-function attach_cyberdeck(p_script_url, update) {
-  var ac_form = document.edit;
-  var ac_url;
+function cyberjack_left(p_script_url, p_value) {
+  var cl_form = document.edit;
+  var cl_url;
   
-  ac_url  = '?update='   + update;
-  ac_url += "&id="       + ac_form.r_deck_id.value;
-
-  ac_url += "&r_deck_character="  + <?php print $formVars['id']; ?>;
-  ac_url += "&r_deck_attack="     + encode_URI(ac_form.r_deck_attack.value);
-  ac_url += "&r_deck_sleaze="     + encode_URI(ac_form.r_deck_sleaze.value);
-  ac_url += "&r_deck_data="       + encode_URI(ac_form.r_deck_data.value);
-  ac_url += "&r_deck_firewall="   + encode_URI(ac_form.r_deck_firewall.value);
+  cl_url  = "?left="     + p_value;
+  cl_url += "&id="       + cl_form.r_jack_id.value;
 
   script = document.createElement('script');
-  script.src = p_script_url + ac_url;
+  script.src = p_script_url + cl_url;
   document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('mycyberdeck.mysql.php'  + '?update=-1&r_deck_character=<?php print $formVars['id']; ?>');
+  show_file('cyberjack.fill.php'  + '?id=' + cl_form.r_jack_id.value);
+  show_file('mycyberjack.mysql.php'  + '?update=-1&r_jack_character=<?php print $formVars['id']; ?>');
+}
+
+function cyberjack_right(p_script_url, p_value) {
+  var cr_form = document.edit;
+  var cr_url;
+  
+  cr_url  = "?right="    + p_value;
+  cr_url += "&id="       + cr_form.r_jack_id.value;
+
+  script = document.createElement('script');
+  script.src = p_script_url + cr_url;
+  document.getElementsByTagName('head')[0].appendChild(script);
+  show_file('cyberjack.fill.php'  + '?id=' + cr_form.r_jack_id.value);
+  show_file('mycyberjack.mysql.php'  + '?update=-1&r_jack_character=<?php print $formVars['id']; ?>');
+}
+
+function attach_jackacc( p_jack_id ) {
+  show_file('cyberjack.fill.php'  + '?id=' + p_jack_id);
+  show_file('mycyberjack.mysql.php'  + '?update=-1&r_jack_character=<?php print $formVars['id']; ?>');
 }
 
 function attach_deckacc( p_deck_id ) {
-  var ac_form = document.edit;
-  var ac_url;
-
   show_file('cyberdeck.fill.php'  + '?id=' + p_deck_id);
   show_file('deckacc.mysql.php'  + '?update=-1&r_deck_id=' + p_deck_id);
   show_file('mycyberdeck.mysql.php'  + '?update=-1&r_deck_character=<?php print $formVars['id']; ?>');
@@ -1577,7 +1600,7 @@ function clear_fields() {
 ?>
   show_file('active.mysql.php'          + '?update=-3&r_act_character=<?php print $formVars['id']; ?>');
   show_file('adept.mysql.php'           + '?update=-3&r_adp_character=<?php print $formVars['id']; ?>');
-  show_file('agent.mysql.php'           + '?update=-3&r_deck_character=<?php print $formVars['id']; ?>');
+  show_file('agent.mysql.php'           + '?id=0');
   show_file('alchemy.mysql.php'         + '?update=-3&r_alc_character=<?php print $formVars['id']; ?>');
   show_file('ammo.mysql.php'            + '?update=-3&r_ammo_character=<?php print $formVars['id']; ?>');
   show_file('armor.mysql.php'           + '?update=-3&r_arm_character=<?php print $formVars['id']; ?>');
@@ -1591,6 +1614,7 @@ function clear_fields() {
   show_file('complexform.mysql.php'     + '?update=-3&r_form_character=<?php print $formVars['id']; ?>');
   show_file('cyberdeck.mysql.php'       + '?update=-3&r_deck_character=<?php print $formVars['id']; ?>');
   show_file('deckacc.mysql.php'         + '?update=-1&r_deck_id=0');
+  show_file('cyberjack.mysql.php'       + '?update=-3&r_jack_character=<?php print $formVars['id']; ?>');
   show_file('cyberware.mysql.php'       + '?update=-3&r_ware_character=<?php print $formVars['id']; ?>');
   show_file('cyberacc.mysql.php'        + '?update=-1&r_ware_id=0');
   show_file('finance.mysql.php'         + '?update=-3&fin_character=<?php print $formVars['id']; ?>');
@@ -1610,6 +1634,7 @@ function clear_fields() {
   show_file('metamagics.mysql.php'      + '?update=-3&r_meta_character=<?php print $formVars['id']; ?>');
   show_file('mycommand.mysql.php'       + '?update=-3&r_cmd_character=<?php print $formVars['id']; ?>');
   show_file('mycyberdeck.mysql.php'     + '?update=-3&r_deck_character=<?php print $formVars['id']; ?>');
+  show_file('mycyberjack.mysql.php'     + '?update=-3&r_jack_character=<?php print $formVars['id']; ?>');
   show_file('notoriety.mysql.php'       + '?update=-3&not_character=<?php print $formVars['id']; ?>');
   show_file('program.mysql.php'         + '?id=0');
   show_file('program.mysql.php'         + '?id=1');
@@ -1645,6 +1670,7 @@ $(document).ready( function() {
   $( "#commlinktabs"     ).tabs( ).addClass( "tab-shadow" );
   $( "#complexformtabs"  ).tabs( ).addClass( "tab-shadow" );
   $( "#cyberdecktabs"    ).tabs( ).addClass( "tab-shadow" );
+  $( "#cyberjacktabs"    ).tabs( ).addClass( "tab-shadow" );
   $( "#cyberwaretabs"    ).tabs( ).addClass( "tab-shadow" );
   $( "#geartabs"         ).tabs( ).addClass( "tab-shadow" );
   $( "#historytabs"      ).tabs( ).addClass( "tab-shadow" );
@@ -2817,6 +2843,7 @@ $(document).ready( function() {
   <li><a href="#commlink">Commlinks</a></li>
   <li><a href="#command">Command Consoles</a></li>
   <li><a href="#cyberdeck">Cyberdeck</a></li>
+  <li><a href="#cyberjack">Cyberjack</a></li>
   <li><a href="#sprite">Sprites</a></li>
   <li><a href="#complexform">Complex Forms</a></li>
 </ul>
@@ -3036,6 +3063,65 @@ $(document).ready( function() {
 <div id="deckacc">
 
 <span id="deckacc_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div id="cyberjack">
+
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default"><a href="javascript:;" onmousedown="toggleDiv('cyberjack-hide');">Cyberjack Management</a></th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cyberjack-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cyberjack-help" style="display: none">
+
+<div class="main-help ui-widget-content">
+
+<p><strong>Cyberjacks</strong></p>
+
+<p>As a Decker, in order to properly utilize the Matrix, you need to have a Cyberjack installed in your brain. In this section, 
+you'll select your Cyberjack from the list in the Cyberjacks tab.</p>
+
+<p>If you already have a Cyberjack installed, the Cyberjacks tab will be empty as you can only have one at a time. Delete the 
+existing one to select a replacement.</p>
+
+<p>As always, book and page number is provided in case you want to get more details about a product.</p>
+
+</div>
+
+</div>
+
+<div id="cyberjack-hide" style="display: none">
+
+<span id="cyberjack_form"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+<div id="cyberjacktabs">
+
+<ul>
+  <li><a href="#my_cyberjacks">My Cyberjacks</a></li>
+  <li><a href="#cyberjacks">Cyberjacks</a></li>
+</ul>
+
+<div id="my_cyberjacks">
+
+<span id="my_cyberjack_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+<div id="cyberjacks">
+
+<span id="cyberjack_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
 
@@ -3430,7 +3516,6 @@ $(document).ready( function() {
   <li><a href="#eyeware">Eyeware</a></li>
   <li><a href="#headware">Headware</a></li>
   <li><a href="#bodyware">Bodyware</a></li>
-  <li><a href="#cyberjack">Cyberjack</a></li>
   <li><a href="#cyberlimbs">Cyberlimbs</a></li>
   <li><a href="#cosmetic">Cosmetic Cyberware Modifications</a></li>
   <li><a href="#cyberacc">Accessories</a></li>
@@ -3467,13 +3552,6 @@ $(document).ready( function() {
 <div id="bodyware">
 
 <span id="bodyware_table"><?php print wait_Process("Please Wait"); ?></span>
-
-</div>
-
-
-<div id="cyberjack">
-
-<span id="cyberjack_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
 
