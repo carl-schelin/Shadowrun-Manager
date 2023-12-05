@@ -112,7 +112,7 @@
 
 # now list all the items to select
 
-        $cyberware_list = array("earware", "eyeware", "headware", "bodyware", "cyberjack", "cyberlimbs", "cosmetic");
+        $cyberware_list = array("earware", "eyeware", "headware", "bodyware", "cyberlimbs", "cosmetic");
 
         foreach ($cyberware_list as &$cyberware) {
 
@@ -207,6 +207,8 @@
 
           print "document.getElementById('" . $cyberware . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
         }
+
+        $output .= "</table>\n";
       }
 
 
@@ -463,7 +465,7 @@
           }
         }
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">Total Essence: " . $essencetotal . ", Total Cost: " . return_Cost($costtotal) . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">Total Essence: " . return_Essence($essencetotal) . ", Total Cost: " . return_Cost($costtotal) . "</td>\n";
         $output .= "</tr>\n";
 
       } else {
