@@ -33,6 +33,9 @@
   <td class="ui-widget-content">Essence <input type="text" name="jack_essence" size="5"></td>
 </tr>
 <tr>
+  <td class="ui-widget-content">company ID <input type="text" name="jack_access" size="20"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Availability <input type="text" name="jack_avail" size="3"><input type="text" name="jack_perm" size="3"></td>
 </tr>
 <tr>

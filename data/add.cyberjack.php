@@ -69,6 +69,7 @@ function attach_cyberjack(p_script_url, update) {
   ac_url += "&jack_firewall=" + encode_URI(ac_form.jack_firewall.value);
   ac_url += "&jack_matrix="   + encode_URI(ac_form.jack_matrix.value);
   ac_url += "&jack_essence="  + encode_URI(ac_form.jack_essence.value);
+  ac_url += "&jack_access="   + encode_URI(ac_form.jack_access.value);
   ac_url += "&jack_avail="    + encode_URI(ac_form.jack_avail.value);
   ac_url += "&jack_perm="     + encode_URI(ac_form.jack_perm.value);
   ac_url += "&jack_cost="     + encode_URI(ac_form.jack_cost.value);
@@ -95,7 +96,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 375,
+    height: 400,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {

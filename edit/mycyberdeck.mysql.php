@@ -139,15 +139,6 @@
 
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
 
-        $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"r_deck_refresh\" value=\"Refresh My Cyberdeck Listing\" onClick=\"javascript:attach_cyberdeck('mycyberdeck.mysql.php', -1);\">\n";
-        $output .= "<input type=\"button\" name=\"r_deck_update\"  value=\"Update Cyberdeck\"          onClick=\"javascript:attach_cyberdeck('cyberdeck.mysql.php', 1);hideDiv('cyberdeck-hide');\">\n";
-        $output .= "<input type=\"hidden\" name=\"r_deck_id\"      value=\"0\">\n";
-        $output .= "</tr>\n";
-        $output .= "</table>\n";
-
         $shiftleft  = "<input type=\"button\" value=\"&lt;\" onClick=\"javascript:cyberdeck_left('cyberdeck.option.php'";
         $shiftright = "<input type=\"button\" value=\"&gt;\" onClick=\"javascript:cyberdeck_right('cyberdeck.option.php'";
 
@@ -156,13 +147,15 @@
         $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Active Cyberdeck Form</th>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\">Active Cyberdeck: <span id=\"r_deck_item\">None Selected</span></td>\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'firewall');\">Attack: <span id=\"attack_val\">0</span>"      . $shiftright . ", 'sleaze');\">\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'attack');\">Sleaze: <span id=\"sleaze_val\">0</span>"        . $shiftright . ", 'data');\">\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'sleaze');\">Data Processing: <span id=\"data_val\">0</span>" . $shiftright . ", 'firewall');\">\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'data');\">Firewall: <span id=\"firewall_val\">0</span>"      . $shiftright . ", 'attack');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">Active Cyberdeck: <span id=\"r_deck_item\">None Selected</span></td>\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'firewall');\">Attack: <span id=\"attack_val\">0</span>"      . $shiftright . ", 'sleaze');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'attack');\">Sleaze: <span id=\"sleaze_val\">0</span>"        . $shiftright . ", 'data');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'sleaze');\">Data Processing: <span id=\"data_val\">0</span>" . $shiftright . ", 'firewall');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'data');\">Firewall: <span id=\"firewall_val\">0</span>"      . $shiftright . ", 'attack');\">\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
+
+        $output .= "<input type=\"hidden\" name=\"r_deck_id\"      value=\"0\">\n";
 
         print "document.getElementById('cyberdeck_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
 
@@ -184,6 +177,24 @@
 
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
+      $output .= "<p><strong>How It Works</strong></p>\n\n";
+
+      $output .= "<p>If you want to add a Cyberdeck, select one from the <strong>Cyberdecks</strong> tab.</p>\n\n";
+
+      $output .= "<p>In order to add programs, agents, and accessories to your Cyberdeck, you'll need to select the Cyberdeck from ";
+      $output .= "the list you've purchased. With it selected, you'll be able to buy what you need to accessorize your Cyberdeck. </p>\n";
+
+      $output .= "<p>For <strong>Common Programs</strong>, click the tab and click to buy one. Same for <strong>Hacking Programs</strong>. ";
+      $output .= "While you can buy more than one, you can only use one at a time so it's a waste of funds to buy more than one of each. </p>\n";
+
+      $output .= "<p>For <strong>Agents</strong>, you can only have one per Cyberdeck. Select one and it'll be associated with your ";
+      $output .= "Cyberdeck. Finally, <strong>Accessories</strong> for you Cyberdeck are listed. Click on the accessory however many ";
+      $output .= "times you want to purchase that item.</p>\n";
+
+      $output .= "<p>In the <strong>My Cyberdecks</strong> tab, you should see the configuration. As a reminder, you can switch the values ";
+      $output .= "between the four deck values. You are not able to switch a positive value with a setting that is zero. ";
+      $output .= "This can be done by clicking on your Cyberdeck. This brings up a display with the two values and left and right buttons. Click the buttons ";
+      $output .= "to switch the values. The Cyberdeck is automatically updated when you do this and the change is set until you decide to change it again.</p>\n";
 
 
       $output .= "<p>Comparison table for programs between 4th, 5th, and 6th. Shows the list for each and what might be an appropriate transition.</p>\n";
@@ -333,22 +344,6 @@
       $output .= "  <td class=\"ui-widget-content\"></td>\n";
       $output .= "</tr>\n";
       $output .= "</table>\n";
-
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Spell Listing</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>\n";
-      $output .= "    <li><strong>Editing</strong> - Click on an association to edit it.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Notes</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li>Click the <strong>Association Management</strong> title bar to toggle the <strong>Association Form</strong>.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
 
       $output .= "</div>\n";
 

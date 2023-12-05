@@ -30,6 +30,7 @@
         $formVars['jack_firewall']  = clean($_GET['jack_firewall'], 10);
         $formVars['jack_matrix']    = clean($_GET['jack_matrix'],   10);
         $formVars['jack_essence']   = clean($_GET['jack_essence'],  10);
+        $formVars['jack_access']    = clean($_GET['jack_access'],   16);
         $formVars['jack_avail']     = clean($_GET['jack_avail'],    10);
         $formVars['jack_perm']      = clean($_GET['jack_perm'],     10);
         $formVars['jack_cost']      = clean($_GET['jack_cost'],     10);
@@ -75,6 +76,7 @@
             "jack_firewall   =   " . $formVars['jack_firewall']   . "," .
             "jack_matrix     =   " . $formVars['jack_matrix']     . "," .
             "jack_essence    =   " . $formVars['jack_essence']    . "," .
+            "jack_access     = \"" . $formVars['jack_access']     . "\"," .
             "jack_avail      =   " . $formVars['jack_avail']      . "," .
             "jack_perm       = \"" . $formVars['jack_perm']       . "\"," .
             "jack_cost       =   " . $formVars['jack_cost']       . "," .
@@ -137,12 +139,11 @@
       $output .=   "<th class=\"ui-state-default\">Total</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Sleaze</th>\n";
       $output .=   "<th class=\"ui-state-default\">Data Processing</th>\n";
       $output .=   "<th class=\"ui-state-default\">Firewall</th>\n";
       $output .=   "<th class=\"ui-state-default\">Matrix Bonus</th>\n";
       $output .=   "<th class=\"ui-state-default\">Essence</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Company ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book</th>\n";
@@ -150,7 +151,7 @@
 
       $nuyen = '&yen;';
       $q_string  = "select jack_id,jack_name,jack_rating,jack_data,jack_firewall,jack_matrix,jack_essence,";
-      $q_string .= "jack_avail,jack_perm,jack_cost,ver_book,jack_page ";
+      $q_string .= "jack_access,jack_avail,jack_perm,jack_cost,ver_book,jack_page ";
       $q_string .= "from cyberjack ";
       $q_string .= "left join versions on versions.ver_id = cyberjack.jack_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -198,12 +199,11 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                               . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_cyberjack['jack_name'] . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $rating                              . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . "0"                                  . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . "0"                                  . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_data']            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_firewall']        . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_matrix']          . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $essence                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_cyberjack['jack_access']          . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $avail                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $cost                                . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $book                                . "</td>\n";
@@ -225,6 +225,7 @@
       print "document.dialog.jack_firewall.value = '';\n";
       print "document.dialog.jack_matrix.value = '';\n";
       print "document.dialog.jack_essence.value = '';\n";
+      print "document.dialog.jack_access.value = '';\n";
       print "document.dialog.jack_avail.value = '';\n";
       print "document.dialog.jack_perm.value = '';\n";
       print "document.dialog.jack_cost.value = '';\n";
