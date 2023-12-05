@@ -139,15 +139,6 @@
 
         logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
 
-        $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
-        $output .= "<tr>\n";
-        $output .= "  <td class=\"button ui-widget-content\">\n";
-        $output .= "<input type=\"button\" name=\"r_deck_refresh\" value=\"Refresh My Cyberdeck Listing\" onClick=\"javascript:attach_cyberdeck('mycyberdeck.mysql.php', -1);\">\n";
-        $output .= "<input type=\"button\" name=\"r_deck_update\"  value=\"Update Cyberdeck\"          onClick=\"javascript:attach_cyberdeck('cyberdeck.mysql.php', 1);hideDiv('cyberdeck-hide');\">\n";
-        $output .= "<input type=\"hidden\" name=\"r_deck_id\"      value=\"0\">\n";
-        $output .= "</tr>\n";
-        $output .= "</table>\n";
-
         $shiftleft  = "<input type=\"button\" value=\"&lt;\" onClick=\"javascript:cyberdeck_left('cyberdeck.option.php'";
         $shiftright = "<input type=\"button\" value=\"&gt;\" onClick=\"javascript:cyberdeck_right('cyberdeck.option.php'";
 
@@ -156,13 +147,15 @@
         $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Active Cyberdeck Form</th>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\">Active Cyberdeck: <span id=\"r_deck_item\">None Selected</span></td>\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'firewall');\">Attack: <span id=\"attack_val\">0</span>"      . $shiftright . ", 'sleaze');\">\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'attack');\">Sleaze: <span id=\"sleaze_val\">0</span>"        . $shiftright . ", 'data');\">\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'sleaze');\">Data Processing: <span id=\"data_val\">0</span>" . $shiftright . ", 'firewall');\">\n";
-        $output .= "  <td class=\"ui-widget-content\">" . $shiftleft . ", 'data');\">Firewall: <span id=\"firewall_val\">0</span>"      . $shiftright . ", 'attack');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">Active Cyberdeck: <span id=\"r_deck_item\">None Selected</span></td>\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'firewall');\">Attack: <span id=\"attack_val\">0</span>"      . $shiftright . ", 'sleaze');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'attack');\">Sleaze: <span id=\"sleaze_val\">0</span>"        . $shiftright . ", 'data');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'sleaze');\">Data Processing: <span id=\"data_val\">0</span>" . $shiftright . ", 'firewall');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"20%\">" . $shiftleft . ", 'data');\">Firewall: <span id=\"firewall_val\">0</span>"      . $shiftright . ", 'attack');\">\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
+
+        $output .= "<input type=\"hidden\" name=\"r_deck_id\"      value=\"0\">\n";
 
         print "document.getElementById('cyberdeck_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
 
