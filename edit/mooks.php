@@ -3000,9 +3000,12 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Possible</strong></li>
-</ul>
+<p><strong>Cyberdecks</strong></p>
+
+<p>As a Decker, in order to properly utilize the Matrix, you need to have at least one Cyberdeck. You can use a Commlink but a Cyberdeck is more capable.
+You'll select your Cyberdeck from the list in the <strong>Cyberdecks</strong> tab.</p>
+
+<p>As always, book and page number is provided in case you want to get more details about a product or accessories.</p>
 
 </div>
 

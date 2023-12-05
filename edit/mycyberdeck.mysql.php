@@ -177,6 +177,24 @@
 
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
+      $output .= "<p><strong>How It Works</strong></p>\n\n";
+
+      $output .= "<p>If you want to add a Cyberdeck, select one from the <strong>Cyberdecks</strong> tab.</p>\n\n";
+
+      $output .= "<p>In order to add programs, agents, and accessories to your Cyberdeck, you'll need to select the Cyberdeck from ";
+      $output .= "the list you've purchased. With it selected, you'll be able to buy what you need to accessorize your Cyberdeck. </p>\n";
+
+      $output .= "<p>For <strong>Common Programs</strong>, click the tab and click to buy one. Same for <strong>Hacking Programs</strong>. ";
+      $output .= "While you can buy more than one, you can only use one at a time so it's a waste of funds to buy more than one of each. </p>\n";
+
+      $output .= "<p>For <strong>Agents</strong>, you can only have one per Cyberdeck. Select one and it'll be associated with your ";
+      $output .= "Cyberdeck. Finally, <strong>Accessories</strong> for you Cyberdeck are listed. Click on the accessory however many ";
+      $output .= "times you want to purchase that item.</p>\n";
+
+      $output .= "<p>In the <strong>My Cyberdecks</strong> tab, you should see the configuration. As a reminder, you can switch the values ";
+      $output .= "between the four deck values. You are not able to switch a positive value with a setting that is zero. ";
+      $output .= "This can be done by clicking on your Cyberdeck. This brings up a display with the two values and left and right buttons. Click the buttons ";
+      $output .= "to switch the values. The Cyberdeck is automatically updated when you do this and the change is set until you decide to change it again.</p>\n";
 
 
       $output .= "<p>Comparison table for programs between 4th, 5th, and 6th. Shows the list for each and what might be an appropriate transition.</p>\n";
@@ -326,22 +344,6 @@
       $output .= "  <td class=\"ui-widget-content\"></td>\n";
       $output .= "</tr>\n";
       $output .= "</table>\n";
-
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Spell Listing</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>\n";
-      $output .= "    <li><strong>Editing</strong> - Click on an association to edit it.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Notes</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li>Click the <strong>Association Management</strong> title bar to toggle the <strong>Association Form</strong>.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
 
       $output .= "</div>\n";
 
