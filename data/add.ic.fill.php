@@ -25,7 +25,7 @@
       $q_string  = "select ic_name,ic_defense,ic_description,ic_book,ic_page ";
       $q_string .= "from ic ";
       $q_string .= "where ic_id = " . $formVars['id'];
-      $q_ic = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_ic = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_ic = mysqli_fetch_array($q_ic);
       mysql_free_result($q_ic);
 

@@ -25,7 +25,7 @@
       $q_string  = "select meta_name,meta_description,meta_book,meta_page ";
       $q_string .= "from metamagics ";
       $q_string .= "where meta_id = " . $formVars['id'];
-      $q_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_metamagics = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_metamagics = mysqli_fetch_array($q_metamagics);
       mysql_free_result($q_metamagics);
 

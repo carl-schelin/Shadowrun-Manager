@@ -21,7 +21,7 @@
   $q_string .= "from versions ";
   $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_versions = mysqli_fetch_array($q_versions);
 
   $output  = "<p></p>\n";
@@ -98,7 +98,7 @@
   $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
   $q_string .= "where r_fa_character = " . $formVars['id'] . " ";
   $q_string .= "order by fa_class,fa_name ";
-  $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_firearms) > 0) {
     while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 

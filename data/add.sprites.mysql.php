@@ -76,7 +76,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sprite_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -137,7 +137,7 @@
       $q_string .= "left join versions on versions.ver_id = sprites.sprite_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by sprite_name,ver_version ";
-      $q_sprites = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_sprites = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_sprites) > 0) {
         while ($a_sprites = mysqli_fetch_array($q_sprites)) {
 
@@ -161,7 +161,7 @@
           $q_string  = "select r_sprite_id ";
           $q_string .= "from r_sprite ";
           $q_string .= "where r_sprite_number = " . $a_sprites['sprite_id'] . " ";
-          $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_sprite) > 0) {
             while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
               $total++;

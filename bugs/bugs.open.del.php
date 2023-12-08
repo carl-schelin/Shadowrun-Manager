@@ -23,7 +23,7 @@
       $q_string  = "select bug_id ";
       $q_string .= "from bugs_detail ";
       $q_string .= "where bug_bug_id = " . $formVars['id'];
-      $q_bugs_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_bugs_detail = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       while ($a_bugs_detail = mysqli_fetch_array($q_bugs_detail)) {
 
         logaccess($_SESSION['username'], $package, "Deleting " . $a_bugs_detail['bug_id'] . " from bugs_detail");
@@ -31,7 +31,7 @@
         $q_string  = "delete ";
         $q_string .= "from bugs_detail ";
         $q_string .= "where bug_id = " . $a_bugs_detail['bug_id'];
-        $result = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       }
 
       logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from bugs");
@@ -39,7 +39,7 @@
       $q_string  = "delete ";
       $q_string .= "from bugs ";
       $q_string .= "where bug_id = " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
       print "alert('Bug deleted.');\n";
 

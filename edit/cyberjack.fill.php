@@ -26,7 +26,7 @@
       $q_string .= "from r_cyberjack ";
       $q_string .= "left join cyberjack on cyberjack.jack_id = r_cyberjack.r_jack_number ";
       $q_string .= "where r_jack_id = " . $formVars['id'];
-      $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack);
       mysql_free_result($q_r_cyberjack);
 

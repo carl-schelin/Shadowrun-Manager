@@ -60,7 +60,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_lang_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -92,7 +92,7 @@
         $q_string  = "select lang_id,lang_name ";
         $q_string .= "from language ";
         $q_string .= "order by lang_name ";
-        $q_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_language = mysqli_fetch_array($q_language)) {
           $output .= "<option value=\"" . $a_language['lang_id'] . "\">" . $a_language['lang_name'] . "</option>\n";
         }
@@ -169,7 +169,7 @@
       $q_string .= "left join versions on versions.ver_id = s_language.s_lang_book ";
       $q_string .= "where r_lang_character = " . $formVars['r_lang_character'] . " ";
       $q_string .= "order by lang_name ";
-      $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_language) > 0) {
         while ($a_r_language = mysqli_fetch_array($q_r_language)) {
 
@@ -180,7 +180,7 @@
           $q_string  = "select " . $a_r_language['att_column'] . " ";
           $q_string .= "from runners ";
           $q_string .= "where runr_id = " . $formVars['r_lang_character'] . " ";
-          $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           $a_runners = mysqli_fetch_array($q_runners);
 
           if ($a_r_language['r_lang_rank'] > 0) {

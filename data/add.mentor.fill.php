@@ -25,7 +25,7 @@
       $q_string  = "select mentor_name,mentor_all,mentor_mage,mentor_adept,mentor_disadvantage,mentor_book,mentor_page ";
       $q_string .= "from mentor ";
       $q_string .= "where mentor_id = " . $formVars['id'];
-      $q_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_mentor = mysqli_fetch_array($q_mentor);
       mysql_free_result($q_mentor);
 

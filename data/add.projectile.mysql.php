@@ -131,7 +131,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['melee_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -197,7 +197,7 @@
       $q_string .= "left join versions on versions.ver_id = projectile.proj_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by class_name,proj_name,proj_rating,ver_version ";
-      $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_projectile) > 0) {
         while ($a_projectile = mysqli_fetch_array($q_projectile)) {
 
@@ -230,7 +230,7 @@
           $q_string  = "select r_proj_id ";
           $q_string .= "from r_projectile ";
           $q_string .= "where r_proj_number = " . $a_projectile['proj_id'] . " ";
-          $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_projectile) > 0) {
             while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
               $total++;

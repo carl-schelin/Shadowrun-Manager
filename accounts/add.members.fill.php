@@ -25,7 +25,7 @@
       $q_string  = "select mem_runner,mem_invite,mem_active ";
       $q_string .= "from members ";
       $q_string .= "where mem_id = " . $formVars['id'];
-      $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_members = mysqli_fetch_array($q_members);
       mysql_free_result($q_members);
 

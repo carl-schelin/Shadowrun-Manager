@@ -64,7 +64,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['form_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -121,7 +121,7 @@
       $q_string .= "left join versions on versions.ver_id = complexform.form_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by form_name,ver_version ";
-      $q_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_complexform) > 0) {
         while ($a_complexform = mysqli_fetch_array($q_complexform)) {
 
@@ -161,7 +161,7 @@
           $q_string  = "select r_form_id ";
           $q_string .= "from r_complexform ";
           $q_string .= "where r_form_number = " . $a_complexform['form_id'] . " ";
-          $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_complexform) > 0) {
             while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
               $total++;

@@ -63,7 +63,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_con_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -95,7 +95,7 @@
         $q_string  = "select con_id,con_name,con_archetype ";
         $q_string .= "from contact ";
         $q_string .= "order by con_archetype,con_name ";
-        $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_contact = mysqli_fetch_array($q_contact)) {
           $output .= "<option value=\"" . $a_contact['con_id'] . "\">" . $a_contact['con_archetype'] . " (" . $a_contact['con_name'] . ")</option>\n";
         }
@@ -130,7 +130,7 @@
         $q_string .= "from versions ";
         $q_string .= "where ver_admin = 1 ";
         $q_string .= "order by ver_short ";
-        $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_versions = mysqli_fetch_array($q_versions)) {
           $output .= "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
         }
@@ -196,7 +196,7 @@
       $q_string .= "left join versions on versions.ver_id = contact.con_book ";
       $q_string .= "where r_con_character = " . $formVars['r_con_character'] . " ";
       $q_string .= "order by con_archetype,con_name ";
-      $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_contact) > 0) {
         while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
 

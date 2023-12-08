@@ -50,7 +50,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_melee_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -140,7 +140,7 @@
           $q_string .= "and melee_class = " . $formVars['melee_class'] . " ";
         }
         $q_string .= "order by melee_name,melee_class ";
-        $q_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_melee) > 0) {
           while ($a_melee = mysqli_fetch_array($q_melee)) {
 
@@ -164,7 +164,7 @@
               $q_string  = "select runr_strength ";
               $q_string .= "from runners ";
               $q_string .= "where runr_id = " . $formVars['r_melee_character'] . " ";
-              $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+              $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
               $a_runners = mysqli_fetch_array($q_runners);
 
               $melee_damage = ($a_runners['runr_strength'] + $a_melee['melee_damage']);
@@ -273,7 +273,7 @@
       $q_string .= "left join versions on versions.ver_id = melee.melee_book ";
       $q_string .= "where r_melee_character = " . $formVars['r_melee_character'] . " ";
       $q_string .= "order by melee_class,melee_name ";
-      $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_melee) > 0) {
         while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
 
@@ -296,7 +296,7 @@
             $q_string  = "select runr_strength ";
             $q_string .= "from runners ";
             $q_string .= "where runr_id = " . $formVars['r_melee_character'] . " ";
-            $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             $a_runners = mysqli_fetch_array($q_runners);
 
             $melee_damage = ($a_runners['runr_strength'] + $a_r_melee['melee_damage']);
@@ -353,7 +353,7 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Melee\" and r_acc_character = " . $formVars['r_melee_character'] . " and r_acc_parentid = " . $a_r_melee['r_melee_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 

@@ -25,7 +25,7 @@
       $q_string  = "select arm_class,arm_name,arm_rating,arm_ballistic,arm_impact,arm_capacity,arm_avail,arm_perm,arm_basetime,arm_duration,arm_index,arm_cost,arm_book,arm_page ";
       $q_string .= "from armor ";
       $q_string .= "where arm_id = " . $formVars['id'];
-      $q_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_armor = mysqli_fetch_array($q_armor);
       mysql_free_result($q_armor);
 

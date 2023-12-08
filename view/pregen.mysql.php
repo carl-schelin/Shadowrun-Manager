@@ -24,7 +24,7 @@
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysqli_fetch_array($q_runners);
 
   $sex = "Female";
@@ -78,7 +78,7 @@
   $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
   $q_string .= "where r_arm_character = " . $formVars['id'] . " ";
   $q_string .= "order by arm_name,arm_rating ";
-  $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_armor) > 0) {
     while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
 
@@ -101,7 +101,7 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Clothing and Armor\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_armor['r_arm_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -164,7 +164,7 @@
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
   $q_string .= "order by link_rating,link_cost ";
-  $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_commlink) > 0) {
     while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
@@ -177,7 +177,7 @@
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and acc_name like \"Sim Module%\" and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         $a_r_accessory = mysqli_fetch_array($q_r_accessory);
 
@@ -203,7 +203,7 @@
   $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
   $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
   $q_string .= "order by cmd_brand,cmd_model,cmd_rating ";
-  $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_command) > 0) {
     while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
@@ -216,7 +216,7 @@
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and acc_name like \"Sim Module%\" and r_acc_parentid = " . $a_r_command['r_cmd_id'] . " ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         $a_r_accessory = mysqli_fetch_array($q_r_accessory);
 
@@ -242,7 +242,7 @@
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
   $q_string .= "order by deck_brand,deck_model,deck_rating ";
-  $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
     while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
@@ -255,7 +255,7 @@
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and acc_name like \"Sim Module%\" and r_acc_parentid = " . $a_r_cyberdeck['r_deck_id'] . " ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         $a_r_accessory = mysqli_fetch_array($q_r_accessory);
 
@@ -311,13 +311,13 @@
   $q_string .= "left join versions on versions.ver_id = active.act_book ";
   $q_string .= "where ver_active = 1 ";
   $q_string .= "order by act_name ";
-  $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_active = mysqli_fetch_array($q_active)) {
 
     $q_string  = "select r_act_rank,r_act_specialize,r_act_expert ";
     $q_string .= "from r_active ";
     $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
-    $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_active) > 0) {
       $a_r_active = mysqli_fetch_array($q_r_active);
 
@@ -353,7 +353,7 @@
   $q_string .= "left join knowledge on knowledge.know_id = r_knowledge.r_know_number ";
   $q_string .= "where r_know_character = " . $formVars['id'] . " ";
   $q_string .= "order by know_name ";
-  $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_knowledge) > 0) {
     while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
 
@@ -386,7 +386,7 @@
   $q_string .= "left join language on language.lang_id = r_language.r_lang_number ";
   $q_string .= "where r_lang_character = " . $formVars['id'] . " ";
   $q_string .= "order by lang_name ";
-  $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_language) > 0) {
     while ($a_r_language = mysqli_fetch_array($q_r_language)) {
 
@@ -425,7 +425,7 @@
   $q_string .= "left join qualities on qualities.qual_id = r_qualities.r_qual_number ";
   $q_string .= "where r_qual_character = " . $formVars['id'] . " ";
   $q_string .= "order by qual_name ";
-  $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_qualities) > 0) {
     while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
@@ -450,7 +450,7 @@
   $q_string .= "left join adept on adept.adp_id = r_adept.r_adp_number ";
   $q_string .= "where r_adp_character = " . $formVars['id'] . " ";
   $q_string .= "order by adp_name ";
-  $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_adept) > 0) {
     while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
 
@@ -479,7 +479,7 @@
   $q_string .= "left join complexform on complexform.form_id = r_complexform.r_form_number ";
   $q_string .= "where r_form_character = " . $formVars['id'] . " ";
   $q_string .= "order by form_name ";
-  $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_complexform) > 0) {
     while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
 
@@ -502,7 +502,7 @@
   $q_string .= "left join spells on spells.spell_id = r_spells.r_spell_number ";
   $q_string .= "where r_spell_character = " . $formVars['id'] . " ";
   $q_string .= "order by spell_name ";
-  $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_spells) > 0) {
     while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
@@ -531,7 +531,7 @@
   $q_string .= "left join spells on spells.spell_id = r_alchemy.r_alc_number ";
   $q_string .= "where r_alc_character = " . $formVars['id'] . " ";
   $q_string .= "order by spell_name ";
-  $q_r_alchemy = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_alchemy = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_alchemy) > 0) {
     while ($a_r_alchemy = mysqli_fetch_array($q_r_alchemy)) {
 
@@ -558,7 +558,7 @@
   $q_string .= "left join mentor on mentor.mentor_id = r_mentor.r_mentor_number ";
   $q_string .= "where r_mentor_character = " . $formVars['id'] . " ";
   $q_string .= "order by mentor_name ";
-  $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_mentor) > 0) {
     while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
@@ -579,7 +579,7 @@
   $q_string .= "from r_tradition ";
   $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
   $q_string .= "where r_trad_character = " . $formVars['id'] . " ";
-  $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_tradition) > 0) {
     while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
@@ -601,7 +601,7 @@
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
   $q_string .= "order by link_rating,link_cost ";
-  $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_commlink) > 0) {
     while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
@@ -622,7 +622,7 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Commlinks\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -660,7 +660,7 @@
   $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
   $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
   $q_string .= "order by cmd_brand,cmd_model,cmd_rating ";
-  $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_command) > 0) {
     while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
@@ -687,7 +687,7 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_command['r_cmd_id'] . " and pgm_type = 2 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_program) > 0) {
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
@@ -704,7 +704,7 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_command['r_cmd_id'] . " and pgm_type = 3 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_program) > 0) {
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
@@ -730,7 +730,7 @@
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
   $q_string .= "order by deck_brand,deck_model,deck_rating ";
-  $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
     while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
@@ -758,7 +758,7 @@
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberdeck['r_deck_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql =" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql =" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -780,7 +780,7 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 0 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_program) > 0) {
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
@@ -797,7 +797,7 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 1 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_program) > 0) {
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
@@ -814,7 +814,7 @@
       $q_string .= "left join agents on agents.agt_id = r_agents.r_agt_number ";
       $q_string .= "where r_agt_character = " . $formVars['id'] . " and r_agt_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " ";
       $q_string .= "order by agt_name ";
-      $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_agents) > 0) {
         while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
@@ -844,7 +844,7 @@
   $q_string .= "left join grades on grades.grade_id = r_cyberware.r_ware_grade ";
   $q_string .= "where r_ware_character = " . $formVars['id'] . " ";
   $q_string .= "order by ware_name,ware_rating ";
-  $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberware) > 0) {
     while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
@@ -878,7 +878,7 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Cyberware\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -915,7 +915,7 @@
   $q_string .= "left join grades on grades.grade_id = r_bioware.r_bio_grade ";
   $q_string .= "where r_bio_character = " . $formVars['id'] . " ";
   $q_string .= "order by bio_class,bio_name,bio_rating ";
-  $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_bioware) > 0) {
     while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
@@ -967,7 +967,7 @@
   $q_string .= "left join vehicles on vehicles.veh_id = r_vehicles.r_veh_number ";
   $q_string .= "where r_veh_character = " . $formVars['id'] . " ";
   $q_string .= "order by veh_make,veh_model ";
-  $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_vehicles) > 0) {
     while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
@@ -1001,7 +1001,7 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Vehicles\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
       $q_string .= "order by acc_name ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -1020,7 +1020,7 @@
       $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
       $q_string .= "where r_fa_character = " . $formVars['id'] . " and r_fa_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
       $q_string .= "order by fa_name ";
-      $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_firearms) > 0) {
         while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
@@ -1045,7 +1045,7 @@
   $q_string .= "left join class on class.class_id = gear.gear_class ";
   $q_string .= "where r_gear_character = " . $formVars['id'] . " and gear_name != \"Fake SIN\" and gear_name != \"Fake License\" and gear_name not like \"%Spell Formula%\" ";
   $q_string .= "order by gear_name,gear_rating ";
-  $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_gear) > 0) {
     while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
@@ -1077,7 +1077,7 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Gear\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -1112,7 +1112,7 @@
   $q_string .= "left join class on class.class_id = melee.melee_class ";
   $q_string .= "where r_melee_character = " . $formVars['id'] . " ";
   $q_string .= "order by melee_class,melee_name ";
-  $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_melee) > 0) {
     while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
 
@@ -1126,7 +1126,7 @@
         $q_string  = "select runr_strength ";
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         $a_runners = mysqli_fetch_array($q_runners);
 
         $melee_damage = ($a_runners['runr_strength'] + $a_r_melee['melee_damage']);
@@ -1173,7 +1173,7 @@
   $q_string .= "left join class on class.class_id = projectile.proj_class ";
   $q_string .= "where r_proj_character = " . $formVars['id'] . " ";
   $q_string .= "order by class_name,proj_name ";
-  $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_projectile) > 0) {
     while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
@@ -1197,7 +1197,7 @@
       $q_string .= "left join class on class.class_id = ammo.ammo_class ";
       $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_projectile['r_proj_id'] . " ";
       $q_string .= "order by ammo_name,class_name ";
-      $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_ammo) > 0) {
         while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
@@ -1241,7 +1241,7 @@
   $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
   $q_string .= "where r_fa_character = " . $formVars['id'] . " and r_fa_faid = 0 ";
   $q_string .= "order by fa_name,fa_class ";
-  $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_firearms) > 0) {
     while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
@@ -1276,7 +1276,7 @@
       $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
       $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
       $q_string .= "order by acc_name,acc_rating,ver_version ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -1298,7 +1298,7 @@
       $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
       $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
       $q_string .= "order by ammo_name ";
-      $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_ammo) > 0) {
         while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
@@ -1344,7 +1344,7 @@
   $q_string .= "left join class on class.class_id = ammo.ammo_class ";
   $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = 0 ";
   $q_string .= "order by class_name,ammo_name ";
-  $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_ammo) > 0) {
     while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
@@ -1383,7 +1383,7 @@
   $q_string .= "from r_identity ";
   $q_string .= "where id_character = " . $formVars['id'] . " ";
   $q_string .= "order by id_name ";
-  $q_r_identity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_identity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_identity) > 0) {
     while ($a_r_identity = mysqli_fetch_array($q_r_identity)) {
 
@@ -1405,7 +1405,7 @@
       $q_string .= "from r_license ";
       $q_string .= "where lic_identity = " . $a_r_identity['id_id'] . " ";
       $q_string .= "order by lic_type ";
-      $q_r_license = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_license = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_license) > 0) {
         while ($a_r_license = mysqli_fetch_array($q_r_license)) {
 
@@ -1433,7 +1433,7 @@
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";
   $q_string .= "order by life_style ";
-  $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_lifestyle) > 0) {
     while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
@@ -1461,7 +1461,7 @@
   $q_string .= "left join contact on contact.con_id = r_contact.r_con_number ";
   $q_string .= "where r_con_character = " . $formVars['id'] . " ";
   $q_string .= "order by con_archetype,con_name ";
-  $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_contact) > 0) {
     while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
       $contact  = $a_r_contact['con_archetype'];
@@ -1484,7 +1484,7 @@
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " and meta_notes != \"\" ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_runners) > 0) {
     while ($a_runners = mysqli_fetch_array($q_runners)) {
 

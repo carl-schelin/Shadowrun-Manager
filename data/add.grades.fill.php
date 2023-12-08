@@ -25,7 +25,7 @@
       $q_string  = "select grade_name,grade_essence,grade_avail,grade_cost,grade_book,grade_page ";
       $q_string .= "from grades ";
       $q_string .= "where grade_id = " . $formVars['id'];
-      $q_grades = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_grades = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_grades = mysqli_fetch_array($q_grades);
       mysql_free_result($q_grades);
 

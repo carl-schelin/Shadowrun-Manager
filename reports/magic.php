@@ -59,7 +59,7 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
@@ -115,7 +115,7 @@ $(document).ready( function () {
   $q_string .= "left join class on class.class_id = spells.spell_group ";
   $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
   $q_string .= "order by runr_name,spell_group,spell_name ";
-  $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_spells) > 0) {
     while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
@@ -125,7 +125,7 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_spells['r_spell_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_members) > 0) {
           $display = "Yes";
         }
@@ -181,14 +181,14 @@ $(document).ready( function () {
 
   $q_string  = "select s_trad_id,s_trad_name ";
   $q_string .= "from s_tradition ";
-  $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
     $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
   }
 
   $q_string  = "select att_id,att_name ";
   $q_string .= "from attributes ";
-  $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_attributes = mysqli_fetch_array($q_attributes)) {
     $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
   }
@@ -217,7 +217,7 @@ $(document).ready( function () {
   $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
   $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
   $q_string .= "order by trad_name ";
-  $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_tradition) > 0) {
     while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
@@ -227,7 +227,7 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_tradition['r_trad_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_members) > 0) {
           $display = "Yes";
         }
@@ -291,7 +291,7 @@ $(document).ready( function () {
   $q_string .= "left join mentor on mentor.mentor_id = r_mentor.r_mentor_number ";
   $q_string .= "left join versions on versions.ver_id = mentor.mentor_book ";
   $q_string .= "order by mentor_name ";
-  $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_mentor) > 0) {
     while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
@@ -301,7 +301,7 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_mentor['r_mentor_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_members) > 0) {
           $display = "Yes";
         }
@@ -374,7 +374,7 @@ $(document).ready( function () {
   $q_string .= "left join spirits on spirits.spirit_id = r_spirit.r_spirit_number ";
   $q_string .= "left join versions on versions.ver_id = spirits.spirit_book ";
   $q_string .= "order by spirit_name ";
-  $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_spirit = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_spirit) > 0) {
     while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
@@ -384,7 +384,7 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_spirit['r_spirit_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_members) > 0) {
           $display = "Yes";
         }
@@ -458,7 +458,7 @@ $(document).ready( function () {
         $q_string .= "left join versions on versions.ver_id = active.act_book ";
         $q_string .= "where sp_act_creature = " . $a_r_spirit['spirit_id'] . " ";
         $q_string .= "order by act_name ";
-        $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_sp_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_sp_active) > 0) {
           while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
@@ -490,7 +490,7 @@ $(document).ready( function () {
             $q_string  = "select " . $att_column . " ";
             $q_string .= "from spirits ";
             $q_string .= "where spirit_id = " . $a_r_spirit['spirit_id'] . " ";
-            $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             $a_spirits = mysqli_fetch_array($q_spirits);
 
             if ($a_r_spirit['r_spirit_force'] == 0) {
@@ -520,7 +520,7 @@ $(document).ready( function () {
         $q_string .= "left join versions on versions.ver_id = powers.pow_book ";
         $q_string .= "where sp_power_creature = " . $a_r_spirit['spirit_id'] . " ";
         $q_string .= "order by sp_power_optional,pow_name ";
-        $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_sp_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_sp_powers) > 0) {
           while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
@@ -562,7 +562,7 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
@@ -618,7 +618,7 @@ $(document).ready( function () {
     $q_string .= "left join class on class.class_id = spells.spell_group ";
     $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
     $q_string .= "order by runr_name,spell_group,spell_name ";
-    $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_spells) > 0) {
       while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
@@ -628,7 +628,7 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_spells['r_spell_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_members) > 0) {
             $display = "Yes";
           }
@@ -684,14 +684,14 @@ $(document).ready( function () {
 
     $q_string  = "select s_trad_id,s_trad_name ";
     $q_string .= "from s_tradition ";
-    $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
       $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
     }
 
     $q_string  = "select att_id,att_name ";
     $q_string .= "from attributes ";
-    $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     while ($a_attributes = mysqli_fetch_array($q_attributes)) {
       $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
     }
@@ -720,7 +720,7 @@ $(document).ready( function () {
     $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
     $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
     $q_string .= "order by trad_name ";
-    $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_tradition) > 0) {
       while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
@@ -730,7 +730,7 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_tradition['r_trad_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_members) > 0) {
             $display = "Yes";
           }
@@ -794,7 +794,7 @@ $(document).ready( function () {
     $q_string .= "left join mentor on mentor.mentor_id = r_mentor.r_mentor_number ";
     $q_string .= "left join versions on versions.ver_id = mentor.mentor_book ";
     $q_string .= "order by mentor_name ";
-    $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_mentor) > 0) {
       while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
@@ -804,7 +804,7 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_mentor['r_mentor_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_members) > 0) {
             $display = "Yes";
           }
@@ -877,7 +877,7 @@ $(document).ready( function () {
     $q_string .= "left join spirits on spirits.spirit_id = r_spirit.r_spirit_number ";
     $q_string .= "left join versions on versions.ver_id = spirits.spirit_book ";
     $q_string .= "order by spirit_name ";
-    $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_spirit = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_spirit) > 0) {
       while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
@@ -887,7 +887,7 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_spirit['r_spirit_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_members) > 0) {
             $display = "Yes";
           }
@@ -961,7 +961,7 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = active.act_book ";
           $q_string .= "where sp_act_creature = " . $a_r_spirit['spirit_id'] . " ";
           $q_string .= "order by act_name ";
-          $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_sp_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_sp_active) > 0) {
             while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
@@ -993,7 +993,7 @@ $(document).ready( function () {
               $q_string  = "select " . $att_column . " ";
               $q_string .= "from spirits ";
               $q_string .= "where spirit_id = " . $a_r_spirit['spirit_id'] . " ";
-              $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+              $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
               $a_spirits = mysqli_fetch_array($q_spirits);
 
               if ($a_r_spirit['r_spirit_force'] == 0) {
@@ -1023,7 +1023,7 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = powers.pow_book ";
           $q_string .= "where sp_power_creature = " . $a_r_spirit['spirit_id'] . " ";
           $q_string .= "order by sp_power_optional,pow_name ";
-          $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_sp_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_sp_powers) > 0) {
             while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 

@@ -26,7 +26,7 @@
       $q_string .= "trad_illusion,trad_manipulation,trad_drainleft,trad_drainright,trad_book,trad_page ";
       $q_string .= "from tradition ";
       $q_string .= "where trad_id = " . $formVars['id'];
-      $q_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_tradition = mysqli_fetch_array($q_tradition);
       mysql_free_result($q_tradition);
 

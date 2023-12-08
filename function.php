@@ -21,7 +21,7 @@ function logaccess($user, $source, $detail) {
     "log_source    = \"" . $source . "\", " .
     "log_detail    = \"" . $detail . "\"";
 
-  $insert = mysql_query($query) or die(mysql_error());
+  $insert = mysqli_query($db, $query) or die(mysql_error());
 }
 
 function check_userlevel( $p_level ) {
@@ -29,7 +29,7 @@ function check_userlevel( $p_level ) {
     $q_string  = "select usr_level ";
     $q_string .= "from users ";
     $q_string .= "where usr_id = " . $_SESSION['uid'];
-    $q_user_level = mysql_query($q_string) or die($q_string . " :" . mysql_error());
+    $q_user_level = mysqli_query($db, $q_string) or die($q_string . " :" . mysql_error());
     $a_user_level = mysqli_fetch_array($q_user_level);
 
     if ($a_user_level['usr_level'] <= $p_level) {
@@ -44,7 +44,7 @@ function check_userlevel( $p_level ) {
 
 function last_insert_id() {
   $query = "select last_insert_id()";
-  $q_result = mysql_query($query) or die($query . ": " . mysql_error());
+  $q_result = mysqli_query($db, $query) or die($query . ": " . mysql_error());
   $a_result = mysqli_fetch_array($q_result);
 
   return ($a_result['last_insert_id()']);
@@ -96,7 +96,7 @@ function generatePassword ($length = 8) {
 function return_Index($p_check, $p_string) {
   $r_index = 0;
   $count = 1;
-  $q_table = mysql_query($p_string) or die($p_string . ": " . mysql_error());
+  $q_table = mysqli_query($db, $p_string) or die($p_string . ": " . mysql_error());
   while ($a_table = mysql_fetch_row($q_table)) {
     if ($p_check == $a_table[0]) {
       $r_index = $count;
@@ -160,7 +160,7 @@ function changelog( $p_serverid, $p_changed, $p_notes, $p_user, $p_table, $p_col
       "and mod_table  = \"" . $p_table  . "\" " .
       "and mod_column = \"" . $p_column . "\" " .
       "and mod_companyid =   " . $p_serverid;
-#  $result = mysql_query($cl_query);
+#  $result = mysqli_query($db, $cl_query);
 
   $cl_query  =
     "mod_companyid    =   " . $p_serverid     . "," .
@@ -174,7 +174,7 @@ function changelog( $p_serverid, $p_changed, $p_notes, $p_user, $p_table, $p_col
 
   $query = "insert into modified set mod_id = null," . $cl_query;
 
-  $result = mysql_query($query);
+  $result = mysqli_query($db, $query);
 
 }
 
@@ -186,7 +186,7 @@ function check_owner( $p_string ) {
   $q_string  = "select runr_owner ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $p_string;
-  $q_runners = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+  $q_runners = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_runners) > 0) {
     $a_runners = mysqli_fetch_array($q_runners);
 
@@ -247,7 +247,7 @@ function check_available( $p_string ) {
   $q_string  = "select runr_available ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $p_string;
-  $q_runners = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+  $q_runners = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_runners) > 0) {
     $a_runners = mysqli_fetch_array($q_runners);
 
@@ -268,7 +268,7 @@ function members_Available( $p_string ) {
   $q_string .= "from members ";
   $q_string .= "left join users on users.usr_id = members.mem_owner ";
   $q_string .= "where mem_group = " . $p_string . " and (mem_visible = 1 or mem_owner = " . $_SESSION['uid'] . " or usr_level = " . $AL_Johnson . ") ";
-  $q_members = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+  $q_members = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_members) > 0) {
     $result = 1;
   } else {
@@ -287,7 +287,7 @@ function groups_Available( $p_string ) {
   $q_string .= "from groups ";
   $q_string .= "left join users on users.usr_id = groups.grp_owner ";
   $q_string .= "where grp_visible = 1 or grp_owner = " . $_SESSION['uid'] . " or usr_level = " . $AL_Johnson . " ";
-  $q_groups = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+  $q_groups = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_groups) > 0) {
     $result = 1;
   } else {
@@ -323,14 +323,14 @@ function mooks_Available( $p_string ) {
           $q_string  = "select grp_id ";
           $q_string .= "from groups ";
           $q_string .= "where grp_owner = " . $_SESSION['uid'] . " ";
-          $q_groups = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+          $q_groups = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
           while ($a_groups = mysqli_fetch_array($q_groups)) {
 # found the groups, now check memberships.
             $q_string  = "select mem_id ";
             $q_string .= "from members ";
 # player accepted the invite and is a member of the group
             $q_string .= "where mem_invite = 1 and mem_group = " . $a_groups['grp_id'] . " and mem_runner = " . $p_string . " ";
-            $q_members = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+            $q_members = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
             if (mysql_num_rows($q_members) > 0) {
               $visible = 1;
             }
@@ -343,7 +343,7 @@ function mooks_Available( $p_string ) {
           $q_string .= "from members ";
 # you have accepted the invite and is a member of the group
           $q_string .= "where mem_invite = 1 and mem_owner = " . $_SESSION['uid'] . " ";
-          $q_members = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+          $q_members = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
           if (mysql_num_rows($q_members) > 0) {
             while ($a_members = mysqli_fetch_array($q_members)) {
 # we have the groups you're a member of. now check p_string's group memberships
@@ -351,7 +351,7 @@ function mooks_Available( $p_string ) {
               $q_string .= "from members ";
 # you have accepted the invite and is a member of the group
               $q_string .= "where mem_invite = 1 and mem_group = " . $a_members['mem_group'] . " and mem_runner = " . $p_string . " ";
-              $q_check = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+              $q_check = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
 # yes? then character is visible.
               if (mysql_num_rows($q_check) > 0) {
                 $visible = 1;
@@ -372,7 +372,7 @@ function show_Help( $p_script ) {
   $q_string  = "select help_id ";
   $q_string .= "from help ";
   $q_string .= "where help_user = " . $_SESSION['uid'] . " and help_screen = '" . $p_script . "' ";
-  $q_help = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+  $q_help = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_help) == 0) {
     $q_string  = "insert ";
     $q_string .= "into help ";
@@ -380,7 +380,7 @@ function show_Help( $p_script ) {
     $q_string .= "help_user = " . $_SESSION['uid'] . ",";
     $q_string .= "help_screen = '" . $p_script . "' ";
 
-    $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+    $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
 
     return 1;
   } else {

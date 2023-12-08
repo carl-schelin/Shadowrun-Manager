@@ -28,7 +28,7 @@
       $q_string .= "deck_response ";
       $q_string .= "from cyberdeck ";
       $q_string .= "where deck_id = " . $formVars['id'];
-      $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
       mysql_free_result($q_cyberdeck);
 

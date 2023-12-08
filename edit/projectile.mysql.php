@@ -50,7 +50,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_proj_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -140,7 +140,7 @@
           $q_string .= "and proj_class = " . $formVars['proj_class'] . " ";
         }
         $q_string .= "order by proj_name,proj_rating,proj_acc,proj_damage,proj_class,ver_version ";
-        $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_projectile) > 0) {
           while ($a_projectile = mysqli_fetch_array($q_projectile)) {
 
@@ -245,7 +245,7 @@
       $q_string .= "left join versions on versions.ver_id = projectile.proj_book ";
       $q_string .= "where r_proj_character = " . $formVars['r_proj_character'] . " ";
       $q_string .= "order by class_name,proj_name ";
-      $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_projectile) > 0) {
         while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
@@ -294,7 +294,7 @@
           $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
           $q_string .= "where r_ammo_character = " . $formVars['r_proj_character'] . " and r_ammo_parentid = " . $a_r_projectile['r_proj_id'] . " ";
           $q_string .= "order by ammo_name,class_name ";
-          $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
             while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 

@@ -25,7 +25,7 @@
       $q_string  = "select cmd_brand,cmd_model,cmd_rating,cmd_data,cmd_firewall,cmd_programs,cmd_access,cmd_cost,cmd_avail,cmd_perm,cmd_book,cmd_page ";
       $q_string .= "from command ";
       $q_string .= "where cmd_id = " . $formVars['id'];
-      $q_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_command = mysqli_fetch_array($q_command);
       mysql_free_result($q_command);
 

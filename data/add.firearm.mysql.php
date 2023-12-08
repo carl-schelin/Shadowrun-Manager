@@ -161,7 +161,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['fa_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -299,7 +299,7 @@
         $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
         $q_string .= $orderby . "and ver_admin = 1 ";
         $q_string .= "order by fa_name,ver_version ";
-        $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_firearms) > 0) {
           while ($a_firearms = mysqli_fetch_array($q_firearms)) {
 
@@ -342,7 +342,7 @@
             $q_string  = "select r_fa_id ";
             $q_string .= "from r_firearms ";
             $q_string .= "where r_fa_number = " . $a_firearms['fa_id'] . " ";
-            $q_r_farmarms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_farmarms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_farmarms) > 0) {
               while ($a_r_farmarms = mysqli_fetch_array($q_r_farmarms)) {
                 $total++;

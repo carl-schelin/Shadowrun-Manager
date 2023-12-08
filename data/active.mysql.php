@@ -55,7 +55,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sp_act_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -116,7 +116,7 @@
         $q_string .= "left join versions on versions.ver_id = active.act_book ";
         $q_string .= "where ver_admin = 1 ";
         $q_string .= "order by act_name,ver_version ";
-        $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_active) > 0) {
           while ($a_active = mysqli_fetch_array($q_active)) {
 

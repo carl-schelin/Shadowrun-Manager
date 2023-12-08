@@ -192,7 +192,7 @@ $("#button-update").button("disable");
   $q_string  = "select sub_id,sub_name ";
   $q_string .= "from subjects ";
   $q_string .= "order by sub_name ";
-  $q_subjects = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_subjects = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_subjects = mysqli_fetch_array($q_subjects)) {
     print "<option value=\"" . $a_subjects['sub_id'] . "\">" . $a_subjects['sub_name'] . "</option>\n";
   }

@@ -101,7 +101,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['ware_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -169,7 +169,7 @@
         $q_string .= "left join class on class.class_id = cyberware.ware_class ";
         $q_string .= "where class_name like \"" . $cyberware . "%\" and ver_admin = 1 ";
         $q_string .= "order by ware_class,ware_name,ware_rating,ver_version ";
-        $q_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_cyberware) > 0) {
           while ($a_cyberware = mysqli_fetch_array($q_cyberware)) {
 
@@ -197,7 +197,7 @@
             $q_string  = "select r_ware_id ";
             $q_string .= "from r_cyberware ";
             $q_string .= "where r_ware_number = " . $a_cyberware['ware_id'] . " ";
-            $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_cyberware) > 0) {
               while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
                 $total++;

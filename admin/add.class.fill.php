@@ -25,7 +25,7 @@
       $q_string  = "select class_subjectid,class_name ";
       $q_string .= "from class ";
       $q_string .= "where class_id = " . $formVars['id'];
-      $q_class = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_class = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_class = mysqli_fetch_array($q_class);
       mysql_free_result($q_class);
 

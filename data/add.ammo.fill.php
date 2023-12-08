@@ -26,7 +26,7 @@
       $q_string .= "ammo_blast,ammo_armor,ammo_avail,ammo_perm,ammo_basetime,ammo_duration,ammo_index,ammo_cost,ammo_book,ammo_page ";
       $q_string .= "from ammo ";
       $q_string .= "where ammo_id = " . $formVars['id'];
-      $q_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_ammo = mysqli_fetch_array($q_ammo);
       mysql_free_result($q_ammo);
 

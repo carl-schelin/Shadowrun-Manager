@@ -25,12 +25,12 @@
       $q_string  = "delete ";
       $q_string .= "from agents ";
       $q_string .= "where agt_id = " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
       $q_string  = "delete ";
       $q_string .= "from r_agents ";
       $q_string .= "where r_agt_number = " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     } else {
       logaccess($_SESSION['username'], $package, "Access denied");
     }

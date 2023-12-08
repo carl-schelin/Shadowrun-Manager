@@ -53,7 +53,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['con_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -74,7 +74,7 @@
       $q_string  = "select con_id,con_name,con_archetype ";
       $q_string .= "from contact ";
       $q_string .= "order by con_archetype ";
-      $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       while ($a_contact = mysqli_fetch_array($q_contact)) {
         print "selbox.options[selbox.options.length] = new Option(\"" . htmlspecialchars($a_contact['con_archetype'] . " (" . $a_contact['con_name'] . ")") . "\"," . $a_contact['con_id'] . ");\n";
       }

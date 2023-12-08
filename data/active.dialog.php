@@ -25,7 +25,7 @@
       $q_string  = "select sp_act_specialize ";
       $q_string .= "from sp_active ";
       $q_string .= "where sp_act_id = " . $formVars['id'];
-      $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_sp_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_sp_active = mysqli_fetch_array($q_sp_active);
       mysql_free_result($q_sp_active);
 

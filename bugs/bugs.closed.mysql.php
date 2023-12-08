@@ -68,14 +68,14 @@
   $q_string .= "left join users   on users.usr_id   = bugs.bug_openby ";
   $q_string .= "where bug_closed != '0000-00-00' " . $where;
   $q_string .= "order by mod_name,bug_discovered desc";
-  $q_bugs = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_bugs = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_bugs) > 0) {
     while ($a_bugs = mysqli_fetch_array($q_bugs)) {
 
       $q_string  = "select usr_name ";
       $q_string .= "from users ";
       $q_string .= "where usr_id = " . $a_bugs['bug_closeby'] . " ";
-      $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_users = mysqli_fetch_array($q_users);
 
       $linkstart = "<a href=\"" . $Bugroot . "/ticket.php?id=" . $a_bugs['bug_id']     . "\">";

@@ -26,7 +26,7 @@
       $q_string .= "sprite_firewall,sprite_initiative,sprite_book,sprite_page ";
       $q_string .= "from sprites ";
       $q_string .= "where sprite_id = " . $formVars['id'];
-      $q_sprites = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_sprites = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_sprites = mysqli_fetch_array($q_sprites);
       mysql_free_result($q_sprites);
 

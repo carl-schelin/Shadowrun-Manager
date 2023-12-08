@@ -25,7 +25,7 @@
       $q_string  = "select sp_power_specialize ";
       $q_string .= "from sp_powers ";
       $q_string .= "where sp_power_id = " . $formVars['id'];
-      $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_sp_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_sp_powers = mysqli_fetch_array($q_sp_powers);
       mysql_free_result($q_sp_powers);
 

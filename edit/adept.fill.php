@@ -26,7 +26,7 @@
       $q_string .= "from r_adept ";
       $q_string .= "left join adept on adept.adp_id = r_adept.r_adp_number ";
       $q_string .= "where r_adp_id = " . $formVars['id'];
-      $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_adept = mysqli_fetch_array($q_r_adept);
       mysql_free_result($q_r_adept);
 

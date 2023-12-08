@@ -39,7 +39,7 @@
   $q_string .= "left join sprites on sprites.sprite_id = r_sprite.r_sprite_number ";
   $q_string .= "where r_sprite_character = " . $formVars['id'] . " ";
   $q_string .= "order by sprite_name ";
-  $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_sprite) > 0) {
     while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
 

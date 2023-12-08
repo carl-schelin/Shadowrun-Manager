@@ -80,7 +80,7 @@ if (isset($_POST['new_user'])) {
     $error = '<div class="error_message">Attention! Your password must be at least 5 characters.</div>';
   }
 
-  $count = mysql_num_rows(mysql_query("select * from users where usr_name='".$username."'"));
+  $count = mysql_num_rows(mysqli_query($db, "select * from users where usr_name='".$username."'"));
 
   if ($count > 0) {
     $error = '<div class="error_message">Sorry, username already taken.</div>';
@@ -90,7 +90,7 @@ if (isset($_POST['new_user'])) {
     $q_string = "insert into users (usr_level, usr_first, usr_last, usr_email, usr_name, usr_passwd, usr_theme)
       values ('5', '$fname', '$lname', '$email', '$username', MD5('$password'), 1)";
 
-    $q_users = mysql_query($q_string) or die("Fatal error: ".mysql_error());
+    $q_users = mysqli_query($db, $q_string) or die("Fatal error: ".mysql_error());
 
     echo "<h2>Success!</h2>";	
     echo "<div class='success_message'>Thank you for registering! Go to the <a href='" . $Siteroot . "'>Mooks Management</a> application and log in.</div>";
@@ -109,7 +109,7 @@ if (isset($_POST['new_user'])) {
 
 // Notify the admin that a new member has arrived.
     $q_string = "select usr_email from users where usr_level < 2";
-    $q_users = mysql_query($q_string) or die("Fatal error: ".mysql_error());
+    $q_users = mysqli_query($db, $q_string) or die("Fatal error: ".mysql_error());
     while ($a_users = mysqli_fetch_array($q_users)) {
       $usermail = $a_users['usr_email'];
       $subject = "New member in Mooks Management";

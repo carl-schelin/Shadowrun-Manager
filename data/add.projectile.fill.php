@@ -26,7 +26,7 @@
       $q_string .= "proj_perm,proj_basetime,proj_duration,proj_index,proj_cost,proj_book,proj_page ";
       $q_string .= "from projectile ";
       $q_string .= "where proj_id = " . $formVars['id'];
-      $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_projectile = mysqli_fetch_array($q_projectile);
       mysql_free_result($q_projectile);
 

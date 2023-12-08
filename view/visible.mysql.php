@@ -23,7 +23,7 @@
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysqli_fetch_array($q_runners);
 
   $sex = "Female";
@@ -56,7 +56,7 @@
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysqli_fetch_array($q_runners);
 
   print "document.getElementById('visible_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";

@@ -25,7 +25,7 @@
       $q_string  = "select bio_class,bio_name,bio_rating,bio_essence,bio_avail,bio_perm,bio_basetime,bio_duration,bio_index,bio_cost,bio_book,bio_page ";
       $q_string .= "from bioware ";
       $q_string .= "where bio_id = " . $formVars['id'];
-      $q_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_bioware = mysqli_fetch_array($q_bioware);
       mysql_free_result($q_bioware);
 

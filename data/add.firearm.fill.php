@@ -27,7 +27,7 @@
       $q_string .= "fa_avail,fa_perm,fa_basetime,fa_duration,fa_index,fa_cost,fa_book,fa_page ";
       $q_string .= "from firearms ";
       $q_string .= "where fa_id = " . $formVars['id'];
-      $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_firearms = mysqli_fetch_array($q_firearms);
       mysql_free_result($q_firearms);
 

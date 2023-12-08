@@ -27,7 +27,7 @@
       $q_string .= "melee_cost,melee_book,melee_page,melee_conceal,melee_weight ";
       $q_string .= "from melee ";
       $q_string .= "where melee_id = " . $formVars['id'];
-      $q_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_melee = mysqli_fetch_array($q_melee);
       mysql_free_result($q_melee);
 

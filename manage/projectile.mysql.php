@@ -23,7 +23,7 @@
     $q_string .= "from versions ";
     $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
     $q_string .= "where runr_id = " . $formVars['id'] . " ";
-    $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     $a_versions = mysqli_fetch_array($q_versions);
 
     $output  = "<p></p>\n";
@@ -87,7 +87,7 @@
     $q_string .= "left join versions on versions.ver_id = projectile.proj_book ";
     $q_string .= "where r_proj_character = " . $formVars['id'] . " ";
     $q_string .= "order by class_name,proj_name ";
-    $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_projectile) > 0) {
       while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
@@ -139,7 +139,7 @@
         $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
         $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_projectile['r_proj_id'] . " ";
         $q_string .= "order by ammo_name,class_name ";
-        $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_ammo) > 0) {
           while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 

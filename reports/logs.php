@@ -143,7 +143,7 @@ should a problem occur.</p>
   $q_string .= "from log ";
   $q_string .= $where;
   $q_string .= $orderby;
-  $q_log = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_log = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_log = mysqli_fetch_array($q_log)) {
 
     print "<tr>\n";

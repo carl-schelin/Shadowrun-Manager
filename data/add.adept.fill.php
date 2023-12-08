@@ -25,7 +25,7 @@
       $q_string  = "select adp_name,adp_desc,adp_power,adp_active,adp_level,adp_book,adp_page ";
       $q_string .= "from adept ";
       $q_string .= "where adp_id = " . $formVars['id'];
-      $q_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_adept = mysqli_fetch_array($q_adept);
       mysql_free_result($q_adept);
 

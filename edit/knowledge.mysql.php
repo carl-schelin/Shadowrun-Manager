@@ -60,7 +60,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_know_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -92,7 +92,7 @@
         $q_string  = "select know_id,know_name ";
         $q_string .= "from knowledge ";
         $q_string .= "order by know_name ";
-        $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
           $output .= "<option value=\"" . $a_knowledge['know_id'] . "\">" . $a_knowledge['know_name'] . "</option>\n";
         }
@@ -114,7 +114,7 @@
         $q_string  = "select s_know_id,s_know_name ";
         $q_string .= "from s_knowledge ";
         $q_string .= "order by s_know_name ";
-        $q_s_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_s_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_s_knowledge = mysqli_fetch_array($q_s_knowledge)) {
           $output .= "<option value=\"" . $a_s_knowledge['s_know_id'] . "\">" . $a_s_knowledge['s_know_name'] . "</option>\n";
         }
@@ -183,7 +183,7 @@
       $q_string .= "left join versions on versions.ver_id = s_knowledge.s_know_book ";
       $q_string .= "where r_know_character = " . $formVars['r_know_character'] . " ";
       $q_string .= "order by know_name ";
-      $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_knowledge) > 0) {
         while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
 
@@ -194,7 +194,7 @@
           $q_string  = "select " . $a_r_knowledge['att_column'] . " ";
           $q_string .= "from runners ";
           $q_string .= "where runr_id = " . $formVars['r_know_character'] . " ";
-          $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           $a_runners = mysqli_fetch_array($q_runners);
 
           $know_book = return_Book($a_r_knowledge['ver_book'], $a_r_knowledge['s_know_page']);

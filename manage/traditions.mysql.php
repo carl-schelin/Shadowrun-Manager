@@ -58,7 +58,7 @@
   $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
   $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
   $q_string .= "where r_trad_character = " . $formVars['id'] . " ";
-  $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_tradition) > 0) {
     while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 

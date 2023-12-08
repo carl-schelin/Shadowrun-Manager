@@ -25,7 +25,7 @@
       $q_string  = "select act_type,act_name,act_group,act_attribute,act_default,act_book,act_page ";
       $q_string .= "from active ";
       $q_string .= "where act_id = " . $formVars['id'];
-      $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_active = mysqli_fetch_array($q_active);
       mysql_free_result($q_active);
 

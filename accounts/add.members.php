@@ -23,7 +23,7 @@
   $q_string  = "select grp_id,grp_name ";
   $q_string .= "from groups ";
   $q_string .= "where grp_id = " . $formVars['id'] . " ";
-  $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_groups = mysqli_fetch_array($q_groups);
   if (mysql_num_rows($q_groups) > 0) {
     $formVars['grp_name'] = $a_groups['grp_name'];
@@ -163,7 +163,7 @@ $(document).ready( function() {
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_available = 1 and ver_active = 1 ";
   $q_string .= "order by runr_name ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_runners = mysqli_fetch_array($q_runners)) {
     print "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_name'] . " (" . $a_runners['meta_name'] . " " . $a_runners['runr_archetype'] . ")</option>\n";
   }

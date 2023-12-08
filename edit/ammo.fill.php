@@ -26,7 +26,7 @@
       $q_string .= "from r_ammo ";
       $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
       $q_string .= "where r_ammo_id = " . $formVars['id'];
-      $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_ammo = mysqli_fetch_array($q_r_ammo);
       mysql_free_result($q_r_ammo);
 

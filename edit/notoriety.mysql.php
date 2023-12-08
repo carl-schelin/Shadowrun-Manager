@@ -61,7 +61,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['not_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');";
         }
@@ -127,7 +127,7 @@
       $q_string .= "from notoriety ";
       $q_string .= "where not_character = " . $formVars['not_character'] . " ";
       $q_string .= "order by not_date ";
-      $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_notoriety = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_notoriety) > 0) {
         while ($a_notoriety = mysqli_fetch_array($q_notoriety)) {
 

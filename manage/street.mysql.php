@@ -33,7 +33,7 @@
     $q_string .= "from street ";
     $q_string .= "where st_character = " . $formVars['id'] . " ";
     $q_string .= "order by st_date ";
-    $q_street = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_street = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_street) > 0) {
       while ($a_street = mysqli_fetch_array($q_street)) {
 

@@ -26,7 +26,7 @@
       $q_string .= "ware_perm,ware_basetime,ware_duration,ware_index,ware_legality,ware_cost,ware_book,ware_page ";
       $q_string .= "from cyberware ";
       $q_string .= "where ware_id = " . $formVars['id'];
-      $q_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_cyberware = mysqli_fetch_array($q_cyberware);
       mysql_free_result($q_cyberware);
 

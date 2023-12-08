@@ -61,7 +61,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['pub_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');";
         }
@@ -127,7 +127,7 @@
       $q_string .= "from publicity ";
       $q_string .= "where pub_character = " . $formVars['pub_character'] . " ";
       $q_string .= "order by pub_date ";
-      $q_publicity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_publicity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_publicity) > 0) {
         while ($a_publicity = mysqli_fetch_array($q_publicity)) {
 

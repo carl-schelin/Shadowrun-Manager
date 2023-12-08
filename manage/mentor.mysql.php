@@ -62,7 +62,7 @@
   $q_string .= "left join versions on versions.ver_id = mentor.mentor_book ";
   $q_string .= "where r_mentor_character = " . $formVars['id'] . " ";
   $q_string .= "order by mentor_name,ver_version ";
-  $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_mentor) > 0) {
     while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 

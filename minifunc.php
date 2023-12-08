@@ -27,7 +27,7 @@ function return_Virtual( $p_string ) {
   $q_string .= "from hardware ";
   $q_string .= "left join models on models.mod_id = hardware.hw_vendorid ";
   $q_string .= "where hw_companyid = " . $p_string . " and mod_primary = 1 and mod_virtual = 1 ";
-  $q_hardware = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+  $q_hardware = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
 
 # if there are any rows, then the server is a virtual machine.
   if (mysql_num_rows($q_hardware) > 0) {

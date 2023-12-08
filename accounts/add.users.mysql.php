@@ -73,7 +73,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['usr_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -147,7 +147,7 @@
       $q_string .= "left join themes on themes.theme_id = users.usr_theme ";
       $q_string .= "where usr_disabled = 0 and usr_level = 0 ";
       $q_string .= "order by usr_last,usr_first";
-      $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_users) > 0) {
         while ($a_users = mysqli_fetch_array($q_users)) {
 
@@ -264,7 +264,7 @@ function display_user( $p_title, $p_toggle, $p_query ) {
   $q_string .= "from groups ";
   $q_string .= "where grp_disabled = 0 ";
   $q_string .= "order by grp_name";
-  $q_groups = mysql_query($q_string);
+  $q_groups = mysqli_query($db, $q_string);
   while ($a_groups = mysqli_fetch_array($q_groups)) {
 
     $group  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -292,7 +292,7 @@ function display_user( $p_title, $p_toggle, $p_query ) {
     $q_string .= "left join themes on themes.theme_id = users.usr_theme ";
     $q_string .= "where " . $p_query;
     $q_string .= "order by usr_last,usr_first";
-    $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_users) > 0) {
       while ($a_users = mysqli_fetch_array($q_users)) {
 

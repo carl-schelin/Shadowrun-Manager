@@ -106,7 +106,7 @@
       $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
       $q_string .= "where pgm_type = " . $formVars['id'] . " and ver_active = 1 ";
       $q_string .= "order by pgm_name ";
-      $q_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_program) > 0) {
         while ($a_program = mysqli_fetch_array($q_program)) {
 

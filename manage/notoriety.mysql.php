@@ -33,7 +33,7 @@
     $q_string .= "from notoriety ";
     $q_string .= "where not_character = " . $formVars['id'] . " ";
     $q_string .= "order by not_date ";
-    $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_notoriety = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_notoriety) > 0) {
       while ($a_notoriety = mysqli_fetch_array($q_notoriety)) {
 

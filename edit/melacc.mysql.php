@@ -51,7 +51,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
 
@@ -132,7 +132,7 @@
         $q_string .= "from r_melee ";
         $q_string .= "left join melee on melee.melee_id = r_melee.r_melee_number ";
         $q_string .= "where r_melee_id = " . $formVars['r_melee_id'] . " ";
-        $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         $a_r_melee = mysqli_fetch_array($q_r_melee);
 
 # for that class or something that works for all; numbers because both acc_class and fa_class are numeric. no need to convert to text
@@ -149,7 +149,7 @@
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
         $q_string .= $where . " and ver_active = 1 ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
-        $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
           while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 

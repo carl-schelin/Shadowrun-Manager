@@ -25,7 +25,7 @@
       $q_string  = "select r_life_number,r_life_comforts,r_life_necessities,r_life_security,r_life_neighborhood,r_life_entertainment,r_life_space,r_life_desc,r_life_months ";
       $q_string .= "from r_lifestyle ";
       $q_string .= "where r_life_id = " . $formVars['id'];
-      $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle);
       mysql_free_result($q_r_lifestyle);
 

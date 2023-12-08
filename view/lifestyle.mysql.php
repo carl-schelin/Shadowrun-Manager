@@ -37,7 +37,7 @@
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";
   $q_string .= "order by life_style ";
-  $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_lifestyle) > 0) {
     while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 

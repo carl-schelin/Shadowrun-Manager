@@ -45,7 +45,7 @@
           $q_string  = "select link_access ";
           $q_string .= "from commlink ";
           $q_string .= "where link_id = " . $formVars['r_link_number'] . " ";
-          $q_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           $a_commlink = mysqli_fetch_array($q_commlink);
 
           $link_access =
@@ -67,7 +67,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_link_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         }
@@ -148,7 +148,7 @@
         $q_string .= "left join versions on versions.ver_id = commlink.link_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by link_rating,link_cost,ver_version ";
-        $q_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_commlink) > 0) {
           while ($a_commlink = mysqli_fetch_array($q_commlink)) {
 
@@ -241,7 +241,7 @@
       $q_string .= "left join versions on versions.ver_id = commlink.link_book ";
       $q_string .= "where r_link_character = " . $formVars['r_link_character'] . " ";
       $q_string .= "order by link_rating,link_cost,ver_version ";
-      $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_commlink) > 0) {
         while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
@@ -287,7 +287,7 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Commlinks\" and r_acc_character = " . $formVars['r_link_character'] . " and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 

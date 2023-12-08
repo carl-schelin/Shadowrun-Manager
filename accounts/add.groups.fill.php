@@ -25,7 +25,7 @@
       $q_string  = "select grp_disabled,grp_name,grp_email,grp_owner ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['id'];
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_groups = mysqli_fetch_array($q_groups);
       mysql_free_result($q_groups);
 

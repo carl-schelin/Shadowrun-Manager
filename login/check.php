@@ -14,7 +14,7 @@ if (isset($_SESSION['username'])) {
     $q_string .= "from users ";
     $q_string .= "left join themes on themes.theme_id = users.usr_theme ";
     $q_string .= "where usr_name = '$username_s'"; 
-    $q_users = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+    $q_users = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
     $a_users = mysqli_fetch_array($q_users);
 
 # get the user level, disable status, and whether a password reset is needed
@@ -25,7 +25,7 @@ if (isset($_SESSION['username'])) {
     $q_string  = "select lvl_disabled ";
     $q_string .= "from levels ";
     $q_string .= "where lvl_level = '$user_level'"; 
-    $q_levels = mysql_query($q_string);
+    $q_levels = mysqli_query($db, $q_string);
     $a_levels = mysqli_fetch_array($q_levels);
 
 # see if the user is disabled

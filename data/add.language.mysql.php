@@ -44,7 +44,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['lang_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -95,7 +95,7 @@
       $q_string  = "select lang_id,lang_name ";
       $q_string .= "from language ";
       $q_string .= "order by lang_name ";
-      $q_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_language) > 0) {
         while ($a_language = mysqli_fetch_array($q_language)) {
 
@@ -109,7 +109,7 @@
           $q_string  = "select r_lang_id ";
           $q_string .= "from r_language ";
           $q_string .= "where r_lang_number = " . $a_language['lang_id'] . " ";
-          $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_language) > 0) {
             while ($a_r_language = mysqli_fetch_array($q_r_language)) {
               $total++;

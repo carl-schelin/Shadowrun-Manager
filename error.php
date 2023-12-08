@@ -31,7 +31,7 @@
     "bug_openby     =   " . $_SESSION['uid'];
 
   $query = "insert into bugs set bug_id = null," . $q_string;
-  $insert = mysql_query($query) or die($query . ": " . mysql_error());
+  $insert = mysqli_query($db, $query) or die($query . ": " . mysql_error());
 
   $bug_id = last_insert_id();
 
@@ -41,7 +41,7 @@
     "bug_user   =   " . $_SESSION['uid'];
 
   $query = "insert into bugs_detail set bug_id = null," . $q_string;
-  $insert = mysql_query($query) or die($query . ": " . mysql_error());
+  $insert = mysqli_query($db, $query) or die($query . ": " . mysql_error());
 
   $q_string = 
     "bug_bug_id =   " . $bug_id                               . "," . 
@@ -49,7 +49,7 @@
     "bug_user   =   " . $_SESSION['uid'];
 
   $query = "insert into bugs_detail set bug_id = null," . $q_string;
-  $insert = mysql_query($query) or die($query . ": " . mysql_error());
+  $insert = mysqli_query($db, $query) or die($query . ": " . mysql_error());
 
   if ($called == 'no') {
 ?>

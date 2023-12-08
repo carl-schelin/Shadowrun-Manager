@@ -43,7 +43,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['lang_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -61,7 +61,7 @@
       $q_string  = "select lang_id,lang_name ";
       $q_string .= "from language ";
       $q_string .= "order by lang_name ";
-      $q_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       while ($a_language = mysqli_fetch_array($q_language)) {
         print "selbox.options[selbox.options.length] = new Option(\"" . htmlspecialchars($a_language['lang_name']) . "\"," . $a_language['lang_id'] . ");\n";
       }

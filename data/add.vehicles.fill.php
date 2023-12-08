@@ -27,7 +27,7 @@
       $q_string .= "veh_hardpoints,veh_firmpoints,veh_avail,veh_perm,veh_basetime,veh_duration,veh_index,veh_cost,veh_book,veh_page ";
       $q_string .= "from vehicles ";
       $q_string .= "where veh_id = " . $formVars['id'];
-      $q_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_vehicles = mysqli_fetch_array($q_vehicles);
       mysql_free_result($q_vehicles);
 

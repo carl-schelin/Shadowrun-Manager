@@ -25,7 +25,7 @@
       $q_string  = "select r_con_number,r_con_loyalty,r_con_connection,r_con_faction,r_con_notes ";
       $q_string .= "from r_contact ";
       $q_string .= "where r_con_id = " . $formVars['id'];
-      $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_contact = mysqli_fetch_array($q_r_contact);
       mysql_free_result($q_r_contact);
 

@@ -97,7 +97,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['arm_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -160,7 +160,7 @@
       $q_string .= "left join versions on versions.ver_id = armor.arm_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by arm_name,arm_rating,ver_version ";
-      $q_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_armor) > 0) {
         while ($a_armor = mysqli_fetch_array($q_armor)) {
 
@@ -188,7 +188,7 @@
           $q_string  = "select r_arm_id ";
           $q_string .= "from r_armor ";
           $q_string .= "where r_arm_number = " . $a_armor['arm_id'] . " ";
-          $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_armor) > 0) {
             while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
               $total++;

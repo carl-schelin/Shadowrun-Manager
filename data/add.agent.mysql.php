@@ -68,7 +68,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['agt_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -126,7 +126,7 @@
       $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
       $q_string .= "where ver_admin = 1 and ver_active = 1 ";
       $q_string .= "order by agt_name,agt_rating,ver_version ";
-      $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_agents) > 0) {
         while ($a_agents = mysqli_fetch_array($q_agents)) {
 
@@ -146,7 +146,7 @@
           $q_string  = "select r_agt_id ";
           $q_string .= "from r_agents ";
           $q_string .= "where r_agt_number = " . $a_agents['agt_id'] . " ";
-          $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_agents) > 0) {
             while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
               $total++;

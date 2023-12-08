@@ -38,7 +38,7 @@
   $q_string .= "left join grades on grades.grade_id = r_cyberware.r_ware_grade ";
   $q_string .= "where r_ware_character = " . $formVars['id'] . " ";
   $q_string .= "order by ware_name,ware_rating,class_name ";
-  $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberware) > 0) {
     while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
@@ -76,7 +76,7 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Cyberware\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -106,7 +106,7 @@
       $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
       $q_string .= "where r_fa_character = " . $formVars['id'] . " and r_fa_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
       $q_string .= "order by fa_name ";
-      $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_firearms) > 0) {
         while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
@@ -127,7 +127,7 @@
           $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
           $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by ammo_name ";
-          $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
             while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 

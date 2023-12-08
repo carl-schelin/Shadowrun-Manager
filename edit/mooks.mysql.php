@@ -157,10 +157,10 @@
             logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['runr_name']);
 
             $query = "update members set mem_owner = " . $formVars['runr_owner'] . " where mem_runner = " . $formVars['id'];
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
             $query = "update runners set " . $q_string . " where runr_id = " . $formVars['id'];
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
             print "alert('Runner updated');\n";
           }
@@ -169,7 +169,7 @@
             logaccess($_SESSION['username'], $package, "Adding: " . $formVars['runr_name']);
 
             $query = "insert into runners set runr_id = NULL, " . $q_string;
-            $result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            $result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
             $newrunner = last_insert_id();
 
             print "alert('Runner created');\n";

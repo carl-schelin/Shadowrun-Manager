@@ -145,7 +145,7 @@ $(document).ready( function() {
   $q_string .= "from users ";
   $q_string .= "where usr_disabled = 0 and usr_id > 1 ";
   $q_string .= "order by usr_last,usr_first ";
-  $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_users = mysqli_fetch_array($q_users)) {
     print "<option value=\"" . $a_users['usr_id'] . "\">" . $a_users['usr_last'] . ", " . $a_users['usr_first'] . "</option>\n";
   }

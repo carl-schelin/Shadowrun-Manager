@@ -65,7 +65,7 @@
   $q_string .= "left join versions on versions.ver_id = commlink.link_book ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
   $q_string .= "order by link_rating,ver_version ";
-  $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_commlink) > 0) {
     while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 

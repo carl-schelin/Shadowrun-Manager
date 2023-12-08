@@ -25,7 +25,7 @@
       $q_string  = "select point_number,point_cost,point_level,point_book,point_page ";
       $q_string .= "from points ";
       $q_string .= "where point_id = " . $formVars['id'];
-      $q_points = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_points = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_points = mysqli_fetch_array($q_points);
       mysql_free_result($q_points);
 

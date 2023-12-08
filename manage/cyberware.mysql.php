@@ -65,7 +65,7 @@
   $q_string .= "left join class on class.class_id = cyberware.ware_class ";
   $q_string .= "where r_ware_character = " . $formVars['id'] . " ";
   $q_string .= "order by ware_name,ware_rating,ver_version ";
-  $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberware) > 0) {
     while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
@@ -104,7 +104,7 @@
       $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
       $q_string .= "order by acc_name,acc_rating,ver_version ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 

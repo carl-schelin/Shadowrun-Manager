@@ -26,7 +26,7 @@
       $q_string .= "from r_spells ";
       $q_string .= "left join spells on spells.spell_id = r_spells.r_spell_number ";
       $q_string .= "where r_spell_id = " . $formVars['id'];
-      $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_spells = mysqli_fetch_array($q_r_spells);
       mysql_free_result($q_r_spells);
 

@@ -27,7 +27,7 @@
       $q_string .= "left join projectile on projectile.proj_id = r_projectile.r_proj_number ";
       $q_string .= "left join class on class.class_id = projectile.proj_class ";
       $q_string .= "where r_proj_id = " . $formVars['id'];
-      $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_projectile = mysqli_fetch_array($q_r_projectile);
       mysql_free_result($q_r_projectile);
 

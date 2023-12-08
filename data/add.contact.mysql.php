@@ -57,7 +57,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['con_archetype']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -104,7 +104,7 @@
       $q_string .= "left join versions on versions.ver_id = contact.con_book ";
       $q_string .= "left join users on users.usr_id = contact.con_owner ";
       $q_string .= "order by con_archetype,con_name,ver_version ";
-      $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_contact) > 0) {
         while ($a_contact = mysqli_fetch_array($q_contact)) {
 
@@ -125,7 +125,7 @@
           $q_string  = "select r_con_id ";
           $q_string .= "from r_contact ";
           $q_string .= "where r_con_number = " . $a_contact['con_id'] . " ";
-          $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_contact) > 0) {
             while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
               $total++;

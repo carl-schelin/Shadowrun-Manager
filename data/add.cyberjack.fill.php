@@ -26,7 +26,7 @@
       $q_string .= "jack_perm,jack_cost,jack_book,jack_page ";
       $q_string .= "from cyberjack ";
       $q_string .= "where jack_id = " . $formVars['id'];
-      $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_cyberjack = mysqli_fetch_array($q_cyberjack);
       mysql_free_result($q_cyberjack);
 

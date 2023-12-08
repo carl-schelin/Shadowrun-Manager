@@ -25,7 +25,7 @@
       $q_string  = "select qual_name,qual_value,qual_desc,qual_book,qual_page ";
       $q_string .= "from qualities ";
       $q_string .= "where qual_id = " . $formVars['id'];
-      $q_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_qualities = mysqli_fetch_array($q_qualities);
       mysql_free_result($q_qualities);
 

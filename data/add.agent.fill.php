@@ -25,7 +25,7 @@
       $q_string  = "select agt_name,agt_rating,agt_avail,agt_perm,agt_cost,agt_book,agt_page ";
       $q_string .= "from agents ";
       $q_string .= "where agt_id = " . $formVars['id'];
-      $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_agents = mysqli_fetch_array($q_agents);
       mysql_free_result($q_agents);
 

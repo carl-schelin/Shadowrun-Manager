@@ -25,7 +25,7 @@
       $q_string  = "select st_cred,st_date,st_notes ";
       $q_string .= "from street ";
       $q_string .= "where st_id = " . $formVars['id'];
-      $q_street = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_street = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_street = mysqli_fetch_array($q_street);
       mysql_free_result($q_street);
 

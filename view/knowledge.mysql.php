@@ -32,7 +32,7 @@
   $q_string .= "left join knowledge on knowledge.know_id = r_knowledge.r_know_number ";
   $q_string .= "where r_know_character = " . $formVars['id'] . " ";
   $q_string .= "order by know_name ";
-  $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_knowledge) > 0) {
     while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
 
@@ -40,19 +40,19 @@
       $q_string .= "from s_knowledge ";
       $q_string .= "left join versions on versions.ver_id = s_knowledge.s_know_book ";
       $q_string .= "where s_know_id = " . $a_r_knowledge['know_attribute'];
-      $q_s_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_s_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_s_knowledge = mysqli_fetch_array($q_s_knowledge);
 
       $q_string  = "select att_name,att_column ";
       $q_string .= "from attributes ";
       $q_string .= "where att_id = " . $a_s_knowledge['s_know_attribute'] . " ";
-      $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_attributes = mysqli_fetch_array($q_attributes);
 
       $q_string  = "select " . $a_attributes['att_column'] . " ";
       $q_string .= "from runners ";
       $q_string .= "where runr_id = " . $formVars['id'] . " ";
-      $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_runners = mysqli_fetch_array($q_runners);
 
       $output .= "<tr>\n";

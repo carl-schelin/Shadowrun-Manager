@@ -49,7 +49,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['know_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -120,7 +120,7 @@
         $q_string .= "left join s_knowledge on s_knowledge.s_know_id = knowledge.know_attribute ";
         $q_string .= "where s_know_name = \"" . $know_name . "\" ";
         $q_string .= "order by know_name ";
-        $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_knowledge) > 0) {
           while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
 
@@ -134,7 +134,7 @@
             $q_string  = "select r_know_id ";
             $q_string .= "from r_knowledge ";
             $q_string .= "where r_know_number = " . $a_knowledge['know_id'] . " ";
-            $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_knowledge) > 0) {
               while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
                 $total++;

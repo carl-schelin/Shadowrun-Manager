@@ -25,7 +25,7 @@
       $q_string  = "select kar_karma,kar_date,kar_notes ";
       $q_string .= "from karma ";
       $q_string .= "where kar_id = " . $formVars['id'];
-      $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_karma = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_karma = mysqli_fetch_array($q_karma);
       mysql_free_result($q_karma);
 

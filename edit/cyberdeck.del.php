@@ -25,19 +25,19 @@
       $q_string  = "select r_deck_character ";
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
-      $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_cyberdeck = mysqli_fetch_array($q_r_commlink);
 
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";
       $q_string .= "where r_acc_character = " . $a_r_cyberdeck['r_deck_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
-      $result = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
 # delete all the agents associated with the deleted deck
       $q_string  = "delete ";
       $q_string .= "from r_agents ";
       $q_string .= "where r_agt_cyberdeck = " . $formVars['id'] . " ";
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
       print "alert('Cyberdeck agents deleted.');\n";
 
@@ -45,7 +45,7 @@
       $q_string  = "delete ";
       $q_string .= "from r_program ";
       $q_string .= "where r_pgm_cyberdeck = " . $formVars['id'] . " ";
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
       print "alert('Cyberdeck programs deleted.');\n";
 
@@ -53,7 +53,7 @@
       $q_string  = "delete ";
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
       print "alert('Cyberdeck deleted.');\n";
 

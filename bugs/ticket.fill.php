@@ -25,7 +25,7 @@
       $q_string  = "select bug_discovered,bug_closed,bug_subject ";
       $q_string .= "from bugs ";
       $q_string .= "where bug_id = " . $formVars['id'];
-      $q_bugs = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_bugs = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_bugs = mysqli_fetch_array($q_bugs);
 
       print "document.start.bug_discovered.value = '" . mysql_real_escape_string($a_bugs['bug_discovered']) . "';\n";

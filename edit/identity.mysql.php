@@ -55,7 +55,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['id_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -172,7 +172,7 @@
       $q_string .= "from r_identity ";
       $q_string .= "where id_character = " . $formVars['id_character'] . " ";
       $q_string .= "order by id_name ";
-      $q_r_identity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_identity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_identity) > 0) {
         while ($a_r_identity = mysqli_fetch_array($q_r_identity)) {
 
@@ -205,7 +205,7 @@
           $q_string .= "from r_license ";
           $q_string .= "where lic_identity = " . $a_r_identity['id_id'] . " ";
           $q_string .= "order by lic_type ";
-          $q_r_license = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_license = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_license) > 0) {
             while ($a_r_license = mysqli_fetch_array($q_r_license)) {
 

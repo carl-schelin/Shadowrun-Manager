@@ -65,7 +65,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -101,7 +101,7 @@
 
             $query = "update bugs set " . $q_string . " where bug_id = " . $formVars['id'];
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
             $q_string = 
               "bug_bug_id =  " . $formVars['id']                              . "," . 
@@ -110,7 +110,7 @@
 
             $query = "insert into bugs_detail set bug_id=null," . $q_string;
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           } else {
             $formVars['bug_closed'] = '0000-00-00';
@@ -126,7 +126,7 @@
 
             $query = "update bugs set " . $q_string . " where bug_id = " . $formVars['id'];
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
             $q_string = 
               "bug_bug_id =  " . $formVars['id']                              . "," . 
@@ -135,7 +135,7 @@
 
             $query = "insert into bugs_detail set bug_id=null," . $q_string;
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
           }
         }
       }

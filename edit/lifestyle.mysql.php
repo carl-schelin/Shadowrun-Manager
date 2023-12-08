@@ -80,7 +80,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_life_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -92,7 +92,7 @@
       $q_string .= "from metatypes ";
       $q_string .= "left join runners on runners.runr_metatype = metatypes.meta_id ";
       $q_string .= "where runr_id = " . $formVars['r_life_character'] . " ";
-      $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_metatypes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_metatypes = mysqli_fetch_array($q_metatypes);
 # if SR5 (id 2)
 # if troll, * 2;
@@ -133,7 +133,7 @@
         $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by life_style ";
-        $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_lifestyle = mysqli_fetch_array($q_lifestyle)) {
           $output .= "<option value=\"" . $a_lifestyle['life_id'] . "\">" . $a_lifestyle['life_style'] . "</option>\n";
         }
@@ -216,7 +216,7 @@
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
       $q_string .= "where r_life_character = " . $formVars['r_life_character'] . " ";
       $q_string .= "order by life_style ";
-      $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_lifestyle) > 0) {
         while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 

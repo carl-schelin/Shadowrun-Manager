@@ -61,7 +61,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['life_style']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -104,7 +104,7 @@
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by life_style,ver_version ";
-      $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_lifestyle) > 0) {
         while ($a_lifestyle = mysqli_fetch_array($q_lifestyle)) {
 
@@ -122,7 +122,7 @@
           $q_string  = "select r_life_id ";
           $q_string .= "from r_lifestyle ";
           $q_string .= "where r_life_number = " . $a_lifestyle['life_id'] . " ";
-          $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_lifestyle) > 0) {
             while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
               $total++;

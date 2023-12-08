@@ -59,7 +59,7 @@
     $q_string .= "left join versions on versions.ver_id = command.cmd_book ";
     $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
     $q_string .= "order by cmd_brand,cmd_model,ver_version ";
-    $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_command) > 0) {
       while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
@@ -117,7 +117,7 @@
         $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
         $q_string .= "where sub_name = \"Consoles\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_command['r_cmd_id'] . " ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
-        $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_accessory) > 0) {
 
           $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -171,7 +171,7 @@
         $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
         $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_command = " . $a_r_command['r_cmd_id'] . " and pgm_type = 2 ";
         $q_string .= "order by pgm_name ";
-        $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_program) > 0) {
           $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
           $output .= "<tr>\n";
@@ -215,7 +215,7 @@
         $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
         $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_command = " . $a_r_command['r_cmd_id'] . " and pgm_type = 3 ";
         $q_string .= "order by pgm_name ";
-        $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_program) > 0) {
           $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
           $output .= "<tr>\n";

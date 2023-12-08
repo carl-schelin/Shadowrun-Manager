@@ -8,7 +8,7 @@
     $q_string .= "left join runners on runners.runr_id = members.mem_runner ";
     $q_string .= "where mem_invite = 1 and runr_owner = " . $_SESSION['uid'] . " ";
     $q_string .= "group by grp_name ";
-    $q_members = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+    $q_members = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
     if (mysql_num_rows($q_members) > 0) {
       print "<p style=\"text-align: center;\">Your characters are members of the following groups: ";
       while ($a_groups = mysqli_fetch_array($q_members)) {

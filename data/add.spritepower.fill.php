@@ -25,7 +25,7 @@
       $q_string  = "select pow_name,pow_description,pow_book,pow_page ";
       $q_string .= "from sprite_powers ";
       $q_string .= "where pow_id = " . $formVars['id'];
-      $q_sprite_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_sprite_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_sprite_powers = mysqli_fetch_array($q_sprite_powers);
       mysql_free_result($q_sprite_powers);
 

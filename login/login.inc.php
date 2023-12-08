@@ -93,7 +93,7 @@ if (isset($_POST['login'])) {
       $q_string  = "select usr_id,usr_first,usr_last,usr_email ";
       $q_string .= "from users ";
       $q_string .= "where usr_name='$user' and usr_passwd='$pass'"; 
-      $q_users = mysql_query($q_string);
+      $q_users = mysqli_query($db, $q_string);
 
 // Check that at least one row was returned 
       $c_users = mysql_num_rows($q_users); 
@@ -117,7 +117,7 @@ if (isset($_POST['login'])) {
           $q_string .= "usr_lastlogin = \"" . date('Y-m-d H:I:s')     . "\",";
           $q_string .= "usr_ipaddress = \"" . $_SERVER['REMOTE_ADDR'] . "\"";
           $q_string .= "where usr_id = " . $a_users['usr_id'];
-          $return = mysql_query($q_string);
+          $return = mysqli_query($db, $q_string);
 
           header( "Location: ".$ref); 
           exit();

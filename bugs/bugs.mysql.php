@@ -35,10 +35,10 @@
 
     logaccess($_SESSION['username'], $package, "Adding detail: " . $formVars['bug_module']);
 
-    $result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+    $result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
     $query = "select last_insert_id()";
-    $q_result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+    $q_result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
     $a_result = mysqli_fetch_array($q_result);
 
     $bug = $a_result['last_insert_id()'];
@@ -50,7 +50,7 @@
 
     $query = "insert into bugs_detail set bug_id = NULL," . $q_string;
 
-    $result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+    $result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
     $url = $Bugroot . "/ticket.php?id=" . $bug . "#problem";
 

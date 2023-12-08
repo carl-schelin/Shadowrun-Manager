@@ -65,7 +65,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -101,7 +101,7 @@
 
             $query = "update features set " . $q_string . " where feat_id = " . $formVars['id'];
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
             $q_string = 
               "feat_feat_id =  " . $formVars['id']                            . "," . 
@@ -110,7 +110,7 @@
 
             $query = "insert into features_detail set feat_id=null," . $q_string;
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           } else {
             $formVars['feat_closed'] = '0000-00-00';
@@ -126,7 +126,7 @@
 
             $query = "update features set " . $q_string . " where feat_id = " . $formVars['id'];
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
             $q_string = 
               "feat_feat_id =  " . $formVars['id']                              . "," . 
@@ -135,7 +135,7 @@
 
             $query = "insert into features_detail set feat_id=null," . $q_string;
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
           }
         }
       }

@@ -64,7 +64,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['trad_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -106,7 +106,7 @@
       $tradition_name[0] = "Unassigned";
       $q_string  = "select s_trad_id,s_trad_name ";
       $q_string .= "from s_tradition ";
-      $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
         $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
       }
@@ -114,7 +114,7 @@
       $attribute_name[0] = "Unassigned";
       $q_string  = "select att_id,att_name ";
       $q_string .= "from attributes ";
-      $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       while ($a_attributes = mysqli_fetch_array($q_attributes)) {
         $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
       }
@@ -141,7 +141,7 @@
       $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by trad_name,ver_version ";
-      $q_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_tradition) > 0) {
         while ($a_tradition = mysqli_fetch_array($q_tradition)) {
 
@@ -157,7 +157,7 @@
           $q_string  = "select r_trad_id ";
           $q_string .= "from r_tradition ";
           $q_string .= "where r_trad_number = " . $a_tradition['trad_id'] . " ";
-          $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_tradition) > 0) {
             while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
               $total++;

@@ -52,7 +52,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_meta_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -130,7 +130,7 @@
         $q_string .= "left join versions on versions.ver_id = metamagics.meta_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by meta_name ";
-        $q_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_metamagics = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_metamagics) > 0) {
           while ($a_metamagics = mysqli_fetch_array($q_metamagics)) {
 
@@ -210,7 +210,7 @@
       $q_string .= "left join versions on versions.ver_id = metamagics.meta_book ";
       $q_string .= "where r_meta_character = " . $formVars['r_meta_character'] . " ";
       $q_string .= "order by meta_name ";
-      $q_r_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_metamagics = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_metamagics) > 0) {
         while ($a_r_metamagics = mysqli_fetch_array($q_r_metamagics)) {
 

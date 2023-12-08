@@ -20,7 +20,7 @@
   $q_string  = "select runr_body,runr_willpower,runr_physicalcon,runr_stuncon ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysqli_fetch_array($q_runners);
 
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";

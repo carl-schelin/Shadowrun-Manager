@@ -58,7 +58,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['qual_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -124,7 +124,7 @@
         }
         $q_string .= "and ver_admin = 1 ";
         $q_string .= "order by qual_name,ver_version ";
-        $q_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_qualities) > 0) {
           while ($a_qualities = mysqli_fetch_array($q_qualities)) {
 
@@ -140,7 +140,7 @@
             $q_string  = "select r_qual_id ";
             $q_string .= "from r_qualities ";
             $q_string .= "where r_qual_number = " . $a_qualities['qual_id'] . " ";
-            $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_qualities) > 0) {
               while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
                 $total++;

@@ -28,7 +28,7 @@
       $q_string .= "left join vehicles on vehicles.veh_id = r_vehicles.r_veh_number ";
       $q_string .= "left join class on class.class_id = vehicles.veh_class ";
       $q_string .= "where r_veh_id = " . $formVars['id'];
-      $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_vehicles = mysqli_fetch_array($q_r_vehicles);
       mysql_free_result($q_r_vehicles);
 

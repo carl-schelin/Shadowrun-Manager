@@ -10,7 +10,7 @@
     $q_string .= "where usr_name like '" . $search . "%' or usr_first like '" . $search . "%' or usr_last like '" . $search . "%' ";
     $q_string .= "order by usr_name limit 0, 5";
 
-    $q_users = mysql_query($q_string);
+    $q_users = mysqli_query($db, $q_string);
 
     $c_users = mysql_num_rows($q_users);
 
@@ -37,7 +37,7 @@
         $username = addslashes($_GET['usr_name']); 
       } 
 
-      $c_users = mysql_num_rows(mysql_query("select * from users where usr_name='" . $username . "'"));
+      $c_users = mysql_num_rows(mysqli_query($db, "select * from users where usr_name='" . $username . "'"));
 
       header('Content-Type: text/xml'); 
       header('Pragma: no-cache'); 
@@ -65,7 +65,7 @@
         $level = addslashes($_GET['level']); 
       } 
 
-      $c_levels = mysql_num_rows(mysql_query("select * from levels where lvl_name='" . $level . "'"));
+      $c_levels = mysql_num_rows(mysqli_query($db, "select * from levels where lvl_name='" . $level . "'"));
 
       header('Content-Type: text/xml'); 
       header('Pragma: no-cache'); 

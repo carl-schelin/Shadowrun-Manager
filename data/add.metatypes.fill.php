@@ -25,7 +25,7 @@
       $q_string  = "select meta_name,meta_walk,meta_run,meta_swim,meta_notes,meta_book,meta_page ";
       $q_string .= "from metatypes ";
       $q_string .= "where meta_id = " . $formVars['id'];
-      $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_metatypes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_metatypes = mysqli_fetch_array($q_metatypes);
       mysql_free_result($q_metatypes);
 

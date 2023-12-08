@@ -50,7 +50,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_form_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -108,7 +108,7 @@
         $q_string .= "left join versions on versions.ver_id = complexform.form_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by form_name,ver_version ";
-        $q_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_complexform) > 0) {
           while ($a_complexform = mysqli_fetch_array($q_complexform)) {
 
@@ -213,7 +213,7 @@
       $q_string .= "left join versions on versions.ver_id = complexform.form_book ";
       $q_string .= "where r_form_character = " . $formVars['r_form_character'] . " ";
       $q_string .= "order by form_name,ver_version ";
-      $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_complexform) > 0) {
         while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
 

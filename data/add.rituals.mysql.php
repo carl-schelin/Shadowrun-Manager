@@ -95,7 +95,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['rit_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -152,7 +152,7 @@
       $q_string .= "left join versions on versions.ver_id = rituals.rit_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by rit_name ";
-      $q_rituals = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_rituals = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_rituals) > 0) {
         while ($a_rituals = mysqli_fetch_array($q_rituals)) {
 
@@ -191,7 +191,7 @@
           $q_string  = "select r_rit_id ";
           $q_string .= "from r_rituals ";
           $q_string .= "where r_rit_number = " . $a_rituals['rit_id'] . " ";
-          $q_r_rituals = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_rituals = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_rituals) > 0) {
             while ($a_r_rituals = mysqli_fetch_array($q_r_rituals)) {
               $total++;

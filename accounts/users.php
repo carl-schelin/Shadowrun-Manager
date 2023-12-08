@@ -129,7 +129,7 @@ $(document).ready( function() {
   $q_string  = "select theme_id,theme_title ";
   $q_string .= "from themes ";
   $q_string .= "order by theme_title";
-  $q_themes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_themes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_themes = mysqli_fetch_array($q_themes)) {
     print "<option value=\"" . $a_themes['theme_id'] . "\">" . $a_themes['theme_title'] . "</option>\n";
   }
@@ -208,7 +208,7 @@ onKeyUp="javascript:show_file('validate.password.php?password=' + usr_passwd.val
   $q_string .= "left join groups on groups.grp_id = members.mem_group ";
   $q_string .= "left join users on users.usr_id = groups.grp_owner ";
   $q_string .= "where runr_owner = " . $_SESSION['uid'] . " ";
-  $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   while ($a_members = mysqli_fetch_array($q_members)) {
 
     $delete  = "<input type=\"button\" value=\"Delete\" onClick=\"javascript:show_file('members.del.php?id="   . $a_members['mem_id'] . "');\">";

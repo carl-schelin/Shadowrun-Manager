@@ -25,7 +25,7 @@
       $q_string  = "select pub_publicity,pub_date,pub_notes ";
       $q_string .= "from publicity ";
       $q_string .= "where pub_id = " . $formVars['id'];
-      $q_publicity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_publicity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_publicity = mysqli_fetch_array($q_publicity);
       mysql_free_result($q_publicity);
 

@@ -70,7 +70,7 @@
   $q_string .= "left join versions on versions.ver_id = adept.adp_book ";
   $q_string .= "where r_adp_character = " . $formVars['id'] . " ";
   $q_string .= "order by adp_name ";
-  $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_adept) > 0) {
     while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
 

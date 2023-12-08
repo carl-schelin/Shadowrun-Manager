@@ -77,7 +77,7 @@
       $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
       $q_string .= "where ver_active = 1 ";
       $q_string .= "order by agt_name,agt_rating,ver_version ";
-      $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_agents) > 0) {
         while ($a_agents = mysqli_fetch_array($q_agents)) {
 

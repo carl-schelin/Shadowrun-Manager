@@ -69,7 +69,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_bio_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -104,7 +104,7 @@
         $q_string  = "select grade_id,grade_name ";
         $q_string .= "from grades ";
         $q_string .= "order by grade_essence desc ";
-        $q_grades = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_grades = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_grades = mysqli_fetch_array($q_grades)) {
           $output .= "<option value=\"" . $a_grades['grade_id'] . "\">" . $a_grades['grade_name'] . "</option>\n";
         }
@@ -169,7 +169,7 @@
           $q_string .= "left join versions on versions.ver_id = bioware.bio_book ";
           $q_string .= "where class_name like \"" . $bioware . "%\" and ver_active = 1 ";
           $q_string .= "order by bio_name,bio_rating,class_name,ver_version ";
-          $q_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_bioware) > 0) {
             while ($a_bioware = mysqli_fetch_array($q_bioware)) {
 
@@ -270,7 +270,7 @@
       $q_string .= "left join versions on versions.ver_id = bioware.bio_book ";
       $q_string .= "where r_bio_character = " . $formVars['r_bio_character'] . " ";
       $q_string .= "order by bio_name,bio_rating,bio_class,ver_version ";
-      $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_bioware) > 0) {
         while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 

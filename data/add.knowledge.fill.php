@@ -25,7 +25,7 @@
       $q_string  = "select know_name,know_attribute ";
       $q_string .= "from knowledge ";
       $q_string .= "where know_id = " . $formVars['id'];
-      $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_knowledge = mysqli_fetch_array($q_knowledge);
       mysql_free_result($q_knowledge);
 

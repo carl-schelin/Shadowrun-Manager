@@ -25,7 +25,7 @@
       $q_string  = "select form_name,form_target,form_duration,form_level,form_fading,form_book,form_page ";
       $q_string .= "from complexform ";
       $q_string .= "where form_id = " . $formVars['id'];
-      $q_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_complexform = mysqli_fetch_array($q_complexform);
       mysql_free_result($q_complexform);
 

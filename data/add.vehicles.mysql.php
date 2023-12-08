@@ -181,7 +181,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['veh_model']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -277,7 +277,7 @@
         $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
         $q_string .= "where class_name like \"" . $veh_name . "%\" and ver_admin = 1 ";
         $q_string .= "order by veh_make,veh_model,ver_version,veh_cost ";
-        $q_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_vehicles) > 0) {
           while ($a_vehicles = mysqli_fetch_array($q_vehicles)) {
 
@@ -320,7 +320,7 @@
             $q_string  = "select r_veh_id ";
             $q_string .= "from r_vehicles ";
             $q_string .= "where r_veh_number = " . $a_vehicles['veh_id'] . " ";
-            $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_vehicles) > 0) {
               while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
                 $total++;

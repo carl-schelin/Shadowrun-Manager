@@ -42,7 +42,7 @@
           $q_string  = "select deck_access ";
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['r_deck_number'] . " ";
-          $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
@@ -64,7 +64,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -93,7 +93,7 @@
           $q_string  = "select deck_access ";
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['r_deck_number'] . " ";
-          $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
@@ -115,7 +115,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -181,7 +181,7 @@
         $q_string .= "left join versions on versions.ver_id = cyberdeck.deck_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by deck_rating,deck_cost,ver_version ";
-        $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_cyberdeck) > 0) {
           while ($a_cyberdeck = mysqli_fetch_array($q_cyberdeck)) {
 

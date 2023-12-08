@@ -68,7 +68,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['meta_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -126,7 +126,7 @@
       $q_string .= "left join versions on versions.ver_id = metatypes.meta_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by meta_name,ver_version ";
-      $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_metatypes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_metatypes) > 0) {
         while ($a_metatypes = mysqli_fetch_array($q_metatypes)) {
 
@@ -142,7 +142,7 @@
           $q_string  = "select runr_metatype ";
           $q_string .= "from runners ";
           $q_string .= "where runr_metatype = " . $a_metatypes['meta_id'] . " ";
-          $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_runners) > 0) {
             while ($a_runners = mysqli_fetch_array($q_runners)) {
               $total++;

@@ -60,7 +60,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_gear_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -151,7 +151,7 @@
           $q_string .= "and gear_class = " . $formVars['gear_class'] . " ";
         }
         $q_string .= "order by gear_name,gear_rating,gear_class,ver_version ";
-        $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_gear) > 0) {
           while ($a_gear = mysqli_fetch_array($q_gear)) {
 
@@ -250,7 +250,7 @@
       $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
       $q_string .= "where r_gear_character = " . $formVars['r_gear_character'] . " ";
       $q_string .= "order by gear_name,r_gear_details,gear_rating,gear_class,ver_version ";
-      $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_gear) > 0) {
         while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
@@ -304,7 +304,7 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Gear\" and r_acc_character = " . $formVars['r_gear_character'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 

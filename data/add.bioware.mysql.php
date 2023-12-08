@@ -87,7 +87,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['bio_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -171,7 +171,7 @@
         $q_string .= "left join versions on versions.ver_id = bioware.bio_book ";
         $q_string .= "where class_name = \"" . $bioware_group . "\" and ver_admin = 1 "; 
         $q_string .= "order by class_name,bio_name,bio_rating,ver_version ";
-        $q_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_bioware) > 0) {
           while ($a_bioware = mysqli_fetch_array($q_bioware)) {
 
@@ -197,7 +197,7 @@
             $q_string  = "select r_bio_id ";
             $q_string .= "from r_bioware ";
             $q_string .= "where r_bio_number = " . $a_bioware['bio_id'] . " ";
-            $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_bioware) > 0) {
               while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
                 $total++;

@@ -25,7 +25,7 @@
       $q_string  = "select pgm_name,pgm_type,pgm_desc,pgm_avail,pgm_perm,pgm_cost,pgm_book,pgm_page ";
       $q_string .= "from program ";
       $q_string .= "where pgm_id = " . $formVars['id'];
-      $q_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_program = mysqli_fetch_array($q_program);
       mysql_free_result($q_program);
 

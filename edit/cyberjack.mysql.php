@@ -42,7 +42,7 @@
           $q_string  = "select jack_access ";
           $q_string .= "from cyberjack ";
           $q_string .= "where jack_id = " . $formVars['r_jack_number'] . " ";
-          $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           $a_cyberjack = mysqli_fetch_array($q_cyberjack);
 
           $jack_access =
@@ -64,7 +64,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -93,7 +93,7 @@
           $q_string  = "select jack_access ";
           $q_string .= "from cyberjack ";
           $q_string .= "where jack_id = " . $formVars['r_jack_number'] . " ";
-          $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           $a_cyberjack = mysqli_fetch_array($q_cyberjack);
 
           $jack_access =
@@ -115,7 +115,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -176,7 +176,7 @@
         $q_string  = "select r_jack_id ";
         $q_string .= "from r_cyberjack ";
         $q_string .= "where r_jack_character = " . $formVars['r_jack_character'] . " ";
-        $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_cyberjack) > 0) {
           $output .= "<tr>\n";
           $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">Cyberjack already assigned.</td>\n";
@@ -189,7 +189,7 @@
           $q_string .= "left join versions on versions.ver_id = cyberjack.jack_book ";
           $q_string .= "where ver_active = 1 ";
           $q_string .= "order by jack_rating,jack_cost,ver_version ";
-          $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_cyberjack) > 0) {
             while ($a_cyberjack = mysqli_fetch_array($q_cyberjack)) {
 

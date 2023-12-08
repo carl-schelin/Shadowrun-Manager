@@ -25,7 +25,7 @@
       $q_string  = "select r_jack_data,r_jack_firewall ";
       $q_string .= "from r_cyberjack ";
       $q_string .= "where r_jack_id = " . $formVars['id'] . " ";
-      $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack);
       mysql_free_result($q_r_cyberjack);
 
@@ -46,7 +46,7 @@
           $query = "update r_cyberjack set r_jack_data = "     . $a_r_cyberjack['r_jack_firewall'] . ",r_jack_firewall = " . $a_r_cyberjack['r_jack_data']     . " where r_jack_id = " . $formVars['id'] . " ";
         }
 
-        $input = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+        $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
       }
 
 # get the value of right
@@ -65,7 +65,7 @@
           $query = "update r_cyberjack set r_jack_data = "   . $a_r_cyberjack['r_jack_firewall']   . ",r_jack_firewall = "   . $a_r_cyberjack['r_jack_data']   . " where r_jack_id = " . $formVars['id'] . " ";
         }
 
-        $input = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+        $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
       }
 
     } else {

@@ -26,7 +26,7 @@
       $q_string .= "spell_damage,spell_duration,spell_force,spell_drain,spell_book,spell_page  ";
       $q_string .= "from spells ";
       $q_string .= "where spell_id = " . $formVars['id'];
-      $q_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_spells = mysqli_fetch_array($q_spells);
       mysql_free_result($q_spells);
 

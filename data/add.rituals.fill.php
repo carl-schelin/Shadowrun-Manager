@@ -25,7 +25,7 @@
       $q_string  = "select rit_name,rit_anchor,rit_link,rit_minion,rit_spell,rit_spotter,rit_threshold,rit_length,rit_duration,rit_book,rit_page ";
       $q_string .= "from rituals ";
       $q_string .= "where rit_id = " . $formVars['id'];
-      $q_rituals = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_rituals = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_rituals = mysqli_fetch_array($q_rituals);
       mysql_free_result($q_rituals);
 

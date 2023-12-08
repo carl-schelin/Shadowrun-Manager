@@ -55,7 +55,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['tag_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -95,7 +95,7 @@
         $q_string .= "from tags ";
         $q_string .= "where tag_view = 0 and tag_owner = " . $_SESSION['uid'] . " ";
         $q_string .= "group by tag_name ";
-        $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_tags = mysqli_fetch_array($q_tags)) {
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');\">";
           $linkend   = "</a>";
@@ -114,7 +114,7 @@
         $q_string .= "from tags ";
         $q_string .= "where tag_view = 1 ";
         $q_string .= "group by tag_name ";
-        $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         while ($a_tags = mysqli_fetch_array($q_tags)) {
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');\">";
           $linkend   = "</a>";
@@ -176,7 +176,7 @@
       $q_string .= "left join users on users.usr_id = tags.tag_owner ";
       $q_string .= "where tag_character = " . $formVars['tag_character'] . " ";
       $q_string .= "order by tag_view,tag_name";
-      $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_tags) > 0) {
         while ($a_tags = mysqli_fetch_array($q_tags)) {
 

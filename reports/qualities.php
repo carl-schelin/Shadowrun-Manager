@@ -58,7 +58,7 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
@@ -101,7 +101,7 @@ $(document).ready( function () {
   $q_string .= "left join qualities on qualities.qual_id = r_qualities.r_qual_number ";
   $q_string .= "left join versions on versions.ver_id = qualities.qual_book ";
   $q_string .= "order by runr_name,qual_value desc,qual_name ";
-  $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_qualities) > 0) {
     while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
@@ -111,7 +111,7 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_qualities['r_qual_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_members) > 0) {
           $display = "Yes";
         }
@@ -170,7 +170,7 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
@@ -212,7 +212,7 @@ $(document).ready( function () {
     $q_string .= "left join qualities on qualities.qual_id = r_qualities.r_qual_number ";
     $q_string .= "left join versions on versions.ver_id = qualities.qual_book ";
     $q_string .= "order by runr_name,qual_value desc,qual_name ";
-    $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_qualities) > 0) {
       while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
@@ -222,7 +222,7 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_qualities['r_qual_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_members) > 0) {
             $display = "Yes";
           }

@@ -25,26 +25,26 @@
       $q_string  = "select r_cmd_character ";
       $q_string .= "from r_command ";
       $q_string .= "where r_cmd_id = " . $formVars['id'] . " ";
-      $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_command = mysqli_fetch_array($q_r_command);
 
 # delete accessories
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";
       $q_string .= "where r_acc_character = " . $a_r_command['r_cmd_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
-      $result = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
 # delete all the programs associated with the deleted console
       $q_string  = "delete ";
       $q_string .= "from r_program ";
       $q_string .= "where r_pgm_command = " . $formVars['id'] . " ";
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
 # need to delete the console plus all associated programs and accessories
       $q_string  = "delete ";
       $q_string .= "from r_command ";
       $q_string .= "where r_cmd_id = " . $formVars['id'] . " ";
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
       print "alert('Rigger Command Console deleted.');\n";
 

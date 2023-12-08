@@ -24,7 +24,7 @@
   $q_string  = "select runr_name ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysqli_fetch_array($q_runners);
 
 ?>
@@ -379,7 +379,7 @@ Cyberdeck Information
   $q_string .= "from r_cyberdeck ";
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
-  $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
     while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 

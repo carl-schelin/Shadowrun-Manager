@@ -67,7 +67,7 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
@@ -118,7 +118,7 @@ $(document).ready( function () {
   $q_string .= "left join class on class.class_id = firearms.fa_class ";
   $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
   $q_string .= "order by runr_name,class_name,fa_name,ver_version ";
-  $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_firearms) > 0) {
     while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
@@ -128,7 +128,7 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_firearms['r_fa_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_members) > 0) {
           $display = "Yes";
         }
@@ -186,7 +186,7 @@ $(document).ready( function () {
           $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
           $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $a_r_firearms['r_fa_character'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by acc_name,acc_rating ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -224,7 +224,7 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
           $q_string .= "where r_ammo_character = " . $a_r_firearms['r_fa_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by ammo_name ";
-          $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
             while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
@@ -284,7 +284,7 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
@@ -335,7 +335,7 @@ $(document).ready( function () {
     $q_string .= "left join class on class.class_id = firearms.fa_class ";
     $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
     $q_string .= "order by runr_name,class_name,fa_name,ver_version ";
-    $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_firearms) > 0) {
       while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
@@ -345,7 +345,7 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_firearms['r_fa_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_members) > 0) {
             $display = "Yes";
           }
@@ -405,7 +405,7 @@ $(document).ready( function () {
             $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
             $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $a_r_firearms['r_fa_character'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
             $q_string .= "order by acc_name,acc_rating ";
-            $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_accessory) > 0) {
               while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
@@ -441,7 +441,7 @@ $(document).ready( function () {
             $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
             $q_string .= "where r_ammo_character = " . $a_r_firearms['r_fa_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
             $q_string .= "order by ammo_name ";
-            $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_ammo) > 0) {
               while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 

@@ -25,7 +25,7 @@
       $q_string  = "select gear_class,gear_name,gear_rating,gear_capacity,gear_avail,gear_perm,gear_basetime,gear_duration,gear_index,gear_cost,gear_book,gear_page ";
       $q_string .= "from gear ";
       $q_string .= "where gear_id = " . $formVars['id'];
-      $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_gear = mysqli_fetch_array($q_gear);
       mysql_free_result($q_gear);
 

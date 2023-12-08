@@ -25,7 +25,7 @@
       $q_string  = "select acc_type,acc_class,acc_accessory,acc_name,acc_mount,acc_essence,acc_rating,acc_capacity,acc_avail,acc_perm,acc_basetime,acc_duration,acc_index,acc_cost,acc_book,acc_page ";
       $q_string .= "from accessory ";
       $q_string .= "where acc_id = " . $formVars['id'];
-      $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_accessory = mysqli_fetch_array($q_accessory);
       mysql_free_result($q_accessory);
 

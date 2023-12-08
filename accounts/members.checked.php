@@ -22,7 +22,7 @@
       $q_string  = "select mem_visible ";
       $q_string .= "from members ";
       $q_string .= "where mem_id = " . $formVars['mem_id'] . " ";
-      $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_members = mysqli_fetch_array($q_members);
 
       if ($a_members['mem_visible'] == 1) {
@@ -38,7 +38,7 @@
 
       logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['mem_id']);
 
-      mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+      mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
       print "alert('" . $message . "');\n";
 

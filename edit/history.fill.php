@@ -25,7 +25,7 @@
       $q_string  = "select his_date,his_notes ";
       $q_string .= "from history ";
       $q_string .= "where his_id = " . $formVars['id'];
-      $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_history = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_history = mysqli_fetch_array($q_history);
       mysql_free_result($q_history);
 

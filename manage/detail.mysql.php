@@ -27,13 +27,13 @@
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_runners = mysqli_fetch_array($q_runners);
 
   $q_string  = "select r_deck_data ";
   $q_string .= "from r_cyberdeck ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " and r_deck_active = 1 ";
-  $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
     $a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck);
     $data_processing = $a_r_cyberdeck['r_deck_data'];
@@ -46,7 +46,7 @@
   $q_string  = "select kar_karma ";
   $q_string .= "from karma ";
   $q_string .= "where kar_character = " . $formVars['id'] . " ";
-  $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_karma = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_karma) > 0) {
     while ($a_karma = mysqli_fetch_array($q_karma)) {
       if ($a_karma['kar_karma'] > 0) {
@@ -299,13 +299,13 @@
   $q_string  = "select act_id,act_attribute,act_default ";
   $q_string .= "from active ";
   $q_string .= "where act_name = 'Gymnastics' ";
-  $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_active = mysqli_fetch_array($q_active);
 
   $q_string  = "select r_act_id,r_act_rank ";
   $q_string .= "from r_active ";
   $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
-  $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_active) > 0) {
     $a_r_active = mysqli_fetch_array($q_r_active);
     $dodge = $a_r_active['r_act_rank'];
@@ -319,13 +319,13 @@
   $q_string  = "select act_id,act_attribute,act_default ";
   $q_string .= "from active ";
   $q_string .= "where act_name = 'Unarmed Combat' ";
-  $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   $a_active = mysqli_fetch_array($q_active);
 
   $q_string  = "select r_act_id,r_act_rank ";
   $q_string .= "from r_active ";
   $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
-  $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_active) > 0) {
     $a_r_active = mysqli_fetch_array($q_r_active);
     $unarmedcombat = $a_r_active['r_act_rank'];

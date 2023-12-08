@@ -26,7 +26,7 @@
       $q_string .= "r_firearms ";
       $q_string .= "set r_fa_parentid = 0 ";
       $q_string .= "where r_fa_id= " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
       print "alert('Firearm association removed.');\n";
     } else {

@@ -25,7 +25,7 @@
       $q_string  = "select r_lang_number,r_lang_rank,r_lang_specialize,r_lang_expert ";
       $q_string .= "from r_language ";
       $q_string .= "where r_lang_id = " . $formVars['id'];
-      $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       $a_r_language = mysqli_fetch_array($q_r_language);
       mysql_free_result($q_r_language);
 

@@ -51,7 +51,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
 
@@ -85,7 +85,7 @@
 
           logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_ammo_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
 
           print "alert('" . $message . "');\n";
 
@@ -164,7 +164,7 @@
         $q_string .= "from r_firearms ";
         $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
         $q_string .= "where r_fa_id = " . $formVars['r_fa_id'] . " ";
-        $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         $a_r_firearms = mysqli_fetch_array($q_r_firearms);
 
 # for that class or something that works for all; numbers because both acc_class and fa_class are numeric. no need to convert to text
@@ -180,7 +180,7 @@
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
         $q_string .= $where . " and ver_active = 1 ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
-        $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
           while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
@@ -255,7 +255,7 @@
         $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
         $q_string .= "where r_ammo_character = " . $a_r_firearms['r_fa_character'] . " and r_ammo_parentid = 0 ";
         $q_string .= "order by ammo_name,class_name ";
-        $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_ammo) > 0) {
           while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 

@@ -21,7 +21,7 @@
   $q_string  = "select runr_id ";
   $q_string .= "from runners ";
   $q_string .= "where runr_name = \"" . $formVars['runr_name'] . "\" and runr_version = " . $formVars['runr_version'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
 
 # if a runner record is found for the same edition, make sure we don't overwrite 
 # an existing runner that's not the one we're working on. If the ID passed is the 
