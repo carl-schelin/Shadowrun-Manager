@@ -26,7 +26,7 @@
       $q_string .= "from weakness ";
       $q_string .= "where weak_id = " . $formVars['id'];
       $q_weakness = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_weakness = mysql_fetch_array($q_weakness);
+      $a_weakness = mysqli_fetch_array($q_weakness);
       mysql_free_result($q_weakness);
 
       print "document.dialog.weak_name.value = '"         . mysql_real_escape_string($a_weakness['weak_name'])        . "';\n";

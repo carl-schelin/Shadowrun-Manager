@@ -128,7 +128,7 @@
       $q_string .= "order by agt_name,agt_rating,ver_version ";
       $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_agents) > 0) {
-        while ($a_agents = mysql_fetch_array($q_agents)) {
+        while ($a_agents = mysqli_fetch_array($q_agents)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.agent.fill.php?id="  . $a_agents['agt_id'] . "');jQuery('#dialogAgent').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_agent('add.agent.del.php?id=" . $a_agents['agt_id'] . "');\">";
@@ -148,7 +148,7 @@
           $q_string .= "where r_agt_number = " . $a_agents['agt_id'] . " ";
           $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_agents) > 0) {
-            while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+            while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
               $total++;
             }
           }

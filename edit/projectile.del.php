@@ -26,7 +26,7 @@
       $q_string .= "from r_projectile ";
       $q_string .= "where r_proj_id = " . $formVars['id'] . " ";
       $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_projectile = mysql_fetch_array($q_r_projectile);
+      $a_r_projectile = mysqli_fetch_array($q_r_projectile);
 
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";

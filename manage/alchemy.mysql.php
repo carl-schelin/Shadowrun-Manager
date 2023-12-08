@@ -74,7 +74,7 @@
     $q_string .= "order by spell_group,spell_name ";
     $q_r_alchemy = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_alchemy) > 0) {
-      while ($a_r_alchemy = mysql_fetch_array($q_r_alchemy)) {
+      while ($a_r_alchemy = mysqli_fetch_array($q_r_alchemy)) {
 
         $spell_name = $a_r_alchemy['spell_name'];
         if (strlen($a_r_alchemy['r_alc_special']) > 0) {

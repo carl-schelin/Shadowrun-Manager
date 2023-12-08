@@ -26,7 +26,7 @@
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['id'];
       $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $a_groups = mysqli_fetch_array($q_groups);
       mysql_free_result($q_groups);
 
       $user = return_Index($a_groups['grp_owner'], "select usr_id from users order by usr_last,usr_first");

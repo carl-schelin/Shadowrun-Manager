@@ -301,7 +301,7 @@
         $q_string .= "order by fa_name,ver_version ";
         $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_firearms) > 0) {
-          while ($a_firearms = mysql_fetch_array($q_firearms)) {
+          while ($a_firearms = mysqli_fetch_array($q_firearms)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.firearm.fill.php?id="  . $a_firearms['fa_id'] . "');jQuery('#dialogFirearm').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_firearm('add.firearm.del.php?id=" . $a_firearms['fa_id'] . "');\">";
@@ -344,7 +344,7 @@
             $q_string .= "where r_fa_number = " . $a_firearms['fa_id'] . " ";
             $q_r_farmarms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_farmarms) > 0) {
-              while ($a_r_farmarms = mysql_fetch_array($q_r_farmarms)) {
+              while ($a_r_farmarms = mysqli_fetch_array($q_r_farmarms)) {
                 $total++;
               }
             }

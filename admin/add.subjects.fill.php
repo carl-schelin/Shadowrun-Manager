@@ -26,7 +26,7 @@
       $q_string .= "from subjects ";
       $q_string .= "where sub_id = " . $formVars['id'];
       $q_subjects = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_subjects = mysql_fetch_array($q_subjects);
+      $a_subjects = mysqli_fetch_array($q_subjects);
       mysql_free_result($q_subjects);
 
       print "document.dialog.sub_name.value = '" . mysql_real_escape_string($a_subjects['sub_name']) . "';\n";

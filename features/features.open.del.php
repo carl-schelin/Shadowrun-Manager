@@ -24,7 +24,7 @@
       $q_string .= "from features_detail ";
       $q_string .= "where feat_feat_id = " . $formVars['id'];
       $q_features_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_features_detail = mysql_fetch_array($q_features_detail)) {
+      while ($a_features_detail = mysqli_fetch_array($q_features_detail)) {
 
         logaccess($_SESSION['username'], $package, "Deleting " . $a_features_detail['feat_id'] . " from features_detail");
 

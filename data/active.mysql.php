@@ -118,7 +118,7 @@
         $q_string .= "order by act_name,ver_version ";
         $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_active) > 0) {
-          while ($a_active = mysql_fetch_array($q_active)) {
+          while ($a_active = mysqli_fetch_array($q_active)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:attach_active('active.mysql.php?act_id=" . $a_active['act_id'] . "', 0);\">";
             $linkend = "</a>";

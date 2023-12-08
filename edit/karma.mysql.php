@@ -130,7 +130,7 @@
       $q_string .= "order by kar_date ";
       $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_karma) > 0) {
-        while ($a_karma = mysql_fetch_array($q_karma)) {
+        while ($a_karma = mysqli_fetch_array($q_karma)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('karma.fill.php?id=" . $a_karma['kar_id'] . "');showDiv('karma-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_karma('karma.del.php?id="  . $a_karma['kar_id'] . "');\">";

@@ -68,7 +68,7 @@ $(document).ready( function () {
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
     $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -120,7 +120,7 @@ $(document).ready( function () {
   $q_string .= "order by runr_name,class_name,fa_name,ver_version ";
   $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_firearms) > 0) {
-    while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+    while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
       $display = "No";
 
@@ -188,7 +188,7 @@ $(document).ready( function () {
           $q_string .= "order by acc_name,acc_rating ";
           $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $acc_name = $a_r_accessory['acc_name'];
               if ($a_r_accessory['acc_mount'] != '') {
@@ -226,7 +226,7 @@ $(document).ready( function () {
           $q_string .= "order by ammo_name ";
           $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 
@@ -285,7 +285,7 @@ $(document).ready( function () {
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
       $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -337,7 +337,7 @@ $(document).ready( function () {
     $q_string .= "order by runr_name,class_name,fa_name,ver_version ";
     $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_firearms) > 0) {
-      while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+      while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
         $display = "No";
 
@@ -407,7 +407,7 @@ $(document).ready( function () {
             $q_string .= "order by acc_name,acc_rating ";
             $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_accessory) > 0) {
-              while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+              while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
                 $acc_name = $a_r_accessory['acc_name'];
                 if ($a_r_accessory['acc_mount'] != '') {
@@ -443,7 +443,7 @@ $(document).ready( function () {
             $q_string .= "order by ammo_name ";
             $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_ammo) > 0) {
-              while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+              while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
                 $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 

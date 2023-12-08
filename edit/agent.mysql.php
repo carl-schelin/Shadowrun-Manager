@@ -79,7 +79,7 @@
       $q_string .= "order by agt_name,agt_rating,ver_version ";
       $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_agents) > 0) {
-        while ($a_agents = mysql_fetch_array($q_agents)) {
+        while ($a_agents = mysqli_fetch_array($q_agents)) {
 
 # update = 4 == add agents to a deck
           $linkstart = "<a href=\"#\" onclick=\"javascript:select_agent('" . $myprogram . "?update=4&agt_id=" . $a_agents['agt_id'] . "');\">";

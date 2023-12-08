@@ -96,7 +96,7 @@
         $q_string .= "where tag_view = 0 and tag_owner = " . $_SESSION['uid'] . " ";
         $q_string .= "group by tag_name ";
         $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_tags = mysql_fetch_array($q_tags)) {
+        while ($a_tags = mysqli_fetch_array($q_tags)) {
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');\">";
           $linkend   = "</a>";
 
@@ -115,7 +115,7 @@
         $q_string .= "where tag_view = 1 ";
         $q_string .= "group by tag_name ";
         $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_tags = mysql_fetch_array($q_tags)) {
+        while ($a_tags = mysqli_fetch_array($q_tags)) {
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');\">";
           $linkend   = "</a>";
 
@@ -178,7 +178,7 @@
       $q_string .= "order by tag_view,tag_name";
       $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_tags) > 0) {
-        while ($a_tags = mysql_fetch_array($q_tags)) {
+        while ($a_tags = mysqli_fetch_array($q_tags)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');showDiv('tags-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_tags('tags.del.php?id=" . $a_tags['tag_id'] . "');\">";

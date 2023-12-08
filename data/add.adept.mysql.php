@@ -125,7 +125,7 @@
       $q_string .= "order by adp_name,ver_version ";
       $q_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_adept) > 0) {
-        while ($a_adept = mysql_fetch_array($q_adept)) {
+        while ($a_adept = mysqli_fetch_array($q_adept)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.adept.fill.php?id="  . $a_adept['adp_id'] . "');jQuery('#dialogAdeptPower').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_adept('add.adept.del.php?id=" . $a_adept['adp_id'] . "');\">";
@@ -144,7 +144,7 @@
           $q_string .= "where r_adp_number = " . $a_adept['adp_id'] . " ";
           $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_adept) > 0) {
-            while ($a_r_adept = mysql_fetch_array($q_r_adept)) {
+            while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
               $total++;
             }
           }

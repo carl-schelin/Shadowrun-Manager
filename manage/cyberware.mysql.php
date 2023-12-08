@@ -67,7 +67,7 @@
   $q_string .= "order by ware_name,ware_rating,ver_version ";
   $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberware) > 0) {
-    while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+    while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
       $rating = return_Rating($a_r_cyberware['ware_rating']);
 
@@ -106,7 +106,7 @@
       $q_string .= "order by acc_name,acc_rating,ver_version ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 

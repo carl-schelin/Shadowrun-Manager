@@ -61,26 +61,26 @@
   $q_string .= "order by lang_name ";
   $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_language) > 0) {
-    while ($a_r_language = mysql_fetch_array($q_r_language)) {
+    while ($a_r_language = mysqli_fetch_array($q_r_language)) {
 
       $q_string  = "select s_lang_name,s_lang_attribute,ver_book,s_lang_page ";
       $q_string .= "from s_language ";
       $q_string .= "left join versions on versions.ver_id = s_language.s_lang_book ";
       $q_string .= "where s_lang_id = " . $a_r_language['lang_attribute'];
       $q_s_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_s_language = mysql_fetch_array($q_s_language);
+      $a_s_language = mysqli_fetch_array($q_s_language);
 
       $q_string  = "select att_name,att_column ";
       $q_string .= "from attributes ";
       $q_string .= "where att_id = " . $a_s_language['s_lang_attribute'] . " ";
       $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_attributes = mysql_fetch_array($q_attributes);
+      $a_attributes = mysqli_fetch_array($q_attributes);
 
       $q_string  = "select " . $a_attributes['att_column'] . " ";
       $q_string .= "from runners ";
       $q_string .= "where runr_id = " . $formVars['id'] . " ";
       $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_runners = mysql_fetch_array($q_runners);
+      $a_runners = mysqli_fetch_array($q_runners);
 
       if ($a_r_language['r_lang_rank'] == 0) {
         $r_lang_rank = "Native Speaker";

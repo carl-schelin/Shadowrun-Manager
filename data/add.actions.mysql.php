@@ -141,7 +141,7 @@
       $q_string .= "order by action_name,ver_version ";
       $q_actions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_actions) > 0) {
-        while ($a_actions = mysql_fetch_array($q_actions)) {
+        while ($a_actions = mysqli_fetch_array($q_actions)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.actions.fill.php?id="  . $a_actions['action_id'] . "');jQuery('#dialogActions').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_action('add.actions.del.php?id=" . $a_actions['action_id'] . "');\">";

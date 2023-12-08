@@ -27,7 +27,7 @@
       $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
       $q_string .= "where r_arm_id = " . $formVars['id'];
       $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_armor = mysql_fetch_array($q_r_armor);
+      $a_r_armor = mysqli_fetch_array($q_r_armor);
       mysql_free_result($q_r_armor);
 
       $rating = return_Rating($a_r_armor['arm_rating']);

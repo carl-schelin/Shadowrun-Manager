@@ -34,7 +34,7 @@
   $q_string .= "order by adp_name ";
   $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_adept) > 0) {
-    while ($a_r_adept = mysql_fetch_array($q_r_adept)) {
+    while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
 
       if (strlen($a_r_adept['r_adp_specialize']) > 0) {
         $specialize = " (" . $a_r_adept['r_adp_specialize'] . ")";

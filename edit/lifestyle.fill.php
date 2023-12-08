@@ -26,7 +26,7 @@
       $q_string .= "from r_lifestyle ";
       $q_string .= "where r_life_id = " . $formVars['id'];
       $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_lifestyle = mysql_fetch_array($q_r_lifestyle);
+      $a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle);
       mysql_free_result($q_r_lifestyle);
 
       print "document.edit.r_life_number.value = '"        . mysql_real_escape_string($a_r_lifestyle['r_life_number'])        . "';\n";

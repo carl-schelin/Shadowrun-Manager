@@ -26,7 +26,7 @@
       $q_string .= "from r_vehicles ";
       $q_string .= "where r_veh_id = " . $formVars['id'] . " ";
       $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_vehicles = mysql_fetch_array($q_r_vehicles);
+      $a_r_vehicles = mysqli_fetch_array($q_r_vehicles);
 
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";

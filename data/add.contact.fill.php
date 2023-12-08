@@ -26,7 +26,7 @@
       $q_string .= "from contact ";
       $q_string .= "where con_id = " . $formVars['id'];
       $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_contact = mysql_fetch_array($q_contact);
+      $a_contact = mysqli_fetch_array($q_contact);
       mysql_free_result($q_contact);
 
       print "document.dialog.con_character.value = '"  . mysql_real_escape_string($a_contact['con_character']) . "';\n";

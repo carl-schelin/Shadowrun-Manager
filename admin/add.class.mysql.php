@@ -104,7 +104,7 @@
       $q_string .= "order by sub_name,class_name ";
       $q_class = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_class) > 0) {
-        while ($a_class = mysql_fetch_array($q_class)) {
+        while ($a_class = mysqli_fetch_array($q_class)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.class.fill.php?id="  . $a_class['class_id'] . "');jQuery('#dialogClass').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_class('add.class.del.php?id=" . $a_class['class_id'] . "');\">";

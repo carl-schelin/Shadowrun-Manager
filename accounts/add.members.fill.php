@@ -26,7 +26,7 @@
       $q_string .= "from members ";
       $q_string .= "where mem_id = " . $formVars['id'];
       $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_members = mysql_fetch_array($q_members);
+      $a_members = mysqli_fetch_array($q_members);
       mysql_free_result($q_members);
 
       $runner = return_Index($a_members['mem_runner'], "select runr_id from runners where runr_available = 1 order by runr_name");

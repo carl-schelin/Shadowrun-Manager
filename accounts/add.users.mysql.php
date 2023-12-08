@@ -149,7 +149,7 @@
       $q_string .= "order by usr_last,usr_first";
       $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_users) > 0) {
-        while ($a_users = mysql_fetch_array($q_users)) {
+        while ($a_users = mysqli_fetch_array($q_users)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.users.fill.php?id="  . $a_users['usr_id'] . "');showDiv('user-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_user('add.users.del.php?id="  . $a_users['usr_id'] . "');\">";
@@ -265,7 +265,7 @@ function display_user( $p_title, $p_toggle, $p_query ) {
   $q_string .= "where grp_disabled = 0 ";
   $q_string .= "order by grp_name";
   $q_groups = mysql_query($q_string);
-  while ($a_groups = mysql_fetch_array($q_groups)) {
+  while ($a_groups = mysqli_fetch_array($q_groups)) {
 
     $group  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
     $group .= "<tr>\n";
@@ -294,7 +294,7 @@ function display_user( $p_title, $p_toggle, $p_query ) {
     $q_string .= "order by usr_last,usr_first";
     $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_users) > 0) {
-      while ($a_users = mysql_fetch_array($q_users)) {
+      while ($a_users = mysqli_fetch_array($q_users)) {
 
         $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_user('add.users.del.php?id="  . $a_users['usr_id'] . "');\">";
         $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.users.fill.php?id=" . $a_users['usr_id'] . "');showDiv('user-hide');\">";

@@ -27,7 +27,7 @@
       $q_string .= "from cyberware ";
       $q_string .= "where ware_id = " . $formVars['id'];
       $q_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_cyberware = mysql_fetch_array($q_cyberware);
+      $a_cyberware = mysqli_fetch_array($q_cyberware);
       mysql_free_result($q_cyberware);
 
       print "document.dialog.ware_class.value = '"     . mysql_real_escape_string($a_cyberware['ware_class'])     . "';\n";

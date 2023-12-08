@@ -83,7 +83,7 @@
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by qual_name ";
         $q_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_qualities = mysql_fetch_array($q_qualities)) {
+        while ($a_qualities = mysqli_fetch_array($q_qualities)) {
           $output .= "<option value=\"" . $a_qualities['qual_id'] . "\">" . $a_qualities['qual_name'] . "</option>\n";
         }
 
@@ -147,7 +147,7 @@
       $q_string .= "order by qual_value desc,qual_name ";
       $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_qualities) > 0) {
-        while ($a_r_qualities = mysql_fetch_array($q_r_qualities)) {
+        while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('qualities.fill.php?id=" . $a_r_qualities['r_qual_id'] . "');showDiv('qualities-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_qualities('qualities.del.php?id="  . $a_r_qualities['r_qual_id'] . "');\">";

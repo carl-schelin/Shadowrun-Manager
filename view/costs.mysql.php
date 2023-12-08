@@ -22,7 +22,7 @@
   $q_string .= "left join runners on runners.runr_metatype = metatypes.meta_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_metatypes = mysql_fetch_array($q_metatypes);
+  $a_metatypes = mysqli_fetch_array($q_metatypes);
 
 
   $attributes = 0;
@@ -86,14 +86,14 @@
   $q_string .= "where ver_active = 1 ";
   $q_string .= "order by act_name ";
   $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_active = mysql_fetch_array($q_active)) {
+  while ($a_active = mysqli_fetch_array($q_active)) {
 
     $q_string  = "select r_act_rank,r_act_specialize ";
     $q_string .= "from r_active ";
     $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " and r_act_group = 0 ";
     $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_active) > 0) {
-      $a_r_active = mysql_fetch_array($q_r_active);
+      $a_r_active = mysqli_fetch_array($q_r_active);
 
       $skills += $a_r_active['r_act_rank'];
 
@@ -103,7 +103,7 @@
     $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " and r_act_group = 1 ";
     $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_active) > 0) {
-      $a_r_active = mysql_fetch_array($q_r_active);
+      $a_r_active = mysqli_fetch_array($q_r_active);
 
 
       if ($a_active['act_group'] != '') {
@@ -140,7 +140,7 @@
   $q_string .= "left join adept on adept.adp_id = r_adept.r_adp_number ";
   $q_string .= "where r_adp_character = " . $formVars['id'] . " ";
   $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_adept = mysql_fetch_array($q_r_adept)) {
+  while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
     if ($a_r_adept['adp_level'] == 0) {
       $powerpoints = ($a_r_adept['adp_power'] * $a_r_adept['r_adp_level']);
     } else {
@@ -160,7 +160,7 @@
   $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
   $q_string .= "where r_ammo_character = " . $formVars['id'] . " ";
   $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+  while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
     $totalcosts   += ($a_r_ammo['r_ammo_rounds'] * $a_r_ammo['ammo_cost']);
     $ammo = '05';
   }
@@ -173,7 +173,7 @@
   $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
   $q_string .= "where r_arm_character = " . $formVars['id'] . " ";
   $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
+  while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
     $totalcosts   += $a_r_armor['arm_cost'];
     $armor = '06';
 
@@ -184,7 +184,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Clothing and Armor\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_armor['r_arm_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -201,7 +201,7 @@
   $q_string .= "left join grades on grades.grade_id = r_bioware.r_bio_grade ";
   $q_string .= "where r_bio_character = " . $formVars['id'] . " ";
   $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+  while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
     $totalessence += ($a_r_bioware['grade_essence'] * $a_r_bioware['bio_essence']);
     $bio_essence += ($a_r_bioware['grade_essence'] * $a_r_bioware['bio_essence']);
     $totalcosts   += ($a_r_bioware['grade_cost'] * $a_r_bioware['bio_cost']);
@@ -216,7 +216,7 @@
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
   $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_commlink = mysql_fetch_array($q_r_commlink)) {
+  while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
     $totalcosts   += $a_r_commlink['link_cost'];
     $commlink = '08';
 
@@ -227,7 +227,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Commlinks\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -241,7 +241,7 @@
   $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
   $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
   $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_command = mysql_fetch_array($q_r_command)) {
+  while ($a_r_command = mysqli_fetch_array($q_r_command)) {
     $totalcosts   += $a_r_command['cmd_cost'];
     $command = '26';
 
@@ -252,7 +252,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Cyberdecks\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_command['r_cmd_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -263,7 +263,7 @@
     $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
     $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_command = " . $a_r_command['r_cmd_id'] . " ";
     $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_program = mysql_fetch_array($q_r_program)) {
+    while ($a_r_program = mysqli_fetch_array($q_r_program)) {
       $totalcosts   += $a_r_program['pgm_cost'];
       $program = '20';
     }
@@ -283,7 +283,7 @@
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
   $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+  while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
     $totalcosts   += $a_r_cyberdeck['deck_cost'];
     $cyberdeck = '10';
 
@@ -294,7 +294,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Cyberdecks\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberdeck['r_deck_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -305,7 +305,7 @@
     $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
     $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " ";
     $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_program = mysql_fetch_array($q_r_program)) {
+    while ($a_r_program = mysqli_fetch_array($q_r_program)) {
       $totalcosts   += $a_r_program['pgm_cost'];
       $program = '20';
     }
@@ -317,7 +317,7 @@
     $q_string .= "left join agents on agents.agt_id = r_agents.r_agt_number ";
     $q_string .= "where r_agt_character = " . $formVars['id'] . " and r_agt_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " ";
     $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+    while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
       $totalcosts   += $a_r_agents['agt_cost'];
       $agents = '04';
     }
@@ -333,7 +333,7 @@
   $q_string .= "left join grades on grades.grade_id = r_cyberware.r_ware_grade ";
   $q_string .= "where r_ware_character = " . $formVars['id'] . " ";
   $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+  while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
     $totalessence += ($a_r_cyberware['grade_essence'] * $a_r_cyberware['ware_essence']);
     $totalcosts   += ($a_r_cyberware['grade_cost'] * $a_r_cyberware['ware_cost']);
     $cyberware = '11';
@@ -345,7 +345,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Cyberware\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalessence += ($a_r_accessory['acc_essence'] * $a_r_cyberware['grade_essence']);
       $totalcosts   += ($a_r_accessory['acc_cost'] * $a_r_cyberware['grade_cost']);
       $accessory = '01';
@@ -361,7 +361,7 @@
   $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
   $q_string .= "where r_fa_character = " . $formVars['id'] . " ";
   $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+  while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
     $totalcosts   += $a_r_firearms['fa_cost'];
     $firearms = '12';
 
@@ -372,7 +372,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -386,7 +386,7 @@
   $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
   $q_string .= "where r_gear_character = " . $formVars['id'] . " ";
   $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+  while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
     $totalcosts   += $a_r_gear['gear_cost'];
     $gear = '13';
 
@@ -397,7 +397,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Gear\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -421,7 +421,7 @@
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";
   $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
+  while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
 # if troll, * 2;
 # if dwarf, * 1.2;
@@ -445,7 +445,7 @@
   $q_string .= "left join melee on melee.melee_id = r_melee.r_melee_number ";
   $q_string .= "where r_melee_character = " . $formVars['id'] . " ";
   $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
+  while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
     $totalcosts   += $a_r_melee['melee_cost'];
     $melee = '19';
 
@@ -456,7 +456,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Melee\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_melee['r_melee_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -474,7 +474,7 @@
   $q_string .= "left join projectile on projectile.proj_id = r_projectile.r_proj_number ";
   $q_string .= "where r_proj_character = " . $formVars['id'] . " ";
   $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_projectile = mysql_fetch_array($q_r_projectile)) {
+  while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
     $totalcosts   += $a_r_projectile['proj_cost'];
     $projectile = '26';
 
@@ -485,7 +485,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Projectile\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_projectile['r_proj_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }
@@ -510,7 +510,7 @@
   $q_string .= "left join vehicles on vehicles.veh_id = r_vehicles.r_veh_number ";
   $q_string .= "where r_veh_character = " . $formVars['id'] . " ";
   $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+  while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
     $totalcosts   += $a_r_vehicles['veh_cost'];
     $vehicles = '25';
 
@@ -521,7 +521,7 @@
     $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
     $q_string .= "where sub_name = \"Vehicles\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
     $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
       $totalcosts   += $a_r_accessory['acc_cost'];
       $accessory = '01';
     }

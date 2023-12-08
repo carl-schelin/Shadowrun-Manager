@@ -26,7 +26,7 @@
       $q_string .= "from command ";
       $q_string .= "where cmd_id = " . $formVars['id'];
       $q_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_command = mysql_fetch_array($q_command);
+      $a_command = mysqli_fetch_array($q_command);
       mysql_free_result($q_command);
 
       print "document.dialog.cmd_brand.value = '"    . mysql_real_escape_string($a_command['cmd_brand'])     . "';\n";

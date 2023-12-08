@@ -21,7 +21,7 @@
   $q_string .= "from r_sprite ";
   $q_string .= "where r_sprite_character = " . $formVars['id'] . " ";
   $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_r_sprite = mysql_fetch_array($q_r_sprite);
+  $a_r_sprite = mysqli_fetch_array($q_r_sprite);
 
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
@@ -41,7 +41,7 @@
   $q_string .= "order by form_name ";
   $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_complexform) > 0) {
-    while ($a_r_complexform = mysql_fetch_array($q_r_complexform)) {
+    while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
 
       $target = "Device";
       if ($a_r_complexform['form_target'] == 1) {

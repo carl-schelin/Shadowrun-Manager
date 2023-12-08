@@ -86,7 +86,7 @@ if (isset($_POST['mail_user'])) {
   $q_string .= "where usr_id != 1 and usr_disabled = 0 and (usr_name = '" . $search_q . "' or usr_email = '" . $search_q . "')";
   $q_users = mysql_query($q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_users) == '1') {
-    $a_users = mysql_fetch_array($q_users);
+    $a_users = mysqli_fetch_array($q_users);
 
     $user_email = $a_users['usr_email'];
 

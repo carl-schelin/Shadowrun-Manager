@@ -151,7 +151,7 @@
       $q_string .= "order by link_rating,ver_version ";
       $q_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_commlink) > 0) {
-        while ($a_commlink = mysql_fetch_array($q_commlink)) {
+        while ($a_commlink = mysqli_fetch_array($q_commlink)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.commlink.fill.php?id="  . $a_commlink['link_id'] . "');jQuery('#dialogCommlink').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_commlink('add.commlink.del.php?id=" . $a_commlink['link_id'] . "');\">";
@@ -173,7 +173,7 @@
           $q_string .= "where r_link_number = " . $a_commlink['link_id'] . " ";
           $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_commlink) > 0) {
-            while ($a_r_commlink = mysql_fetch_array($q_r_commlink)) {
+            while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
               $total++;
             }
           }

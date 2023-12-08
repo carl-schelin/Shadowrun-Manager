@@ -165,7 +165,7 @@
         $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
         $q_string .= "where r_fa_id = " . $formVars['r_fa_id'] . " ";
         $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_firearms = mysql_fetch_array($q_r_firearms);
+        $a_r_firearms = mysqli_fetch_array($q_r_firearms);
 
 # for that class or something that works for all; numbers because both acc_class and fa_class are numeric. no need to convert to text
         $where .= "and (acc_class = " . $a_r_firearms['fa_class'] . " or acc_class = 0) ";
@@ -182,7 +182,7 @@
         $q_string .= "order by acc_name,acc_rating,ver_version ";
         $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
-          while ($a_accessory = mysql_fetch_array($q_accessory)) {
+          while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('fireacc.mysql.php";
             $linkstart .= "?update=0";
@@ -257,7 +257,7 @@
         $q_string .= "order by ammo_name,class_name ";
         $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_ammo) > 0) {
-          while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+          while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('fireacc.mysql.php";
             $linkstart .= "?update=2";

@@ -173,7 +173,7 @@
         $q_string .= "order by class_name,bio_name,bio_rating,ver_version ";
         $q_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_bioware) > 0) {
-          while ($a_bioware = mysql_fetch_array($q_bioware)) {
+          while ($a_bioware = mysqli_fetch_array($q_bioware)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.bioware.fill.php?id="  . $a_bioware['bio_id'] . "');jQuery('#dialogBioWare').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_bioware('add.bioware.del.php?id=" . $a_bioware['bio_id'] . "');\">";
@@ -199,7 +199,7 @@
             $q_string .= "where r_bio_number = " . $a_bioware['bio_id'] . " ";
             $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_bioware) > 0) {
-              while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+              while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
                 $total++;
               }
             }

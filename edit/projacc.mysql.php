@@ -168,7 +168,7 @@
         $q_string .= "left join projectile on projectile.proj_id = r_projectile.r_proj_number ";
         $q_string .= "where r_proj_id = " . $formVars['r_proj_id'] . " ";
         $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_projectile = mysql_fetch_array($q_r_projectile);
+        $a_r_projectile = mysqli_fetch_array($q_r_projectile);
 
 # for that class or something that works for all; numbers because both acc_class and proj_class are numeric. no need to convert to text
         $where .= "and (acc_class = " . $a_r_projectile['proj_class'] . " or acc_class = 0) ";
@@ -185,7 +185,7 @@
         $q_string .= "order by acc_name,acc_rating,ver_version ";
         $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
-          while ($a_accessory = mysql_fetch_array($q_accessory)) {
+          while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('projacc.mysql.php";
             $linkstart .= "?update=0";
@@ -260,7 +260,7 @@
         $q_string .= "order by ammo_name,class_name ";
         $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_ammo) > 0) {
-          while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+          while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('projacc.mysql.php";
             $linkstart .= "?update=2";

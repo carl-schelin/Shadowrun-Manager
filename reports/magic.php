@@ -60,7 +60,7 @@ $(document).ready( function () {
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
     $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -117,7 +117,7 @@ $(document).ready( function () {
   $q_string .= "order by runr_name,spell_group,spell_name ";
   $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_spells) > 0) {
-    while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
+    while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
       $display = "No";
 
@@ -182,14 +182,14 @@ $(document).ready( function () {
   $q_string  = "select s_trad_id,s_trad_name ";
   $q_string .= "from s_tradition ";
   $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_s_tradition = mysql_fetch_array($q_s_tradition)) {
+  while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
     $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
   }
 
   $q_string  = "select att_id,att_name ";
   $q_string .= "from attributes ";
   $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_attributes = mysql_fetch_array($q_attributes)) {
+  while ($a_attributes = mysqli_fetch_array($q_attributes)) {
     $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
   }
 
@@ -219,7 +219,7 @@ $(document).ready( function () {
   $q_string .= "order by trad_name ";
   $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_tradition) > 0) {
-    while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+    while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
       $display = "No";
 
@@ -293,7 +293,7 @@ $(document).ready( function () {
   $q_string .= "order by mentor_name ";
   $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_mentor) > 0) {
-    while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
+    while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
       $display = "No";
 
@@ -376,7 +376,7 @@ $(document).ready( function () {
   $q_string .= "order by spirit_name ";
   $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_spirit) > 0) {
-    while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+    while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
       $display = "No";
 
@@ -460,7 +460,7 @@ $(document).ready( function () {
         $q_string .= "order by act_name ";
         $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_sp_active) > 0) {
-          while ($a_sp_active = mysql_fetch_array($q_sp_active)) {
+          while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
             if ($a_sp_active['att_column'] == "runr_body") {
               $att_column = "spirit_body";
@@ -491,7 +491,7 @@ $(document).ready( function () {
             $q_string .= "from spirits ";
             $q_string .= "where spirit_id = " . $a_r_spirit['spirit_id'] . " ";
             $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            $a_spirits = mysql_fetch_array($q_spirits);
+            $a_spirits = mysqli_fetch_array($q_spirits);
 
             if ($a_r_spirit['r_spirit_force'] == 0) {
               $active .= $a_comma . $a_sp_active['act_name'] . " (F+(" . return_Spirit($a_r_spirit['r_spirit_force'], ($a_r_spirit['r_spirit_force'] + $a_spirits[$att_column])) . "))";
@@ -522,7 +522,7 @@ $(document).ready( function () {
         $q_string .= "order by sp_power_optional,pow_name ";
         $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_sp_powers) > 0) {
-          while ($a_sp_powers = mysql_fetch_array($q_sp_powers)) {
+          while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
             if ($a_sp_powers['sp_power_optional']) {
               $optional .= $o_comma . $a_sp_powers['pow_name'];
@@ -563,7 +563,7 @@ $(document).ready( function () {
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
       $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -620,7 +620,7 @@ $(document).ready( function () {
     $q_string .= "order by runr_name,spell_group,spell_name ";
     $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_spells) > 0) {
-      while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
+      while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
         $display = "No";
 
@@ -685,14 +685,14 @@ $(document).ready( function () {
     $q_string  = "select s_trad_id,s_trad_name ";
     $q_string .= "from s_tradition ";
     $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_s_tradition = mysql_fetch_array($q_s_tradition)) {
+    while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
       $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
     }
 
     $q_string  = "select att_id,att_name ";
     $q_string .= "from attributes ";
     $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_attributes = mysql_fetch_array($q_attributes)) {
+    while ($a_attributes = mysqli_fetch_array($q_attributes)) {
       $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
     }
 
@@ -722,7 +722,7 @@ $(document).ready( function () {
     $q_string .= "order by trad_name ";
     $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_tradition) > 0) {
-      while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+      while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
         $display = "No";
 
@@ -796,7 +796,7 @@ $(document).ready( function () {
     $q_string .= "order by mentor_name ";
     $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_mentor) > 0) {
-      while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
+      while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
         $display = "No";
 
@@ -879,7 +879,7 @@ $(document).ready( function () {
     $q_string .= "order by spirit_name ";
     $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_spirit) > 0) {
-      while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+      while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
         $display = "No";
 
@@ -963,7 +963,7 @@ $(document).ready( function () {
           $q_string .= "order by act_name ";
           $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_sp_active) > 0) {
-            while ($a_sp_active = mysql_fetch_array($q_sp_active)) {
+            while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
               if ($a_sp_active['att_column'] == "runr_body") {
                 $att_column = "spirit_body";
@@ -994,7 +994,7 @@ $(document).ready( function () {
               $q_string .= "from spirits ";
               $q_string .= "where spirit_id = " . $a_r_spirit['spirit_id'] . " ";
               $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-              $a_spirits = mysql_fetch_array($q_spirits);
+              $a_spirits = mysqli_fetch_array($q_spirits);
 
               if ($a_r_spirit['r_spirit_force'] == 0) {
                 $active .= $a_comma . $a_sp_active['act_name'] . " (F+(" . return_Spirit($a_r_spirit['r_spirit_force'], ($a_r_spirit['r_spirit_force'] + $a_spirits[$att_column])) . "))";
@@ -1025,7 +1025,7 @@ $(document).ready( function () {
           $q_string .= "order by sp_power_optional,pow_name ";
           $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_sp_powers) > 0) {
-            while ($a_sp_powers = mysql_fetch_array($q_sp_powers)) {
+            while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
               if ($a_sp_powers['sp_power_optional']) {
                 $optional .= $o_comma . $a_sp_powers['pow_name'];

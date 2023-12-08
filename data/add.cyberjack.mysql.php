@@ -158,7 +158,7 @@
       $q_string .= "order by jack_name,jack_rating,ver_version ";
       $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_cyberjack) > 0) {
-        while ($a_cyberjack = mysql_fetch_array($q_cyberjack)) {
+        while ($a_cyberjack = mysqli_fetch_array($q_cyberjack)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.cyberjack.fill.php?id="  . $a_cyberjack['jack_id'] . "');jQuery('#dialogCyberjack').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberjack('add.cyberjack.del.php?id=" . $a_cyberjack['jack_id'] . "');\">";
@@ -184,7 +184,7 @@
           $q_string .= "where r_jack_number = " . $a_cyberjack['jack_id'] . " ";
           $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_cyberjack) > 0) {
-            while ($a_r_cyberjack = mysql_fetch_array($q_r_cyberjack)) {
+            while ($a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack)) {
               $total++;
             }
           }

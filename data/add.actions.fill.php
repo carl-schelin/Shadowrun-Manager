@@ -27,7 +27,7 @@
       $q_string .= "from actions ";
       $q_string .= "where action_id = " . $formVars['id'];
       $q_actions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_actions = mysql_fetch_array($q_actions);
+      $a_actions = mysqli_fetch_array($q_actions);
       mysql_free_result($q_actions);
 
       print "document.dialog.action_name.value = '"      . mysql_real_escape_string($a_actions['action_name'])      . "';\n";

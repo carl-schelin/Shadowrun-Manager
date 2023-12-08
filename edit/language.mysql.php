@@ -93,7 +93,7 @@
         $q_string .= "from language ";
         $q_string .= "order by lang_name ";
         $q_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_language = mysql_fetch_array($q_language)) {
+        while ($a_language = mysqli_fetch_array($q_language)) {
           $output .= "<option value=\"" . $a_language['lang_id'] . "\">" . $a_language['lang_name'] . "</option>\n";
         }
 
@@ -171,7 +171,7 @@
       $q_string .= "order by lang_name ";
       $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_language) > 0) {
-        while ($a_r_language = mysql_fetch_array($q_r_language)) {
+        while ($a_r_language = mysqli_fetch_array($q_r_language)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('language.fill.php?id=" . $a_r_language['r_lang_id'] . "');showDiv('language-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_language('language.del.php?id="  . $a_r_language['r_lang_id'] . "');\">";
@@ -181,7 +181,7 @@
           $q_string .= "from runners ";
           $q_string .= "where runr_id = " . $formVars['r_lang_character'] . " ";
           $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_runners = mysql_fetch_array($q_runners);
+          $a_runners = mysqli_fetch_array($q_runners);
 
           if ($a_r_language['r_lang_rank'] > 0) {
             $r_lang_rank = $a_r_language['r_lang_rank'];

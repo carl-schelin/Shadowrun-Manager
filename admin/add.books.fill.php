@@ -26,7 +26,7 @@
       $q_string .= "from versions ";
       $q_string .= "where ver_id = " . $formVars['id'];
       $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_versions = mysql_fetch_array($q_versions);
+      $a_versions = mysqli_fetch_array($q_versions);
       mysql_free_result($q_versions);
 
       print "document.dialog.ver_book.value = '"    . mysql_real_escape_string($a_versions['ver_book'])    . "';\n";

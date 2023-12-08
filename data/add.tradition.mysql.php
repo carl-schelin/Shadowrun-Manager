@@ -107,7 +107,7 @@
       $q_string  = "select s_trad_id,s_trad_name ";
       $q_string .= "from s_tradition ";
       $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_s_tradition = mysql_fetch_array($q_s_tradition)) {
+      while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
         $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
       }
 
@@ -115,7 +115,7 @@
       $q_string  = "select att_id,att_name ";
       $q_string .= "from attributes ";
       $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_attributes = mysql_fetch_array($q_attributes)) {
+      while ($a_attributes = mysqli_fetch_array($q_attributes)) {
         $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
       }
 
@@ -143,7 +143,7 @@
       $q_string .= "order by trad_name,ver_version ";
       $q_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_tradition) > 0) {
-        while ($a_tradition = mysql_fetch_array($q_tradition)) {
+        while ($a_tradition = mysqli_fetch_array($q_tradition)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.tradition.fill.php?id="  . $a_tradition['trad_id'] . "');jQuery('#dialogTradition').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_tradition('add.tradition.del.php?id=" . $a_tradition['trad_id'] . "');\">";
@@ -159,7 +159,7 @@
           $q_string .= "where r_trad_number = " . $a_tradition['trad_id'] . " ";
           $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_tradition) > 0) {
-            while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+            while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
               $total++;
             }
           }

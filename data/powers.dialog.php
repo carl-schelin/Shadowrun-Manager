@@ -26,7 +26,7 @@
       $q_string .= "from sp_powers ";
       $q_string .= "where sp_power_id = " . $formVars['id'];
       $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_sp_powers = mysql_fetch_array($q_sp_powers);
+      $a_sp_powers = mysqli_fetch_array($q_sp_powers);
       mysql_free_result($q_sp_powers);
 
       print "document.power.sp_power_specialize.value = '" . mysql_real_escape_string($a_sp_powers['sp_power_specialize']) . "';\n";

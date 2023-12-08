@@ -23,7 +23,7 @@
       $q_string .= "from members ";
       $q_string .= "where mem_id = " . $formVars['mem_id'] . " ";
       $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_members = mysql_fetch_array($q_members);
+      $a_members = mysqli_fetch_array($q_members);
 
       if ($a_members['mem_visible'] == 1) {
         $q_string = "mem_visible = 0";

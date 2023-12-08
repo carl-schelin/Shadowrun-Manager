@@ -97,7 +97,7 @@ $(document).ready( function () {
   $q_string .= "order by con_name ";
   $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_contact) > 0) {
-    while ($a_contact = mysql_fetch_array($q_contact)) {
+    while ($a_contact = mysqli_fetch_array($q_contact)) {
 
       $linkstart = "<a href=\"" . $Viewroot . "/mooks.php?id=" . $a_contact['con_id'] . "\" target=\"_blank\">";
       $linkend = "</a>";

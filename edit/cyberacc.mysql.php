@@ -168,7 +168,7 @@
         $q_string .= "left join class on class.class_id = cyberware.ware_class ";
         $q_string .= "where r_ware_id = " . $formVars['r_ware_id'] . " ";
         $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_cyberware = mysql_fetch_array($q_r_cyberware);
+        $a_r_cyberware = mysqli_fetch_array($q_r_cyberware);
 
 # for that class or something that works for all; numbers because both acc_class and ware_class are numeric. no need to convert to text
         $where .= "and (acc_class = " . $a_r_cyberware['ware_class'] . " or acc_class = 0) ";
@@ -189,7 +189,7 @@
         $q_string .= "order by acc_name,acc_rating ";
         $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_accessory) > 0) {
-          while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+          while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
            $totalcapacity += $a_r_accessory['acc_capacity'];
           }
         }
@@ -211,7 +211,7 @@
         $q_string .= "order by acc_name,acc_rating,ver_version ";
         $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
-          while ($a_accessory = mysql_fetch_array($q_accessory)) {
+          while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('cyberacc.mysql.php";
             $linkstart .= "?update=0";
@@ -293,7 +293,7 @@
         $q_string .= "order by fa_name,class_name ";
         $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_firearms) > 0) {
-          while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+          while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('cyberacc.mysql.php";
             $linkstart .= "?update=2";
@@ -349,7 +349,7 @@
             $q_string .= "order by ammo_name,class_name ";
             $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_ammo) > 0) {
-              while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+              while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
                 $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 

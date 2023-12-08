@@ -27,7 +27,7 @@
       $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
       $q_string .= "where r_gear_id = " . $formVars['id'];
       $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_gear = mysql_fetch_array($q_r_gear);
+      $a_r_gear = mysqli_fetch_array($q_r_gear);
       mysql_free_result($q_r_gear);
 
       $rating = return_Rating($a_r_gear['gear_rating']);

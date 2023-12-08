@@ -26,7 +26,7 @@
       $q_string .= "from r_commlink ";
       $q_string .= "where r_link_id = " . $formVars['id'] . " ";
       $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_commlink = mysql_fetch_array($q_r_commlink);
+      $a_r_commlink = mysqli_fetch_array($q_r_commlink);
 
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";

@@ -199,7 +199,7 @@
       $q_string .= "order by class_name,proj_name,proj_rating,ver_version ";
       $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_projectile) > 0) {
-        while ($a_projectile = mysql_fetch_array($q_projectile)) {
+        while ($a_projectile = mysqli_fetch_array($q_projectile)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.projectile.fill.php?id="  . $a_projectile['proj_id'] . "');jQuery('#dialogProjectile').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_projectile('add.projectile.del.php?id=" . $a_projectile['proj_id'] . "');\">";
@@ -232,7 +232,7 @@
           $q_string .= "where r_proj_number = " . $a_projectile['proj_id'] . " ";
           $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_projectile) > 0) {
-            while ($a_r_projectile = mysql_fetch_array($q_r_projectile)) {
+            while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
               $total++;
             }
           }

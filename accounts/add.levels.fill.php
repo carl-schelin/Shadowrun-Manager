@@ -26,7 +26,7 @@
       $q_string .= "from levels ";
       $q_string .= "where lvl_id = " . $formVars['id'];
       $q_levels = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_levels = mysql_fetch_array($q_levels);
+      $a_levels = mysqli_fetch_array($q_levels);
       mysql_free_result($q_levels);
 
       print "document.levels.lvl_name.value = '"  . mysql_real_escape_string($a_levels['lvl_name'])  . "';\n";

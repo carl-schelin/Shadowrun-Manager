@@ -37,7 +37,7 @@
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['deck_id'] . " ";
           $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberdeck = mysql_fetch_array($q_cyberdeck);
+          $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
             $a_cyberdeck['deck_access'] . ":" .
@@ -359,7 +359,7 @@
       $q_string .= "order by deck_brand,deck_model,ver_version ";
       $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_cyberdeck) > 0) {
-        while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+        while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_deckacc(" . $a_r_cyberdeck['r_deck_id'] . ");showDiv('cyberdeck-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberdeck('cyberdeck.del.php?id="  . $a_r_cyberdeck['r_deck_id'] . "');\">";
@@ -436,7 +436,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckacc('deckacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";
@@ -491,7 +491,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_program = mysql_fetch_array($q_r_program)) {
+            while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
@@ -539,7 +539,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_program = mysql_fetch_array($q_r_program)) {
+            while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
@@ -587,7 +587,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+            while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_agent('agent.del.php?id="  . $a_r_agents['r_agt_id'] . "');\">";
               $linkend   = "</a>";

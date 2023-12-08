@@ -27,7 +27,7 @@
       $q_string .= "left join metamagics on metamagics.meta_id = r_metamagics.r_meta_number ";
       $q_string .= "where r_meta_id = " . $formVars['id'];
       $q_r_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_metamagics = mysql_fetch_array($q_r_metamagics);
+      $a_r_metamagics = mysqli_fetch_array($q_r_metamagics);
       mysql_free_result($q_r_metamagics);
 
       print "document.getElementById('r_meta_item').innerHTML = '" . mysql_real_escape_string($a_r_metamagics['meta_name']) . "';\n\n";

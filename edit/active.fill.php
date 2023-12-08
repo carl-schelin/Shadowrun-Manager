@@ -26,7 +26,7 @@
       $q_string .= "from r_active ";
       $q_string .= "where r_act_id = " . $formVars['id'];
       $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_active = mysql_fetch_array($q_r_active);
+      $a_r_active = mysqli_fetch_array($q_r_active);
       mysql_free_result($q_r_active);
 
       print "document.edit.r_act_number.value = '"     . mysql_real_escape_string($a_r_active['r_act_number'])     . "';\n";

@@ -109,7 +109,7 @@
         $q_string .= "order by mentor_name ";
         $q_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_mentor) > 0) {
-          while ($a_mentor = mysql_fetch_array($q_mentor)) {
+          while ($a_mentor = mysqli_fetch_array($q_mentor)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('mentor.mysql.php?update=0&r_mentor_character=" . $formVars['r_mentor_character'] . "&r_mentor_number=" . $a_mentor['mentor_id'] . "');\">";
             $linkend   = "</a>";
@@ -194,7 +194,7 @@
       $q_string .= "order by mentor_name ";
       $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_mentor) > 0) {
-        while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
+        while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_mentor('mentor.del.php?id="  . $a_r_mentor['r_mentor_id'] . "');\">";
 

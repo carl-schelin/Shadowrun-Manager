@@ -26,7 +26,7 @@
       $q_string .= "from active ";
       $q_string .= "where act_id = " . $formVars['id'];
       $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_active = mysql_fetch_array($q_active);
+      $a_active = mysqli_fetch_array($q_active);
       mysql_free_result($q_active);
 
       print "document.dialog.act_type.value = '"      . mysql_real_escape_string($a_active['act_type'])      . "';\n";

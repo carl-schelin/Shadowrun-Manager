@@ -52,7 +52,7 @@
   $q_string .= "where tag_character = " . $formVars['id'] . " and tag_view = 0 and tag_owner = " . $formVars['uid'] . " ";
   $q_string .= "group by tag_name ";
   $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_tags = mysql_fetch_array($q_tags)) {
+  while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "\">";
     $linkend   = "</a>";
 
@@ -74,7 +74,7 @@
   $q_string .= "where tag_character = " . $formVars['id'] . " and tag_view = 1 ";
   $q_string .= "group by tag_name ";
   $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_tags = mysql_fetch_array($q_tags)) {
+  while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "\">";
     $linkend   = "</a>";
 

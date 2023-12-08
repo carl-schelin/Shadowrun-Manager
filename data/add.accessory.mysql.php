@@ -168,7 +168,7 @@
       $q_string .= "order by sub_name,acc_type,acc_class,acc_name,acc_accessory,acc_rating,ver_version ";
       $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_accessory) > 0) {
-        while ($a_accessory = mysql_fetch_array($q_accessory)) {
+        while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.accessory.fill.php?id="  . $a_accessory['acc_id'] . "');jQuery('#dialogAccessory').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_accessory('add.accessory.del.php?id=" . $a_accessory['acc_id'] . "');\">";
@@ -208,7 +208,7 @@
           $q_string .= "where r_acc_number = " . $a_accessory['acc_id'] . " ";
           $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
               $total++;
             }
           }

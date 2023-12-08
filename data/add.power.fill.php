@@ -26,7 +26,7 @@
       $q_string .= "from powers ";
       $q_string .= "where pow_id = " . $formVars['id'];
       $q_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_powers = mysql_fetch_array($q_powers);
+      $a_powers = mysqli_fetch_array($q_powers);
       mysql_free_result($q_powers);
 
       print "document.dialog.pow_name.value = '"         . mysql_real_escape_string($a_powers['pow_name'])        . "';\n";

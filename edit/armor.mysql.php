@@ -149,7 +149,7 @@
           $q_string .= "order by arm_name,arm_rating,ver_version ";
           $q_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_armor) > 0) {
-            while ($a_armor = mysql_fetch_array($q_armor)) {
+            while ($a_armor = mysqli_fetch_array($q_armor)) {
 
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('armor.mysql.php?update=0&r_arm_character=" . $formVars['r_arm_character'] . "&r_arm_number=" . $a_armor['arm_id'] . "');\">";
               $linkend   = "</a>";
@@ -244,7 +244,7 @@
       $q_string .= "order by arm_name,arm_rating,ver_version ";
       $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_armor) > 0) {
-        while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
+        while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_armoracc(" . $a_r_armor['r_arm_id'] . ");showDiv('armor-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_armor('armor.del.php?id="  . $a_r_armor['r_arm_id'] . "');\">";
@@ -296,7 +296,7 @@
           $q_string .= "order by acc_name,acc_rating,ver_version ";
           $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_armoracc('armoracc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";

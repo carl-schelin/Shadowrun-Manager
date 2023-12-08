@@ -66,7 +66,7 @@
   $q_string .= "order by con_archetype,con_name ";
   $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_contact) > 0) {
-    while ($a_r_contact = mysql_fetch_array($q_r_contact)) {
+    while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
 
       $contacts = "--";
       if ($a_r_contact['con_page'] > 0) {

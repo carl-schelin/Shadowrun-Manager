@@ -142,7 +142,7 @@
         $q_string .= "order by proj_name,proj_rating,proj_acc,proj_damage,proj_class,ver_version ";
         $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_projectile) > 0) {
-          while ($a_projectile = mysql_fetch_array($q_projectile)) {
+          while ($a_projectile = mysqli_fetch_array($q_projectile)) {
 
 # this adds the proj_id to the r_proj_character
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('projectile.mysql.php?update=-3&r_proj_character=" . $formVars['r_proj_character'] . "&proj_class=" . $a_projectile['proj_class'] . "');\">";
@@ -247,7 +247,7 @@
       $q_string .= "order by class_name,proj_name ";
       $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_projectile) > 0) {
-        while ($a_r_projectile = mysql_fetch_array($q_r_projectile)) {
+        while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_projacc(" . $a_r_projectile['r_proj_id'] . ");showDiv('projectile-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_projectile('projectile.del.php?id="  . $a_r_projectile['r_proj_id'] . "');\">";
@@ -296,7 +296,7 @@
           $q_string .= "order by ammo_name,class_name ";
           $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_fireammo('fireammo.del.php?id="  . $a_r_ammo['r_ammo_id'] . "');\">";
 

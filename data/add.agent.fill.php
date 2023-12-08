@@ -26,7 +26,7 @@
       $q_string .= "from agents ";
       $q_string .= "where agt_id = " . $formVars['id'];
       $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_agents = mysql_fetch_array($q_agents);
+      $a_agents = mysqli_fetch_array($q_agents);
       mysql_free_result($q_agents);
 
       print "document.dialog.agt_name.value = '"   . mysql_real_escape_string($a_agents['agt_name'])  . "';\n";

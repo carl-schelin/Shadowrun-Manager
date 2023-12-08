@@ -154,7 +154,7 @@
       $q_string .= "order by rit_name ";
       $q_rituals = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_rituals) > 0) {
-        while ($a_rituals = mysql_fetch_array($q_rituals)) {
+        while ($a_rituals = mysqli_fetch_array($q_rituals)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.rituals.fill.php?id="  . $a_rituals['rit_id'] . "');jQuery('#dialogRitual').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_ritual('add.rituals.del.php?id=" . $a_rituals['rit_id'] . "');\">";
@@ -193,7 +193,7 @@
           $q_string .= "where r_rit_number = " . $a_rituals['rit_id'] . " ";
           $q_r_rituals = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_rituals) > 0) {
-            while ($a_r_rituals = mysql_fetch_array($q_r_rituals)) {
+            while ($a_r_rituals = mysqli_fetch_array($q_r_rituals)) {
               $total++;
             }
           }

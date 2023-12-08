@@ -40,7 +40,7 @@
   $q_string .= "order by class_name,ammo_name ";
   $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_ammo) > 0) {
-    while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+    while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
       $ammo_rating = return_Rating($a_r_ammo['ammo_rating']);
       $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);

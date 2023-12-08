@@ -27,7 +27,7 @@
       $q_string .= "from sprites ";
       $q_string .= "where sprite_id = " . $formVars['id'];
       $q_sprites = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_sprites = mysql_fetch_array($q_sprites);
+      $a_sprites = mysqli_fetch_array($q_sprites);
       mysql_free_result($q_sprites);
 
       print "document.dialog.sprite_name.value = '"       . mysql_real_escape_string($a_sprites['sprite_name'])        . "';\n";

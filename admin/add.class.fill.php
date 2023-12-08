@@ -26,7 +26,7 @@
       $q_string .= "from class ";
       $q_string .= "where class_id = " . $formVars['id'];
       $q_class = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_class = mysql_fetch_array($q_class);
+      $a_class = mysqli_fetch_array($q_class);
       mysql_free_result($q_class);
 
       print "document.dialog.class_subjectid.value = '" . mysql_real_escape_string($a_class['class_subjectid']) . "';\n";

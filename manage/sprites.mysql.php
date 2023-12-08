@@ -65,7 +65,7 @@
   $q_string .= "where r_sprite_character = " . $formVars['id'] . " ";
   $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_sprite) > 0) {
-    while ($a_r_sprite = mysql_fetch_array($q_r_sprite)) {
+    while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
 
       $registered = 'No';
       if ($a_r_sprite['r_sprite_registered']) {

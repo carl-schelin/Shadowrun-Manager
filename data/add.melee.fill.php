@@ -28,7 +28,7 @@
       $q_string .= "from melee ";
       $q_string .= "where melee_id = " . $formVars['id'];
       $q_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_melee = mysql_fetch_array($q_melee);
+      $a_melee = mysqli_fetch_array($q_melee);
       mysql_free_result($q_melee);
 
       print "document.dialog.melee_class.value = '"    . mysql_real_escape_string($a_melee['melee_class'])    . "';\n";

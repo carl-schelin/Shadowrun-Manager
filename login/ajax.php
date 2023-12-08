@@ -19,7 +19,7 @@
     } else { // Display suggestions found.
       echo "<div class='suggestions''>Suggestions</div>\n";
 
-      while ($a_users = mysql_fetch_array($q_users)) {
+      while ($a_users = mysqli_fetch_array($q_users)) {
         echo "<div class='suggest_link'><a href='user_edit.php?uid=" . $a_users['usr_id'] . "'>" . $a_users['suggest'] . "</a></div>\n";
       }
     }

@@ -38,7 +38,7 @@
   $q_string .= "order by bio_class,bio_name,bio_rating ";
   $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_bioware) > 0) {
-    while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+    while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
       $bio_name = $a_r_bioware['bio_name'];
       if ($a_r_bioware['r_bio_specialize'] != '') {

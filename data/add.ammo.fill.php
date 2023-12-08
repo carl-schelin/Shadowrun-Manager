@@ -27,7 +27,7 @@
       $q_string .= "from ammo ";
       $q_string .= "where ammo_id = " . $formVars['id'];
       $q_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_ammo = mysql_fetch_array($q_ammo);
+      $a_ammo = mysqli_fetch_array($q_ammo);
       mysql_free_result($q_ammo);
 
       print "document.dialog.ammo_class.value = '"      . mysql_real_escape_string($a_ammo['ammo_class'])      . "';\n";

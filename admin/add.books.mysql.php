@@ -158,7 +158,7 @@
         $q_string .= "order by ver_book ";
         $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_versions) > 0) {
-          while ($a_versions = mysql_fetch_array($q_versions)) {
+          while ($a_versions = mysqli_fetch_array($q_versions)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.books.fill.php?id="  . $a_versions['ver_id'] . "');jQuery('#dialogBook').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_book('add.books.del.php?id=" . $a_versions['ver_id'] . "');\">";

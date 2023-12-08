@@ -26,7 +26,7 @@
       $q_string .= "from complexform ";
       $q_string .= "where form_id = " . $formVars['id'];
       $q_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_complexform = mysql_fetch_array($q_complexform);
+      $a_complexform = mysqli_fetch_array($q_complexform);
       mysql_free_result($q_complexform);
 
       print "document.dialog.form_name.value = '"     . mysql_real_escape_string($a_complexform['form_name'])     . "';\n";

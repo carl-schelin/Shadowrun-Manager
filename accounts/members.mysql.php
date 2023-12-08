@@ -29,7 +29,7 @@
       $q_string .= "left join users on users.usr_id = runners.runr_owner ";
       $q_string .= "where mem_id = " . $formVars['mem_id'] . " ";
       $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_users = mysql_fetch_array($q_users);
+      $a_users = mysqli_fetch_array($q_users);
 
       $headers .= "CC: " . $a_users['usr_email'] . "\r\n";
       $headers .= "MIME-Version: 1.0\r\n";
@@ -41,7 +41,7 @@
       $q_string .= "left join users on users.usr_id = groups.grp_owner ";
       $q_string .= "where mem_id = " . $formVars['mem_id'] . " ";
       $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_members = mysql_fetch_array($q_members);
+      $a_members = mysqli_fetch_array($q_members);
 
       $headers .= "Reply-To: " . $a_members['usr_email'] . "\r\n";
 #      $headers .= "Disposition-Notification-To: $dm_gsxr@yahoo.com\r\n";

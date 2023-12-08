@@ -26,7 +26,7 @@
       $q_string .= "from notoriety ";
       $q_string .= "where not_id = " . $formVars['id'];
       $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_notoriety = mysql_fetch_array($q_notoriety);
+      $a_notoriety = mysqli_fetch_array($q_notoriety);
       mysql_free_result($q_notoriety);
 
       print "document.edit.not_notoriety.value = '"   . mysql_real_escape_string($a_notoriety['not_notoriety'])  . "';\n";

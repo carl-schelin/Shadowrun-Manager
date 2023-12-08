@@ -126,7 +126,7 @@
         $q_string .= "order by qual_name,ver_version ";
         $q_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_qualities) > 0) {
-          while ($a_qualities = mysql_fetch_array($q_qualities)) {
+          while ($a_qualities = mysqli_fetch_array($q_qualities)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.qualities.fill.php?id="  . $a_qualities['qual_id'] . "');jQuery('#dialogQualities').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_qualities('add.qualities.del.php?id=" . $a_qualities['qual_id'] . "');\">";
@@ -142,7 +142,7 @@
             $q_string .= "where r_qual_number = " . $a_qualities['qual_id'] . " ";
             $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_qualities) > 0) {
-              while ($a_r_qualities = mysql_fetch_array($q_r_qualities)) {
+              while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
                 $total++;
               }
             }

@@ -26,7 +26,7 @@
       $q_string .= "from points ";
       $q_string .= "where point_id = " . $formVars['id'];
       $q_points = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_points = mysql_fetch_array($q_points);
+      $a_points = mysqli_fetch_array($q_points);
       mysql_free_result($q_points);
 
       print "document.dialog.point_number.value = '"  . mysql_real_escape_string($a_points['point_number'])   . "';\n";

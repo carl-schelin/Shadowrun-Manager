@@ -123,7 +123,7 @@
       $q_string .= "order by form_name,ver_version ";
       $q_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_complexform) > 0) {
-        while ($a_complexform = mysql_fetch_array($q_complexform)) {
+        while ($a_complexform = mysqli_fetch_array($q_complexform)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.complexform.fill.php?id="  . $a_complexform['form_id'] . "');jQuery('#dialogForm').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_complexform('add.complexform.del.php?id=" . $a_complexform['form_id'] . "');\">";
@@ -163,7 +163,7 @@
           $q_string .= "where r_form_number = " . $a_complexform['form_id'] . " ";
           $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_complexform) > 0) {
-            while ($a_r_complexform = mysql_fetch_array($q_r_complexform)) {
+            while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
               $total++;
             }
           }

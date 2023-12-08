@@ -27,7 +27,7 @@
       $q_string .= "left join spirits on spirits.spirit_id = r_spirit.r_spirit_number ";
       $q_string .= "where r_spirit_id = " . $formVars['id'];
       $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_spirit = mysql_fetch_array($q_r_spirit);
+      $a_r_spirit = mysqli_fetch_array($q_r_spirit);
       mysql_free_result($q_r_spirit);
 
       print "document.getElementById('r_spirit_item').innerHTML = '" . mysql_real_escape_string($a_r_spirit['spirit_name']) . "';\n\n";

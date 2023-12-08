@@ -93,7 +93,7 @@
         $q_string .= "from knowledge ";
         $q_string .= "order by know_name ";
         $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_knowledge = mysql_fetch_array($q_knowledge)) {
+        while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
           $output .= "<option value=\"" . $a_knowledge['know_id'] . "\">" . $a_knowledge['know_name'] . "</option>\n";
         }
 
@@ -115,7 +115,7 @@
         $q_string .= "from s_knowledge ";
         $q_string .= "order by s_know_name ";
         $q_s_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_s_knowledge = mysql_fetch_array($q_s_knowledge)) {
+        while ($a_s_knowledge = mysqli_fetch_array($q_s_knowledge)) {
           $output .= "<option value=\"" . $a_s_knowledge['s_know_id'] . "\">" . $a_s_knowledge['s_know_name'] . "</option>\n";
         }
 
@@ -185,7 +185,7 @@
       $q_string .= "order by know_name ";
       $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_knowledge) > 0) {
-        while ($a_r_knowledge = mysql_fetch_array($q_r_knowledge)) {
+        while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('knowledge.fill.php?id=" . $a_r_knowledge['r_know_id'] . "');showDiv('knowledge-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_knowledge('knowledge.del.php?id="  . $a_r_knowledge['r_know_id'] . "');\">";
@@ -195,7 +195,7 @@
           $q_string .= "from runners ";
           $q_string .= "where runr_id = " . $formVars['r_know_character'] . " ";
           $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_runners = mysql_fetch_array($q_runners);
+          $a_runners = mysqli_fetch_array($q_runners);
 
           $know_book = return_Book($a_r_knowledge['ver_book'], $a_r_knowledge['s_know_page']);
 

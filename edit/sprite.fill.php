@@ -27,7 +27,7 @@
       $q_string .= "left join sprites on sprites.sprite_id = r_sprite.r_sprite_number ";
       $q_string .= "where r_sprite_id = " . $formVars['id'];
       $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_sprite = mysql_fetch_array($q_r_sprite);
+      $a_r_sprite = mysqli_fetch_array($q_r_sprite);
       mysql_free_result($q_r_sprite);
 
       print "document.getElementById('r_sprite_item').innerHTML = '" . mysql_real_escape_string($a_r_sprite['sprite_name']) . "';\n\n";

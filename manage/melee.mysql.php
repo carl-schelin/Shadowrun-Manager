@@ -22,7 +22,7 @@
   $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_versions = mysql_fetch_array($q_versions);
+  $a_versions = mysqli_fetch_array($q_versions);
 
   $output  = "<p></p>\n";
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -94,7 +94,7 @@
   $q_string .= "order by class_name,melee_name ";
   $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_melee) > 0) {
-    while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
+    while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
 
       $melee_reach = '--';
       if ($a_r_melee['melee_reach'] > 0) {
@@ -112,7 +112,7 @@
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
         $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_runners = mysql_fetch_array($q_runners);
+        $a_runners = mysqli_fetch_array($q_runners);
 
         $melee_damage = ($a_runners['runr_strength'] + $a_r_melee['melee_damage']);
       } else {

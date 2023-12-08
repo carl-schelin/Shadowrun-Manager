@@ -27,7 +27,7 @@
   $q_string .= "order by cmd_brand,cmd_model,cmd_rating ";
   $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_command) > 0) {
-    while ($a_r_command = mysql_fetch_array($q_r_command)) {
+    while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
       $output .= "<tr>";
@@ -96,7 +96,7 @@
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
         $output .= "</tr>\n";
 
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
@@ -130,7 +130,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
@@ -157,7 +157,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";

@@ -219,7 +219,7 @@
       $q_string .= "order by melee_class,melee_name,ver_version ";
       $q_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_melee) > 0) {
-        while ($a_melee = mysql_fetch_array($q_melee)) {
+        while ($a_melee = mysqli_fetch_array($q_melee)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.melee.fill.php?id="  . $a_melee['melee_id'] . "');jQuery('#dialogMelee').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_melee('add.melee.del.php?id=" . $a_melee['melee_id'] . "');\">";
@@ -255,7 +255,7 @@
           $q_string .= "where r_melee_number = " . $a_melee['melee_id'] . " ";
           $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_melee) > 0) {
-            while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
+            while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
                 $total++;
             }
           }

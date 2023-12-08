@@ -26,7 +26,7 @@
       $q_string .= "from ic ";
       $q_string .= "where ic_id = " . $formVars['id'];
       $q_ic = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_ic = mysql_fetch_array($q_ic);
+      $a_ic = mysqli_fetch_array($q_ic);
       mysql_free_result($q_ic);
 
       print "document.dialog.ic_name.value = '"        . mysql_real_escape_string($a_ic['ic_name'])        . "';\n";

@@ -27,7 +27,7 @@
       $q_string .= "left join bioware on bioware.bio_id = r_bioware.r_bio_number ";
       $q_string .= "where r_bio_id = " . $formVars['id'];
       $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_bioware = mysql_fetch_array($q_r_bioware);
+      $a_r_bioware = mysqli_fetch_array($q_r_bioware);
       mysql_free_result($q_r_bioware);
 
       $rating = return_Rating($a_r_bioware['bio_rating']);

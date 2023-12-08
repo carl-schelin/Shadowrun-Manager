@@ -171,7 +171,7 @@
         $q_string .= "order by ware_class,ware_name,ware_rating,ver_version ";
         $q_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_cyberware) > 0) {
-          while ($a_cyberware = mysql_fetch_array($q_cyberware)) {
+          while ($a_cyberware = mysqli_fetch_array($q_cyberware)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.cyberware.fill.php?id="  . $a_cyberware['ware_id'] . "');jQuery('#dialogCyberware').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberware('add.cyberware.del.php?id=" . $a_cyberware['ware_id'] . "');\">";
@@ -199,7 +199,7 @@
             $q_string .= "where r_ware_number = " . $a_cyberware['ware_id'] . " ";
             $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_cyberware) > 0) {
-              while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+              while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
                 $total++;
               }
             }

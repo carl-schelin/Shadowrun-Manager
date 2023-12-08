@@ -34,7 +34,7 @@
   $q_string .= "where r_trad_character = " . $formVars['id'] . " ";
   $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_tradition) > 0) {
-    while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+    while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
       $output .= "<tr>";
       $output .= "<td class=\"ui-widget-content\">"        . $a_r_tradition['trad_name']     . "</td>";

@@ -109,7 +109,7 @@
       $q_string .= "order by weak_name,ver_version ";
       $q_weakness = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_weakness) > 0) {
-        while ($a_weakness = mysql_fetch_array($q_weakness)) {
+        while ($a_weakness = mysqli_fetch_array($q_weakness)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.weakness.fill.php?id="  . $a_weakness['weak_id'] . "');jQuery('#dialogWeakness').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_weakness('add.weakness.del.php?id=" . $a_weakness['weak_id'] . "');\">";

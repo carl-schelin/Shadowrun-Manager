@@ -105,7 +105,7 @@
         $q_string .= "from grades ";
         $q_string .= "order by grade_essence desc ";
         $q_grades = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_grades = mysql_fetch_array($q_grades)) {
+        while ($a_grades = mysqli_fetch_array($q_grades)) {
           $output .= "<option value=\"" . $a_grades['grade_id'] . "\">" . $a_grades['grade_name'] . "</option>\n";
         }
         $output .= "</select></td>\n";
@@ -171,7 +171,7 @@
           $q_string .= "order by bio_name,bio_rating,class_name,ver_version ";
           $q_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_bioware) > 0) {
-            while ($a_bioware = mysql_fetch_array($q_bioware)) {
+            while ($a_bioware = mysqli_fetch_array($q_bioware)) {
 
 # this adds the bio_id to the r_bio_character
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('bioware.mysql.php?update=0&r_bio_character=" . $formVars['r_bio_character'] . "&r_bio_number=" . $a_bioware['bio_id'] . "');\">";
@@ -272,7 +272,7 @@
       $q_string .= "order by bio_name,bio_rating,bio_class,ver_version ";
       $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_bioware) > 0) {
-        while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+        while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('bioware.fill.php?id=" . $a_r_bioware['r_bio_id'] . "');showDiv('bioware-hide');\">";
           $linkdel = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_bioware('bioware.del.php?id="  . $a_r_bioware['r_bio_id'] . "');\">";

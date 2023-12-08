@@ -46,7 +46,7 @@
           $q_string .= "from commlink ";
           $q_string .= "where link_id = " . $formVars['r_link_number'] . " ";
           $q_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_commlink = mysql_fetch_array($q_commlink);
+          $a_commlink = mysqli_fetch_array($q_commlink);
 
           $link_access =
             $a_commlink['link_access'] . ":" .
@@ -150,7 +150,7 @@
         $q_string .= "order by link_rating,link_cost,ver_version ";
         $q_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_commlink) > 0) {
-          while ($a_commlink = mysql_fetch_array($q_commlink)) {
+          while ($a_commlink = mysqli_fetch_array($q_commlink)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:select_commlink('commlink.mysql.php?update=1&r_link_character=" . $formVars['r_link_character'] . "&r_link_number=" . $a_commlink['link_id'] . "');\">";
             $linkend = "</a>";
@@ -243,7 +243,7 @@
       $q_string .= "order by link_rating,link_cost,ver_version ";
       $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_commlink) > 0) {
-        while ($a_r_commlink = mysql_fetch_array($q_r_commlink)) {
+        while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_linkacc(" . $a_r_commlink['r_link_id'] . ");showDiv('commlink-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_commlink('commlink.del.php?id="  . $a_r_commlink['r_link_id'] . "');\">";
@@ -289,7 +289,7 @@
           $q_string .= "order by acc_name,acc_rating,ver_version ";
           $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gearacc('gearacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";

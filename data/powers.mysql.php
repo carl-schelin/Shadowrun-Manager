@@ -126,7 +126,7 @@
         $q_string .= "order by pow_name,ver_version ";
         $q_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_powers) > 0) {
-          while ($a_powers = mysql_fetch_array($q_powers)) {
+          while ($a_powers = mysqli_fetch_array($q_powers)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:attach_power('powers.mysql.php?optional=No&pow_id=" . $a_powers['pow_id'] . "', 0);\">";
             $linkend = "</a>";
@@ -215,7 +215,7 @@
         $q_string .= "order by pow_name,ver_version ";
         $q_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_powers) > 0) {
-          while ($a_powers = mysql_fetch_array($q_powers)) {
+          while ($a_powers = mysqli_fetch_array($q_powers)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:attach_power('powers.mysql.php?optional=Yes&pow_id=" . $a_powers['pow_id'] . "', 0);\">";
             $linkend = "</a>";

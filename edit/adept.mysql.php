@@ -143,7 +143,7 @@
         $q_string .= "order by adp_name ";
         $q_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_adept) > 0) {
-          while ($a_adept = mysql_fetch_array($q_adept)) {
+          while ($a_adept = mysqli_fetch_array($q_adept)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('adept.mysql.php?update=0&r_adp_character=" . $formVars['r_adp_character'] . "&r_adp_number=" . $a_adept['adp_id'] . "');\">";
             $linkend   = "</a>";
@@ -233,7 +233,7 @@
       $q_string .= "order by adp_name ";
       $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_adept) > 0) {
-        while ($a_r_adept = mysql_fetch_array($q_r_adept)) {
+        while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('adept.fill.php?id=" . $a_r_adept['r_adp_id'] . "');showDiv('adept-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_adept('adept.del.php?id="  . $a_r_adept['r_adp_id'] . "');\">";
@@ -283,7 +283,7 @@
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['r_adp_character'] . " ";
         $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_runners = mysql_fetch_array($q_runners);
+        $a_runners = mysqli_fetch_array($q_runners);
 
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">Power Points: " . $adepttotal . " of " . $a_runners['runr_magic'] . " Magic Points</td>\n";

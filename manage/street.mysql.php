@@ -35,7 +35,7 @@
     $q_string .= "order by st_date ";
     $q_street = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_street) > 0) {
-      while ($a_street = mysql_fetch_array($q_street)) {
+      while ($a_street = mysqli_fetch_array($q_street)) {
 
         $output .= "<tr>\n";
         $output .=   "<td class=\"ui-widget-content delete\" width=\"120\">" . $a_street['st_cred']  . "</td>\n";

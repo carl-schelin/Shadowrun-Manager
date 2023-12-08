@@ -39,7 +39,7 @@
   $q_string .= "order by life_style ";
   $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_lifestyle) > 0) {
-    while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
+    while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
       $output .= "<tr>";
       $output .= "<td class=\"ui-widget-content\">"        . $a_r_lifestyle['life_style']            . "</td>";

@@ -106,7 +106,7 @@
       $q_string .= "order by life_style,ver_version ";
       $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_lifestyle) > 0) {
-        while ($a_lifestyle = mysql_fetch_array($q_lifestyle)) {
+        while ($a_lifestyle = mysqli_fetch_array($q_lifestyle)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.lifestyle.fill.php?id="  . $a_lifestyle['life_id'] . "');jQuery('#dialogLifestyle').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_lifestyle('add.lifestyle.del.php?id=" . $a_lifestyle['life_id'] . "');\">";
@@ -124,7 +124,7 @@
           $q_string .= "where r_life_number = " . $a_lifestyle['life_id'] . " ";
           $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_lifestyle) > 0) {
-            while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
+            while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
               $total++;
             }
           }

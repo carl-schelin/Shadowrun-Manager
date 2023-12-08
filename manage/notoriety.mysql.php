@@ -35,7 +35,7 @@
     $q_string .= "order by not_date ";
     $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_notoriety) > 0) {
-      while ($a_notoriety = mysql_fetch_array($q_notoriety)) {
+      while ($a_notoriety = mysqli_fetch_array($q_notoriety)) {
 
         $output .= "<tr>\n";
         $output .=   "<td class=\"ui-widget-content delete\" width=\"120\">" . $a_notoriety['not_notoriety'] . "</td>\n";

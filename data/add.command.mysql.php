@@ -149,7 +149,7 @@
       $q_string .= "order by cmd_rating,cmd_cost,ver_version ";
       $q_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_command) > 0) {
-        while ($a_command = mysql_fetch_array($q_command)) {
+        while ($a_command = mysqli_fetch_array($q_command)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.command.fill.php?id="  . $a_command['cmd_id'] . "');jQuery('#dialogCommand').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_command('add.command.del.php?id=" . $a_command['cmd_id'] . "');\">";
@@ -171,7 +171,7 @@
           $q_string .= "where r_cmd_number = " . $a_command['cmd_id'] . " ";
           $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_command) > 0) {
-            while ($a_r_command = mysql_fetch_array($q_r_command)) {
+            while ($a_r_command = mysqli_fetch_array($q_r_command)) {
               $total++;
             }
           }

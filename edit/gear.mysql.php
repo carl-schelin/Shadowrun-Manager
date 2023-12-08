@@ -153,7 +153,7 @@
         $q_string .= "order by gear_name,gear_rating,gear_class,ver_version ";
         $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_gear) > 0) {
-          while ($a_gear = mysql_fetch_array($q_gear)) {
+          while ($a_gear = mysqli_fetch_array($q_gear)) {
 
 # this adds the gear_id to the r_gear_character
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('gear.mysql.php?update=-3&r_gear_character=" . $formVars['r_gear_character'] . "&gear_class=" . $a_gear['gear_class'] . "');\">";
@@ -252,7 +252,7 @@
       $q_string .= "order by gear_name,r_gear_details,gear_rating,gear_class,ver_version ";
       $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_gear) > 0) {
-        while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+        while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_gearacc(" . $a_r_gear['r_gear_id'] . ");showDiv('gear-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gear('gear.del.php?id="  . $a_r_gear['r_gear_id'] . "');\">";
@@ -306,7 +306,7 @@
           $q_string .= "order by acc_name,acc_rating,ver_version ";
           $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gearacc('gearacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";

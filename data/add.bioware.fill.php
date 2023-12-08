@@ -26,7 +26,7 @@
       $q_string .= "from bioware ";
       $q_string .= "where bio_id = " . $formVars['id'];
       $q_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_bioware = mysql_fetch_array($q_bioware);
+      $a_bioware = mysqli_fetch_array($q_bioware);
       mysql_free_result($q_bioware);
 
       print "document.dialog.bio_class.value = '"    . mysql_real_escape_string($a_bioware['bio_class'])    . "';\n";

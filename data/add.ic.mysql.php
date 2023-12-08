@@ -112,7 +112,7 @@
       $q_string .= "order by ic_name,ver_version ";
       $q_ic = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_ic) > 0) {
-        while ($a_ic = mysql_fetch_array($q_ic)) {
+        while ($a_ic = mysqli_fetch_array($q_ic)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.ic.fill.php?id="  . $a_ic['ic_id'] . "');jQuery('#dialogIC').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_ic('add.ic.del.php?id=" . $a_ic['ic_id'] . "');\">";

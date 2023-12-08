@@ -131,7 +131,7 @@
         $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
         $q_string .= "where r_deck_id = " . $formVars['r_deck_id'] . " ";
         $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck);
+        $a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck);
 
 # for that class or something that works for all; numbers because both acc_class and deck_class are numeric. no need to convert to text
         $where .= "and acc_class = 0 ";
@@ -148,7 +148,7 @@
         $q_string .= "order by acc_name,acc_rating,ver_version ";
         $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
-          while ($a_accessory = mysql_fetch_array($q_accessory)) {
+          while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('deckacc.mysql.php";
             $linkstart .= "?update=0";

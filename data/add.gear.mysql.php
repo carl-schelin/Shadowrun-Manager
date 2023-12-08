@@ -156,7 +156,7 @@
         $q_string .= "order by class_name,gear_name,gear_rating,ver_version ";
         $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_gear) > 0) {
-          while ($a_gear = mysql_fetch_array($q_gear)) {
+          while ($a_gear = mysqli_fetch_array($q_gear)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.gear.fill.php?id="  . $a_gear['gear_id'] . "');jQuery('#dialogGear').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gear('add.gear.del.php?id=" . $a_gear['gear_id'] . "');\">";
@@ -182,7 +182,7 @@
             $q_string .= "where r_gear_number = " . $a_gear['gear_id'] . " ";
             $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_gear) > 0) {
-              while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+              while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
                 $total++;
               }
             }

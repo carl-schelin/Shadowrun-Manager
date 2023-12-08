@@ -26,7 +26,7 @@
       $q_string .= "from sp_active ";
       $q_string .= "where sp_act_id = " . $formVars['id'];
       $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_sp_active = mysql_fetch_array($q_sp_active);
+      $a_sp_active = mysqli_fetch_array($q_sp_active);
       mysql_free_result($q_sp_active);
 
       print "document.active.sp_act_specialize.value = '" . mysql_real_escape_string($a_sp_active['sp_act_specialize']) . "';\n";

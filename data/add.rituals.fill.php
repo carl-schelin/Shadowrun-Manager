@@ -26,7 +26,7 @@
       $q_string .= "from rituals ";
       $q_string .= "where rit_id = " . $formVars['id'];
       $q_rituals = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_rituals = mysql_fetch_array($q_rituals);
+      $a_rituals = mysqli_fetch_array($q_rituals);
       mysql_free_result($q_rituals);
 
       print "document.dialog.rit_name.value = '"       . mysql_real_escape_string($a_rituals['rit_name'])      . "';\n";

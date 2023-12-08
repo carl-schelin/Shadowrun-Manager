@@ -22,7 +22,7 @@
   $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_versions = mysql_fetch_array($q_versions);
+  $a_versions = mysqli_fetch_array($q_versions);
 
   $output  = "<p></p>\n";
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -100,7 +100,7 @@
   $q_string .= "order by fa_class,fa_name ";
   $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_firearms) > 0) {
-    while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+    while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
       $fa_damage = return_Damage($a_r_firearms['fa_damage'], $a_r_firearms['fa_type'], $a_r_firearms['fa_flag']);
 

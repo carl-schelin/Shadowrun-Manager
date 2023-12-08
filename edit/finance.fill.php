@@ -26,7 +26,7 @@
       $q_string .= "from finance ";
       $q_string .= "where fin_id = " . $formVars['id'];
       $q_finance = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_finance = mysql_fetch_array($q_finance);
+      $a_finance = mysqli_fetch_array($q_finance);
       mysql_free_result($q_finance);
 
       print "document.edit.fin_funds.value = '"    . mysql_real_escape_string($a_finance['fin_funds'])    . "';\n";

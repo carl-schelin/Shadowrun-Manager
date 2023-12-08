@@ -75,7 +75,7 @@
       $q_string .= "order by cmd_rating,cmd_cost,ver_version ";
       $q_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_command) > 0) {
-        while ($a_command = mysql_fetch_array($q_command)) {
+        while ($a_command = mysqli_fetch_array($q_command)) {
 
 # this adds the cmd_id to the r_cmd_character
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('mycommand.mysql.php?update=0&r_cmd_character=" . $formVars['r_cmd_character'] . "&cmd_id=" . $a_command['cmd_id'] . "');\">";

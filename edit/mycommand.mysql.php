@@ -47,7 +47,7 @@
             $query .= "from command ";
             $query .= "where cmd_id = " . $formVars['cmd_id'] . " ";
             $q_command = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-            $a_command = mysql_fetch_array($q_command);
+            $a_command = mysqli_fetch_array($q_command);
 
             $cmd_access =
               $a_command['cmd_access'] . ":" .
@@ -193,7 +193,7 @@
       $q_string .= "order by cmd_brand,cmd_model,ver_version ";
       $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_command) > 0) {
-        while ($a_r_command = mysql_fetch_array($q_r_command)) {
+        while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_cmdacc(" . $a_r_command['r_cmd_id'] . ");showDiv('command-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_command('command.del.php?id="  . $a_r_command['r_cmd_id'] . "');\">";
@@ -271,7 +271,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cmdacc('cmdacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";
@@ -326,7 +326,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_program = mysql_fetch_array($q_r_program)) {
+            while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cmdpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
@@ -374,7 +374,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_program = mysql_fetch_array($q_r_program)) {
+            while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cmdpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";

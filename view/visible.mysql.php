@@ -24,7 +24,7 @@
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_runners = mysql_fetch_array($q_runners);
+  $a_runners = mysqli_fetch_array($q_runners);
 
   $sex = "Female";
   if ($a_runners['runr_sex']) {
@@ -57,7 +57,7 @@
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_runners = mysql_fetch_array($q_runners);
+  $a_runners = mysqli_fetch_array($q_runners);
 
   print "document.getElementById('visible_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
 

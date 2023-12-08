@@ -109,7 +109,7 @@
       $q_string .= "order by pow_name,ver_version ";
       $q_sprite_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_sprite_powers) > 0) {
-        while ($a_sprite_powers = mysql_fetch_array($q_sprite_powers)) {
+        while ($a_sprite_powers = mysqli_fetch_array($q_sprite_powers)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.spritepower.fill.php?id="  . $a_sprite_powers['pow_id'] . "');jQuery('#dialogPower').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_power('add.spritepower.del.php?id=" . $a_sprite_powers['pow_id'] . "');\">";

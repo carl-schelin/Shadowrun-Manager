@@ -43,7 +43,7 @@
           $q_string .= "from cyberjack ";
           $q_string .= "where jack_id = " . $formVars['r_jack_number'] . " ";
           $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberjack = mysql_fetch_array($q_cyberjack);
+          $a_cyberjack = mysqli_fetch_array($q_cyberjack);
 
           $jack_access =
             $a_cyberjack['jack_access'] . ":" .
@@ -94,7 +94,7 @@
           $q_string .= "from cyberjack ";
           $q_string .= "where jack_id = " . $formVars['r_jack_number'] . " ";
           $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberjack = mysql_fetch_array($q_cyberjack);
+          $a_cyberjack = mysqli_fetch_array($q_cyberjack);
 
           $jack_access =
             $a_cyberjack['jack_access'] . ":" .
@@ -191,7 +191,7 @@
           $q_string .= "order by jack_rating,jack_cost,ver_version ";
           $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_cyberjack) > 0) {
-            while ($a_cyberjack = mysql_fetch_array($q_cyberjack)) {
+            while ($a_cyberjack = mysqli_fetch_array($q_cyberjack)) {
 
 # this adds the jack_id to the r_jack_character and refreshes the cyberjack table
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('mycyberjack.mysql.php?update=1&r_jack_character=" . $formVars['r_jack_character'] . "&jack_id=" . $a_cyberjack['jack_id'] . "');javascript:show_file('cyberjack.mysql.php?update=-3&r_jack_character=" . $formVars['r_jack_character'] . "');\">";

@@ -26,7 +26,7 @@
       $q_string .= "from gear ";
       $q_string .= "where gear_id = " . $formVars['id'];
       $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_gear = mysql_fetch_array($q_gear);
+      $a_gear = mysqli_fetch_array($q_gear);
       mysql_free_result($q_gear);
 
       print "document.dialog.gear_class.value = '"       . mysql_real_escape_string($a_gear['gear_class'])         . "';\n";

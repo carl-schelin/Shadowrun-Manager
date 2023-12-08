@@ -111,7 +111,7 @@
       $q_string .= "order by grp_name";
       $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_groups) > 0) {
-        while ($a_groups = mysql_fetch_array($q_groups)) {
+        while ($a_groups = mysqli_fetch_array($q_groups)) {
 
           $linkdel   = "<input type=\"button\" value=\"Remove\" onclick=\"delete_line('add.groups.del.php?id=" . $a_groups['grp_id'] . "');\">";
           $linkstart = "<a href=\"#\" onclick=\"show_file('add.groups.fill.php?id="  . $a_groups['grp_id'] . "');showDiv('group-hide');\">";

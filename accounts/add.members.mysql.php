@@ -37,7 +37,7 @@
           $q_string .= "from runners ";
           $q_string .= "where runr_id = " . $formVars['mem_runner'] . " ";
           $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_runners = mysql_fetch_array($q_runners);
+          $a_runners = mysqli_fetch_array($q_runners);
 
           $q_string =
             "mem_owner     =   " . $a_runners['runr_owner']    . "," . 
@@ -117,7 +117,7 @@
       $q_string .= "order by usr_last,usr_first,runr_name ";
       $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_members) > 0) {
-        while ($a_members = mysql_fetch_array($q_members)) {
+        while ($a_members = mysqli_fetch_array($q_members)) {
 
           $linkdel   = "<input type=\"button\" value=\"Remove\" onclick=\"delete_line('add.members.del.php?id=" . $a_members['mem_id'] . "');\">";
           $linkstart = "<a href=\"#\" onclick=\"show_file('add.members.fill.php?id="  . $a_members['mem_id'] . "');showDiv('members-hide');\">";

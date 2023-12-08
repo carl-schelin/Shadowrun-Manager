@@ -40,7 +40,7 @@
   $q_string .= "order by ware_name,ware_rating,class_name ";
   $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberware) > 0) {
-    while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+    while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
       $ware_name = $a_r_cyberware['ware_name'];
       if ($a_r_cyberware['r_ware_specialize'] != '') {
@@ -78,7 +78,7 @@
       $q_string .= "order by acc_name,acc_rating ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 
@@ -108,7 +108,7 @@
       $q_string .= "order by fa_name ";
       $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_firearms) > 0) {
-        while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+        while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
           $class = "ui-widget-content";
 
@@ -129,7 +129,7 @@
           $q_string .= "order by ammo_name ";
           $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $class = "ui-widget-content";
 

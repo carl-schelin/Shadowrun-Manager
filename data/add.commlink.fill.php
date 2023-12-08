@@ -27,7 +27,7 @@
       $q_string .= "from commlink ";
       $q_string .= "where link_id = " . $formVars['id'];
       $q_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_commlink = mysql_fetch_array($q_commlink);
+      $a_commlink = mysqli_fetch_array($q_commlink);
       mysql_free_result($q_commlink);
 
       print "document.dialog.link_brand.value = '"    . mysql_real_escape_string($a_commlink['link_brand'])    . "';\n";

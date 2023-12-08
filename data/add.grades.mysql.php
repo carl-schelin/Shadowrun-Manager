@@ -125,7 +125,7 @@
       $q_string .= "order by grade_name ";
       $q_grades = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_grades) > 0) {
-        while ($a_grades = mysql_fetch_array($q_grades)) {
+        while ($a_grades = mysqli_fetch_array($q_grades)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.grades.fill.php?id="  . $a_grades['grade_id'] . "');jQuery('#dialogGrade').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_grade('add.grades.del.php?id=" . $a_grades['grade_id'] . "');\">";

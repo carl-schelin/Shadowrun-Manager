@@ -121,7 +121,7 @@
       $q_string .= "order by pow_name,ver_version ";
       $q_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_powers) > 0) {
-        while ($a_powers = mysql_fetch_array($q_powers)) {
+        while ($a_powers = mysqli_fetch_array($q_powers)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.power.fill.php?id="  . $a_powers['pow_id'] . "');jQuery('#dialogPower').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_power('add.power.del.php?id=" . $a_powers['pow_id'] . "');\">";

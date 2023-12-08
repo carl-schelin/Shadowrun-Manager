@@ -26,7 +26,7 @@
       $q_string .= "from spirits ";
       $q_string .= "where spirit_id = " . $formVars['id'];
       $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_spirits = mysql_fetch_array($q_spirits);
+      $a_spirits = mysqli_fetch_array($q_spirits);
       mysql_free_result($q_spirits);
 
       print "document.getElementById('r_spirit_item').innerHTML = '" . mysql_real_escape_string($a_spirits['spirit_name']) . "';\n\n";

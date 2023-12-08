@@ -30,7 +30,7 @@
       $q_string .= "left join class on class.class_id = firearms.fa_class ";
       $q_string .= "where r_fa_id = " . $formVars['id'];
       $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_firearms = mysql_fetch_array($q_r_firearms);
+      $a_r_firearms = mysqli_fetch_array($q_r_firearms);
       mysql_free_result($q_r_firearms);
 
       $fa_mode = return_Mode($a_r_firearms['fa_mode1'], $a_r_firearms['fa_mode2'], $a_r_firearms['fa_mode3']);

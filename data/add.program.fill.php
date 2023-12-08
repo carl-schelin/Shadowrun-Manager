@@ -26,7 +26,7 @@
       $q_string .= "from program ";
       $q_string .= "where pgm_id = " . $formVars['id'];
       $q_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_program = mysql_fetch_array($q_program);
+      $a_program = mysqli_fetch_array($q_program);
       mysql_free_result($q_program);
 
       print "document.dialog.pgm_name.value = '"  . mysql_real_escape_string($a_program['pgm_name'])  . "';\n";

@@ -127,7 +127,7 @@
         $q_string .= "order by act_type,act_name,ver_version ";
         $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_active) > 0) {
-          while ($a_active = mysql_fetch_array($q_active)) {
+          while ($a_active = mysqli_fetch_array($q_active)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.active.fill.php?id="  . $a_active['act_id'] . "');jQuery('#dialogActive').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_active('add.active.del.php?id=" . $a_active['act_id'] . "');\">";
@@ -147,7 +147,7 @@
             $q_string .= "where r_act_number = " . $a_active['act_id'] . " ";
             $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_active) > 0) {
-              while ($a_r_active = mysql_fetch_array($q_r_active)) {
+              while ($a_r_active = mysqli_fetch_array($q_r_active)) {
                 $total++;
               }
             }

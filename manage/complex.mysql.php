@@ -67,7 +67,7 @@
     $q_string .= "order by form_name,ver_version ";
     $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_complexform) > 0) {
-      while ($a_r_complexform = mysql_fetch_array($q_r_complexform)) {
+      while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
 
         $form_target = "Device";
         if ($a_r_complexform['form_target'] == 1) {

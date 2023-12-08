@@ -147,7 +147,7 @@
         $q_string .= "order by pgm_name,ver_version ";
         $q_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_program) > 0) {
-          while ($a_program = mysql_fetch_array($q_program)) {
+          while ($a_program = mysqli_fetch_array($q_program)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.program.fill.php?id="  . $a_program['pgm_id'] . "');jQuery('#dialogProgram').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('add.program.del.php?id=" . $a_program['pgm_id'] . "');\">";
@@ -167,7 +167,7 @@
             $q_string .= "where r_pgm_number = " . $a_program['pgm_id'] . " ";
             $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_program) > 0) {
-              while ($a_r_program = mysql_fetch_array($q_r_program)) {
+              while ($a_r_program = mysqli_fetch_array($q_r_program)) {
                 $total++;
               }
             }

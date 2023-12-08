@@ -27,7 +27,7 @@
       $q_string .= "from projectile ";
       $q_string .= "where proj_id = " . $formVars['id'];
       $q_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_projectile = mysql_fetch_array($q_projectile);
+      $a_projectile = mysqli_fetch_array($q_projectile);
       mysql_free_result($q_projectile);
 
       print "document.dialog.proj_class.value = '"    . mysql_real_escape_string($a_projectile['proj_class'])    . "';\n";

@@ -60,7 +60,7 @@ $(document).ready( function () {
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
     $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -127,7 +127,7 @@ $(document).ready( function () {
   $q_string .= "order by runr_name,veh_class,veh_type,veh_make ";
   $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_vehicles) > 0) {
-    while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+    while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
       $display = "No"; 
 
@@ -203,7 +203,7 @@ $(document).ready( function () {
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
       $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -269,7 +269,7 @@ $(document).ready( function () {
     $q_string .= "order by runr_name,veh_class,veh_type,veh_make ";
     $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_vehicles) > 0) {
-      while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+      while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
         $display = "No"; 
 

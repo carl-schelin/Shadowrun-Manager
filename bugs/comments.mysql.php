@@ -70,7 +70,7 @@
       $q_string .= "from bugs ";
       $q_string .= "where bug_id = " . $formVars['id'];
       $q_bugs = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_bugs = mysql_fetch_array($q_bugs);
+      $a_bugs = mysqli_fetch_array($q_bugs);
 
 
       $output  = "<p></p>\n";
@@ -119,7 +119,7 @@
       $q_string .= "where bug_bug_id = " . $formVars['id'] . " ";
       $q_string .= "order by bug_timestamp desc ";
       $q_bugs_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_bugs_detail = mysql_fetch_array($q_bugs_detail)) {
+      while ($a_bugs_detail = mysqli_fetch_array($q_bugs_detail)) {
 
         if ($a_bugs['bug_closed'] == '0000-00-00') {
           $linkstart = "<a href=\"#details\" onclick=\"show_file('"     . $Bugroot . "/comments.fill.php?id=" . $a_bugs_detail['bug_id'] . "');showDiv('problem-hide');\">";

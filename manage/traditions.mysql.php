@@ -60,7 +60,7 @@
   $q_string .= "where r_trad_character = " . $formVars['id'] . " ";
   $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_tradition) > 0) {
-    while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+    while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
       $tradition_book = return_Book($a_r_tradition['ver_book'], $a_r_tradition['trad_page']);
 

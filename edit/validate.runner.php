@@ -28,7 +28,7 @@
 # same as the ID found, then update button is enabled, add button is disabled.
 
   if (mysql_num_rows($q_runners) > 0) {
-    $a_runners = mysql_fetch_array($q_runners);
+    $a_runners = mysqli_fetch_array($q_runners);
 
     if ($formVars['id'] == $a_runners['runr_id']) {
 ?>

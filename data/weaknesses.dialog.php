@@ -26,7 +26,7 @@
       $q_string .= "from sp_weaknesses ";
       $q_string .= "where sp_weak_id = " . $formVars['id'];
       $q_sp_weaknesses = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_sp_weaknesses = mysql_fetch_array($q_sp_weaknesses);
+      $a_sp_weaknesses = mysqli_fetch_array($q_sp_weaknesses);
       mysql_free_result($q_sp_weaknesses);
 
       print "document.weakness.sp_weak_specialize.value = '" . mysql_real_escape_string($a_sp_weaknesses['sp_weak_specialize']) . "';\n";

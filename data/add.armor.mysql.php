@@ -162,7 +162,7 @@
       $q_string .= "order by arm_name,arm_rating,ver_version ";
       $q_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_armor) > 0) {
-        while ($a_armor = mysql_fetch_array($q_armor)) {
+        while ($a_armor = mysqli_fetch_array($q_armor)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.armor.fill.php?id="  . $a_armor['arm_id'] . "');jQuery('#dialogArmor').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_armor('add.armor.del.php?id=" . $a_armor['arm_id'] . "');\">";
@@ -190,7 +190,7 @@
           $q_string .= "where r_arm_number = " . $a_armor['arm_id'] . " ";
           $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_armor) > 0) {
-            while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
+            while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
               $total++;
             }
           }

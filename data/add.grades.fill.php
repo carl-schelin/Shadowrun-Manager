@@ -26,7 +26,7 @@
       $q_string .= "from grades ";
       $q_string .= "where grade_id = " . $formVars['id'];
       $q_grades = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_grades = mysql_fetch_array($q_grades);
+      $a_grades = mysqli_fetch_array($q_grades);
       mysql_free_result($q_grades);
 
       print "document.dialog.grade_name.value = '"    . mysql_real_escape_string($a_grades['grade_name'])    . "';\n";

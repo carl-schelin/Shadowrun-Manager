@@ -26,7 +26,7 @@
       $q_string .= "from karma ";
       $q_string .= "where kar_id = " . $formVars['id'];
       $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_karma = mysql_fetch_array($q_karma);
+      $a_karma = mysqli_fetch_array($q_karma);
       mysql_free_result($q_karma);
 
       print "document.edit.kar_karma.value = '"    . mysql_real_escape_string($a_karma['kar_karma'])    . "';\n";

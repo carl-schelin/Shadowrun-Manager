@@ -26,7 +26,7 @@
       $q_string .= "from publicity ";
       $q_string .= "where pub_id = " . $formVars['id'];
       $q_publicity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_publicity = mysql_fetch_array($q_publicity);
+      $a_publicity = mysqli_fetch_array($q_publicity);
       mysql_free_result($q_publicity);
 
       print "document.edit.pub_publicity.value = '"   . mysql_real_escape_string($a_publicity['pub_publicity'])  . "';\n";

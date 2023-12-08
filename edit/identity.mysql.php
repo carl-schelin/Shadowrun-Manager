@@ -174,7 +174,7 @@
       $q_string .= "order by id_name ";
       $q_r_identity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_identity) > 0) {
-        while ($a_r_identity = mysql_fetch_array($q_r_identity)) {
+        while ($a_r_identity = mysqli_fetch_array($q_r_identity)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('identity.fill.php?id=" . $a_r_identity['id_id'] . "');showDiv('identity-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_identity('identity.del.php?id="  . $a_r_identity['id_id'] . "');\">";
@@ -207,7 +207,7 @@
           $q_string .= "order by lic_type ";
           $q_r_license = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_license) > 0) {
-            while ($a_r_license = mysql_fetch_array($q_r_license)) {
+            while ($a_r_license = mysqli_fetch_array($q_r_license)) {
 
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('license.fill.php?id=" . $a_r_license['lic_id'] . "');showDiv('license-hide');\">";
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_license('license.del.php?id="  . $a_r_license['lic_id'] . "');\">";

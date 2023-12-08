@@ -31,7 +31,7 @@
   $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
 
-    while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+    while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -95,7 +95,7 @@
         $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
           $avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
@@ -136,7 +136,7 @@
         $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
           $avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
@@ -179,7 +179,7 @@
         $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
 
-        while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+        while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
           $rating = return_Rating($a_r_agents['agt_rating']);
 

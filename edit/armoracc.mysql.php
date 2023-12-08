@@ -133,7 +133,7 @@
         $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
         $q_string .= "where r_arm_id = " . $formVars['r_arm_id'] . " ";
         $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_armor = mysql_fetch_array($q_r_armor);
+        $a_r_armor = mysqli_fetch_array($q_r_armor);
 
 # for that class or something that works for all; numbers because both acc_class and arm_class are numeric. no need to convert to text
         $where .= "and (acc_class = " . $a_r_armor['arm_class'] . " or acc_class = 0) ";
@@ -153,7 +153,7 @@
         $q_string .= "where sub_name = \"Clothing and Armor\" and r_acc_character = " . $a_r_armor['r_arm_character'] . " and r_acc_parentid = " . $formVars['r_arm_id'] . " ";
         $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_r_accessory) > 0) {
-          while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+          while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
             $totalcapacity += $a_r_accessory['acc_capacity'];
           }
         }
@@ -174,7 +174,7 @@
         $q_string .= "order by acc_name,acc_rating,ver_version ";
         $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_accessory) > 0) {
-          while ($a_accessory = mysql_fetch_array($q_accessory)) {
+          while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('armoracc.mysql.php";
             $linkstart .= "?update=0";

@@ -16,7 +16,7 @@
 #  $q_string .= "from users ";
 #  $q_string .= "where usr_id = " . $_SESSION['uid'] . " ";
 #  $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-#  $a_users = mysql_fetch_array($q_users);
+#  $a_users = mysqli_fetch_array($q_users);
 #
 #  $formVars['uid'] = $a_users['usr_id'];
 #  $formVars['group'] = $a_users['usr_group'];
@@ -110,7 +110,7 @@ $(document).ready( function() {
   $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_groups) > 0) {
     print "<option value=\"0\">All Available Groups</option>\n";
-    while ($a_groups = mysql_fetch_array($q_groups)) {
+    while ($a_groups = mysqli_fetch_array($q_groups)) {
       print "<option value=\"" . $a_groups['grp_id'] . "\">" . $a_groups['grp_name'] . "</option>\n";
     }
   } else {
@@ -128,7 +128,7 @@ $(document).ready( function() {
   if (mysql_num_rows($q_groups) > 0) {
     print "<option value=\"-1\">No Opposition Group</option>\n";
     print "<option value=\"0\">All Available Groups</option>\n";
-    while ($a_groups = mysql_fetch_array($q_groups)) {
+    while ($a_groups = mysqli_fetch_array($q_groups)) {
       print "<option value=\"" . $a_groups['grp_id'] . "\">" . $a_groups['grp_name'] . "</option>\n";
     }
   } else {
@@ -215,7 +215,7 @@ $(document).ready( function() {
   $q_string .= "where tag_view = 0 and tag_owner = " . $formVars['uid'] . " ";
   $q_string .= "group by tag_name ";
   $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_tags = mysql_fetch_array($q_tags)) {
+  while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "&type=0\">";
     $linkend   = "</a>";
 
@@ -238,7 +238,7 @@ $(document).ready( function() {
   $q_string .= "where tag_view = 1 ";
   $q_string .= "group by tag_name ";
   $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_tags = mysql_fetch_array($q_tags)) {
+  while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "&type=1\">";
     $linkend   = "</a>";
 

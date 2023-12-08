@@ -26,7 +26,7 @@
       $q_string .= "from knowledge ";
       $q_string .= "where know_id = " . $formVars['id'];
       $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_knowledge = mysql_fetch_array($q_knowledge);
+      $a_knowledge = mysqli_fetch_array($q_knowledge);
       mysql_free_result($q_knowledge);
 
       print "document.dialog.know_name.value = '"      . mysql_real_escape_string($a_knowledge['know_name'])      . "';\n";

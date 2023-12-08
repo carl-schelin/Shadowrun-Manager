@@ -27,7 +27,7 @@
       $q_string .= "from users ";
       $q_string .= "where usr_id = " . $formVars['id'];
       $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_users = mysql_fetch_array($q_users);
+      $a_users = mysqli_fetch_array($q_users);
       mysql_free_result($q_users);
 
       $disabled = $a_users['usr_disabled'];

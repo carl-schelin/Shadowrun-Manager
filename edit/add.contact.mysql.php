@@ -75,7 +75,7 @@
       $q_string .= "from contact ";
       $q_string .= "order by con_archetype ";
       $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_contact = mysql_fetch_array($q_contact)) {
+      while ($a_contact = mysqli_fetch_array($q_contact)) {
         print "selbox.options[selbox.options.length] = new Option(\"" . htmlspecialchars($a_contact['con_archetype'] . " (" . $a_contact['con_name'] . ")") . "\"," . $a_contact['con_id'] . ");\n";
       }
 

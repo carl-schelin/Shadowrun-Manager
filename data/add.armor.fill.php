@@ -26,7 +26,7 @@
       $q_string .= "from armor ";
       $q_string .= "where arm_id = " . $formVars['id'];
       $q_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_armor = mysql_fetch_array($q_armor);
+      $a_armor = mysqli_fetch_array($q_armor);
       mysql_free_result($q_armor);
 
       print "document.dialog.arm_class.value = '"       . mysql_real_escape_string($a_armor['arm_class'])       . "';\n";

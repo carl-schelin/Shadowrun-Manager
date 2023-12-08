@@ -26,7 +26,7 @@
       $q_string .= "from metatypes ";
       $q_string .= "where meta_id = " . $formVars['id'];
       $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_metatypes = mysql_fetch_array($q_metatypes);
+      $a_metatypes = mysqli_fetch_array($q_metatypes);
       mysql_free_result($q_metatypes);
 
       print "document.dialog.meta_name.value = '" . mysql_real_escape_string($a_metatypes['meta_name']) . "';\n";

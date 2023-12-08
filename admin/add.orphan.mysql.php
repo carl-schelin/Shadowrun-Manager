@@ -74,7 +74,7 @@
       $q_string .= "from r_accessory ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -120,7 +120,7 @@
       $q_string .= "from r_active ";
       $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_active) > 0) {
-        while ($a_r_active = mysql_fetch_array($q_r_active)) {
+        while ($a_r_active = mysqli_fetch_array($q_r_active)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -161,7 +161,7 @@
       $q_string .= "from r_adept ";
       $q_r_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_adept) > 0) {
-        while ($a_r_adept = mysql_fetch_array($q_r_adept)) {
+        while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -188,7 +188,7 @@
       $q_string .= "from r_agents ";
       $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_agents) > 0) {
-        while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+        while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -246,7 +246,7 @@
       $q_string .= "from r_alchemy ";
       $q_r_alchemy = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_alchemy) > 0) {
-        while ($a_r_alchemy = mysql_fetch_array($q_r_alchemy)) {
+        while ($a_r_alchemy = mysqli_fetch_array($q_r_alchemy)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -287,7 +287,7 @@
       $q_string .= "from r_ammo ";
       $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_ammo) > 0) {
-        while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+        while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -328,7 +328,7 @@
       $q_string .= "from r_armor ";
       $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_armor) > 0) {
-        while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
+        while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -369,7 +369,7 @@
       $q_string .= "from r_bioware ";
       $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_bioware) > 0) {
-        while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+        while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -410,7 +410,7 @@
       $q_string .= "from r_command ";
       $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_command) > 0) {
-        while ($a_r_command = mysql_fetch_array($q_r_command)) {
+        while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -451,7 +451,7 @@
       $q_string .= "from r_commlink ";
       $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_commlink) > 0) {
-        while ($a_r_commlink = mysql_fetch_array($q_r_commlink)) {
+        while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -492,7 +492,7 @@
       $q_string .= "from r_complexform ";
       $q_r_complexform = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_complexform) > 0) {
-        while ($a_r_complexform = mysql_fetch_array($q_r_complexform)) {
+        while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -533,7 +533,7 @@
       $q_string .= "from r_contact ";
       $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_contact) > 0) {
-        while ($a_r_contact = mysql_fetch_array($q_r_contact)) {
+        while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -574,7 +574,7 @@
       $q_string .= "from r_cyberdeck ";
       $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_cyberdeck) > 0) {
-        while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+        while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -615,7 +615,7 @@
       $q_string .= "from r_cyberware ";
       $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_cyberware) > 0) {
-        while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+        while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -656,7 +656,7 @@
       $q_string .= "from r_firearms ";
       $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_firearms) > 0) {
-        while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+        while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -697,7 +697,7 @@
       $q_string .= "from r_gear ";
       $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_gear) > 0) {
-        while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+        while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -738,7 +738,7 @@
       $q_string .= "from r_identity ";
       $q_r_identity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_identity) > 0) {
-        while ($a_r_identity = mysql_fetch_array($q_r_identity)) {
+        while ($a_r_identity = mysqli_fetch_array($q_r_identity)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -763,7 +763,7 @@
       $q_string .= "from r_knowledge ";
       $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_knowledge) > 0) {
-        while ($a_r_knowledge = mysql_fetch_array($q_r_knowledge)) {
+        while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -804,7 +804,7 @@
       $q_string .= "from r_language ";
       $q_r_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_language) > 0) {
-        while ($a_r_language = mysql_fetch_array($q_r_language)) {
+        while ($a_r_language = mysqli_fetch_array($q_r_language)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -845,7 +845,7 @@
       $q_string .= "from r_license ";
       $q_r_license = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_license) > 0) {
-        while ($a_r_license = mysql_fetch_array($q_r_license)) {
+        while ($a_r_license = mysqli_fetch_array($q_r_license)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -886,7 +886,7 @@
       $q_string .= "from r_lifestyle ";
       $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_lifestyle) > 0) {
-        while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
+        while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -927,7 +927,7 @@
       $q_string .= "from r_melee ";
       $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_melee) > 0) {
-        while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
+        while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -968,7 +968,7 @@
       $q_string .= "from r_mentor ";
       $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_mentor) > 0) {
-        while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
+        while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1009,7 +1009,7 @@
       $q_string .= "from r_program ";
       $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_program) > 0) {
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1086,7 +1086,7 @@
       $q_string .= "from r_projectile ";
       $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_projectile) > 0) {
-        while ($a_r_projectile = mysql_fetch_array($q_r_projectile)) {
+        while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1127,7 +1127,7 @@
       $q_string .= "from r_qualities ";
       $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_qualities) > 0) {
-        while ($a_r_qualities = mysql_fetch_array($q_r_qualities)) {
+        while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1168,7 +1168,7 @@
       $q_string .= "from r_spells ";
       $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_spells) > 0) {
-        while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
+        while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1209,7 +1209,7 @@
       $q_string .= "from r_spirit ";
       $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_spirit) > 0) {
-        while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+        while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1250,7 +1250,7 @@
       $q_string .= "from r_sprite ";
       $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_sprite) > 0) {
-        while ($a_r_sprite = mysql_fetch_array($q_r_sprite)) {
+        while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1291,7 +1291,7 @@
       $q_string .= "from r_tradition ";
       $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_tradition) > 0) {
-        while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+        while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1332,7 +1332,7 @@
       $q_string .= "from r_vehicles ";
       $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_vehicles) > 0) {
-        while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+        while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1373,7 +1373,7 @@
       $q_string .= "from history ";
       $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_history) > 0) {
-        while ($a_history = mysql_fetch_array($q_history)) {
+        while ($a_history = mysqli_fetch_array($q_history)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1398,7 +1398,7 @@
       $q_string .= "from karma ";
       $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_karma) > 0) {
-        while ($a_karma = mysql_fetch_array($q_karma)) {
+        while ($a_karma = mysqli_fetch_array($q_karma)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1423,7 +1423,7 @@
       $q_string .= "from street ";
       $q_street = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_street) > 0) {
-        while ($a_street = mysql_fetch_array($q_street)) {
+        while ($a_street = mysqli_fetch_array($q_street)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1448,7 +1448,7 @@
       $q_string .= "from notoriety ";
       $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_notoriety) > 0) {
-        while ($a_notoriety = mysql_fetch_array($q_notoriety)) {
+        while ($a_notoriety = mysqli_fetch_array($q_notoriety)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";
@@ -1473,7 +1473,7 @@
       $q_string .= "from publicity ";
       $q_publicity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_publicity) > 0) {
-        while ($a_publicity = mysql_fetch_array($q_publicity)) {
+        while ($a_publicity = mysqli_fetch_array($q_publicity)) {
 
           $q_string  = "select runr_name ";
           $q_string .= "from runners ";

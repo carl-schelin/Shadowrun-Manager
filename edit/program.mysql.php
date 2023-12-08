@@ -108,7 +108,7 @@
       $q_string .= "order by pgm_name ";
       $q_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_program) > 0) {
-        while ($a_program = mysql_fetch_array($q_program)) {
+        while ($a_program = mysqli_fetch_array($q_program)) {
 
 # update = 3 == add program to a console or deck
           $linkstart = "<a href=\"#\" onclick=\"javascript:" . $function . "('" . $myprogram . "?update=3&pgm_id=" . $a_program['pgm_id'] . "');\">";

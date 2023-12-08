@@ -64,7 +64,7 @@
   $q_string .= "order by mentor_name,ver_version ";
   $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_mentor) > 0) {
-    while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
+    while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
       $mentor_book = return_Book($a_r_mentor['ver_book'], $a_r_mentor['mentor_page']);
 

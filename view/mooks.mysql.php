@@ -25,7 +25,7 @@
   $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_runners = mysql_fetch_array($q_runners);
+  $a_runners = mysqli_fetch_array($q_runners);
 
   $sex = "Female";
   if ($a_runners['runr_sex']) {
@@ -38,7 +38,7 @@
   $q_string .= "where not_character = " . $formVars['id'] . " ";
   $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_notoriety) > 0) {
-    while ($a_notoriety = mysql_fetch_array($q_notoriety)) {
+    while ($a_notoriety = mysqli_fetch_array($q_notoriety)) {
       $notoriety += $a_notoriety['not_notoriety'];
     }
   }
@@ -49,7 +49,7 @@
   $q_string .= "where pub_character = " . $formVars['id'] . " ";
   $q_publicity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_publicity) > 0) {
-    while ($a_publicity = mysql_fetch_array($q_publicity)) {
+    while ($a_publicity = mysqli_fetch_array($q_publicity)) {
       $publicity += $a_publicity['pub_publicity'];
     }
   }
@@ -60,7 +60,7 @@
   $q_string .= "where st_character = " . $formVars['id'] . " ";
   $q_street = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_street) > 0) {
-    while ($a_street = mysql_fetch_array($q_street)) {
+    while ($a_street = mysqli_fetch_array($q_street)) {
       $streetcred += $a_streetcred['st_cred'];
     }
   }
@@ -72,7 +72,7 @@
   $q_string .= "where kar_character = " . $formVars['id'] . " ";
   $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_karma) > 0) {
-    while ($a_karma = mysql_fetch_array($q_karma)) {
+    while ($a_karma = mysqli_fetch_array($q_karma)) {
       if ($a_karma['kar_karma'] > 0) {
         $totalkarma += $a_karma['kar_karma'];
       }
@@ -125,7 +125,7 @@
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_runners = mysql_fetch_array($q_runners);
+  $a_runners = mysqli_fetch_array($q_runners);
 
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
@@ -297,7 +297,7 @@
   $q_string .= "order by link_rating,link_cost ";
   $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_commlink) > 0) {
-    while ($a_r_commlink = mysql_fetch_array($q_r_commlink)) {
+    while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
       $output .= "<tr>\n";
       $output .= "  <td class=\"ui-widget-content\">Matrix Initiative: " . $a_r_commlink['link_brand'] . " " . $a_r_commlink['link_model'] . "</td>\n";
@@ -310,7 +310,7 @@
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and acc_name like \"Sim Module%\" and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        $a_r_accessory = mysql_fetch_array($q_r_accessory);
+        $a_r_accessory = mysqli_fetch_array($q_r_accessory);
 
         $output .= "  <td class=\"ui-widget-content\">" . "Cold-sim " . ($a_r_commlink['link_data'] + $a_runners['runr_intuition']) . " + 3d6</td>\n";
 
@@ -335,7 +335,7 @@
   $q_string .= "order by cmd_brand,cmd_model,cmd_rating ";
   $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_command) > 0) {
-    while ($a_r_command = mysql_fetch_array($q_r_command)) {
+    while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
       $output .= "<tr>\n";
       $output .= "  <td class=\"ui-widget-content\">Matrix Initiative: " . $a_r_command['cmd_brand'] . " " . $a_r_command['cmd_model'] . "</td>\n";
@@ -348,7 +348,7 @@
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and acc_name like \"Sim Module%\" and r_acc_parentid = " . $a_r_command['r_cmd_id'] . " ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        $a_r_accessory = mysql_fetch_array($q_r_accessory);
+        $a_r_accessory = mysqli_fetch_array($q_r_accessory);
 
         $output .= "  <td class=\"ui-widget-content\">" . "Cold-sim " . ($a_r_command['cmd_data'] + $a_runners['runr_intuition']) . " + 3d6</td>\n";
 
@@ -373,7 +373,7 @@
   $q_string .= "order by deck_brand,deck_model,deck_rating ";
   $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
-    while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+    while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
       $output .= "<tr>\n";
       $output .= "  <td class=\"ui-widget-content\">Matrix Initiative: " . $a_r_cyberdeck['deck_brand'] . " " . $a_r_cyberdeck['deck_model'] . "</td>\n";
@@ -386,7 +386,7 @@
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and acc_name like \"Sim Module%\" and r_acc_parentid = " . $a_r_cyberdeck['r_deck_id'] . " ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        $a_r_accessory = mysql_fetch_array($q_r_accessory);
+        $a_r_accessory = mysqli_fetch_array($q_r_accessory);
 
         $output .= "  <td class=\"ui-widget-content\">" . "Cold-sim " . ($a_r_cyberdeck['r_deck_data'] + $a_runners['runr_intuition']) . " + 3d6</td>\n";
 

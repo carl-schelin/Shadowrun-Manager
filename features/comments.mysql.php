@@ -70,7 +70,7 @@
       $q_string .= "from features ";
       $q_string .= "where feat_id = " . $formVars['id'];
       $q_features = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_features = mysql_fetch_array($q_features);
+      $a_features = mysqli_fetch_array($q_features);
 
 
       $output  = "<p></p>\n";
@@ -119,7 +119,7 @@
       $q_string .= "where feat_feat_id = " . $formVars['id'] . " ";
       $q_string .= "order by feat_timestamp desc ";
       $q_features_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_features_detail = mysql_fetch_array($q_features_detail)) {
+      while ($a_features_detail = mysqli_fetch_array($q_features_detail)) {
 
         if ($a_features['feat_closed'] == '0000-00-00') {
           $linkstart = "<a href=\"#\" onclick=\"show_file('"     . $Featureroot . "/comments.fill.php?id=" . $a_features_detail['feat_id'] . "');showDiv('request-hide');\">";

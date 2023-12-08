@@ -43,7 +43,7 @@
   $q_string .= "order by veh_class,veh_type,veh_make ";
   $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_vehicles) > 0) {
-    while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+    while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
       $veh_handling = return_Handling($a_r_vehicles['veh_onhand'], $a_r_vehicles['veh_offhand']);
 
@@ -94,7 +94,7 @@
       $q_string .= "order by acc_name,acc_rating,ver_version ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_name = $a_r_accessory['acc_name'];
           if ($a_r_accessory['acc_mount'] != '') {
@@ -131,7 +131,7 @@
       $q_string .= "order by fa_name,fa_class ";
       $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_firearms) > 0) {
-        while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+        while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
           $class = "ui-widget-content";
 
@@ -160,7 +160,7 @@
           $q_string .= "order by ammo_name,class_name ";
           $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 
@@ -195,7 +195,7 @@
       $q_string .= "order by ammo_name,class_name ";
       $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_ammo) > 0) {
-        while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+        while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $class = "ui-widget-content";
 

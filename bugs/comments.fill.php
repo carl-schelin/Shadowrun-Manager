@@ -27,7 +27,7 @@
       $q_string .= "from bugs_detail ";
       $q_string .= "where bug_id = " . $formVars['id'];
       $q_bugs_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_bugs_detail = mysql_fetch_array($q_bugs_detail);
+      $a_bugs_detail = mysqli_fetch_array($q_bugs_detail);
       mysql_free_result($q_bugs_detail);
 
       $selected = return_Index($a_bugs_detail['bug_user'],       "select usr_id from users where usr_disabled = 0 order by usr_last,usr_first");

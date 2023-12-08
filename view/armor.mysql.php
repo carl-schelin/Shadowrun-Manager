@@ -35,7 +35,7 @@
   $q_string .= "order by arm_name,arm_rating ";
   $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_armor) > 0) {
-    while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
+    while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
 
       $arm_name = $a_r_armor['arm_name'];
       if ($a_r_armor['r_arm_details'] != '') {
@@ -62,7 +62,7 @@
       $q_string .= "order by acc_name,acc_rating ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
           $capacity = return_Rating($a_r_accessory['acc_capacity']);

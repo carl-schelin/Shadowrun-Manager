@@ -170,7 +170,7 @@
       $q_string .= "order by class_name,ammo_name,ammo_rating,ver_version ";
       $q_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_ammo) > 0) {
-        while ($a_ammo = mysql_fetch_array($q_ammo)) {
+        while ($a_ammo = mysqli_fetch_array($q_ammo)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.ammo.fill.php?id="  . $a_ammo['ammo_id'] . "');jQuery('#dialogAmmunition').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_ammo('add.ammo.del.php?id=" . $a_ammo['ammo_id'] . "');\">";
@@ -196,7 +196,7 @@
           $q_string .= "where r_ammo_number = " . $a_ammo['ammo_id'] . " ";
           $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
               $total++;
             }
           }

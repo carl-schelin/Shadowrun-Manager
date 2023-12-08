@@ -129,7 +129,7 @@
       $q_string .= "order by pub_date ";
       $q_publicity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_publicity) > 0) {
-        while ($a_publicity = mysql_fetch_array($q_publicity)) {
+        while ($a_publicity = mysqli_fetch_array($q_publicity)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('publicity.fill.php?id=" . $a_publicity['pub_id'] . "');showDiv('publicity-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_publicity('publicity.del.php?id="  . $a_publicity['pub_id'] . "');\">";

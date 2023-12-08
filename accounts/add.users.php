@@ -170,7 +170,7 @@ $(document).ready( function() {
   $q_string .= "where lvl_disabled = 0 ";
   $q_string .= "order by lvl_level";
   $q_levels = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_levels = mysql_fetch_array($q_levels)) {
+  while ($a_levels = mysqli_fetch_array($q_levels)) {
     print "<option value=\"" . $a_levels['lvl_level'] . "\">" . $a_levels['lvl_name'] . "</option>\n";
   }
 ?>
@@ -181,7 +181,7 @@ $(document).ready( function() {
   $q_string .= "from themes ";
   $q_string .= "order by theme_title";
   $q_themes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_themes = mysql_fetch_array($q_themes)) {
+  while ($a_themes = mysqli_fetch_array($q_themes)) {
     print "<option value=\"" . $a_themes['theme_id'] . "\">" . $a_themes['theme_title'] . "</option>\n";
   }
 ?>

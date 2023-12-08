@@ -79,7 +79,7 @@
   $q_string .= "order by bug_severity desc,bug_priority desc,bug_subject ";
   $q_bugs = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_bugs) > 0) {
-    while ($a_bugs = mysql_fetch_array($q_bugs)) {
+    while ($a_bugs = mysqli_fetch_array($q_bugs)) {
 
       $q_string  = "select bug_timestamp ";
       $q_string .= "from bugs_detail ";
@@ -88,7 +88,7 @@
       $q_string .= "limit 1 ";
       $q_bugs_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_bugs_detail) > 0) {
-        $a_bugs_detail = mysql_fetch_array($q_bugs_detail);
+        $a_bugs_detail = mysqli_fetch_array($q_bugs_detail);
         $detail_time = explode(" ", $a_bugs_detail['bug_timestamp']);
       } else {
         $detail_time[0] = 'No Details';

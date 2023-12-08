@@ -142,7 +142,7 @@
         $q_string .= "order by melee_name,melee_class ";
         $q_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_melee) > 0) {
-          while ($a_melee = mysql_fetch_array($q_melee)) {
+          while ($a_melee = mysqli_fetch_array($q_melee)) {
 
 # this adds the melee_id to the r_melee_character
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('melee.mysql.php?update=-3&r_melee_character=" . $formVars['r_melee_character'] . "&melee_class=" . $a_melee['melee_class'] . "');\">";
@@ -165,7 +165,7 @@
               $q_string .= "from runners ";
               $q_string .= "where runr_id = " . $formVars['r_melee_character'] . " ";
               $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-              $a_runners = mysql_fetch_array($q_runners);
+              $a_runners = mysqli_fetch_array($q_runners);
 
               $melee_damage = ($a_runners['runr_strength'] + $a_melee['melee_damage']);
             } else {
@@ -275,7 +275,7 @@
       $q_string .= "order by melee_class,melee_name ";
       $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_melee) > 0) {
-        while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
+        while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_melacc(" . $a_r_melee['r_melee_id'] . ");showDiv('melee-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_melee('melee.del.php?id="  . $a_r_melee['r_melee_id'] . "');\">";
@@ -297,7 +297,7 @@
             $q_string .= "from runners ";
             $q_string .= "where runr_id = " . $formVars['r_melee_character'] . " ";
             $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            $a_runners = mysql_fetch_array($q_runners);
+            $a_runners = mysqli_fetch_array($q_runners);
 
             $melee_damage = ($a_runners['runr_strength'] + $a_r_melee['melee_damage']);
           } else {
@@ -355,7 +355,7 @@
           $q_string .= "order by acc_name,acc_rating,ver_version ";
           $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_melacc('melacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";

@@ -39,7 +39,7 @@
   $q_string .= "order by gear_name,gear_rating ";
   $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_gear) > 0) {
-    while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+    while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
       $gear_name = $a_r_gear['gear_name'];
       if ($a_r_gear['r_gear_details'] != '') {
@@ -70,7 +70,7 @@
       $q_string .= "order by acc_name,acc_rating ";
       $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 

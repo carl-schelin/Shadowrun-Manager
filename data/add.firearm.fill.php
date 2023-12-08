@@ -28,7 +28,7 @@
       $q_string .= "from firearms ";
       $q_string .= "where fa_id = " . $formVars['id'];
       $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_firearms = mysql_fetch_array($q_firearms);
+      $a_firearms = mysqli_fetch_array($q_firearms);
       mysql_free_result($q_firearms);
 
       print "document.dialog.fa_class.value = '"      . mysql_real_escape_string($a_firearms['fa_class'])      . "';\n";

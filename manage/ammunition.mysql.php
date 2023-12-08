@@ -24,7 +24,7 @@
     $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
     $q_string .= "where runr_id = " . $formVars['id'] . " ";
     $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_versions = mysql_fetch_array($q_versions);
+    $a_versions = mysqli_fetch_array($q_versions);
 
     $output  = "<p></p>\n";
     $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -85,7 +85,7 @@
     $q_string .= "order by ammo_name,ammo_rating,class_name ";
     $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_ammo) > 0) {
-      while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+      while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
         $ammo_rating = return_Rating($a_r_ammo['ammo_rating']);
 

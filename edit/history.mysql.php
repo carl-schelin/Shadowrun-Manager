@@ -116,7 +116,7 @@
       $q_string .= "order by his_date ";
       $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_history) > 0) {
-        while ($a_history = mysql_fetch_array($q_history)) {
+        while ($a_history = mysqli_fetch_array($q_history)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('history.fill.php?id=" . $a_history['his_id'] . "');showDiv('history-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_history('history.del.php?id="  . $a_history['his_id'] . "');\">";

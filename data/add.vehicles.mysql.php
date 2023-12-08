@@ -279,7 +279,7 @@
         $q_string .= "order by veh_make,veh_model,ver_version,veh_cost ";
         $q_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_vehicles) > 0) {
-          while ($a_vehicles = mysql_fetch_array($q_vehicles)) {
+          while ($a_vehicles = mysqli_fetch_array($q_vehicles)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.vehicles.fill.php?id="  . $a_vehicles['veh_id'] . "');jQuery('#dialogVehicle').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_vehicles('add.vehicles.del.php?id=" . $a_vehicles['veh_id'] . "');\">";
@@ -322,7 +322,7 @@
             $q_string .= "where r_veh_number = " . $a_vehicles['veh_id'] . " ";
             $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_vehicles) > 0) {
-              while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+              while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
                 $total++;
               }
             }

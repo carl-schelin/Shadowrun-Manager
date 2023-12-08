@@ -6,7 +6,7 @@
   $q_string .= "from subjects ";
   $q_string .= "order by sub_name ";
   $q_subjects = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_subjects = mysql_fetch_array($q_subjects)) {
+  while ($a_subjects = mysqli_fetch_array($q_subjects)) {
     print "<option value=\"" . $a_subjects['sub_id'] . "\">" . $a_subjects['sub_name'] . "</option>\n";
   }
 ?>
@@ -21,7 +21,7 @@
   $q_string .= "left join subjects on subjects.sub_id = class.class_subjectid ";
   $q_string .= "order by sub_name,class_name ";
   $q_class = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_class = mysql_fetch_array($q_class)) {
+  while ($a_class = mysqli_fetch_array($q_class)) {
     print "<option value=\"" . $a_class['class_id'] . "\">(" . $a_class['sub_name'] . ") " . $a_class['class_name'] . "</option>\n";
   }
 ?>
@@ -53,7 +53,7 @@
   $q_string .= "from duration ";
   $q_string .= "order by dur_id ";
   $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_duration = mysql_fetch_array($q_duration)) {
+  while ($a_duration = mysqli_fetch_array($q_duration)) {
     print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
   }
 ?>
@@ -73,7 +73,7 @@
   $q_string .= "where ver_admin = 1 ";
   $q_string .= "order by ver_short ";
   $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
+  while ($a_versions = mysqli_fetch_array($q_versions)) {
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>

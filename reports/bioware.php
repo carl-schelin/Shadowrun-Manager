@@ -60,7 +60,7 @@ $(document).ready( function () {
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
     $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -108,7 +108,7 @@ $(document).ready( function () {
   $q_string .= "order by runr_name,bio_class,bio_name,bio_rating,ver_version ";
   $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_bioware) > 0) {
-    while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+    while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
       $display = "No";
 
@@ -176,7 +176,7 @@ $(document).ready( function () {
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
       $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -224,7 +224,7 @@ $(document).ready( function () {
     $q_string .= "order by runr_name,bio_class,bio_name,bio_rating,ver_version ";
     $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_bioware) > 0) {
-      while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+      while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
         $display = "No";
 

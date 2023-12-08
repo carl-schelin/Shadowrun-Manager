@@ -151,7 +151,7 @@
         $q_string .= "order by fa_name,fa_class ";
         $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_firearms) > 0) {
-          while ($a_firearms = mysql_fetch_array($q_firearms)) {
+          while ($a_firearms = mysqli_fetch_array($q_firearms)) {
 
 # this adds the fa_id to the r_fa_character
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('firearms.mysql.php?update=-3&r_fa_character=" . $formVars['r_fa_character'] . "&fa_class=" . $a_firearms['fa_class'] . "');\">";
@@ -269,7 +269,7 @@
       $q_string .= "order by fa_name,fa_class ";
       $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_firearms) > 0) {
-        while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+        while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_fireacc(" . $a_r_firearms['r_fa_id'] . ");showDiv('firearms-hide');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_firearms('firearms.del.php?id="  . $a_r_firearms['r_fa_id'] . "');\">";
@@ -330,7 +330,7 @@
           $q_string .= "order by acc_name,acc_rating,ver_version ";
           $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_fireacc('fireacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";
@@ -387,7 +387,7 @@
           $q_string .= "order by ammo_name,class_name ";
           $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_fireammo('fireammo.del.php?id="  . $a_r_ammo['r_ammo_id'] . "');\">";
 

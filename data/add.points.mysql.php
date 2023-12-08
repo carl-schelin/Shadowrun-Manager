@@ -118,7 +118,7 @@
       $q_string .= "order by point_number,ver_version ";
       $q_points = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_points) > 0) {
-        while ($a_points = mysql_fetch_array($q_points)) {
+        while ($a_points = mysqli_fetch_array($q_points)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.points.fill.php?id="  . $a_points['point_id'] . "');jQuery('#dialogPoints').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_points('add.points.del.php?id=" . $a_points['point_id'] . "');\">";

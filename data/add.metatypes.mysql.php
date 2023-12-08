@@ -128,7 +128,7 @@
       $q_string .= "order by meta_name,ver_version ";
       $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_metatypes) > 0) {
-        while ($a_metatypes = mysql_fetch_array($q_metatypes)) {
+        while ($a_metatypes = mysqli_fetch_array($q_metatypes)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.metatypes.fill.php?id="  . $a_metatypes['meta_id'] . "');jQuery('#dialogMetatype').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_metatypes('add.metatypes.del.php?id=" . $a_metatypes['meta_id'] . "');\">";
@@ -144,7 +144,7 @@
           $q_string .= "where runr_metatype = " . $a_metatypes['meta_id'] . " ";
           $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_runners) > 0) {
-            while ($a_runners = mysql_fetch_array($q_runners)) {
+            while ($a_runners = mysqli_fetch_array($q_runners)) {
               $total++;
             }
           }

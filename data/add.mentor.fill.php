@@ -26,7 +26,7 @@
       $q_string .= "from mentor ";
       $q_string .= "where mentor_id = " . $formVars['id'];
       $q_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_mentor = mysql_fetch_array($q_mentor);
+      $a_mentor = mysqli_fetch_array($q_mentor);
       mysql_free_result($q_mentor);
 
       print "document.dialog.mentor_name.value = '"         . mysql_real_escape_string($a_mentor['mentor_name'])         . "';\n";

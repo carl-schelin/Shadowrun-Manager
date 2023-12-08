@@ -93,7 +93,7 @@
       $q_string .= "left join runners on runners.runr_metatype = metatypes.meta_id ";
       $q_string .= "where runr_id = " . $formVars['r_life_character'] . " ";
       $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_metatypes = mysql_fetch_array($q_metatypes);
+      $a_metatypes = mysqli_fetch_array($q_metatypes);
 # if SR5 (id 2)
 # if troll, * 2;
 # if dwarf, * 1.2;
@@ -134,7 +134,7 @@
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by life_style ";
         $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_lifestyle = mysql_fetch_array($q_lifestyle)) {
+        while ($a_lifestyle = mysqli_fetch_array($q_lifestyle)) {
           $output .= "<option value=\"" . $a_lifestyle['life_id'] . "\">" . $a_lifestyle['life_style'] . "</option>\n";
         }
 
@@ -218,7 +218,7 @@
       $q_string .= "order by life_style ";
       $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_lifestyle) > 0) {
-        while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
+        while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('lifestyle.fill.php?id=" . $a_r_lifestyle['r_life_id'] . "');showDiv('lifestyle-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_lifestyle('lifestyle.del.php?id="  . $a_r_lifestyle['r_life_id'] . "');\">";

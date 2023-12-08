@@ -26,7 +26,7 @@
       $q_string .= "from accessory ";
       $q_string .= "where acc_id = " . $formVars['id'];
       $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_accessory = mysql_fetch_array($q_accessory);
+      $a_accessory = mysqli_fetch_array($q_accessory);
       mysql_free_result($q_accessory);
 
       print "document.dialog.acc_type.value = '"      . mysql_real_escape_string($a_accessory['acc_type'])       . "';\n";

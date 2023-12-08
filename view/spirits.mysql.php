@@ -50,7 +50,7 @@
 
   $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_spirit) > 0) {
-    while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+    while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
       $spirit_body      = return_Spirit($a_r_spirit['r_spirit_force'], $a_r_spirit['spirit_body']);
       $spirit_agility   = return_Spirit($a_r_spirit['r_spirit_force'], $a_r_spirit['spirit_agility']);

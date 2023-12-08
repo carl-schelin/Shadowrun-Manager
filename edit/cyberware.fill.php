@@ -27,7 +27,7 @@
       $q_string .= "left join cyberware on cyberware.ware_id = r_cyberware.r_ware_number ";
       $q_string .= "where r_ware_id = " . $formVars['id'];
       $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_cyberware = mysql_fetch_array($q_r_cyberware);
+      $a_r_cyberware = mysqli_fetch_array($q_r_cyberware);
       mysql_free_result($q_r_cyberware);
 
       $rating = return_Rating($a_r_cyberware['ware_rating']);

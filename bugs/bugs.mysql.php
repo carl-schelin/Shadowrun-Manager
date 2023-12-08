@@ -39,7 +39,7 @@
 
     $query = "select last_insert_id()";
     $q_result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-    $a_result = mysql_fetch_array($q_result);
+    $a_result = mysqli_fetch_array($q_result);
 
     $bug = $a_result['last_insert_id()'];
 

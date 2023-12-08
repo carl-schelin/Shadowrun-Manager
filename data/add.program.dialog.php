@@ -27,7 +27,7 @@
   $q_string .= "where ver_admin = 1 ";
   $q_string .= "order by ver_short ";
   $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
+  while ($a_versions = mysqli_fetch_array($q_versions)) {
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>

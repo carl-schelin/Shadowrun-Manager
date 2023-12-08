@@ -27,7 +27,7 @@
       $q_string .= "from spells ";
       $q_string .= "where spell_id = " . $formVars['id'];
       $q_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_spells = mysql_fetch_array($q_spells);
+      $a_spells = mysqli_fetch_array($q_spells);
       mysql_free_result($q_spells);
 
       print "document.dialog.spell_name.value = '"     . mysql_real_escape_string($a_spells['spell_name'])     . "';\n";

@@ -100,7 +100,7 @@
       $q_string .= "order by sub_name ";
       $q_subjects = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_subjects) > 0) {
-        while ($a_subjects = mysql_fetch_array($q_subjects)) {
+        while ($a_subjects = mysqli_fetch_array($q_subjects)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.subjects.fill.php?id="  . $a_subjects['sub_id'] . "');jQuery('#dialogSubject').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_subject('add.subjects.del.php?id=" . $a_subjects['sub_id'] . "');\">";

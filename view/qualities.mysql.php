@@ -35,7 +35,7 @@
   $q_string .= "order by qual_value desc,qual_name ";
   $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_qualities) > 0) {
-    while ($a_r_qualities = mysql_fetch_array($q_r_qualities)) {
+    while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
       if (strlen($a_r_qualities['r_qual_details']) > 0) {
         $details = " (" . $a_r_qualities['r_qual_details'] . ")";

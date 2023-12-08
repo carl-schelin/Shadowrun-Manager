@@ -26,7 +26,7 @@
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
       $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck);
+      $a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck);
       mysql_free_result($q_r_cyberdeck);
 
 # get the value of left

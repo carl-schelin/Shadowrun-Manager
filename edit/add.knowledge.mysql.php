@@ -64,7 +64,7 @@
       $q_string .= "from knowledge ";
       $q_string .= "order by know_name ";
       $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_knowledge = mysql_fetch_array($q_knowledge)) {
+      while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
         print "selbox.options[selbox.options.length] = new Option(\"" . htmlspecialchars($a_knowledge['know_name']) . "\"," . $a_knowledge['know_id'] . ");\n";
       }
 

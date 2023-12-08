@@ -166,7 +166,7 @@
         $q_string .= "order by ammo_name,ammo_rating,class_name ";
         $q_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_ammo) > 0) {
-          while ($a_ammo = mysql_fetch_array($q_ammo)) {
+          while ($a_ammo = mysqli_fetch_array($q_ammo)) {
 
 # this adds the ammo_id to the r_ammo_character
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('ammo.mysql.php?update=-3&r_ammo_character=" . $formVars['r_ammo_character'] . "&ammo_class=" . $a_ammo['ammo_class'] . "');\">";
@@ -271,7 +271,7 @@
       $q_string .= "order by ammo_name,ammo_rating,class_name ";
       $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_ammo) > 0) {
-        while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+        while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('ammo.fill.php?id=" . $a_r_ammo['r_ammo_id'] . "');showDiv('ammo-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_ammo('ammo.del.php?id="  . $a_r_ammo['r_ammo_id'] . "');\">";

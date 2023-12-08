@@ -22,7 +22,7 @@
   $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_versions = mysql_fetch_array($q_versions);
+  $a_versions = mysqli_fetch_array($q_versions);
 
   $output  = "<p></p>\n";
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -96,7 +96,7 @@
   $q_string .= "order by veh_class,veh_type,veh_make ";
   $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_vehicles) > 0) {
-    while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+    while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
       $veh_handling = return_Handling($a_r_vehicles['veh_onhand'], $a_r_vehicles['veh_offhand']);
 

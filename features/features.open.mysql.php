@@ -79,7 +79,7 @@
   $q_string .= "order by feat_severity desc,feat_priority desc,feat_subject ";
   $q_features = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_features) > 0) {
-    while ($a_features = mysql_fetch_array($q_features)) {
+    while ($a_features = mysqli_fetch_array($q_features)) {
 
       $q_string  = "select feat_timestamp ";
       $q_string .= "from features_detail ";
@@ -88,7 +88,7 @@
       $q_string .= "limit 1 ";
       $q_features_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_features_detail) > 0) {
-        $a_features_detail = mysql_fetch_array($q_features_detail);
+        $a_features_detail = mysqli_fetch_array($q_features_detail);
         $detail_time = explode(" ", $a_features_detail['feat_timestamp']);
       } else {
         $detail_time[0] = 'No Details';

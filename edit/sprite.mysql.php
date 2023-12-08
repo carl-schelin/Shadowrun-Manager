@@ -153,7 +153,7 @@
         $q_string .= "order by sprite_name ";
         $q_sprites = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_sprites) > 0) {
-          while ($a_sprites = mysql_fetch_array($q_sprites)) {
+          while ($a_sprites = mysqli_fetch_array($q_sprites)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('sprite.mysql.php?update=0&r_sprite_character=" . $formVars['r_sprite_character'] . "&r_sprite_number=" . $a_sprites['sprite_id'] . "');\">";
             $linkend = "</a>";
@@ -248,7 +248,7 @@
       $q_string .= "order by sprite_name ";
       $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_sprite) > 0) {
-        while ($a_r_sprite = mysql_fetch_array($q_r_sprite)) {
+        while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('sprite.fill.php?id=" . $a_r_sprite['r_sprite_id'] . "');showDiv('sprite-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_sprite('sprite.del.php?id="  . $a_r_sprite['r_sprite_id'] . "');\">";

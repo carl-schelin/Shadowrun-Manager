@@ -25,7 +25,7 @@
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_runners = mysql_fetch_array($q_runners);
+  $a_runners = mysqli_fetch_array($q_runners);
 
 ?>
 <!DOCTYPE HTML>
@@ -381,7 +381,7 @@ Cyberdeck Information
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
   $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
-    while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+    while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
       $tablist .= "  <li><a href=\"#" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "\">" . $a_r_cyberdeck['deck_brand'] . "</a></li>\n";
 

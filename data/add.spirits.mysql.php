@@ -205,7 +205,7 @@
       $q_string .= "order by spirit_name,ver_version ";
       $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_spirits) > 0) {
-        while ($a_spirits = mysql_fetch_array($q_spirits)) {
+        while ($a_spirits = mysqli_fetch_array($q_spirits)) {
 
           $linkstart     = "<a href=\"#\" onclick=\"";
           $linkstart    .= "javascript:show_file('add.spirits.fill.php?id="  . $a_spirits['spirit_id'] . "');";
@@ -265,7 +265,7 @@
           $q_string .= "order by act_name,sp_act_specialize ";
           $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_sp_active) > 0) {
-            while ($a_sp_active = mysql_fetch_array($q_sp_active)) {
+            while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('active.dialog.php?id=" . $a_sp_active['sp_act_id'] . "');jQuery('#dialogActive').dialog('open');return false;\">";
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_spirit('add.spirits.del.php?id=" . $a_spirits['spirit_id'] . "');\">";
@@ -292,7 +292,7 @@
           $q_string .= "order by sp_power_optional,pow_name,sp_power_specialize ";
           $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_sp_powers) > 0) {
-            while ($a_sp_powers = mysql_fetch_array($q_sp_powers)) {
+            while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('powers.dialog.php?id=" . $a_sp_powers['sp_power_id'] . "');jQuery('#dialogPower').dialog('open');return false;\">";
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_power('powers.del.php?id=" . $a_sp_powers['sp_power_id'] . "');\">";
@@ -324,7 +324,7 @@
           $q_string .= "order by weak_name,sp_weak_specialize ";
           $q_sp_weaknesses = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_sp_weaknesses) > 0) {
-            while ($a_sp_weaknesses = mysql_fetch_array($q_sp_weaknesses)) {
+            while ($a_sp_weaknesses = mysqli_fetch_array($q_sp_weaknesses)) {
 
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('weaknesses.dialog.php?id=" . $a_sp_weaknesses['sp_weak_id'] . "');jQuery('#dialogWeakness').dialog('open');return false;\">";
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_weaknesses('weaknesses.del.php?id=" . $a_sp_weaknesses['sp_weak_id'] . "');\">";

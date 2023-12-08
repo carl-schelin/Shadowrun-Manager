@@ -24,7 +24,7 @@
   $q_string .= "where runr_id = " . $formVars['id'] . " and runr_resonance > 0 ";
   $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_runners) > 0) {
-    $a_runners = mysql_fetch_array($q_runners);
+    $a_runners = mysqli_fetch_array($q_runners);
 
     $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
     $output .= "<tr>";

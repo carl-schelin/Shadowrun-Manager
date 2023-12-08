@@ -26,7 +26,7 @@
       $q_string .= "from r_license ";
       $q_string .= "where lic_id = " . $formVars['id'];
       $q_r_license = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_license = mysql_fetch_array($q_r_license);
+      $a_r_license = mysqli_fetch_array($q_r_license);
       mysql_free_result($q_r_license);
 
       print "document.edit.lic_type.value = '"   . mysql_real_escape_string($a_r_license['lic_type'])   . "';\n";

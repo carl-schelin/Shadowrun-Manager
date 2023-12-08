@@ -28,7 +28,7 @@
   $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_cyberdeck) > 0) {
 
-    while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+    while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
       $output .= "<tr>";
@@ -92,7 +92,7 @@
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
         $output .= "</tr>\n";
 
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
@@ -128,7 +128,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
@@ -155,7 +155,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
@@ -184,7 +184,7 @@
         $output .= "  <th class=\"ui-state-default\">Rating</th>";
         $output .= "</tr>";
 
-        while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+        while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
           $rating = return_Rating($a_r_agents['agt_rating']);
 

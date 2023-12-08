@@ -26,7 +26,7 @@
       $q_string .= "from metamagics ";
       $q_string .= "where meta_id = " . $formVars['id'];
       $q_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_metamagics = mysql_fetch_array($q_metamagics);
+      $a_metamagics = mysqli_fetch_array($q_metamagics);
       mysql_free_result($q_metamagics);
 
       print "document.dialog.meta_name.value = '"         . mysql_real_escape_string($a_metamagics['meta_name'])         . "';\n";

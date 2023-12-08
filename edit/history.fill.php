@@ -26,7 +26,7 @@
       $q_string .= "from history ";
       $q_string .= "where his_id = " . $formVars['id'];
       $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_history = mysql_fetch_array($q_history);
+      $a_history = mysqli_fetch_array($q_history);
       mysql_free_result($q_history);
 
       print "document.edit.his_date.value = '"     . mysql_real_escape_string($a_history['his_date'])     . "';\n";

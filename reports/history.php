@@ -59,7 +59,7 @@ $(document).ready( function () {
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
     $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -98,7 +98,7 @@ $(document).ready( function () {
   $q_string .= "order by usr_last,usr_first,note_date ";
   $q_group_notes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_group_notes) > 0) {
-    while ($a_group_notes = mysql_fetch_array($q_group_notes)) {
+    while ($a_group_notes = mysqli_fetch_array($q_group_notes)) {
 
       $display = "No";
 
@@ -132,7 +132,7 @@ $(document).ready( function () {
   $q_string .= "order by runr_name,his_date ";
   $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_history) > 0) {
-    while ($a_history = mysql_fetch_array($q_history)) {
+    while ($a_history = mysqli_fetch_array($q_history)) {
 
       $display = "No";
 
@@ -191,7 +191,7 @@ $(document).ready( function () {
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
       $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -229,7 +229,7 @@ $(document).ready( function () {
     $q_string .= "order by runr_name,his_date ";
     $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_history) > 0) {
-      while ($a_history = mysql_fetch_array($q_history)) {
+      while ($a_history = mysqli_fetch_array($q_history)) {
 
         $display = "No";
 

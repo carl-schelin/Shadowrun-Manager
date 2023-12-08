@@ -110,7 +110,7 @@ if (isset($_POST['new_user'])) {
 // Notify the admin that a new member has arrived.
     $q_string = "select usr_email from users where usr_level < 2";
     $q_users = mysql_query($q_string) or die("Fatal error: ".mysql_error());
-    while ($a_users = mysql_fetch_array($q_users)) {
+    while ($a_users = mysqli_fetch_array($q_users)) {
       $usermail = $a_users['usr_email'];
       $subject = "New member in Mooks Management";
       $body = "$fname $lname has created an account and is currently waiting for confirmation.";

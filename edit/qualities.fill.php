@@ -26,7 +26,7 @@
       $q_string .= "from r_qualities ";
       $q_string .= "where r_qual_id = " . $formVars['id'];
       $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_qualities = mysql_fetch_array($q_r_qualities);
+      $a_r_qualities = mysqli_fetch_array($q_r_qualities);
       mysql_free_result($q_r_qualities);
 
       print "document.edit.r_qual_number.value = '"  . mysql_real_escape_string($a_r_qualities['r_qual_number'])  . "';\n";

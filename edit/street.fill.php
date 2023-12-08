@@ -26,7 +26,7 @@
       $q_string .= "from street ";
       $q_string .= "where st_id = " . $formVars['id'];
       $q_street = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_street = mysql_fetch_array($q_street);
+      $a_street = mysqli_fetch_array($q_street);
       mysql_free_result($q_street);
 
       print "document.edit.st_cred.value = '"     . mysql_real_escape_string($a_street['st_cred'])     . "';\n";

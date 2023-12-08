@@ -37,7 +37,7 @@
   $q_string .= "where ver_active = 1 ";
   $q_string .= "order by act_name ";
   $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_active = mysql_fetch_array($q_active)) {
+  while ($a_active = mysqli_fetch_array($q_active)) {
 
     $italicstart = "";
     $italicend = "";
@@ -49,14 +49,14 @@
     $q_string .= "from runners ";
     $q_string .= "where runr_id = " . $formVars['id'] . " ";
     $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_runners = mysql_fetch_array($q_runners);
+    $a_runners = mysqli_fetch_array($q_runners);
 
     $q_string  = "select r_act_rank,r_act_group,r_act_specialize,r_act_expert ";
     $q_string .= "from r_active ";
     $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
     $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_r_active) > 0) {
-      $a_r_active = mysql_fetch_array($q_r_active);
+      $a_r_active = mysqli_fetch_array($q_r_active);
 
       $group = "";
       if ($a_r_active['r_act_group']) {

@@ -30,7 +30,7 @@ function check_userlevel( $p_level ) {
     $q_string .= "from users ";
     $q_string .= "where usr_id = " . $_SESSION['uid'];
     $q_user_level = mysql_query($q_string) or die($q_string . " :" . mysql_error());
-    $a_user_level = mysql_fetch_array($q_user_level);
+    $a_user_level = mysqli_fetch_array($q_user_level);
 
     if ($a_user_level['usr_level'] <= $p_level) {
       return(1);
@@ -45,7 +45,7 @@ function check_userlevel( $p_level ) {
 function last_insert_id() {
   $query = "select last_insert_id()";
   $q_result = mysql_query($query) or die($query . ": " . mysql_error());
-  $a_result = mysql_fetch_array($q_result);
+  $a_result = mysqli_fetch_array($q_result);
 
   return ($a_result['last_insert_id()']);
 }
@@ -188,7 +188,7 @@ function check_owner( $p_string ) {
   $q_string .= "where runr_id = " . $p_string;
   $q_runners = mysql_query($q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_runners) > 0) {
-    $a_runners = mysql_fetch_array($q_runners);
+    $a_runners = mysqli_fetch_array($q_runners);
 
     if ($a_runners['runr_owner'] == $_SESSION['uid']) {
       $visible = 1;
@@ -249,7 +249,7 @@ function check_available( $p_string ) {
   $q_string .= "where runr_id = " . $p_string;
   $q_runners = mysql_query($q_string) or die($q_string . ": " . mysql_error());
   if (mysql_num_rows($q_runners) > 0) {
-    $a_runners = mysql_fetch_array($q_runners);
+    $a_runners = mysqli_fetch_array($q_runners);
 
     if ($a_runners['runr_available']) {
       $visible = 1;
@@ -324,7 +324,7 @@ function mooks_Available( $p_string ) {
           $q_string .= "from groups ";
           $q_string .= "where grp_owner = " . $_SESSION['uid'] . " ";
           $q_groups = mysql_query($q_string) or die($q_string . ": " . mysql_error());
-          while ($a_groups = mysql_fetch_array($q_groups)) {
+          while ($a_groups = mysqli_fetch_array($q_groups)) {
 # found the groups, now check memberships.
             $q_string  = "select mem_id ";
             $q_string .= "from members ";
@@ -345,7 +345,7 @@ function mooks_Available( $p_string ) {
           $q_string .= "where mem_invite = 1 and mem_owner = " . $_SESSION['uid'] . " ";
           $q_members = mysql_query($q_string) or die($q_string . ": " . mysql_error());
           if (mysql_num_rows($q_members) > 0) {
-            while ($a_members = mysql_fetch_array($q_members)) {
+            while ($a_members = mysqli_fetch_array($q_members)) {
 # we have the groups you're a member of. now check p_string's group memberships
               $q_string  = "select mem_id ";
               $q_string .= "from members ";

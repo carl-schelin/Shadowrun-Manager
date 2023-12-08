@@ -43,7 +43,7 @@
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['r_deck_number'] . " ";
           $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberdeck = mysql_fetch_array($q_cyberdeck);
+          $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
             $a_cyberdeck['deck_access'] . ":" .
@@ -94,7 +94,7 @@
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['r_deck_number'] . " ";
           $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberdeck = mysql_fetch_array($q_cyberdeck);
+          $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
             $a_cyberdeck['deck_access'] . ":" .
@@ -183,7 +183,7 @@
         $q_string .= "order by deck_rating,deck_cost,ver_version ";
         $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_cyberdeck) > 0) {
-          while ($a_cyberdeck = mysql_fetch_array($q_cyberdeck)) {
+          while ($a_cyberdeck = mysqli_fetch_array($q_cyberdeck)) {
 
 # this adds the deck_id to the r_deck_character
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('mycyberdeck.mysql.php?update=1&r_deck_character=" . $formVars['r_deck_character'] . "&deck_id=" . $a_cyberdeck['deck_id'] . "');\">";

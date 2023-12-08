@@ -236,7 +236,7 @@
       $q_string .= $orderby;
       $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_cyberdeck) > 0) {
-        while ($a_cyberdeck = mysql_fetch_array($q_cyberdeck)) {
+        while ($a_cyberdeck = mysqli_fetch_array($q_cyberdeck)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.cyberdeck.fill.php?id="  . $a_cyberdeck['deck_id'] . "');jQuery('#dialogCyberdeck').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberdeck('add.cyberdeck.del.php?id=" . $a_cyberdeck['deck_id'] . "');\">";
@@ -260,7 +260,7 @@
           $q_string .= "where r_deck_number = " . $a_cyberdeck['deck_id'] . " ";
           $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
           if (mysql_num_rows($q_r_cyberdeck) > 0) {
-            while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+            while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
               $total++;
             }
           }

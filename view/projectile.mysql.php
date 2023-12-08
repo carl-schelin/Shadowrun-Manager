@@ -40,7 +40,7 @@
   $q_string .= "order by class_name,proj_name ";
   $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
   if (mysql_num_rows($q_r_projectile) > 0) {
-    while ($a_r_projectile = mysql_fetch_array($q_r_projectile)) {
+    while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
       $proj_rating = return_Rating($a_r_projectile['proj_rating']);
       $proj_damage = return_Strength($a_r_projectile['proj_damage'], $a_r_projectile['proj_type'], "", $a_r_projectile['proj_strength']);
@@ -66,7 +66,7 @@
       $q_string .= "order by ammo_name,class_name ";
       $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_ammo) > 0) {
-        while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+        while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
           $ammo_rating = return_Rating($a_r_ammo['ammo_rating']);

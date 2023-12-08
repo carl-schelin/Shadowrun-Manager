@@ -122,7 +122,7 @@
         $q_string .= "order by know_name ";
         $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_knowledge) > 0) {
-          while ($a_knowledge = mysql_fetch_array($q_knowledge)) {
+          while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.knowledge.fill.php?id="  . $a_knowledge['know_id'] . "');jQuery('#dialogKnowledge').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_knowledge('add.knowledge.del.php?id=" . $a_knowledge['know_id'] . "');\">";
@@ -136,7 +136,7 @@
             $q_string .= "where r_know_number = " . $a_knowledge['know_id'] . " ";
             $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
             if (mysql_num_rows($q_r_knowledge) > 0) {
-              while ($a_r_knowledge = mysql_fetch_array($q_r_knowledge)) {
+              while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
                 $total++;
               }
             }

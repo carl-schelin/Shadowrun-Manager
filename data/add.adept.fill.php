@@ -26,7 +26,7 @@
       $q_string .= "from adept ";
       $q_string .= "where adp_id = " . $formVars['id'];
       $q_adept = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_adept = mysql_fetch_array($q_adept);
+      $a_adept = mysqli_fetch_array($q_adept);
       mysql_free_result($q_adept);
 
       print "document.dialog.adp_name.value = '"        . mysql_real_escape_string($a_adept['adp_name'])       . "';\n";

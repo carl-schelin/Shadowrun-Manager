@@ -27,7 +27,7 @@
       $q_string .= "left join spells on spells.spell_id = r_alchemy.r_alc_number ";
       $q_string .= "where r_alc_id = " . $formVars['id'];
       $q_r_alchemy = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_alchemy = mysql_fetch_array($q_r_alchemy);
+      $a_r_alchemy = mysqli_fetch_array($q_r_alchemy);
       mysql_free_result($q_r_alchemy);
 
       print "document.getElementById('r_alc_item').innerHTML = '" . mysql_real_escape_string($a_r_alchemy['spell_name']) . "';\n\n";

@@ -26,7 +26,7 @@
       $q_string .= "from language ";
       $q_string .= "where lang_id = " . $formVars['id'];
       $q_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_language = mysql_fetch_array($q_language);
+      $a_language = mysqli_fetch_array($q_language);
       mysql_free_result($q_language);
 
       print "document.dialog.lang_name.value = '" . mysql_real_escape_string($a_language['lang_name']) . "';\n";

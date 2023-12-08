@@ -99,7 +99,7 @@ if (isset($_POST['login'])) {
       $c_users = mysql_num_rows($q_users); 
 
       if ($c_users > 0) { 
-        while ($a_users = mysql_fetch_array($q_users)) { 
+        while ($a_users = mysqli_fetch_array($q_users)) { 
 
 // Start the session and register variables
           session_start(); 

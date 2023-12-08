@@ -96,7 +96,7 @@
         $q_string .= "from contact ";
         $q_string .= "order by con_archetype,con_name ";
         $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_contact = mysql_fetch_array($q_contact)) {
+        while ($a_contact = mysqli_fetch_array($q_contact)) {
           $output .= "<option value=\"" . $a_contact['con_id'] . "\">" . $a_contact['con_archetype'] . " (" . $a_contact['con_name'] . ")</option>\n";
         }
 
@@ -131,7 +131,7 @@
         $q_string .= "where ver_admin = 1 ";
         $q_string .= "order by ver_short ";
         $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_versions = mysql_fetch_array($q_versions)) {
+        while ($a_versions = mysqli_fetch_array($q_versions)) {
           $output .= "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
         }
 
@@ -198,7 +198,7 @@
       $q_string .= "order by con_archetype,con_name ";
       $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_contact) > 0) {
-        while ($a_r_contact = mysql_fetch_array($q_r_contact)) {
+        while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('contact.fill.php?id=" . $a_r_contact['r_con_id'] . "');showDiv('contact-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_contact('contact.del.php?id="  . $a_r_contact['r_con_id'] . "');\">";

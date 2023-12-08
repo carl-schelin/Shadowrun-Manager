@@ -79,7 +79,7 @@
           $q_string .= "from active ";
           $q_string .= "where act_id = " . $formVars['r_act_group'] . " ";
           $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_active = mysql_fetch_array($q_active);
+          $a_active = mysqli_fetch_array($q_active);
 
 # for the comparison below for highlighting
           $group_highlight = $a_active['act_group'];
@@ -88,7 +88,7 @@
           $q_string .= "from active ";
           $q_string .= "where act_group = \"" . $a_active['act_group'] . "\" ";
           $q_skill = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_skill = mysql_fetch_array($q_skill)) {
+          while ($a_skill = mysqli_fetch_array($q_skill)) {
 
             $q_string =
               "r_act_character   =   " . $formVars['r_act_character']   . "," .
@@ -145,7 +145,7 @@
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by act_name ";
         $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_active = mysql_fetch_array($q_active)) {
+        while ($a_active = mysqli_fetch_array($q_active)) {
           $output .= "<option value=\"" . $a_active['act_id'] . "\">" . $a_active['act_name'] . "</option>\n";
         }
 
@@ -159,7 +159,7 @@
         $q_string .= "where act_group != '' and ver_active = 1 ";
         $q_string .= "group by act_group ";
         $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_active = mysql_fetch_array($q_active)) {
+        while ($a_active = mysqli_fetch_array($q_active)) {
           $output .= "<option value=\"" . $a_active['act_id'] . "\">" . $a_active['act_group'] . "</option>\n";
         }
 
@@ -229,7 +229,7 @@
       $q_string .= "order by act_name ";
       $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_active) > 0) {
-        while ($a_r_active = mysql_fetch_array($q_r_active)) {
+        while ($a_r_active = mysqli_fetch_array($q_r_active)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('active.fill.php?id=" . $a_r_active['r_act_id'] . "');showDiv('active-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_active('active.del.php?id="  . $a_r_active['r_act_id'] . "');\">";
@@ -270,7 +270,7 @@
             $q_string .= "from runners ";
             $q_string .= "where runr_id = " . $formVars['r_act_character'] . " ";
             $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            $a_runners = mysql_fetch_array($q_runners);
+            $a_runners = mysqli_fetch_array($q_runners);
 
             $output .= "<tr>\n";
             $output .= "  <td class=\"" . $class . " delete\">" . $linkdel                                                                         . "</td>\n";

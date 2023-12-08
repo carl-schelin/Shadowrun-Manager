@@ -132,7 +132,7 @@
         $q_string .= "order by meta_name ";
         $q_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
         if (mysql_num_rows($q_metamagics) > 0) {
-          while ($a_metamagics = mysql_fetch_array($q_metamagics)) {
+          while ($a_metamagics = mysqli_fetch_array($q_metamagics)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('metamagics.mysql.php?update=0&r_meta_character=" . $formVars['r_meta_character'] . "&r_meta_number=" . $a_metamagics['meta_id'] . "');\">";
             $linkend   = "</a>";
@@ -212,7 +212,7 @@
       $q_string .= "order by meta_name ";
       $q_r_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
       if (mysql_num_rows($q_r_metamagics) > 0) {
-        while ($a_r_metamagics = mysql_fetch_array($q_r_metamagics)) {
+        while ($a_r_metamagics = mysqli_fetch_array($q_r_metamagics)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('metamagics.fill.php?id=" . $a_r_metamagics['r_meta_id'] . "');showDiv('metamagics-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_metamagics('metamagics.del.php?id="  . $a_r_metamagics['r_meta_id'] . "');\">";

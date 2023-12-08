@@ -36,7 +36,7 @@
     $q_string .= "order by fin_date desc,fin_id desc ";
     $q_finance = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
     if (mysql_num_rows($q_finance) > 0) {
-      while ($a_finance = mysql_fetch_array($q_finance)) {
+      while ($a_finance = mysqli_fetch_array($q_finance)) {
 
         $total += $a_finance['fin_funds'];
 
