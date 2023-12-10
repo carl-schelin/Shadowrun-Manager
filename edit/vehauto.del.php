@@ -20,7 +20,7 @@
     }
 
     if (check_userlevel($db, $AL_Shadowrunner)) {
-      logaccess($_SESSION['username'], $package, "Removing parentid " . $formVars['id'] . " from r_gear");
+      logaccess($db, $_SESSION['username'], $package, "Removing parentid " . $formVars['id'] . " from r_gear");
 
       $q_string  = "update  ";
       $q_string .= "r_gear ";
