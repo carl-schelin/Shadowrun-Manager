@@ -19,16 +19,16 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_bioware");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_bioware");
 
       $q_string  = "select r_bio_specialize,r_bio_number,r_bio_grade,bio_name,bio_rating,bio_essence ";
       $q_string .= "from r_bioware ";
       $q_string .= "left join bioware on bioware.bio_id = r_bioware.r_bio_number ";
       $q_string .= "where r_bio_id = " . $formVars['id'];
-      $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_bioware = mysqli_fetch_array($q_r_bioware);
-      mysql_free_result($q_r_bioware);
+      mysqli_free_result($q_r_bioware);
 
       $rating = return_Rating($a_r_bioware['bio_rating']);
 
@@ -36,16 +36,16 @@
 
       $bio_name = $a_r_bioware['bio_name'] . " [Rating: " . $rating . ", Essence: " . $essence . "]";
 
-      print "document.getElementById('r_bio_item').innerHTML = '" . mysql_real_escape_string($bio_name) . "';\n\n";
-      print "document.edit.r_bio_number.value = '"     . mysql_real_escape_string($a_r_bioware['r_bio_number'])     . "';\n\n";
-      print "document.edit.r_bio_grade.value = '"      . mysql_real_escape_string($a_r_bioware['r_bio_grade'])      . "';\n\n";
-      print "document.edit.r_bio_specialize.value = '" . mysql_real_escape_string($a_r_bioware['r_bio_specialize']) . "';\n\n";
+      print "document.getElementById('r_bio_item').innerHTML = '" . mysqli_real_escape_string($db, $bio_name) . "';\n\n";
+      print "document.edit.r_bio_number.value = '"     . mysqli_real_escape_string($db, $a_r_bioware['r_bio_number'])     . "';\n\n";
+      print "document.edit.r_bio_grade.value = '"      . mysqli_real_escape_string($db, $a_r_bioware['r_bio_grade'])      . "';\n\n";
+      print "document.edit.r_bio_specialize.value = '" . mysqli_real_escape_string($db, $a_r_bioware['r_bio_specialize']) . "';\n\n";
 
       print "document.edit.r_bio_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_bio_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -10,13 +10,13 @@
 
   $package = "mooks.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
   }
 
-  if (!mooks_Available($formVars['id'])) {
+  if (!mooks_Available($db, $formVars['id'])) {
     include($Loginpath . '/user_level.php');
     exit;
   }
@@ -24,7 +24,7 @@
   $q_string  = "select runr_name ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_runners = mysqli_fetch_array($q_runners);
 
 ?>
@@ -337,7 +337,7 @@ $(document).ready( function() {
 <tr>
   <th class="ui-state-default">
 <?php
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
 ?>
 <a href="<?php print $Editroot; ?>/mooks.php?id=<?php print $formVars['id']; ?>#cyberdeck" target="_blank"><img src="<?php print $Siteroot; ?>/imgs/pencil.gif">
 <?php
@@ -345,7 +345,7 @@ $(document).ready( function() {
 ?>
 Cyberdeck Information
 <?php
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
 ?>
 </a>
 <?php
@@ -379,8 +379,8 @@ Cyberdeck Information
   $q_string .= "from r_cyberdeck ";
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
-  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_cyberdeck) > 0) {
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_cyberdeck) > 0) {
     while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
       $tablist .= "  <li><a href=\"#" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "\">" . $a_r_cyberdeck['deck_brand'] . "</a></li>\n";

@@ -8,14 +8,14 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('1');
+  check_login($db, $AL_Johnson);
 
   $package = "add.adept.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
 # if help has not been seen yet,
-  if (show_Help($Dataroot . "/" . $package)) {
+  if (show_Help($db, $Dataroot . "/" . $package)) {
     $display = "display: block";
   } else {
     $display = "display: none";
@@ -40,7 +40,7 @@
 <script type="text/javascript">
 <?php
 
-  if (check_userlevel(1)) {
+  if (check_userlevel($db, $AL_Johnson)) {
 ?>
 function delete_adept( p_script_url ) {
   var question;

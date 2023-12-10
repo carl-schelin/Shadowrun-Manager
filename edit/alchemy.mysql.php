@@ -30,7 +30,7 @@
       $formVars['spell_group'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_alc_id']          = clean($_GET['r_alc_id'],           10);
         $formVars['r_alc_number']      = clean($_GET['r_alc_number'],       10);
@@ -41,7 +41,7 @@
         }
 
         if ($formVars['r_alc_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_alc_character   =   " . $formVars['r_alc_character']   . "," .
@@ -57,9 +57,9 @@
             $message = "Alchemical Preparation updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_alc_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_alc_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -70,7 +70,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -92,7 +92,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('alchemy_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('alchemy_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -150,8 +150,8 @@
           $q_string .= "and spell_group = " . $formVars['spell_group'] . " ";
         }
         $q_string .= "order by spell_name,ver_version ";
-        $q_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_spells) > 0) {
+        $q_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_spells) > 0) {
           while ($a_spells = mysqli_fetch_array($q_spells)) {
 
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('alchemy.mysql.php?update=-3&r_alc_character=" . $formVars['r_alc_character'] . "&spell_group=" . $a_spells['spell_group'] . "');\">";
@@ -186,14 +186,14 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_r_spells);
+        mysqli_free_result($q_spells);
 
-        print "document.getElementById('preps_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('preps_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -249,8 +249,8 @@
       $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
       $q_string .= "where r_alc_character = " . $formVars['r_alc_character'] . " ";
       $q_string .= "order by spell_group,spell_name ";
-      $q_r_alchemy = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_alchemy) > 0) {
+      $q_r_alchemy = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_alchemy) > 0) {
         while ($a_r_alchemy = mysqli_fetch_array($q_r_alchemy)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('alchemy.fill.php?id=" . $a_r_alchemy['r_alc_id'] . "');showDiv('alchemy-hide');\">";
@@ -294,13 +294,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_alchemy);
+      mysqli_free_result($q_r_alchemy);
 
-      print "document.getElementById('my_preps_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_preps_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_alc_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -20,7 +20,7 @@
       $formVars['r_cmd_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
 # list all the available command consoles
       $output  = "<p></p>\n";
@@ -73,8 +73,8 @@
       $q_string .= "left join versions on versions.ver_id = command.cmd_book ";
       $q_string .= "where ver_active = 1 ";
       $q_string .= "order by cmd_rating,cmd_cost,ver_version ";
-      $q_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_command) > 0) {
+      $q_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_command) > 0) {
         while ($a_command = mysqli_fetch_array($q_command)) {
 
 # this adds the cmd_id to the r_cmd_character
@@ -111,10 +111,10 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('command_consoles_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('command_consoles_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -24,9 +24,9 @@
       $formVars['kar_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        logaccess($_SESSION['username'], $package, "Building the query.");
+        logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
         $formVars['kar_id']          = clean($_GET['kar_id'],          10);
         $formVars['kar_karma']       = clean($_GET['kar_karma'],       10);
@@ -59,9 +59,9 @@
             $message = "Character Karma updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['kar_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Notes for: " . $formVars['kar_id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');";
         }
@@ -71,7 +71,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -105,12 +105,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('karma_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('karma_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -128,8 +128,8 @@
       $q_string .= "from karma ";
       $q_string .= "where kar_character = " . $formVars['kar_character'] . " ";
       $q_string .= "order by kar_date ";
-      $q_karma = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_karma) > 0) {
+      $q_karma = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_karma) > 0) {
         while ($a_karma = mysqli_fetch_array($q_karma)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('karma.fill.php?id=" . $a_karma['kar_id'] . "');showDiv('karma-hide');\">";
@@ -159,7 +159,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('karma_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('karma_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.kar_karma.value = '';\n\n";
       print "document.edit.kar_date.value = '" . date('Y-m-d') . "';\n\n";
@@ -169,7 +169,7 @@
       print "document.edit.kar_update.disabled = true;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

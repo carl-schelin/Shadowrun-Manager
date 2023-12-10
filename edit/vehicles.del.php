@@ -19,39 +19,39 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_vehicles");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_vehicles");
 
       $q_string  = "select r_veh_character ";
       $q_string .= "from r_vehicles ";
       $q_string .= "where r_veh_id = " . $formVars['id'] . " ";
-      $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_vehicles = mysqli_fetch_array($q_r_vehicles);
 
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";
       $q_string .= "where r_acc_character = " . $a_r_vehicles['r_veh_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
-      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
 # need to zero out parent ids for firearms and ammo. This would be grenades mainly
       $q_string  = "update r_ammo ";
       $q_string .= "set r_ammo_parentveh = 0 ";
       $q_string .= "where r_ammo_character = " . $a_r_vehicles['r_veh_character'] . " and r_ammo_parentveh = " . $formVars['id'] . " ";
-      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       $q_string  = "update r_firearms ";
       $q_string .= "set r_fa_parentid = 0 ";
       $q_string .= "where r_fa_character = " . $a_r_vehicles['r_veh_character'] . " and r_fa_parentid = " . $formVars['id'] . " ";
-      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       $q_string  = "delete ";
       $q_string .= "from r_vehicles ";
       $q_string .= "where r_veh_id= " . $formVars['id'];
-      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       print "alert('Vehicle deleted.');\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Access denied");
+      logaccess($db, $_SESSION['username'], $package, "Access denied");
     }
   }
 ?>

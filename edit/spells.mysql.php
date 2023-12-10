@@ -27,7 +27,7 @@
       $formVars['spell_group'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_spell_id']          = clean($_GET['id'],                   10);
         $formVars['r_spell_number']      = clean($_GET['r_spell_number'],       10);
@@ -38,7 +38,7 @@
         }
 
         if ($formVars['r_spell_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_spell_character   =   " . $formVars['r_spell_character']   . "," .
@@ -54,9 +54,9 @@
             $message = "Spell updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_spell_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_spell_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -67,7 +67,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -89,7 +89,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('spells_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('spells_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -147,8 +147,8 @@
           $q_string .= "and spell_group = " . $formVars['spell_group'] . " ";
         }
         $q_string .= "order by spell_name,ver_version ";
-        $q_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_spells) > 0) {
+        $q_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_spells) > 0) {
           while ($a_spells = mysqli_fetch_array($q_spells)) {
 
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('spells.mysql.php?update=-3&r_spell_character=" . $formVars['r_spell_character'] . "&spell_group=" . $a_spells['spell_group'] . "');\">";
@@ -180,14 +180,14 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_r_spells);
+        mysqli_free_result($q_spells);
 
-        print "document.getElementById('spell_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('spell_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -243,8 +243,8 @@
       $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
       $q_string .= "where r_spell_character = " . $formVars['r_spell_character'] . " ";
       $q_string .= "order by spell_group,spell_name ";
-      $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_spells) > 0) {
+      $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_spells) > 0) {
         while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('spells.fill.php?id=" . $a_r_spells['r_spell_id'] . "');showDiv('spells-hide');\">";
@@ -285,13 +285,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_spells);
+      mysqli_free_result($q_r_spells);
 
-      print "document.getElementById('my_spells_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_spells_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_spell_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

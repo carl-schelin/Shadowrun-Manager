@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']             = clean($_GET['id'],             10);
         $formVars['pgm_name']       = clean($_GET['pgm_name'],       50);
@@ -49,7 +49,7 @@
         }
 
         if (strlen($formVars['pgm_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "pgm_name        = \"" . $formVars['pgm_name']       . "\"," .
@@ -68,16 +68,16 @@
             $query = "update program set " . $q_string . " where pgm_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['pgm_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['pgm_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $program_list = array("common", "hacking", "rigger", "righack");
 
@@ -145,8 +145,8 @@
         $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
         $q_string .= "where pgm_type = " . $pgm_type . " and ver_admin = 1 ";
         $q_string .= "order by pgm_name,ver_version ";
-        $q_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_program) > 0) {
+        $q_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_program) > 0) {
           while ($a_program = mysqli_fetch_array($q_program)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.program.fill.php?id="  . $a_program['pgm_id'] . "');jQuery('#dialogProgram').dialog('open');return false;\">";
@@ -165,8 +165,8 @@
             $q_string  = "select r_pgm_id ";
             $q_string .= "from r_program ";
             $q_string .= "where r_pgm_number = " . $a_program['pgm_id'] . " ";
-            $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_program) > 0) {
+            $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_program) > 0) {
               while ($a_r_program = mysqli_fetch_array($q_r_program)) {
                 $total++;
               }
@@ -195,7 +195,7 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('" . $program . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('" . $program . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
       print "document.dialog.pgm_name.value = '';\n";
@@ -209,7 +209,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

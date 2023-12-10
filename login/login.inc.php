@@ -96,7 +96,7 @@ if (isset($_POST['login'])) {
       $q_users = mysqli_query($db, $q_string);
 
 // Check that at least one row was returned 
-      $c_users = mysql_num_rows($q_users); 
+      $c_users = mysqli_num_rows($q_users); 
 
       if ($c_users > 0) { 
         while ($a_users = mysqli_fetch_array($q_users)) { 
@@ -109,7 +109,7 @@ if (isset($_POST['login'])) {
           $_SESSION["username"] = $user;
           $_SESSION['email']    = $a_users['usr_email'];
           $_SESSION['rand']     = rand(5,1000);
-          logaccess($_SESSION['username'], "login.inc.php", $_SESSION['name'] . " has logged in.");
+          logaccess($db, $_SESSION['username'], "login.inc.php", $_SESSION['name'] . " has logged in.");
 
 //  Successful login code will go here... 
 

@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_life_id']            = clean($_GET['id'],                    10);
         $formVars['r_life_number']        = clean($_GET['r_life_number'],         10);
@@ -57,7 +57,7 @@
         }
 
         if ($formVars['r_life_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_life_character     =   " . $formVars['r_life_character']     . "," .
@@ -78,9 +78,9 @@
             $query = "update r_lifestyle set " . $q_string . " where r_life_id = " . $formVars['r_life_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_life_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_life_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -92,7 +92,7 @@
       $q_string .= "from metatypes ";
       $q_string .= "left join runners on runners.runr_metatype = metatypes.meta_id ";
       $q_string .= "where runr_id = " . $formVars['r_life_character'] . " ";
-      $q_metatypes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_metatypes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_metatypes = mysqli_fetch_array($q_metatypes);
 # if SR5 (id 2)
 # if troll, * 2;
@@ -109,7 +109,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -133,7 +133,7 @@
         $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by life_style ";
-        $q_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
         while ($a_lifestyle = mysqli_fetch_array($q_lifestyle)) {
           $output .= "<option value=\"" . $a_lifestyle['life_id'] . "\">" . $a_lifestyle['life_style'] . "</option>\n";
         }
@@ -154,11 +154,11 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('lifestyle_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('lifestyle_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -216,8 +216,8 @@
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
       $q_string .= "where r_life_character = " . $formVars['r_life_character'] . " ";
       $q_string .= "order by life_style ";
-      $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_lifestyle) > 0) {
+      $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_lifestyle) > 0) {
         while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('lifestyle.fill.php?id=" . $a_r_lifestyle['r_life_id'] . "');showDiv('lifestyle-hide');\">";
@@ -261,13 +261,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_lifestyle);
+      mysqli_free_result($q_r_lifestyle);
 
-      print "document.getElementById('lifestyle_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('lifestyle_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_life_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

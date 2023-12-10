@@ -19,23 +19,23 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from spirits");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from spirits");
 
       $q_string  = "select spirit_name ";
       $q_string .= "from spirits ";
       $q_string .= "where spirit_id = " . $formVars['id'];
-      $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_spirits = mysqli_fetch_array($q_spirits);
-      mysql_free_result($q_spirits);
+      mysqli_free_result($q_spirits);
 
-      print "document.getElementById('r_spirit_item').innerHTML = '" . mysql_real_escape_string($a_spirits['spirit_name']) . "';\n\n";
+      print "document.getElementById('r_spirit_item').innerHTML = '" . mysqli_real_escape_string($db, $a_spirits['spirit_name']) . "';\n\n";
 
       print "document.spirits.r_spirit_id.value = " . $formVars['id'] . ";\n";
       print "document.spirits.r_spirit_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

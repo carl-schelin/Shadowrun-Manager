@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                    = clean($_GET['id'],                    10);
         $formVars['mentor_name']           = clean($_GET['mentor_name'],           30);
@@ -36,7 +36,7 @@
         }
 
         if (strlen($formVars['mentor_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "mentor_name         = \"" . $formVars['mentor_name']          . "\"," .
@@ -54,16 +54,16 @@
             $query = "update mentor set " . $q_string . " where mentor_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['mentor_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['mentor_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -113,8 +113,8 @@
       $q_string .= "left join versions on versions.ver_id = mentor.mentor_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by mentor_name,ver_version ";
-      $q_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_mentor) > 0) {
+      $q_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_mentor) > 0) {
         while ($a_mentor = mysqli_fetch_array($q_mentor)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.mentor.fill.php?id="  . $a_mentor['mentor_id'] . "');jQuery('#dialogMentor').dialog('open');return false;\">";
@@ -129,8 +129,8 @@
           $q_string  = "select r_mentor_id ";
           $q_string .= "from r_mentor ";
           $q_string .= "where r_mentor_number = " . $a_mentor['mentor_id'] . " ";
-          $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_mentor) > 0) {
+          $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_mentor) > 0) {
             while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
               $total++;
             }
@@ -160,7 +160,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.mentor_name.value = '';\n";
       print "document.dialog.mentor_all.value = '';\n";
@@ -171,7 +171,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

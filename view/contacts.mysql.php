@@ -11,7 +11,7 @@
 
   $package = "contacts.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -35,8 +35,8 @@
   $q_string .= "left join contact on contact.con_id = r_contact.r_con_number ";
   $q_string .= "where r_con_character = " . $formVars['id'] . " ";
   $q_string .= "order by con_archetype,con_name ";
-  $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_contact) > 0) {
+  $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_contact) > 0) {
     while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
       $output .= "<tr>\n";
       $output .= "  <td class=\"ui-widget-content\">"        . $a_r_contact['con_name']         . "</td>\n";
@@ -51,6 +51,6 @@
     $output = "";
   }
 
-  print "document.getElementById('contacts_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('contacts_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

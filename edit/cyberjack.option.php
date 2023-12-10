@@ -19,15 +19,15 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Updating settings for " . $formVars['id']);
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Updating settings for " . $formVars['id']);
 
       $q_string  = "select r_jack_data,r_jack_firewall ";
       $q_string .= "from r_cyberjack ";
       $q_string .= "where r_jack_id = " . $formVars['id'] . " ";
-      $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack);
-      mysql_free_result($q_r_cyberjack);
+      mysqli_free_result($q_r_cyberjack);
 
 # get the value of left
       if (isset($_GET['left'])) {
@@ -46,7 +46,7 @@
           $query = "update r_cyberjack set r_jack_data = "     . $a_r_cyberjack['r_jack_firewall'] . ",r_jack_firewall = " . $a_r_cyberjack['r_jack_data']     . " where r_jack_id = " . $formVars['id'] . " ";
         }
 
-        $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+        $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
       }
 
 # get the value of right
@@ -65,11 +65,11 @@
           $query = "update r_cyberjack set r_jack_data = "   . $a_r_cyberjack['r_jack_firewall']   . ",r_jack_firewall = "   . $a_r_cyberjack['r_jack_data']   . " where r_jack_id = " . $formVars['id'] . " ";
         }
 
-        $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+        $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
       }
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

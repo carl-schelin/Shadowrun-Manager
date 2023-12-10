@@ -11,7 +11,7 @@
 
   $package = "traditions.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -32,8 +32,8 @@
   $q_string .= "from r_tradition ";
   $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
   $q_string .= "where r_trad_character = " . $formVars['id'] . " ";
-  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_tradition) > 0) {
+  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_tradition) > 0) {
     while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
       $output .= "<tr>";
@@ -47,6 +47,6 @@
      $output = "";
   }
 
-  print "document.getElementById('traditions_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('traditions_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

@@ -17,7 +17,7 @@ if (isset($_SESSION['username'])) {
       <li><a href="<?php print $Knowroot; ?>/didyouknow.php">Did You Know?</a></li>
       <li><a href="<?php print $Loginroot; ?>/logout.php">Logout (<?php print $_SESSION['username']; ?>)</a></li>
 <?php
-    if (check_userlevel(2)) {
+    if (check_userlevel($db, $AL_Fixer)) {
 ?>
       <li><a href="">-------------------------</a></li>
       <li><a href="<?php print $Usersroot; ?>/add.groups.php">Group Management</a></li>
@@ -25,7 +25,7 @@ if (isset($_SESSION['username'])) {
     }
 ?>
 <?php
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
 ?>
       <li><a href="">-------------------------</a></li>
       <li><a href="<?php print $Usersroot; ?>/add.users.php">User Management</a></li>

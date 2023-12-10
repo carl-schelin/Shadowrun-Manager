@@ -24,9 +24,9 @@
       $formVars['pub_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        logaccess($_SESSION['username'], $package, "Building the query.");
+        logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
         $formVars['pub_id']          = clean($_GET['pub_id'],          10);
         $formVars['pub_publicity']   = clean($_GET['pub_publicity'],   10);
@@ -59,9 +59,9 @@
             $message = "Character Publicity updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['pub_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Notes for: " . $formVars['pub_id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');";
         }
@@ -71,7 +71,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -105,12 +105,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('publicity_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('publicity_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -127,8 +127,8 @@
       $q_string .= "from publicity ";
       $q_string .= "where pub_character = " . $formVars['pub_character'] . " ";
       $q_string .= "order by pub_date ";
-      $q_publicity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_publicity) > 0) {
+      $q_publicity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_publicity) > 0) {
         while ($a_publicity = mysqli_fetch_array($q_publicity)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('publicity.fill.php?id=" . $a_publicity['pub_id'] . "');showDiv('publicity-hide');\">";
@@ -147,7 +147,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('publicity_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('publicity_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.pub_publicity.value = '';\n\n";
       print "document.edit.pub_date.value = '" . date('Y-m-d') . "';\n\n";
@@ -157,7 +157,7 @@
       print "document.edit.pub_update.disabled = true;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

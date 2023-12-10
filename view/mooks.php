@@ -11,14 +11,14 @@
 
   $package = "mooks.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   $formVars['id'] = 1;
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
   }
 
-  if (!mooks_Available($formVars['id'])) {
+  if (!mooks_Available($db, $formVars['id'])) {
     include($Loginpath . '/user_level.php');
     exit;
   }
@@ -27,7 +27,7 @@
   $q_string  = "select runr_name,runr_magic ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_runners = mysqli_fetch_array($q_runners);
 
 # now seeing if the runner has any vehicles again for display
@@ -35,8 +35,8 @@
   $q_string  = "select r_veh_id ";
   $q_string .= "from r_vehicles ";
   $q_string .= "where r_veh_character = " . $formVars['id'] . " ";
-  $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_vehicles) > 0) {
+  $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_vehicles) > 0) {
     $vehicles = 'yes';
   }
 

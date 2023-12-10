@@ -19,19 +19,19 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(2)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from members");
+    if (check_userlevel($db, $AL_Fixer)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from members");
 
       $q_string  = "select mem_runner,mem_invite,mem_active ";
       $q_string .= "from members ";
       $q_string .= "where mem_id = " . $formVars['id'];
-      $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_members = mysqli_fetch_array($q_members);
-      mysql_free_result($q_members);
+      mysqli_free_result($q_members);
 
-      $runner = return_Index($a_members['mem_runner'], "select runr_id from runners where runr_available = 1 order by runr_name");
+      $runner = return_Index($db, $a_members['mem_runner'], "select runr_id from runners where runr_available = 1 order by runr_name");
 
-      print "document.members.mem_active.value = '" . mysql_real_escape_string($a_members['mem_active'])     . "';\n";
+      print "document.members.mem_active.value = '" . mysqli_real_escape_string($db, $a_members['mem_active'])     . "';\n";
 
       print "document.members.mem_invite['" . $a_members['mem_invite'] . "'].selected = true;\n";
       print "document.members.mem_runner['" . $runner                  . "'].selected = true;\n";
@@ -41,7 +41,7 @@
       print "document.members.update.disabled = false;\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

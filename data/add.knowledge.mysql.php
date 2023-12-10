@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']             = clean($_GET['id'],             10);
         $formVars['know_name']      = clean($_GET['know_name'],      50);
@@ -34,7 +34,7 @@
         }
 
         if (strlen($formVars['know_name']) > 0 && $formVars['know_attribute'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "know_name          = \"" . $formVars['know_name']       . "\"," .
@@ -47,16 +47,16 @@
             $query = "update knowledge set " . $q_string . " where know_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['know_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['know_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $knowledge_list = array("street", "academic", "professional", "interests");
 
@@ -120,8 +120,8 @@
         $q_string .= "left join s_knowledge on s_knowledge.s_know_id = knowledge.know_attribute ";
         $q_string .= "where s_know_name = \"" . $know_name . "\" ";
         $q_string .= "order by know_name ";
-        $q_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_knowledge) > 0) {
+        $q_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_knowledge) > 0) {
           while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.knowledge.fill.php?id="  . $a_knowledge['know_id'] . "');jQuery('#dialogKnowledge').dialog('open');return false;\">";
@@ -134,8 +134,8 @@
             $q_string  = "select r_know_id ";
             $q_string .= "from r_knowledge ";
             $q_string .= "where r_know_number = " . $a_knowledge['know_id'] . " ";
-            $q_r_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_knowledge) > 0) {
+            $q_r_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_knowledge) > 0) {
               while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
                 $total++;
               }
@@ -161,7 +161,7 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('" . $knowledge . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('" . $knowledge . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
@@ -171,7 +171,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

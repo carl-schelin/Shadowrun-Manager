@@ -11,7 +11,7 @@
 
   $package = "cyberdeck.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -28,8 +28,8 @@
   $q_string .= "left join versions on versions.ver_id = cyberdeck.deck_book ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
   $q_string .= "order by deck_brand,deck_model,deck_rating,ver_version ";
-  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_cyberdeck) > 0) {
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_cyberdeck) > 0) {
 
     while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
@@ -80,8 +80,8 @@
       $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 0 ";
       $q_string .= "order by pgm_name,ver_version ";
-      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_program) > 0) {
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\"\n>";
         $output .= "<tr>\n";
@@ -121,8 +121,8 @@
       $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 1 ";
       $q_string .= "order by pgm_name,ver_version ";
-      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_program) > 0) {
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -164,8 +164,8 @@
       $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
       $q_string .= "where r_agt_character = " . $formVars['id'] . " and r_agt_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " ";
       $q_string .= "order by agt_name,ver_version ";
-      $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_agents) > 0) {
+      $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_agents) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -202,7 +202,7 @@
 
       }
 
-      print "document.getElementById('" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+      print "document.getElementById('" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
     }
   } else {
     $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -226,7 +226,7 @@
     $output .= "</tr>\n";
     $output .= "</table>\n";
 
-    print "document.getElementById('nodeck_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+    print "document.getElementById('nodeck_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
   }
 
 ?>

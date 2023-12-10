@@ -11,7 +11,7 @@
 
   $package = "commlink.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -36,8 +36,8 @@
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
   $q_string .= "order by link_rating,link_cost ";
-  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_commlink) > 0) {
+  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_commlink) > 0) {
     while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
       $rating = return_Rating($a_r_commlink['link_rating']);
@@ -62,7 +62,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" " . $checked . " id=\"linkcon" . ${i} . "\"  onclick=\"edit_CommlinkCondition(" . ${i} . ", " . $a_r_commlink['r_link_id'] . ", 'commlink');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"linkcon" . $i . "\"  onclick=\"edit_CommlinkCondition(" . $i . ", " . $a_r_commlink['r_link_id'] . ", 'commlink');\">\n";
         }
       }
       $output .= "</td>\n";
@@ -74,8 +74,8 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Commlinks\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
@@ -95,6 +95,6 @@
     $output = "";
   }
 
-  print "document.getElementById('commlink_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('commlink_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

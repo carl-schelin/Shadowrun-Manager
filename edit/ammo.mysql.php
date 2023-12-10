@@ -40,7 +40,7 @@
     if ($formVars['r_ammo_character'] == '') {
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_ammo_number']      = clean($_GET['r_ammo_number'],       10);
         $formVars['r_ammo_rounds']      = clean($_GET['r_ammo_rounds'],       10);
@@ -56,7 +56,7 @@
         }
 
         if ($formVars['r_ammo_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_ammo_character   =   " . $formVars['r_ammo_character']   . "," .
@@ -73,16 +73,16 @@
             $query = "update r_ammo set " . $q_string . " where r_ammo_id = " . $formVars['r_ammo_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_ammo_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_ammo_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {
 
@@ -106,7 +106,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('ammo_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('ammo_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -164,8 +164,8 @@
           $q_string .= "and ammo_class = " . $formVars['ammo_class'] . " ";
         }
         $q_string .= "order by ammo_name,ammo_rating,class_name ";
-        $q_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_ammo) > 0) {
+        $q_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_ammo) > 0) {
           while ($a_ammo = mysqli_fetch_array($q_ammo)) {
 
 # this adds the ammo_id to the r_ammo_character
@@ -206,12 +206,12 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('ammo_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('ammo_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -269,8 +269,8 @@
       $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
       $q_string .= "where r_ammo_character = " . $formVars['r_ammo_character'] . " ";
       $q_string .= "order by ammo_name,ammo_rating,class_name ";
-      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_ammo) > 0) {
+      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_ammo) > 0) {
         while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('ammo.fill.php?id=" . $a_r_ammo['r_ammo_id'] . "');showDiv('ammo-hide');\">";
@@ -321,11 +321,11 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_ammo);
+      mysqli_free_result($q_r_ammo);
 
-      print "document.getElementById('my_ammo_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_ammo_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

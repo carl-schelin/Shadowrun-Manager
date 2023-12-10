@@ -19,19 +19,19 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from finance");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from finance");
 
       $q_string  = "select fin_funds,fin_date,fin_notes ";
       $q_string .= "from finance ";
       $q_string .= "where fin_id = " . $formVars['id'];
-      $q_finance = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_finance = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_finance = mysqli_fetch_array($q_finance);
-      mysql_free_result($q_finance);
+      mysqli_free_result($q_finance);
 
-      print "document.edit.fin_funds.value = '"    . mysql_real_escape_string($a_finance['fin_funds'])    . "';\n";
-      print "document.edit.fin_date.value = '"     . mysql_real_escape_string($a_finance['fin_date'])     . "';\n";
-      print "document.edit.fin_notes.value = '"    . mysql_real_escape_string($a_finance['fin_notes'])    . "';\n";
+      print "document.edit.fin_funds.value = '"    . mysqli_real_escape_string($db, $a_finance['fin_funds'])    . "';\n";
+      print "document.edit.fin_date.value = '"     . mysqli_real_escape_string($db, $a_finance['fin_date'])     . "';\n";
+      print "document.edit.fin_notes.value = '"    . mysqli_real_escape_string($db, $a_finance['fin_notes'])    . "';\n";
 
       $value = (2000 - strlen($a_finance['fin_notes']));
 
@@ -40,7 +40,7 @@
       print "document.edit.fin_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

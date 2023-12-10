@@ -10,12 +10,12 @@
 
   $package = "index.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
 #  $q_string  = "select usr_id,usr_group ";
 #  $q_string .= "from users ";
 #  $q_string .= "where usr_id = " . $_SESSION['uid'] . " ";
-#  $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+#  $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 #  $a_users = mysqli_fetch_array($q_users);
 #
 #  $formVars['uid'] = $a_users['usr_id'];
@@ -107,8 +107,8 @@ $(document).ready( function() {
   $q_string .= "left join members on members.mem_group = groups.grp_id ";
   $q_string .= "where grp_disabled = 0 and (grp_owner = " . $_SESSION['uid'] . " or mem_owner = " . $_SESSION['uid'] . ") ";
   $q_string .= "group by grp_name ";
-  $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_groups) > 0) {
+  $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_groups) > 0) {
     print "<option value=\"0\">All Available Groups</option>\n";
     while ($a_groups = mysqli_fetch_array($q_groups)) {
       print "<option value=\"" . $a_groups['grp_id'] . "\">" . $a_groups['grp_name'] . "</option>\n";
@@ -124,8 +124,8 @@ $(document).ready( function() {
   $q_string .= "from groups ";
   $q_string .= "where grp_disabled = 0 and grp_owner = " . $_SESSION['uid'] . " ";
   $q_string .= "order by grp_name ";
-  $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_groups) > 0) {
+  $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_groups) > 0) {
     print "<option value=\"-1\">No Opposition Group</option>\n";
     print "<option value=\"0\">All Available Groups</option>\n";
     while ($a_groups = mysqli_fetch_array($q_groups)) {
@@ -214,7 +214,7 @@ $(document).ready( function() {
   $q_string .= "from tags ";
   $q_string .= "where tag_view = 0 and tag_owner = " . $formVars['uid'] . " ";
   $q_string .= "group by tag_name ";
-  $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "&type=0\">";
     $linkend   = "</a>";
@@ -237,7 +237,7 @@ $(document).ready( function() {
   $q_string .= "from tags ";
   $q_string .= "where tag_view = 1 ";
   $q_string .= "group by tag_name ";
-  $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "&type=1\">";
     $linkend   = "</a>";

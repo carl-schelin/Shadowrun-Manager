@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']              = clean($_GET['id'],            10);
         $formVars['arm_class']       = clean($_GET['arm_class'],     10);
@@ -70,7 +70,7 @@
         }
 
         if (strlen($formVars['arm_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "arm_class      =   " . $formVars['arm_class']      . "," .
@@ -95,16 +95,16 @@
             $query = "update armor set " . $q_string . " where arm_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['arm_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['arm_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -160,8 +160,8 @@
       $q_string .= "left join versions on versions.ver_id = armor.arm_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by arm_name,arm_rating,ver_version ";
-      $q_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_armor) > 0) {
+      $q_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_armor) > 0) {
         while ($a_armor = mysqli_fetch_array($q_armor)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.armor.fill.php?id="  . $a_armor['arm_id'] . "');jQuery('#dialogArmor').dialog('open');return false;\">";
@@ -188,8 +188,8 @@
           $q_string  = "select r_arm_id ";
           $q_string .= "from r_armor ";
           $q_string .= "where r_arm_number = " . $a_armor['arm_id'] . " ";
-          $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_armor) > 0) {
+          $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_armor) > 0) {
             while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
               $total++;
             }
@@ -222,7 +222,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.arm_class.value = '';\n";
       print "document.dialog.arm_name.value = '';\n";
@@ -242,7 +242,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(2)) {
+    if (check_userlevel($db, $AL_Fixer)) {
 
 # update the issue
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
@@ -40,7 +40,7 @@
         }
 
         if (strlen($formVars['feat_subject']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "feat_module     =   " . $formVars['feat_module']     . "," . 
@@ -63,9 +63,9 @@
             $message = "Feature updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -84,7 +84,7 @@
         $formVars['feat_subject']    = clean($_GET['feat_subject'],    70);
 
         if (strlen($formVars['feat_subject']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # it's open, close it
           if ($formVars['feat_closed'] == '0000-00-00' || $formVars['feat_closed'] == 'Current Date') {
@@ -101,7 +101,7 @@
 
             $query = "update features set " . $q_string . " where feat_id = " . $formVars['id'];
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
             $q_string = 
               "feat_feat_id =  " . $formVars['id']                            . "," . 
@@ -110,7 +110,7 @@
 
             $query = "insert into features_detail set feat_id=null," . $q_string;
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           } else {
             $formVars['feat_closed'] = '0000-00-00';
@@ -126,7 +126,7 @@
 
             $query = "update features set " . $q_string . " where feat_id = " . $formVars['id'];
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
             $q_string = 
               "feat_feat_id =  " . $formVars['id']                              . "," . 
@@ -135,12 +135,12 @@
 
             $query = "insert into features_detail set feat_id=null," . $q_string;
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
           }
         }
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(2)) {
+    if (check_userlevel($db, $AL_Fixer)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']            = clean($_GET['id'],            10);
         $formVars['mem_runner']    = clean($_GET['mem_runner'],    10);
@@ -31,12 +31,12 @@
         }
 
         if ($formVars['mem_runner'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string  = "select runr_owner ";
           $q_string .= "from runners ";
           $q_string .= "where runr_id = " . $formVars['mem_runner'] . " ";
-          $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
           $a_runners = mysqli_fetch_array($q_runners);
 
           $q_string =
@@ -57,9 +57,9 @@
             $message = "Group Member updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['mem_group']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['mem_group']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -115,8 +115,8 @@
       $q_string .= "left join users on users.usr_id = runners.runr_owner ";
       $q_string .= "where mem_group = " . $formVars['mem_group'] . " ";
       $q_string .= "order by usr_last,usr_first,runr_name ";
-      $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_members) > 0) {
+      $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_members) > 0) {
         while ($a_members = mysqli_fetch_array($q_members)) {
 
           $linkdel   = "<input type=\"button\" value=\"Remove\" onclick=\"delete_line('add.members.del.php?id=" . $a_members['mem_id'] . "');\">";
@@ -151,11 +151,11 @@
         $output .= "</tr>";
       }
 
-      mysql_free_result($q_members);
+      mysqli_free_result($q_members);
 
       $output .= "</table>";
 
-      print "document.getElementById('table_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('table_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.members.mem_runner[0].selected = true;\n";
       print "document.members.mem_invite[0].selected = true;\n";
@@ -163,7 +163,7 @@
 
       print "document.members.update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

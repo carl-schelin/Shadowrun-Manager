@@ -12,24 +12,24 @@ function clean($input, $maxlength) {
 
 # log who did what
 
-function logaccess($user, $source, $detail) {
+function logaccess($p_db, $p_user, $p_source, $p_detail) {
   include('settings.php');
 
   $query = "insert into log set " .
     "log_id        = NULL, " .
-    "log_user      = \"" . $user   . "\", " .
-    "log_source    = \"" . $source . "\", " .
-    "log_detail    = \"" . $detail . "\"";
+    "log_user      = \"" . $p_user   . "\", " .
+    "log_source    = \"" . $p_source . "\", " .
+    "log_detail    = \"" . $p_detail . "\"";
 
-  $insert = mysqli_query($db, $query) or die(mysql_error());
+  $insert = mysqli_query($p_db, $query) or die(header("Location: ", $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($p_db)));
 }
 
-function check_userlevel( $p_level ) {
+function check_userlevel($p_db, $p_level ) {
   if (isset($_SESSION['username'])) {
     $q_string  = "select usr_level ";
     $q_string .= "from users ";
     $q_string .= "where usr_id = " . $_SESSION['uid'];
-    $q_user_level = mysqli_query($db, $q_string) or die($q_string . " :" . mysql_error());
+    $q_user_level = mysqli_query($p_db, $q_string) or die($q_string . " :" . mysqli_error($p_db));
     $a_user_level = mysqli_fetch_array($q_user_level);
 
     if ($a_user_level['usr_level'] <= $p_level) {
@@ -42,9 +42,9 @@ function check_userlevel( $p_level ) {
   }
 }
 
-function last_insert_id() {
+function last_insert_id($p_db) {
   $query = "select last_insert_id()";
-  $q_result = mysqli_query($db, $query) or die($query . ": " . mysql_error());
+  $q_result = mysqli_query($p_db, $query) or die($query . ": " . mysqli_error($p_db));
   $a_result = mysqli_fetch_array($q_result);
 
   return ($a_result['last_insert_id()']);
@@ -93,11 +93,11 @@ function generatePassword ($length = 8) {
 
 }
 
-function return_Index($p_check, $p_string) {
+function return_Index($p_db, $p_check, $p_string) {
   $r_index = 0;
   $count = 1;
-  $q_table = mysqli_query($db, $p_string) or die($p_string . ": " . mysql_error());
-  while ($a_table = mysql_fetch_row($q_table)) {
+  $q_table = mysqli_query($p_db, $p_string) or die($p_string . ": " . mysqli_error($p_db));
+  while ($a_table = mysqli_fetch_row($q_table)) {
     if ($p_check == $a_table[0]) {
       $r_index = $count;
     }
@@ -140,45 +140,7 @@ function wait_Process($p_string) {
   return $output;
 }
 
-# Create a changelog entry for the following database items
-# Asset Name
-# Manufacturer
-# Model
-# Serial Number
-# State (Active)
-# Class
-# Location
-# clear out any old records for the same system and same table/column when the same one shows up
-function changelog( $p_serverid, $p_changed, $p_notes, $p_user, $p_table, $p_column, $p_cleared ) {
-  include('settings.php');
-
-# clear previous entries for the same task; so if a server was location changed, only record the last change
-# still testing
-  $cl_query = "update modified set " .
-    "mod_cleared = 1 " .
-    "where mod_notes  = \"" . $p_notes  . "\" " .
-      "and mod_table  = \"" . $p_table  . "\" " .
-      "and mod_column = \"" . $p_column . "\" " .
-      "and mod_companyid =   " . $p_serverid;
-#  $result = mysqli_query($db, $cl_query);
-
-  $cl_query  =
-    "mod_companyid    =   " . $p_serverid     . "," .
-    "mod_changed      = \"" . $p_changed      . "\"," .
-    "mod_notes        = \"" . $p_notes        . "\"," .
-    "mod_user         =   " . $p_user         . "," .
-    "mod_date         = \"" . date('Y-m-d')   . "\"," .
-    "mod_table        = \"" . $p_table        . "\"," .
-    "mod_column       = \"" . $p_column       . "\"," .
-    "mod_cleared      =   " . $p_cleared;
-
-  $query = "insert into modified set mod_id = null," . $cl_query;
-
-  $result = mysqli_query($db, $query);
-
-}
-
-function check_owner( $p_string ) {
+function check_owner($p_db, $p_string ) {
   include('settings.php');
 
   $visible = 0;
@@ -186,8 +148,8 @@ function check_owner( $p_string ) {
   $q_string  = "select runr_owner ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $p_string;
-  $q_runners = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-  if (mysql_num_rows($q_runners) > 0) {
+  $q_runners = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
+  if (mysqli_num_rows($q_runners) > 0) {
     $a_runners = mysqli_fetch_array($q_runners);
 
     if ($a_runners['runr_owner'] == $_SESSION['uid']) {
@@ -197,7 +159,6 @@ function check_owner( $p_string ) {
 
   return $visible;
 }
-
 
 
 ###
@@ -239,7 +200,7 @@ function return_Meters( $p_centimeters ) {
   return(number_format(($p_centimeters / 100), 2, '.', ','));
 }
 
-function check_available( $p_string ) {
+function check_available( $p_db, $p_string ) {
   include('settings.php');
 
   $visible = 0;
@@ -247,8 +208,8 @@ function check_available( $p_string ) {
   $q_string  = "select runr_available ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $p_string;
-  $q_runners = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-  if (mysql_num_rows($q_runners) > 0) {
+  $q_runners = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
+  if (mysqli_num_rows($q_runners) > 0) {
     $a_runners = mysqli_fetch_array($q_runners);
 
     if ($a_runners['runr_available']) {
@@ -260,7 +221,7 @@ function check_available( $p_string ) {
 }
 
 
-function members_Available( $p_string ) {
+function members_Available( $p_db, $p_string ) {
   include('settings.php');
 
 # show if the owner of the group or if the group is marked as visible or you're an admin.
@@ -268,8 +229,8 @@ function members_Available( $p_string ) {
   $q_string .= "from members ";
   $q_string .= "left join users on users.usr_id = members.mem_owner ";
   $q_string .= "where mem_group = " . $p_string . " and (mem_visible = 1 or mem_owner = " . $_SESSION['uid'] . " or usr_level = " . $AL_Johnson . ") ";
-  $q_members = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-  if (mysql_num_rows($q_members) > 0) {
+  $q_members = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
+  if (mysqli_num_rows($q_members) > 0) {
     $result = 1;
   } else {
     $result = 0;
@@ -279,7 +240,7 @@ function members_Available( $p_string ) {
 }
 
 
-function groups_Available( $p_string ) {
+function groups_Available( $p_db, $p_string ) {
   include('settings.php');
 
 # show if the owner of the group or if the group is marked as visible or you're an admin.
@@ -287,8 +248,8 @@ function groups_Available( $p_string ) {
   $q_string .= "from groups ";
   $q_string .= "left join users on users.usr_id = groups.grp_owner ";
   $q_string .= "where grp_visible = 1 or grp_owner = " . $_SESSION['uid'] . " or usr_level = " . $AL_Johnson . " ";
-  $q_groups = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-  if (mysql_num_rows($q_groups) > 0) {
+  $q_groups = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
+  if (mysqli_num_rows($q_groups) > 0) {
     $result = 1;
   } else {
     $result = 0;
@@ -298,10 +259,10 @@ function groups_Available( $p_string ) {
 }
 
 
-function mooks_Available( $p_string ) {
+function mooks_Available( $p_db, $p_string ) {
   include('settings.php');
 
-  $visible   = check_owner($p_string);
+  $visible   = check_owner($p_db, $p_string);
 
 # if the owner then just show the character
 # otherwise check the user level.
@@ -310,12 +271,12 @@ function mooks_Available( $p_string ) {
 # if a shadowrunner and in the same group as you are
 
   if (!$visible) {
-    if (check_userlevel($AL_Johnson)) {
+    if (check_userlevel($p_db, $AL_Johnson)) {
       $visible = 1;
     } else {
-      if (check_userlevel($AL_Fixer)) {
+      if (check_userlevel($p_db, $AL_Fixer)) {
 # check availability
-        $available = check_available($p_string);
+        $available = check_available($p_db, $p_string);
         if ($available == 1) {
           $visible = 1;
         } else {
@@ -323,37 +284,37 @@ function mooks_Available( $p_string ) {
           $q_string  = "select grp_id ";
           $q_string .= "from groups ";
           $q_string .= "where grp_owner = " . $_SESSION['uid'] . " ";
-          $q_groups = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
+          $q_groups = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
           while ($a_groups = mysqli_fetch_array($q_groups)) {
 # found the groups, now check memberships.
             $q_string  = "select mem_id ";
             $q_string .= "from members ";
 # player accepted the invite and is a member of the group
             $q_string .= "where mem_invite = 1 and mem_group = " . $a_groups['grp_id'] . " and mem_runner = " . $p_string . " ";
-            $q_members = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-            if (mysql_num_rows($q_members) > 0) {
+            $q_members = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
+            if (mysqli_num_rows($q_members) > 0) {
               $visible = 1;
             }
           }
         }
       } else {
-        if (check_userlevel($AL_Shadowrunner)) {
+        if (check_userlevel($p_db, $AL_Shadowrunner)) {
 # if a member of the same group, show the character information
           $q_string  = "select mem_group ";
           $q_string .= "from members ";
 # you have accepted the invite and is a member of the group
           $q_string .= "where mem_invite = 1 and mem_owner = " . $_SESSION['uid'] . " ";
-          $q_members = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
+          if (mysqli_num_rows($q_members) > 0) {
             while ($a_members = mysqli_fetch_array($q_members)) {
 # we have the groups you're a member of. now check p_string's group memberships
               $q_string  = "select mem_id ";
               $q_string .= "from members ";
 # you have accepted the invite and is a member of the group
               $q_string .= "where mem_invite = 1 and mem_group = " . $a_members['mem_group'] . " and mem_runner = " . $p_string . " ";
-              $q_check = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
+              $q_check = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
 # yes? then character is visible.
-              if (mysql_num_rows($q_check) > 0) {
+              if (mysqli_num_rows($q_check) > 0) {
                 $visible = 1;
               }
             }
@@ -367,25 +328,35 @@ function mooks_Available( $p_string ) {
 }
 
 # if the passed script name for this user isn't here yet, then the user hasn't viewed the help screen yet.
-function show_Help( $p_script ) {
+function show_Help($p_db, $p_script ) {
 
   $q_string  = "select help_id ";
   $q_string .= "from help ";
   $q_string .= "where help_user = " . $_SESSION['uid'] . " and help_screen = '" . $p_script . "' ";
-  $q_help = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-  if (mysql_num_rows($q_help) == 0) {
+  $q_help = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
+  if (mysqli_num_rows($q_help) == 0) {
     $q_string  = "insert ";
     $q_string .= "into help ";
     $q_string .= "set ";
     $q_string .= "help_user = " . $_SESSION['uid'] . ",";
     $q_string .= "help_screen = '" . $p_script . "' ";
 
-    $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
+    $result = mysqli_query($p_db, $q_string) or die($q_string . ": " . mysqli_error($p_db));
 
     return 1;
   } else {
     return 0;
   }
+}
+
+# connect to the server
+function db_connect($p_server, $p_database, $p_user, $p_pass){
+
+  $r_db = mysqli_connect($p_server, $p_user, $p_pass, $p_database);
+
+  $db_select = mysqli_select_db($r_db, $p_database);
+
+  return $r_db;
 }
 
 function return_Class($p_perm) {
@@ -435,7 +406,7 @@ function return_Capacity($p_capacity) {
   return($r_capacity);
 }
 
-function return_Avail($p_avail, $p_perm, $p_basetime, $p_duration) {
+function return_Avail($p_avail, $p_perm, $p_basetime = 0, $p_duration = 0) {
   $r_avail = '--';
   if ($p_avail > 0) {
     $r_avail = $p_avail . $p_perm;
@@ -820,6 +791,7 @@ function return_Cyberjack($p_data, $p_firewall) {
 
 function return_Access($p_outsider, $p_user, $p_admin) {
   $f_slash = '';
+  $r_access = '';
   if ($p_outsider) {
     $r_access = "Outsider";
     $f_slash = '/';

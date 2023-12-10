@@ -30,7 +30,7 @@
       $formVars['r_link_id'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 1) {
         $formVars['r_link_number'] = clean($_GET['r_link_number'], 10);
 
@@ -39,13 +39,13 @@
         }
 
         if ($formVars['r_link_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # get the company id
           $q_string  = "select link_access ";
           $q_string .= "from commlink ";
           $q_string .= "where link_id = " . $formVars['r_link_number'] . " ";
-          $q_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $q_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
           $a_commlink = mysqli_fetch_array($q_commlink);
 
           $link_access =
@@ -65,9 +65,9 @@
             $message = "Commlink added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_link_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_link_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         }
@@ -93,10 +93,10 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('commlink_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('commlink_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
-        logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
         $output  = "<p></p>\n";
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -148,8 +148,8 @@
         $q_string .= "left join versions on versions.ver_id = commlink.link_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by link_rating,link_cost,ver_version ";
-        $q_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_commlink) > 0) {
+        $q_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_commlink) > 0) {
           while ($a_commlink = mysqli_fetch_array($q_commlink)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:select_commlink('commlink.mysql.php?update=1&r_link_character=" . $formVars['r_link_character'] . "&r_link_number=" . $a_commlink['link_id'] . "');\">";
@@ -184,7 +184,7 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('commlink_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('commlink_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
@@ -241,8 +241,8 @@
       $q_string .= "left join versions on versions.ver_id = commlink.link_book ";
       $q_string .= "where r_link_character = " . $formVars['r_link_character'] . " ";
       $q_string .= "order by link_rating,link_cost,ver_version ";
-      $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_commlink) > 0) {
+      $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_commlink) > 0) {
         while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_linkacc(" . $a_r_commlink['r_link_id'] . ");showDiv('commlink-hide');\">";
@@ -287,8 +287,8 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Commlinks\" and r_acc_character = " . $formVars['r_link_character'] . " and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gearacc('gearacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
@@ -335,12 +335,12 @@
 
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_commlink);
+      mysqli_free_result($q_r_commlink);
 
-      print "document.getElementById('my_commlink_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_commlink_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

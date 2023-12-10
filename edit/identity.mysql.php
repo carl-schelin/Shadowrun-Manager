@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id_id']         = clean($_GET['id'],              10);
         $formVars['id_name']       = clean($_GET['id_name'],         80);
@@ -37,7 +37,7 @@
         }
 
         if (strlen($formVars['id_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "id_character  =   " . $formVars['id_character']   . "," .
@@ -53,9 +53,9 @@
             $query = "update r_identity set " . $q_string . " where id_id = " . $formVars['id_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['id_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['id_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -64,7 +64,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
 # create identity form
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -97,7 +97,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('identity_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('identity_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
 # create license form
@@ -121,12 +121,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('license_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('license_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -172,8 +172,8 @@
       $q_string .= "from r_identity ";
       $q_string .= "where id_character = " . $formVars['id_character'] . " ";
       $q_string .= "order by id_name ";
-      $q_r_identity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_identity) > 0) {
+      $q_r_identity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_identity) > 0) {
         while ($a_r_identity = mysqli_fetch_array($q_r_identity)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('identity.fill.php?id=" . $a_r_identity['id_id'] . "');showDiv('identity-hide');\">";
@@ -205,8 +205,8 @@
           $q_string .= "from r_license ";
           $q_string .= "where lic_identity = " . $a_r_identity['id_id'] . " ";
           $q_string .= "order by lic_type ";
-          $q_r_license = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_license) > 0) {
+          $q_r_license = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_license) > 0) {
             while ($a_r_license = mysqli_fetch_array($q_r_license)) {
 
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('license.fill.php?id=" . $a_r_license['lic_id'] . "');showDiv('license-hide');\">";
@@ -225,7 +225,7 @@
           } else {
             $output .= "  <td class=\"ui-widget-content\" colspan=\"5\">No Licenses added.</td>\n";
           }
-          mysql_free_result($q_r_license);
+          mysqli_free_result($q_r_license);
 
         }
       } else {
@@ -233,13 +233,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_identity);
+      mysqli_free_result($q_r_identity);
 
-      print "document.getElementById('identity_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('identity_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.id_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

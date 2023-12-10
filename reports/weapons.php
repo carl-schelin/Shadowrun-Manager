@@ -11,7 +11,7 @@
 
   $package = "weapons.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   $formVars['group'] = 0;
   if (isset($_GET['group'])) {
@@ -67,7 +67,7 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
     $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
@@ -117,9 +117,10 @@ $(document).ready( function () {
   $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
   $q_string .= "left join class on class.class_id = firearms.fa_class ";
   $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
+  $q_string .= "where ver_active = 1 ";
   $q_string .= "order by runr_name,class_name,fa_name,ver_version ";
-  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_firearms) > 0) {
+  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_firearms) > 0) {
     while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
       $display = "No";
@@ -128,21 +129,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_firearms['r_fa_character'] . " ";
-        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = "Yes";
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_r_firearms['r_fa_character'])) {
+        if (check_owner($db, $a_r_firearms['r_fa_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_r_firearms['r_fa_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_firearms['r_fa_character'])) {
           $display = 'Yes';
         }
       }
@@ -186,8 +187,8 @@ $(document).ready( function () {
           $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
           $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $a_r_firearms['r_fa_character'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by acc_name,acc_rating ";
-          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $acc_name = $a_r_accessory['acc_name'];
@@ -224,8 +225,8 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
           $q_string .= "where r_ammo_character = " . $a_r_firearms['r_fa_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by ammo_name ";
-          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_ammo) > 0) {
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_ammo) > 0) {
             while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
@@ -284,7 +285,7 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
@@ -334,9 +335,10 @@ $(document).ready( function () {
     $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
     $q_string .= "left join class on class.class_id = firearms.fa_class ";
     $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
+    $q_string .= "where ver_active = 1 ";
     $q_string .= "order by runr_name,class_name,fa_name,ver_version ";
-    $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_firearms) > 0) {
+    $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_firearms) > 0) {
       while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
         $display = "No";
@@ -345,21 +347,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_firearms['r_fa_character'] . " ";
-          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = "Yes";
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_r_firearms['r_fa_character'])) {
+          if (check_owner($db, $a_r_firearms['r_fa_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_r_firearms['r_fa_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_firearms['r_fa_character'])) {
             $display = 'Yes';
           }
         }
@@ -405,8 +407,8 @@ $(document).ready( function () {
             $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
             $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $a_r_firearms['r_fa_character'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
             $q_string .= "order by acc_name,acc_rating ";
-            $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_accessory) > 0) {
+            $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_accessory) > 0) {
               while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
                 $acc_name = $a_r_accessory['acc_name'];
@@ -441,8 +443,8 @@ $(document).ready( function () {
             $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
             $q_string .= "where r_ammo_character = " . $a_r_firearms['r_fa_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
             $q_string .= "order by ammo_name ";
-            $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_ammo) > 0) {
+            $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_ammo) > 0) {
               while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
                 $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);

@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']             = clean($_GET['id'],             10);
         $formVars['melee_class']    = clean($_GET['melee_class'],    30);
@@ -110,7 +110,7 @@
         }
 
         if (strlen($formVars['melee_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "melee_class       = \"" . $formVars['melee_class']    . "\"," .
@@ -145,16 +145,16 @@
             $query = "update melee set " . $q_string . " where melee_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['melee_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['melee_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -217,8 +217,8 @@
       $q_string .= "left join versions on versions.ver_id = melee.melee_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by melee_class,melee_name,ver_version ";
-      $q_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_melee) > 0) {
+      $q_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_melee) > 0) {
         while ($a_melee = mysqli_fetch_array($q_melee)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.melee.fill.php?id="  . $a_melee['melee_id'] . "');jQuery('#dialogMelee').dialog('open');return false;\">";
@@ -253,8 +253,8 @@
           $q_string  = "select r_melee_id ";
           $q_string .= "from r_melee ";
           $q_string .= "where r_melee_number = " . $a_melee['melee_id'] . " ";
-          $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_melee) > 0) {
+          $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_melee) > 0) {
             while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
                 $total++;
             }
@@ -291,7 +291,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.melee_name.value = '';\n";
       print "document.dialog.melee_acc.value = '';\n";
@@ -319,7 +319,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

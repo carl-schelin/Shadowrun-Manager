@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(2)) {
+    if (check_userlevel($db, $AL_Fixer)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']            = clean($_GET['id'],            10);
         $formVars['grp_name']      = clean($_GET['grp_name'],     100);
@@ -33,7 +33,7 @@
         }
 
         if (strlen($formVars['grp_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "grp_name      = \"" . $formVars['grp_name']      . "\"," . 
@@ -50,9 +50,9 @@
             $message = "Group updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['grp_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['grp_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -94,7 +94,7 @@
 
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
       $output .= "<tr>";
-      if (check_userlevel(1)) {
+      if (check_userlevel($db, $AL_Johnson)) {
         $output .= "  <th class=\"ui-state-default\">Id</th>";
       }
       $output .= "  <th class=\"ui-state-default\">Del</th>";
@@ -109,8 +109,8 @@
       $q_string .= "left join users on users.usr_id = groups.grp_owner ";
       $q_string .= "where grp_owner = " . $_SESSION['uid'] . " or usr_level = 1 ";
       $q_string .= "order by grp_name";
-      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_groups) > 0) {
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_groups) > 0) {
         while ($a_groups = mysqli_fetch_array($q_groups)) {
 
           $linkdel   = "<input type=\"button\" value=\"Remove\" onclick=\"delete_line('add.groups.del.php?id=" . $a_groups['grp_id'] . "');\">";
@@ -124,10 +124,10 @@
           }
 
           $output .= "<tr>";
-          if (check_userlevel(1)) {
-            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_groups['grp_id']        . $linkend . "</td>";
-          }
           $output .= "  <td class=\"" . $class . " delete\">" . $linkdel                                           . "</td>";
+          if (check_userlevel($db, $AL_Johnson)) {
+            $output .= "  <td class=\"" . $class . " delete\">" . $linkstart . $a_groups['grp_id']        . $linkend . "</td>";
+          }
           $output .= "  <td class=\"" . $class . " delete\">" . $manage . "Manage"                      . $linkend . "</td>";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_groups['grp_name']      . $linkend . "</td>";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_groups['grp_email']     . $linkend . "</td>";
@@ -140,11 +140,11 @@
         $output .= "</tr>";
       }
 
-      mysql_free_result($q_groups);
+      mysqli_free_result($q_groups);
 
       $output .= "</table>";
 
-      print "document.getElementById('table_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('table_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.groups.grp_disabled[0].selected = true;\n";
       print "document.groups.grp_name.value = '';\n";
@@ -152,7 +152,7 @@
 
       print "document.groups.update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

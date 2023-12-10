@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_sprite_id']            = clean($_GET['id'],                    10);
         $formVars['r_sprite_number']        = clean($_GET['r_sprite_number'],       80);
@@ -45,7 +45,7 @@
         }
 
         if ($formVars['r_sprite_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_sprite_character   =   " . $formVars['r_sprite_character']   . "," .
@@ -63,9 +63,9 @@
             $message = "Sprite reprogrammed.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_sprite_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_sprite_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -76,7 +76,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -100,7 +100,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('sprites_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('sprites_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -151,8 +151,8 @@
         $q_string .= "left join versions on versions.ver_id = sprites.sprite_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by sprite_name ";
-        $q_sprites = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_sprites) > 0) {
+        $q_sprites = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_sprites) > 0) {
           while ($a_sprites = mysqli_fetch_array($q_sprites)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('sprite.mysql.php?update=0&r_sprite_character=" . $formVars['r_sprite_character'] . "&r_sprite_number=" . $a_sprites['sprite_id'] . "');\">";
@@ -183,14 +183,14 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_r_sprite);
+        mysqli_free_result($q_sprites);
 
-        print "document.getElementById('sprites_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('sprites_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -246,8 +246,8 @@
       $q_string .= "left join versions on versions.ver_id = sprites.sprite_book ";
       $q_string .= "where r_sprite_character = " . $formVars['r_sprite_character'] . " ";
       $q_string .= "order by sprite_name ";
-      $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_sprite) > 0) {
+      $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_sprite) > 0) {
         while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('sprite.fill.php?id=" . $a_r_sprite['r_sprite_id'] . "');showDiv('sprite-hide');\">";
@@ -294,12 +294,12 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_sprite);
+      mysqli_free_result($q_r_sprite);
 
-      print "document.getElementById('my_sprites_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_sprites_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

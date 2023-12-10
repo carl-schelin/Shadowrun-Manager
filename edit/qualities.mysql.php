@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_qual_id']          = clean($_GET['id'],                  10);
         $formVars['r_qual_number']      = clean($_GET['r_qual_number'],       10);
@@ -32,7 +32,7 @@
         }
 
         if ($formVars['r_qual_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_qual_character   =   " . $formVars['r_qual_character']   . "," .
@@ -46,9 +46,9 @@
             $query = "update r_qualities set " . $q_string . " where r_qual_id = " . $formVars['r_qual_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_qual_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_qual_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -57,7 +57,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -82,7 +82,7 @@
         $q_string .= "left join versions on versions.ver_id = qualities.qual_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by qual_name ";
-        $q_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
         while ($a_qualities = mysqli_fetch_array($q_qualities)) {
           $output .= "<option value=\"" . $a_qualities['qual_id'] . "\">" . $a_qualities['qual_name'] . "</option>\n";
         }
@@ -92,12 +92,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('qualities_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('qualities_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -145,8 +145,8 @@
       $q_string .= "left join versions on versions.ver_id = qualities.qual_book ";
       $q_string .= "where r_qual_character = " . $formVars['r_qual_character'] . " ";
       $q_string .= "order by qual_value desc,qual_name ";
-      $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_qualities) > 0) {
+      $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_qualities) > 0) {
         while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('qualities.fill.php?id=" . $a_r_qualities['r_qual_id'] . "');showDiv('qualities-hide');\">";
@@ -185,15 +185,15 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_qualities);
+      mysqli_free_result($q_r_qualities);
 
-      print "document.getElementById('qualities_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('qualities_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_qual_details.value = '';\n";
 
       print "document.edit.r_qual_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

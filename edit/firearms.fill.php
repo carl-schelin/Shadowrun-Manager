@@ -19,8 +19,8 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_firearms");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_firearms");
 
       $q_string  = "select class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,fa_ap,fa_mode1,";
       $q_string .= "fa_mode2,fa_mode3,fa_rc,fa_fullrc,fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,r_fa_number,";
@@ -29,9 +29,9 @@
       $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
       $q_string .= "left join class on class.class_id = firearms.fa_class ";
       $q_string .= "where r_fa_id = " . $formVars['id'];
-      $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_firearms = mysqli_fetch_array($q_r_firearms);
-      mysql_free_result($q_r_firearms);
+      mysqli_free_result($q_r_firearms);
 
       $fa_mode = return_Mode($a_r_firearms['fa_mode1'], $a_r_firearms['fa_mode2'], $a_r_firearms['fa_mode3']);
 
@@ -47,14 +47,14 @@
 
       $firearm = " [" . $a_r_firearms['class_name'] . ", Acc " . $a_r_firearms['fa_acc'] . ", DV " . $fa_damage . ", AP " . $fa_ap . ", " . $fa_mode . ", AR " . $fa_attack . ", RC " . $fa_rc . ", " . $fa_ammo . "]";
 
-      print "document.getElementById('r_fa_item').innerHTML = '" . mysql_real_escape_string($a_r_firearms['fa_name'])      . $firearm . "';\n\n";
-      print "document.edit.r_fa_number.value = '"                . mysql_real_escape_string($a_r_firearms['r_fa_number']) . "';\n\n";
+      print "document.getElementById('r_fa_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_firearms['fa_name'])      . $firearm . "';\n\n";
+      print "document.edit.r_fa_number.value = '"                . mysqli_real_escape_string($db, $a_r_firearms['r_fa_number']) . "';\n\n";
 
       print "document.edit.r_fa_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_fa_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

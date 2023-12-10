@@ -19,7 +19,7 @@
     } else {
       $formVars['update'] = -1;
     }
-    if (isset($_GET['update'])) {
+    if (isset($_GET['r_arm_id'])) {
       $formVars['r_arm_id'] = clean($_GET['r_arm_id'], 10);
     } else {
       $formVars['r_arm_id'] = 0;
@@ -30,7 +30,7 @@
       $formVars['r_arm_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_arm_number']  = clean($_GET['r_arm_number'],  10);
         $formVars['r_arm_details'] = clean($_GET['r_arm_details'], 60);
@@ -40,7 +40,7 @@
         }
 
         if ($formVars['r_arm_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_arm_character   =   " . $formVars['r_arm_character']   . "," .
@@ -57,9 +57,9 @@
             $message = "Armor updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_arm_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_arm_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -68,7 +68,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
       if ($formVars['update'] == -3) {
 
@@ -92,7 +92,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('armor_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('armor_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $armor_list = array("armor", "clothing");
@@ -147,8 +147,8 @@
           $q_string .= "left join versions on versions.ver_id = armor.arm_book ";
           $q_string .= "where class_name = \"" . $armor . "\" and ver_active = 1 ";
           $q_string .= "order by arm_name,arm_rating,ver_version ";
-          $q_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_armor) > 0) {
+          $q_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_armor) > 0) {
             while ($a_armor = mysqli_fetch_array($q_armor)) {
 
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('armor.mysql.php?update=0&r_arm_character=" . $formVars['r_arm_character'] . "&r_arm_number=" . $a_armor['arm_id'] . "');\">";
@@ -183,15 +183,15 @@
           }
           $output .= "</table>\n";
 
-          mysql_free_result($q_armor);
+          mysqli_free_result($q_armor);
 
-          print "document.getElementById('" . $armor . "_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+          print "document.getElementById('" . $armor . "_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -242,8 +242,8 @@
       $q_string .= "left join versions on versions.ver_id = armor.arm_book ";
       $q_string .= "where r_arm_character = " . $formVars['r_arm_character'] . " ";
       $q_string .= "order by arm_name,arm_rating,ver_version ";
-      $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_armor) > 0) {
+      $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_armor) > 0) {
         while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_armoracc(" . $a_r_armor['r_arm_id'] . ");showDiv('armor-hide');\">";
@@ -294,8 +294,8 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Clothing and Armor\" and r_acc_character = " . $formVars['r_arm_character'] . " and r_acc_parentid = " . $a_r_armor['r_arm_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_armoracc('armoracc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
@@ -341,12 +341,12 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_armor);
+      mysqli_free_result($q_r_armor);
 
-      print "document.getElementById('my_armor_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_armor_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

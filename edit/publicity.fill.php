@@ -19,19 +19,19 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from publicity");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from publicity");
 
       $q_string  = "select pub_publicity,pub_date,pub_notes ";
       $q_string .= "from publicity ";
       $q_string .= "where pub_id = " . $formVars['id'];
-      $q_publicity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_publicity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_publicity = mysqli_fetch_array($q_publicity);
-      mysql_free_result($q_publicity);
+      mysqli_free_result($q_publicity);
 
-      print "document.edit.pub_publicity.value = '"   . mysql_real_escape_string($a_publicity['pub_publicity'])  . "';\n";
-      print "document.edit.pub_date.value = '"        . mysql_real_escape_string($a_publicity['pub_date'])       . "';\n";
-      print "document.edit.pub_notes.value = '"       . mysql_real_escape_string($a_publicity['pub_notes'])      . "';\n";
+      print "document.edit.pub_publicity.value = '"   . mysqli_real_escape_string($db, $a_publicity['pub_publicity'])  . "';\n";
+      print "document.edit.pub_date.value = '"        . mysqli_real_escape_string($db, $a_publicity['pub_date'])       . "';\n";
+      print "document.edit.pub_notes.value = '"       . mysqli_real_escape_string($db, $a_publicity['pub_notes'])      . "';\n";
 
       $value = (2000 - strlen($a_publicity['pub_notes']));
 
@@ -40,7 +40,7 @@
       print "document.edit.pub_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

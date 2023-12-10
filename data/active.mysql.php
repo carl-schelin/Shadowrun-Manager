@@ -15,7 +15,11 @@
   if (isset($_SESSION['username'])) {
     $package = "active.mysql.php";
     $formVars['update']         = clean($_GET['update'],    10);
-    $formVars['sp_act_creature']         = clean($_GET['r_spirit_id'],      10);
+
+    $formVars['sp_act_creature'] = '';
+    if (isset($_GET['r_spirit_id'])) {
+      $formVars['sp_act_creature']    = clean($_GET['r_spirit_id'],   10);
+    }
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
@@ -24,7 +28,7 @@
       $formVars['sp_act_creature'] = 0;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                 = clean($_GET['id'],                 10);
         $formVars['sp_act_number']      = clean($_GET['act_id'],             10);
@@ -35,7 +39,7 @@
         }
 
         if ($formVars['sp_act_number'] > 0 || $formVars['id'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "sp_act_creature    =   " . $formVars['sp_act_creature']  . "," .
@@ -53,16 +57,16 @@
             $query = "update sp_active set " . $q_string . " where sp_act_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sp_act_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['sp_act_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -116,8 +120,8 @@
         $q_string .= "left join versions on versions.ver_id = active.act_book ";
         $q_string .= "where ver_admin = 1 ";
         $q_string .= "order by act_name,ver_version ";
-        $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_active) > 0) {
+        $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_active) > 0) {
           while ($a_active = mysqli_fetch_array($q_active)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:attach_active('active.mysql.php?act_id=" . $a_active['act_id'] . "', 0);\">";
@@ -141,10 +145,10 @@
         $output .= "</table>\n";
       }
 
-      print "document.getElementById('active_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('active_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

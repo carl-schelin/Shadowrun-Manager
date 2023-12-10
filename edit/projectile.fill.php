@@ -19,17 +19,17 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_projectile");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_projectile");
 
       $q_string  = "select class_name,proj_name,proj_rating,proj_acc,proj_damage,proj_type,proj_ap ";
       $q_string .= "from r_projectile ";
       $q_string .= "left join projectile on projectile.proj_id = r_projectile.r_proj_number ";
       $q_string .= "left join class on class.class_id = projectile.proj_class ";
       $q_string .= "where r_proj_id = " . $formVars['id'];
-      $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_projectile = mysqli_fetch_array($q_r_projectile);
-      mysql_free_result($q_r_projectile);
+      mysqli_free_result($q_r_projectile);
 
       $proj_damage = return_Damage($a_r_projectile['proj_damage'], $a_r_projectile['proj_type'], "");
 
@@ -37,14 +37,14 @@
 
       $projectile = " (Rating " . $a_r_projectile['proj_rating'] . ") [" . $a_r_projectile['class_name'] . ", Acc " . $a_r_projectile['proj_acc'] . ", DV " . $proj_damage . ", AP " . $proj_ap . "]";
 
-      print "document.getElementById('r_proj_item').innerHTML = '" . mysql_real_escape_string($a_r_projectile['proj_name'])      . $projectile . "';\n\n";
-      print "document.edit.r_proj_number.value = '"                . mysql_real_escape_string($a_r_projectile['r_proj_number']) . "';\n\n";
+      print "document.getElementById('r_proj_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_projectile['proj_name'])      . $projectile . "';\n\n";
+      print "document.edit.r_proj_number.value = '"                . mysqli_real_escape_string($db, $a_r_projectile['r_proj_number']) . "';\n\n";
 
       print "document.edit.r_proj_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_proj_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

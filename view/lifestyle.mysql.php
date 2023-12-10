@@ -11,7 +11,7 @@
 
   $package = "lifestyle.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -37,8 +37,8 @@
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";
   $q_string .= "order by life_style ";
-  $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_lifestyle) > 0) {
+  $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_lifestyle) > 0) {
     while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
       $output .= "<tr>";
@@ -58,6 +58,6 @@
   }
 
 
-  print "document.getElementById('lifestyle_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('lifestyle_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

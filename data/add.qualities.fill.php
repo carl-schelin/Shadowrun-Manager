@@ -19,27 +19,27 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from qualities");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from qualities");
 
       $q_string  = "select qual_name,qual_value,qual_desc,qual_book,qual_page ";
       $q_string .= "from qualities ";
       $q_string .= "where qual_id = " . $formVars['id'];
-      $q_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_qualities = mysqli_fetch_array($q_qualities);
-      mysql_free_result($q_qualities);
+      mysqli_free_result($q_qualities);
 
-      print "document.dialog.qual_name.value = '"  . mysql_real_escape_string($a_qualities['qual_name'])  . "';\n";
-      print "document.dialog.qual_value.value = '" . mysql_real_escape_string($a_qualities['qual_value']) . "';\n";
-      print "document.dialog.qual_desc.value = '"  . mysql_real_escape_string($a_qualities['qual_desc'])  . "';\n";
-      print "document.dialog.qual_book.value = '"  . mysql_real_escape_string($a_qualities['qual_book'])  . "';\n";
-      print "document.dialog.qual_page.value = '"  . mysql_real_escape_string($a_qualities['qual_page'])  . "';\n";
+      print "document.dialog.qual_name.value = '"  . mysqli_real_escape_string($db, $a_qualities['qual_name'])  . "';\n";
+      print "document.dialog.qual_value.value = '" . mysqli_real_escape_string($db, $a_qualities['qual_value']) . "';\n";
+      print "document.dialog.qual_desc.value = '"  . mysqli_real_escape_string($db, $a_qualities['qual_desc'])  . "';\n";
+      print "document.dialog.qual_book.value = '"  . mysqli_real_escape_string($db, $a_qualities['qual_book'])  . "';\n";
+      print "document.dialog.qual_page.value = '"  . mysqli_real_escape_string($db, $a_qualities['qual_page'])  . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                = clean($_GET['id'],                10);
         $formVars['class_subjectid']   = clean($_GET['class_subjectid'],   10);
@@ -31,7 +31,7 @@
         }
 
         if (strlen($formVars['class_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "class_subjectid    =   " . $formVars['class_subjectid']   . "," .
@@ -46,9 +46,9 @@
             $message = "Class updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['class_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['class_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -57,17 +57,17 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .= "  <th class=\"ui-state-default\">Book Listing</th>\n";
-      $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('" . $title . "-listing-help');\">Help</a></th>\n";
+      $output .= "  <th class=\"ui-state-default\">Class Listing</th>\n";
+      $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('class-listing-help');\">Help</a></th>\n";
       $output .= "</tr>\n";
       $output .= "</table>\n";
 
-      $output .= "<div id=\"" . $title . "-listing-help\" style=\"display: none\">\n";
+      $output .= "<div id=\"class-listing-help\" style=\"display: none\">\n";
 
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
@@ -102,8 +102,8 @@
       $q_string .= "from class ";
       $q_string .= "left join subjects on subjects.sub_id = class.class_subjectid ";
       $q_string .= "order by sub_name,class_name ";
-      $q_class = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_class) > 0) {
+      $q_class = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_class) > 0) {
         while ($a_class = mysqli_fetch_array($q_class)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.class.fill.php?id="  . $a_class['class_id'] . "');jQuery('#dialogClass').dialog('open');return false;\">";
@@ -125,7 +125,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('class_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('class_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.class_subjectid.value = '';\n";
       print "document.dialog.class_name.value = '';\n";
@@ -133,7 +133,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

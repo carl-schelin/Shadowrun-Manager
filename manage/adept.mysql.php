@@ -11,7 +11,7 @@
 
   $package = "adept.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -21,11 +21,11 @@
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#adept\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Adept Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -70,8 +70,8 @@
   $q_string .= "left join versions on versions.ver_id = adept.adp_book ";
   $q_string .= "where r_adp_character = " . $formVars['id'] . " ";
   $q_string .= "order by adp_name ";
-  $q_r_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_adept) > 0) {
+  $q_r_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_adept) > 0) {
     while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
 
       if ($a_r_adept['adp_level'] == 0) {
@@ -101,18 +101,17 @@
       $output .= "  <td class=\"" . $class . "\">"        . $a_r_adept['adp_desc']               . "</td>\n";
       $output .= "  <td class=\"" . $class . " delete\">" . $a_r_adept['adp_power'] . $level     . "</td>\n";
       $output .= "  <td class=\"" . $class . " delete\">" . $a_r_adept['r_adp_level']            . "</td>\n";
-      $output .= "  <td class=\"" . $class . " delete\">" . number_format($cost, 2, '.', ',')    . "</td>\n";
       $output .= "  <td class=\"" . $class . " delete\">" . $adept_book                          . "</td>\n";
       $output .= "</tr>\n";
     }
   } else {
     $output .= "<tr>\n";
-    $output .= "  <td class=\"ui-widget-content\" colspan=\"6\">" . "No Adept Powers added" . "</td>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"5\">" . "No Adept Powers added" . "</td>\n";
     $output .= "</tr>\n";
   }
 
   $output .= "</table>\n";
 ?>
 
-document.getElementById('adept_mysql').innerHTML = '<?php print mysql_real_escape_string($output); ?>';
+document.getElementById('adept_mysql').innerHTML = '<?php print mysqli_real_escape_string($db, $output); ?>';
 

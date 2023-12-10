@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(2)) {
+    if (check_userlevel($db, $AL_Fixer)) {
 
 # update the issue
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
@@ -40,7 +40,7 @@
         }
 
         if (strlen($formVars['bug_subject']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "bug_module     =   " . $formVars['bug_module']     . "," . 
@@ -63,9 +63,9 @@
             $message = "Bug updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -84,7 +84,7 @@
         $formVars['bug_subject']    = clean($_GET['bug_subject'],    70);
 
         if (strlen($formVars['bug_subject']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # it's open, close it
           if ($formVars['bug_closed'] == '0000-00-00' || $formVars['bug_closed'] == 'Current Date') {
@@ -101,7 +101,7 @@
 
             $query = "update bugs set " . $q_string . " where bug_id = " . $formVars['id'];
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
             $q_string = 
               "bug_bug_id =  " . $formVars['id']                              . "," . 
@@ -110,7 +110,7 @@
 
             $query = "insert into bugs_detail set bug_id=null," . $q_string;
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           } else {
             $formVars['bug_closed'] = '0000-00-00';
@@ -126,7 +126,7 @@
 
             $query = "update bugs set " . $q_string . " where bug_id = " . $formVars['id'];
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
             $q_string = 
               "bug_bug_id =  " . $formVars['id']                              . "," . 
@@ -135,12 +135,12 @@
 
             $query = "insert into bugs_detail set bug_id=null," . $q_string;
 
-            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
           }
         }
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

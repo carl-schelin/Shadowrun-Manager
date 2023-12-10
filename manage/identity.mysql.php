@@ -16,19 +16,19 @@
     $package = "identity.mysql.php";
     $formVars['id'] = clean($_GET['id'], 10);
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
       $output .= "  <th class=\"ui-state-default\">";
-      if (check_userlevel('1') || check_owner($formVars['id'])) {
+      if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
         $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#identity\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
       }
       $output .= "Identity and License Information";
-      if (check_userlevel('1') || check_owner($formVars['id'])) {
+      if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
         $output .= "</a>";
       }
       $output .= "</th>";
@@ -71,8 +71,8 @@
       $q_string .= "from r_identity ";
       $q_string .= "where id_character = " . $formVars['id'] . " ";
       $q_string .= "order by id_name ";
-      $q_r_identity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_identity) > 0) {
+      $q_r_identity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_identity) > 0) {
         while ($a_r_identity = mysqli_fetch_array($q_r_identity)) {
 
           if ($a_r_identity['id_type'] == 2) {
@@ -99,8 +99,8 @@
           $q_string .= "from r_license ";
           $q_string .= "where lic_identity = " . $a_r_identity['id_id'] . " ";
           $q_string .= "order by lic_type ";
-          $q_r_license = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_license) > 0) {
+          $q_r_license = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_license) > 0) {
             while ($a_r_license = mysqli_fetch_array($q_r_license)) {
 
               $output .= "<tr>\n";
@@ -114,7 +114,7 @@
           } else {
             $output .= "  <td class=\"ui-widget-content\" colspan=\"4\">No Licenses added.</td>\n";
           }
-          mysql_free_result($q_r_license);
+          mysqli_free_result($q_r_license);
 
         }
       } else {
@@ -122,12 +122,12 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_identity);
+      mysqli_free_result($q_r_identity);
 
-      print "document.getElementById('identity_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('identity_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

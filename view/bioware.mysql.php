@@ -11,7 +11,7 @@
 
   $package = "bioware.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -36,8 +36,8 @@
   $q_string .= "left join class on class.class_id = bioware.bio_class ";
   $q_string .= "where r_bio_character = " . $formVars['id'] . " ";
   $q_string .= "order by bio_class,bio_name,bio_rating ";
-  $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_bioware) > 0) {
+  $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_bioware) > 0) {
     while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
       $bio_name = $a_r_bioware['bio_name'];
@@ -68,6 +68,6 @@
     $output = "";
   }
 
-  print "document.getElementById('bioware_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('bioware_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

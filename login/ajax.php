@@ -12,7 +12,7 @@
 
     $q_users = mysqli_query($db, $q_string);
 
-    $c_users = mysql_num_rows($q_users);
+    $c_users = mysqli_num_rows($q_users);
 
     if ($c_users == 0) {
       echo "<div class='suggestions' style='color: #08c;'>No suggestions</div>\n";
@@ -37,7 +37,7 @@
         $username = addslashes($_GET['usr_name']); 
       } 
 
-      $c_users = mysql_num_rows(mysqli_query($db, "select * from users where usr_name='" . $username . "'"));
+      $c_users = mysqli_num_rows(mysqli_query($db, "select * from users where usr_name='" . $username . "'"));
 
       header('Content-Type: text/xml'); 
       header('Pragma: no-cache'); 
@@ -65,7 +65,7 @@
         $level = addslashes($_GET['level']); 
       } 
 
-      $c_levels = mysql_num_rows(mysqli_query($db, "select * from levels where lvl_name='" . $level . "'"));
+      $c_levels = mysqli_num_rows(mysqli_query($db, "select * from levels where lvl_name='" . $level . "'"));
 
       header('Content-Type: text/xml'); 
       header('Pragma: no-cache'); 

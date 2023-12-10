@@ -34,8 +34,8 @@
     $q_string .= "from finance ";
     $q_string .= "where fin_character = " . $formVars['id'] . " ";
     $q_string .= "order by fin_date desc,fin_id desc ";
-    $q_finance = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_finance) > 0) {
+    $q_finance = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_finance) > 0) {
       while ($a_finance = mysqli_fetch_array($q_finance)) {
 
         $total += $a_finance['fin_funds'];
@@ -84,7 +84,7 @@
 
     $output .= "</table>\n";
 
-    print "document.getElementById('nuyen_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+    print "document.getElementById('nuyen_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
   }
 ?>

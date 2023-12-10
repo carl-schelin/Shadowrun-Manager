@@ -19,18 +19,18 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from history");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from history");
 
       $q_string  = "select his_date,his_notes ";
       $q_string .= "from history ";
       $q_string .= "where his_id = " . $formVars['id'];
-      $q_history = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_history = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_history = mysqli_fetch_array($q_history);
-      mysql_free_result($q_history);
+      mysqli_free_result($q_history);
 
-      print "document.edit.his_date.value = '"     . mysql_real_escape_string($a_history['his_date'])     . "';\n";
-      print "document.edit.his_notes.value = '"    . mysql_real_escape_string($a_history['his_notes'])    . "';\n";
+      print "document.edit.his_date.value = '"     . mysqli_real_escape_string($db, $a_history['his_date'])     . "';\n";
+      print "document.edit.his_notes.value = '"    . mysqli_real_escape_string($db, $a_history['his_notes'])    . "';\n";
 
       $value = (2000 - strlen($a_history['his_notes']));
 
@@ -39,7 +39,7 @@
       print "document.edit.his_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

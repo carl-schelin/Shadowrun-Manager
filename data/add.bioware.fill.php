@@ -19,34 +19,34 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from bioware");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from bioware");
 
       $q_string  = "select bio_class,bio_name,bio_rating,bio_essence,bio_avail,bio_perm,bio_basetime,bio_duration,bio_index,bio_cost,bio_book,bio_page ";
       $q_string .= "from bioware ";
       $q_string .= "where bio_id = " . $formVars['id'];
-      $q_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_bioware = mysqli_fetch_array($q_bioware);
-      mysql_free_result($q_bioware);
+      mysqli_free_result($q_bioware);
 
-      print "document.dialog.bio_class.value = '"    . mysql_real_escape_string($a_bioware['bio_class'])    . "';\n";
-      print "document.dialog.bio_name.value = '"     . mysql_real_escape_string($a_bioware['bio_name'])     . "';\n";
-      print "document.dialog.bio_rating.value = '"   . mysql_real_escape_string($a_bioware['bio_rating']) . "';\n";
-      print "document.dialog.bio_essence.value = '"  . mysql_real_escape_string($a_bioware['bio_essence'])  . "';\n";
-      print "document.dialog.bio_avail.value = '"    . mysql_real_escape_string($a_bioware['bio_avail'])    . "';\n";
-      print "document.dialog.bio_perm.value = '"     . mysql_real_escape_string($a_bioware['bio_perm'])     . "';\n";
-      print "document.dialog.bio_basetime.value = '" . mysql_real_escape_string($a_bioware['bio_basetime']) . "';\n";
-      print "document.dialog.bio_duration.value = '" . mysql_real_escape_string($a_bioware['bio_duration']) . "';\n";
-      print "document.dialog.bio_index.value = '"    . mysql_real_escape_string($a_bioware['bio_index'])    . "';\n";
-      print "document.dialog.bio_cost.value = '"     . mysql_real_escape_string($a_bioware['bio_cost'])     . "';\n";
-      print "document.dialog.bio_book.value = '"     . mysql_real_escape_string($a_bioware['bio_book'])     . "';\n";
-      print "document.dialog.bio_page.value = '"     . mysql_real_escape_string($a_bioware['bio_page'])     . "';\n";
+      print "document.dialog.bio_class.value = '"    . mysqli_real_escape_string($db, $a_bioware['bio_class'])    . "';\n";
+      print "document.dialog.bio_name.value = '"     . mysqli_real_escape_string($db, $a_bioware['bio_name'])     . "';\n";
+      print "document.dialog.bio_rating.value = '"   . mysqli_real_escape_string($db, $a_bioware['bio_rating']) . "';\n";
+      print "document.dialog.bio_essence.value = '"  . mysqli_real_escape_string($db, $a_bioware['bio_essence'])  . "';\n";
+      print "document.dialog.bio_avail.value = '"    . mysqli_real_escape_string($db, $a_bioware['bio_avail'])    . "';\n";
+      print "document.dialog.bio_perm.value = '"     . mysqli_real_escape_string($db, $a_bioware['bio_perm'])     . "';\n";
+      print "document.dialog.bio_basetime.value = '" . mysqli_real_escape_string($db, $a_bioware['bio_basetime']) . "';\n";
+      print "document.dialog.bio_duration.value = '" . mysqli_real_escape_string($db, $a_bioware['bio_duration']) . "';\n";
+      print "document.dialog.bio_index.value = '"    . mysqli_real_escape_string($db, $a_bioware['bio_index'])    . "';\n";
+      print "document.dialog.bio_cost.value = '"     . mysqli_real_escape_string($db, $a_bioware['bio_cost'])     . "';\n";
+      print "document.dialog.bio_book.value = '"     . mysqli_real_escape_string($db, $a_bioware['bio_book'])     . "';\n";
+      print "document.dialog.bio_page.value = '"     . mysqli_real_escape_string($db, $a_bioware['bio_page'])     . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

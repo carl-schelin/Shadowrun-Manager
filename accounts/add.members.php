@@ -8,11 +8,11 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('2');
+  check_login($db, $AL_Fixer);
 
   $package = "add.members.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
@@ -23,9 +23,9 @@
   $q_string  = "select grp_id,grp_name ";
   $q_string .= "from groups ";
   $q_string .= "where grp_id = " . $formVars['id'] . " ";
-  $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_groups = mysqli_fetch_array($q_groups);
-  if (mysql_num_rows($q_groups) > 0) {
+  if (mysqli_num_rows($q_groups) > 0) {
     $formVars['grp_name'] = $a_groups['grp_name'];
   } else {
     $formVars['grp_name'] = "Unknown";
@@ -49,7 +49,7 @@
 
 <script type="text/javascript">
 <?php
-  if (check_userlevel(2)) {
+  if (check_userlevel($db, $AL_Fixer)) {
 ?>
 function delete_line( p_script_url ) {
   var question;
@@ -163,7 +163,7 @@ $(document).ready( function() {
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_available = 1 and ver_active = 1 ";
   $q_string .= "order by runr_name ";
-  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_runners = mysqli_fetch_array($q_runners)) {
     print "<option value=\"" . $a_runners['runr_id'] . "\">" . $a_runners['runr_name'] . " (" . $a_runners['meta_name'] . " " . $a_runners['runr_archetype'] . ")</option>\n";
   }

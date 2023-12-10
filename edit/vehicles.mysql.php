@@ -24,7 +24,7 @@
       $formVars['r_veh_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_veh_number']      = clean($_GET['r_veh_number'],       10);
 
@@ -36,7 +36,7 @@
         }
 
         if ($formVars['r_veh_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_veh_character   =   " . $formVars['r_veh_character']   . "," .
@@ -47,9 +47,9 @@
             $message = "Vehicle added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_veh_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_veh_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -58,7 +58,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {
 
@@ -81,7 +81,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('vehicles_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('vehicles_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $vehicle_list = array("drone", "groundcraft", "watercraft", "aircraft");
@@ -144,8 +144,8 @@
           $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
           $q_string .= "where class_name like \"%" . $vehicles . "%\" and ver_active = 1 ";
           $q_string .= "order by veh_make,veh_model ";
-          $q_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_vehicles) > 0) {
+          $q_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_vehicles) > 0) {
             while ($a_vehicles = mysqli_fetch_array($q_vehicles)) {
 
 # this adds the veh_id to the r_veh_character
@@ -198,13 +198,13 @@
 
           $output .= "</table>\n";
 
-          print "document.getElementById('" . $vehicles . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+          print "document.getElementById('" . $vehicles . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
         }
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -266,8 +266,8 @@
       $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
       $q_string .= "where r_veh_character = " . $formVars['r_veh_character'] . " ";
       $q_string .= "order by veh_make,veh_model ";
-      $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_vehicles) > 0) {
+      $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_vehicles) > 0) {
         while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_vehacc(" . $a_r_vehicles['r_veh_id'] . ");showDiv('vehicles-hide');\">";
@@ -324,8 +324,8 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Vehicles\" and r_acc_character = " . $formVars['r_veh_character'] . " and r_acc_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_fireacc('fireacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
@@ -377,8 +377,8 @@
           $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
           $q_string .= "where r_gear_character = " . $formVars['r_veh_character'] . " and r_gear_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
           $q_string .= "order by gear_name,r_gear_details,gear_rating,gear_class ";
-          $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_gear) > 0) {
+          $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_gear) > 0) {
             while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_vehauto('vehauto.del.php?id="  . $a_r_gear['r_gear_id'] . "');\">";
@@ -411,8 +411,8 @@
               $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
               $q_string .= "left join versions  on versions.ver_id  = accessory.acc_book ";
               $q_string .= "where r_acc_character = " . $formVars['r_veh_character'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
-              $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-              if (mysql_num_rows($q_r_accessory) > 0) {
+              $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+              if (mysqli_num_rows($q_r_accessory) > 0) {
                 while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
                   $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
@@ -452,8 +452,8 @@
           $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
           $q_string .= "where r_fa_character = " . $formVars['r_veh_character'] . " and r_fa_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
           $q_string .= "order by fa_name,fa_class ";
-          $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_firearms) > 0) {
+          $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_firearms) > 0) {
             while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_vehfire('vehfire.del.php?id="  . $a_r_firearms['r_fa_id'] . "');\">";
@@ -496,8 +496,8 @@
               $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
               $q_string .= "where r_ammo_character = " . $formVars['r_veh_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
               $q_string .= "order by ammo_name,class_name ";
-              $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-              if (mysql_num_rows($q_r_ammo) > 0) {
+              $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+              if (mysqli_num_rows($q_r_ammo) > 0) {
                 while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
                   $ammo_avail = return_Avail($a_r_ammo['ammo_avail'], $a_r_ammo['ammo_perm']);
@@ -541,8 +541,8 @@
           $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
           $q_string .= "where r_ammo_character = " . $formVars['r_veh_character'] . " and r_ammo_parentveh = " . $a_r_vehicles['r_veh_id'] . " ";
           $q_string .= "order by ammo_name,class_name ";
-          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_ammo) > 0) {
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_ammo) > 0) {
             while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_vehammo('vehammo.del.php?id="  . $a_r_ammo['r_ammo_id'] . "');\">";
@@ -588,11 +588,11 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_vehicles);
+      mysqli_free_result($q_r_vehicles);
 
-      print "document.getElementById('my_vehicles_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_vehicles_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -16,7 +16,7 @@ function check_userlevel( $p_level ) {
   return 0;
 }
 
-function check_grouplevel( $p_level ) {
+function check_grouplevel($db,  $p_level ) {
   return 0;
 }
 
@@ -27,10 +27,10 @@ function return_Virtual( $p_string ) {
   $q_string .= "from hardware ";
   $q_string .= "left join models on models.mod_id = hardware.hw_vendorid ";
   $q_string .= "where hw_companyid = " . $p_string . " and mod_primary = 1 and mod_virtual = 1 ";
-  $q_hardware = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
+  $q_hardware = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
 # if there are any rows, then the server is a virtual machine.
-  if (mysql_num_rows($q_hardware) > 0) {
+  if (mysqli_num_rows($q_hardware) > 0) {
     $output = 1;
   }
 

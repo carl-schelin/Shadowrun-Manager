@@ -25,7 +25,7 @@
       $formVars['r_adp_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_adp_id']          = clean($_GET['id'],                 10);
         $formVars['r_adp_number']      = clean($_GET['r_adp_number'],       10);
@@ -40,7 +40,7 @@
         }
 
         if ($formVars['r_adp_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_adp_character   =   " . $formVars['r_adp_character']   . "," .
@@ -57,9 +57,9 @@
             $message = "Adept Power updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_adp_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_adp_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -70,7 +70,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -93,7 +93,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('adept_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('adept_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -141,8 +141,8 @@
         $q_string .= "left join versions on versions.ver_id = adept.adp_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by adp_name ";
-        $q_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_adept) > 0) {
+        $q_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_adept) > 0) {
           while ($a_adept = mysqli_fetch_array($q_adept)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('adept.mysql.php?update=0&r_adp_character=" . $formVars['r_adp_character'] . "&r_adp_number=" . $a_adept['adp_id'] . "');\">";
@@ -173,14 +173,14 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_adept);
+        mysqli_free_result($q_adept);
 
-        print "document.getElementById('powers_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('powers_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -231,8 +231,8 @@
       $q_string .= "left join versions on versions.ver_id = adept.adp_book ";
       $q_string .= "where r_adp_character = " . $formVars['r_adp_character'] . " ";
       $q_string .= "order by adp_name ";
-      $q_r_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_adept) > 0) {
+      $q_r_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_adept) > 0) {
         while ($a_r_adept = mysqli_fetch_array($q_r_adept)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('adept.fill.php?id=" . $a_r_adept['r_adp_id'] . "');showDiv('adept-hide');\">";
@@ -282,7 +282,7 @@
         $q_string  = "select runr_magic ";
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['r_adp_character'] . " ";
-        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
         $a_runners = mysqli_fetch_array($q_runners);
 
         $output .= "<tr>\n";
@@ -296,13 +296,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_adept);
+      mysqli_free_result($q_r_adept);
 
-      print "document.getElementById('my_powers_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_powers_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_adp_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

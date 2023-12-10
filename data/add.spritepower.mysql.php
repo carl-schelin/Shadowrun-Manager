@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                = clean($_GET['id'],               10);
         $formVars['pow_name']          = clean($_GET['pow_name'],         60);
@@ -36,7 +36,7 @@
         }
 
         if (strlen($formVars['pow_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "pow_name             = \"" . $formVars['pow_name']          . "\"," .
@@ -51,16 +51,16 @@
             $query = "update sprite_powers set " . $q_string . " where pow_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['pow_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['pow_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -107,8 +107,8 @@
       $q_string .= "left join versions on versions.ver_id = sprite_powers.pow_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by pow_name,ver_version ";
-      $q_sprite_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_sprite_powers) > 0) {
+      $q_sprite_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_sprite_powers) > 0) {
         while ($a_sprite_powers = mysqli_fetch_array($q_sprite_powers)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.spritepower.fill.php?id="  . $a_sprite_powers['pow_id'] . "');jQuery('#dialogPower').dialog('open');return false;\">";
@@ -133,7 +133,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.pow_name.value = '';\n";
       print "document.dialog.pow_description.value = '';\n";
@@ -141,7 +141,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

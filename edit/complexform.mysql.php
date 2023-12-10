@@ -25,7 +25,7 @@
       $formVars['r_form_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_form_number']      = clean($_GET['r_form_number'],       10);
 
@@ -37,7 +37,7 @@
         }
 
         if ($formVars['r_form_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_form_character   =   " . $formVars['r_form_character']   . "," .
@@ -48,9 +48,9 @@
             $message = "Complex Form added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_form_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_form_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -59,7 +59,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {
 
@@ -108,8 +108,8 @@
         $q_string .= "left join versions on versions.ver_id = complexform.form_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by form_name,ver_version ";
-        $q_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_complexform) > 0) {
+        $q_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_complexform) > 0) {
           while ($a_complexform = mysqli_fetch_array($q_complexform)) {
 
 # this adds the bio_id to the r_bio_character
@@ -160,11 +160,11 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('complexform_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('complexform_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -213,8 +213,8 @@
       $q_string .= "left join versions on versions.ver_id = complexform.form_book ";
       $q_string .= "where r_form_character = " . $formVars['r_form_character'] . " ";
       $q_string .= "order by form_name,ver_version ";
-      $q_r_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_complexform) > 0) {
+      $q_r_complexform = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_complexform) > 0) {
         while ($a_r_complexform = mysqli_fetch_array($q_r_complexform)) {
 
           $linkdel = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_complexform('complexform.del.php?id="  . $a_r_complexform['r_form_id'] . "');\">";
@@ -271,12 +271,12 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_complexform);
+      mysqli_free_result($q_r_complexform);
 
-      print "document.getElementById('my_complexform_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_complexform_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

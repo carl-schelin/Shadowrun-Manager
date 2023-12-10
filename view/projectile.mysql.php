@@ -11,7 +11,7 @@
 
   $package = "projectile.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -38,8 +38,8 @@
   $q_string .= "left join class on class.class_id = projectile.proj_class ";
   $q_string .= "where r_proj_character = " . $formVars['id'] . " ";
   $q_string .= "order by class_name,proj_name ";
-  $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_projectile) > 0) {
+  $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_projectile) > 0) {
     while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
       $proj_rating = return_Rating($a_r_projectile['proj_rating']);
@@ -64,8 +64,8 @@
       $q_string .= "left join class on class.class_id = ammo.ammo_class ";
       $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_projectile['r_proj_id'] . " ";
       $q_string .= "order by ammo_name,class_name ";
-      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_ammo) > 0) {
+      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_ammo) > 0) {
         while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
@@ -90,6 +90,6 @@
     $output = "";
   }
 
-  print "document.getElementById('projectile_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('projectile_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

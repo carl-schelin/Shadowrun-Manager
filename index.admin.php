@@ -3,9 +3,9 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login(3);
+  check_login($db, $AL_Shadowrunner);
 
-  logaccess($_SESSION['username'], "index.php", "Checking out the index.");
+  logaccess($db, $_SESSION['username'], "index.php", "Checking out the index.");
 
 ?>
 <!DOCTYPE HTML>
@@ -46,7 +46,7 @@
   <li><a href="<?php print $FAQroot; ?>/whatsnew.php">What's New With Inventory 3.0?</a></li>
   <li><a href="<?php print $Loginroot; ?>/logout.php">Logout (<?php print $_SESSION['username']; ?>)</a></li>
 <?php
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
 ?>
 </ul>
 

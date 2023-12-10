@@ -17,7 +17,7 @@
 
     $formVars['id'] = clean($_GET['id'], 10);
 
-    logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+    logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
     $output  = "<p></p>\n";
     $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -72,8 +72,8 @@
     $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
     $q_string .= "where r_alc_character = " . $formVars['id'] . " ";
     $q_string .= "order by spell_group,spell_name ";
-    $q_r_alchemy = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_alchemy) > 0) {
+    $q_r_alchemy = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_alchemy) > 0) {
       while ($a_r_alchemy = mysqli_fetch_array($q_r_alchemy)) {
 
         $spell_name = $a_r_alchemy['spell_name'];
@@ -113,9 +113,9 @@
 
     $output .= "</table>\n";
 
-    mysql_free_result($q_r_alchemy);
+    mysqli_free_result($q_r_alchemy);
 
-    print "document.getElementById('alchemy_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+    print "document.getElementById('alchemy_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
   }
 ?>

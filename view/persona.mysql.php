@@ -11,7 +11,7 @@
 
   $package = "persona.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -22,8 +22,8 @@
   $q_string  = "select runr_resonance,runr_charisma,runr_intuition,runr_logic,runr_willpower ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " and runr_resonance > 0 ";
-  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_runners) > 0) {
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_runners) > 0) {
     $a_runners = mysqli_fetch_array($q_runners);
 
     $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
@@ -52,6 +52,6 @@
     $output  = "";
   }
 
-  print "document.getElementById('persona_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('persona_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

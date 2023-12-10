@@ -11,7 +11,7 @@
 
   $package = "vehicles.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -41,8 +41,8 @@
   $q_string .= "left join vehicles on vehicles.veh_id = r_vehicles.r_veh_number ";
   $q_string .= "where r_veh_character = " . $formVars['id'] . " ";
   $q_string .= "order by veh_class,veh_type,veh_make ";
-  $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_vehicles) > 0) {
+  $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_vehicles) > 0) {
     while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
 
       $veh_handling = return_Handling($a_r_vehicles['veh_onhand'], $a_r_vehicles['veh_offhand']);
@@ -75,7 +75,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" " . $checked . " id=\"vehcon" . ${i} . "\"  onclick=\"edit_VehicleCondition(" . ${i} . ", " . $a_r_vehicles['r_veh_id'] . ", 'vehicle');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"vehcon" . $i . "\"  onclick=\"edit_VehicleCondition(" . $i . ", " . $a_r_vehicles['r_veh_id'] . ", 'vehicle');\">\n";
         }
       }
       $output .= "</td>\n";
@@ -92,8 +92,8 @@
       $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
       $q_string .= "where sub_name = \"Vehicles\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
       $q_string .= "order by acc_name,acc_rating,ver_version ";
-      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_name = $a_r_accessory['acc_name'];
@@ -129,8 +129,8 @@
       $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
       $q_string .= "where r_fa_character = " . $formVars['id'] . " and r_fa_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
       $q_string .= "order by fa_name,fa_class ";
-      $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_firearms) > 0) {
+      $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_firearms) > 0) {
         while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
           $class = "ui-widget-content";
@@ -158,8 +158,8 @@
           $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
           $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by ammo_name,class_name ";
-          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_ammo) > 0) {
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_ammo) > 0) {
             while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
@@ -193,8 +193,8 @@
       $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
       $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentveh = " . $a_r_vehicles['r_veh_id'] . " ";
       $q_string .= "order by ammo_name,class_name ";
-      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_ammo) > 0) {
+      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_ammo) > 0) {
         while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $class = "ui-widget-content";
@@ -221,6 +221,6 @@
     $output = "";
   }
 
-  print "document.getElementById('vehicles_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('vehicles_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

@@ -19,22 +19,22 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_sprite");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_sprite");
 
       $q_string  = "select sprite_name,r_sprite_number,r_sprite_level,r_sprite_tasks,r_sprite_registered ";
       $q_string .= "from r_sprite ";
       $q_string .= "left join sprites on sprites.sprite_id = r_sprite.r_sprite_number ";
       $q_string .= "where r_sprite_id = " . $formVars['id'];
-      $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_sprite = mysqli_fetch_array($q_r_sprite);
-      mysql_free_result($q_r_sprite);
+      mysqli_free_result($q_r_sprite);
 
-      print "document.getElementById('r_sprite_item').innerHTML = '" . mysql_real_escape_string($a_r_sprite['sprite_name']) . "';\n\n";
+      print "document.getElementById('r_sprite_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_sprite['sprite_name']) . "';\n\n";
 
-      print "document.edit.r_sprite_number.value = '"   . mysql_real_escape_string($a_r_sprite['r_sprite_number'])   . "';\n";
-      print "document.edit.r_sprite_level.value = '"    . mysql_real_escape_string($a_r_sprite['r_sprite_level'])    . "';\n";
-      print "document.edit.r_sprite_tasks.value = '"    . mysql_real_escape_string($a_r_sprite['r_sprite_tasks'])    . "';\n";
+      print "document.edit.r_sprite_number.value = '"   . mysqli_real_escape_string($db, $a_r_sprite['r_sprite_number'])   . "';\n";
+      print "document.edit.r_sprite_level.value = '"    . mysqli_real_escape_string($db, $a_r_sprite['r_sprite_level'])    . "';\n";
+      print "document.edit.r_sprite_tasks.value = '"    . mysqli_real_escape_string($db, $a_r_sprite['r_sprite_tasks'])    . "';\n";
 
       if ($a_r_sprite['r_sprite_registered']) {
         print "document.edit.r_sprite_registered.checked = true;\n";
@@ -45,7 +45,7 @@
       print "document.edit.r_sprite_id.value = " . $formVars['id'] . ";\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

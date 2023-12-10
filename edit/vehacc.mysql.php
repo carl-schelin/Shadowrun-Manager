@@ -24,7 +24,7 @@
       $formVars['r_veh_id'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_acc_character']    = clean($_GET['r_acc_character'],    10);
         $formVars['r_acc_number']       = clean($_GET['r_acc_number'],       10);
@@ -37,7 +37,7 @@
         }
 
         if ($formVars['r_acc_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_acc_character   =   " . $formVars['r_acc_character']   . "," .
@@ -49,9 +49,9 @@
             $message = "Vehicle Accessory added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
 
@@ -80,7 +80,7 @@
         }
 
         if ($formVars['r_fa_parentid'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_fa_parentid =   " . $formVars['r_fa_parentid'];
@@ -90,9 +90,9 @@
             $message = "Vehicle Weapon added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
 
@@ -117,7 +117,7 @@
         }
 
         if ($formVars['r_ammo_parentveh'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_ammo_parentveh =   " . $formVars['r_ammo_parentveh'];
@@ -127,9 +127,9 @@
             $message = "Vehicle Weapon added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_ammo_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_ammo_id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
 
@@ -155,7 +155,7 @@
         }
 
         if ($formVars['r_gear_parentid'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_gear_parentid =   " . $formVars['r_gear_parentid'];
@@ -165,9 +165,9 @@
             $message = "Vehicle Autosoft added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_gear_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_gear_id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
 
@@ -180,7 +180,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -228,7 +228,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('vehacc_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('vehacc_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       } else {
 
 # r_veh_id == the id of the vehicle owned/selected. If zero, then no vehicle has been selected and no accessories presented.
@@ -248,7 +248,7 @@
         $q_string .= "from r_vehicles ";
         $q_string .= "left join vehicles on vehicles.veh_id = r_vehicles.r_veh_number ";
         $q_string .= "where r_veh_id = " . $formVars['r_veh_id'] . " ";
-        $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
         $a_r_vehicles = mysqli_fetch_array($q_r_vehicles);
 
 # for that class or something that works for all; numbers because both acc_class and fa_class are numeric. no need to convert to text
@@ -264,8 +264,8 @@
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
         $q_string .= $where . " and ver_active = 1 ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
-        $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_accessory) > 0) {
+        $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_accessory) > 0) {
           while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('vehacc.mysql.php";
@@ -304,7 +304,7 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_accessory);
+        mysqli_free_result($q_accessory);
 
 
 # display autosofts and the selected program
@@ -331,8 +331,8 @@
         $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
         $q_string .= "where r_gear_character = " . $a_r_vehicles['r_veh_character'] . " and r_gear_parentid = 0 and gear_name = \"Autosoft\" ";
         $q_string .= "order by gear_name,r_gear_details,gear_rating,class_name ";
-        $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_gear) > 0) {
+        $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_gear) > 0) {
           while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('vehacc.mysql.php";
@@ -376,8 +376,8 @@
             $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
             $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
             $q_string .= "where r_acc_character = " . $a_r_vehicles['r_veh_character'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
-            $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_accessory) > 0) {
+            $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_accessory) > 0) {
               while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
                 $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
@@ -433,8 +433,8 @@
         $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
         $q_string .= "where r_fa_character = " . $a_r_vehicles['r_veh_character'] . " and r_fa_parentid = 0 ";
         $q_string .= "order by fa_name,class_name ";
-        $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_firearms) > 0) {
+        $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_firearms) > 0) {
           while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('vehacc.mysql.php";
@@ -491,8 +491,8 @@
             $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
             $q_string .= "where r_ammo_character = " . $a_r_vehicles['r_veh_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
             $q_string .= "order by ammo_name,class_name ";
-            $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_ammo) > 0) {
+            $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_ammo) > 0) {
               while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
                 $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
@@ -554,8 +554,8 @@
         $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
         $q_string .= "where r_ammo_character = " . $a_r_vehicles['r_veh_character'] . " and r_ammo_parentid = 0 and r_ammo_parentveh = 0 ";
         $q_string .= "order by ammo_name,class_name ";
-        $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_ammo) > 0) {
+        $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_ammo) > 0) {
           while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('vehacc.mysql.php";
@@ -599,12 +599,12 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_r_ammo);
+        mysqli_free_result($q_r_ammo);
 
-        print "document.getElementById('vehacc_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('vehacc_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

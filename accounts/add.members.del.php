@@ -19,17 +19,17 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(2)) {
-      logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from members");
+    if (check_userlevel($db, $AL_Fixer)) {
+      logaccess($db, $_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from members");
 
       $q_string  = "delete ";
       $q_string .= "from members ";
       $q_string .= "where mem_id = " . $formVars['id'];
-      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       print "alert('Group Member deleted.');\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Access denied");
+      logaccess($db, $_SESSION['username'], $package, "Access denied");
     }
   }
 ?>

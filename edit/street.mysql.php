@@ -24,9 +24,9 @@
       $formVars['st_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        logaccess($_SESSION['username'], $package, "Building the query.");
+        logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
         $formVars['st_id']          = clean($_GET['st_id'],          10);
         $formVars['st_cred']        = clean($_GET['st_cred'],        10);
@@ -59,9 +59,9 @@
             $message = "Character Street Cred updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['st_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Notes for: " . $formVars['st_id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');";
         }
@@ -71,7 +71,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -105,12 +105,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('street_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('street_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -127,8 +127,8 @@
       $q_string .= "from street ";
       $q_string .= "where st_character = " . $formVars['st_character'] . " ";
       $q_string .= "order by st_date ";
-      $q_street = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_street) > 0) {
+      $q_street = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_street) > 0) {
         while ($a_street = mysqli_fetch_array($q_street)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('street.fill.php?id=" . $a_street['st_id'] . "');showDiv('street-hide');\">";
@@ -147,7 +147,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('street_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('street_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.st_cred.value = '';\n\n";
       print "document.edit.st_date.value = '" . date('Y-m-d') . "';\n\n";
@@ -157,7 +157,7 @@
       print "document.edit.st_update.disabled = true;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

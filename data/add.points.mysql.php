@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                 = clean($_GET['id'],                10);
         $formVars['point_number']       = clean($_GET['point_number'],      10);
@@ -43,7 +43,7 @@
         }
 
         if ($formVars['point_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "point_number      =   " . $formVars['point_number']   . "," .
@@ -59,16 +59,16 @@
             $query = "update points set " . $q_string . " where point_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['point_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['point_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -116,8 +116,8 @@
       $q_string .= "left join versions on versions.ver_id = points.point_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by point_number,ver_version ";
-      $q_points = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_points) > 0) {
+      $q_points = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_points) > 0) {
         while ($a_points = mysqli_fetch_array($q_points)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.points.fill.php?id="  . $a_points['point_id'] . "');jQuery('#dialogPoints').dialog('open');return false;\">";
@@ -145,7 +145,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.point_number.value = '';\n";
       print "document.dialog.point_cost.value = '';\n";
@@ -154,7 +154,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

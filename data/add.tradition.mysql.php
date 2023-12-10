@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                 = clean($_GET['id'],                  10);
         $formVars['trad_name']          = clean($_GET['trad_name'],           60);
@@ -40,7 +40,7 @@
         }
 
         if (strlen($formVars['trad_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "trad_name          = \"" . $formVars['trad_name']           . "\"," .
@@ -62,16 +62,16 @@
             $query = "update tradition set " . $q_string . " where trad_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['trad_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['trad_name']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -106,7 +106,7 @@
       $tradition_name[0] = "Unassigned";
       $q_string  = "select s_trad_id,s_trad_name ";
       $q_string .= "from s_tradition ";
-      $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
         $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
       }
@@ -114,7 +114,7 @@
       $attribute_name[0] = "Unassigned";
       $q_string  = "select att_id,att_name ";
       $q_string .= "from attributes ";
-      $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       while ($a_attributes = mysqli_fetch_array($q_attributes)) {
         $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
       }
@@ -141,8 +141,8 @@
       $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by trad_name,ver_version ";
-      $q_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_tradition) > 0) {
+      $q_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_tradition) > 0) {
         while ($a_tradition = mysqli_fetch_array($q_tradition)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.tradition.fill.php?id="  . $a_tradition['trad_id'] . "');jQuery('#dialogTradition').dialog('open');return false;\">";
@@ -157,8 +157,8 @@
           $q_string  = "select r_trad_id ";
           $q_string .= "from r_tradition ";
           $q_string .= "where r_trad_number = " . $a_tradition['trad_id'] . " ";
-          $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_tradition) > 0) {
+          $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_tradition) > 0) {
             while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
               $total++;
             }
@@ -191,7 +191,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.trad_name.value = '';\n";
       print "document.dialog.trad_description.value = '';\n";
@@ -208,7 +208,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

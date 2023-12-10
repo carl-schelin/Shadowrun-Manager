@@ -84,8 +84,8 @@ if (isset($_POST['mail_user'])) {
   $q_string  = "select * ";
   $q_string .= "from users ";
   $q_string .= "where usr_id != 1 and usr_disabled = 0 and (usr_name = '" . $search_q . "' or usr_email = '" . $search_q . "')";
-  $q_users = mysqli_query($db, $q_string) or die($q_string . ": " . mysql_error());
-  if (mysql_num_rows($q_users) == '1') {
+  $q_users = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
+  if (mysqli_num_rows($q_users) == '1') {
     $a_users = mysqli_fetch_array($q_users);
 
     $user_email = $a_users['usr_email'];
@@ -97,7 +97,7 @@ if (isset($_POST['mail_user'])) {
       $q_string  = "update ";
       $q_string .= "users set usr_reset=1,usr_passwd = MD5('$newpassword') ";
       $q_string .= "where usr_id = " . $a_users['usr_id'];
-      $q_newpw = mysqli_query($db, $q_string) or die(mysql_error());
+      $q_newpw = mysqli_query($db, $q_string) or die(mysqli_error($db));
 
       $headers  = "From: Mooks Password Reset <root@" . $Sitehttp . ">\r\n";
       $headers .= "MIME-Version: 1.0\r\n";

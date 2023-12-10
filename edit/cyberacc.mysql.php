@@ -24,7 +24,7 @@
       $formVars['r_ware_id'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_acc_character']    = clean($_GET['r_acc_character'],    10);
         $formVars['r_acc_number']       = clean($_GET['r_acc_number'],       10);
@@ -37,7 +37,7 @@
         }
 
         if ($formVars['r_acc_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_acc_character   =   " . $formVars['r_acc_character']   . "," .
@@ -49,9 +49,9 @@
             $message = "Cyberware Accessory added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
 
@@ -73,7 +73,7 @@
         }
 
         if ($formVars['r_fa_parentid'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_fa_parentid =   " . $formVars['r_fa_parentid'];
@@ -83,9 +83,9 @@
             $message = "Cyberware Weapon added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_id']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
 
@@ -95,7 +95,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -146,7 +146,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('cyberacc_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('cyberacc_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       } else {
 
 # r_ware_id == the id of the cyberware owned/selected. If zero, then no cyberware has been selected and no accessories presented.
@@ -167,7 +167,7 @@
         $q_string .= "left join cyberware on cyberware.ware_id = r_cyberware.r_ware_number ";
         $q_string .= "left join class on class.class_id = cyberware.ware_class ";
         $q_string .= "where r_ware_id = " . $formVars['r_ware_id'] . " ";
-        $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+        $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
         $a_r_cyberware = mysqli_fetch_array($q_r_cyberware);
 
 # for that class or something that works for all; numbers because both acc_class and ware_class are numeric. no need to convert to text
@@ -187,8 +187,8 @@
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
         $q_string .= "where sub_name = \"Cyberware\" and r_acc_character = " . $a_r_cyberware['r_ware_character'] . " and r_acc_parentid = " . $formVars['r_ware_id'] . " ";
         $q_string .= "order by acc_name,acc_rating ";
-        $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_accessory) > 0) {
+        $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_accessory) > 0) {
           while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
            $totalcapacity += $a_r_accessory['acc_capacity'];
           }
@@ -209,8 +209,8 @@
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
         $q_string .= $where . " and ver_active = 1 ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
-        $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_accessory) > 0) {
+        $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_accessory) > 0) {
           while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('cyberacc.mysql.php";
@@ -258,7 +258,7 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_accessory);
+        mysqli_free_result($q_accessory);
 
 
 # now display the available weapons
@@ -291,8 +291,8 @@
         $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
         $q_string .= "where r_fa_character = " . $a_r_cyberware['r_ware_character'] . " and r_fa_parentid = 0 ";
         $q_string .= "order by fa_name,class_name ";
-        $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_firearms) > 0) {
+        $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_firearms) > 0) {
           while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('cyberacc.mysql.php";
@@ -347,8 +347,8 @@
             $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
             $q_string .= "where r_ammo_character = " . $a_r_cyberware['r_ware_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
             $q_string .= "order by ammo_name,class_name ";
-            $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_ammo) > 0) {
+            $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_ammo) > 0) {
               while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
                 $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
@@ -385,10 +385,10 @@
 
 
 
-        print "document.getElementById('cyberacc_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('cyberacc_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

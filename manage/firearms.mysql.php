@@ -15,13 +15,13 @@
   $package = "firearms.mysql.php";
   $formVars['id'] = clean($_GET['id'], 10);
 
-  logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+  logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
   $q_string  = "select ver_version ";
   $q_string .= "from versions ";
   $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_versions = mysqli_fetch_array($q_versions);
 
   $output  = "<p></p>\n";
@@ -29,11 +29,11 @@
   $output .= "<tr>\n";
 
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#weapons\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Firearms Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('firearms-listing-help');\">Help</a></th>\n";
@@ -98,8 +98,8 @@
   $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
   $q_string .= "where r_fa_character = " . $formVars['id'] . " ";
   $q_string .= "order by fa_class,fa_name ";
-  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_firearms) > 0) {
+  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_firearms) > 0) {
     while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
       $fa_damage = return_Damage($a_r_firearms['fa_damage'], $a_r_firearms['fa_type'], $a_r_firearms['fa_flag']);
@@ -156,8 +156,8 @@
 
   $output .= "</table>\n";
 
-  mysql_free_result($q_r_firearms);
+  mysqli_free_result($q_r_firearms);
 
-  print "document.getElementById('firearms_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+  print "document.getElementById('firearms_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 ?>

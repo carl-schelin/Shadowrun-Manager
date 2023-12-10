@@ -19,14 +19,14 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       logaccess($_SESSION['username'], $package, "Removing parentid " . $formVars['id'] . " from r_gear");
 
       $q_string  = "update  ";
       $q_string .= "r_gear ";
       $q_string .= "set r_gear_parentid = 0 ";
       $q_string .= "where r_gear_id= " . $formVars['id'];
-      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       print "alert('Autosoft association removed.');\n";
     } else {

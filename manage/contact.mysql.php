@@ -11,7 +11,7 @@
 
   $package = "contact.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -20,11 +20,11 @@
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#contacts\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Contact Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -64,8 +64,8 @@
   $q_string .= "left join contact on contact.con_id = r_contact.r_con_number ";
   $q_string .= "where r_con_character = " . $formVars['id'] . " ";
   $q_string .= "order by con_archetype,con_name ";
-  $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_contact) > 0) {
+  $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_contact) > 0) {
     while ($a_r_contact = mysqli_fetch_array($q_r_contact)) {
 
       $contacts = "--";
@@ -91,5 +91,5 @@
   $output .= "</table>\n";
 ?>
 
-document.getElementById('contact_mysql').innerHTML = '<?php print mysql_real_escape_string($output); ?>';
+document.getElementById('contact_mysql').innerHTML = '<?php print mysqli_real_escape_string($db, $output); ?>';
 

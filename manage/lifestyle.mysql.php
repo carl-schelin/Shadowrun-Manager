@@ -11,7 +11,7 @@
 
   $package = "lifestyle.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -21,11 +21,11 @@
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#lifestyle\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Lifestyle Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -64,8 +64,8 @@
   $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";
   $q_string .= "order by life_style,ver_version ";
-  $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_lifestyle) > 0) {
+  $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_lifestyle) > 0) {
     while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
       $totalcost += ($a_r_lifestyle['life_mincost'] * $a_r_lifestyle['r_life_months']);
@@ -98,6 +98,6 @@
 
   $output .= "</table>";
      
-  print "document.getElementById('lifestyle_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('lifestyle_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

@@ -3,9 +3,9 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login(3);
+  check_login($db, $AL_Shadowrunner);
 
-  logaccess($_SESSION['username'], "index.php", "Checking out the index.");
+  logaccess($db, $_SESSION['username'], "index.php", "Checking out the index.");
 
 ?>
 <!DOCTYPE HTML>

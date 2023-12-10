@@ -19,16 +19,16 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_cyberware");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_cyberware");
 
       $q_string  = "select r_ware_specialize,r_ware_grade,r_ware_number,ware_name,ware_rating,ware_essence,ware_capacity ";
       $q_string .= "from r_cyberware ";
       $q_string .= "left join cyberware on cyberware.ware_id = r_cyberware.r_ware_number ";
       $q_string .= "where r_ware_id = " . $formVars['id'];
-      $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_cyberware = mysqli_fetch_array($q_r_cyberware);
-      mysql_free_result($q_r_cyberware);
+      mysqli_free_result($q_r_cyberware);
 
       $rating = return_Rating($a_r_cyberware['ware_rating']);
 
@@ -38,16 +38,16 @@
 
       $ware_name = $a_r_cyberware['ware_name'] . " [Rating: " . $rating . ", Essence: " . $essence . ", Capacity: " . $capacity . "]";
 
-      print "document.getElementById('r_ware_item').innerHTML = '" . mysql_real_escape_string($ware_name) . "';\n\n";
-      print "document.edit.r_ware_number.value = '" . mysql_real_escape_string($a_r_cyberware['r_ware_number']) . "';\n\n";
-      print "document.edit.r_ware_specialize.value = '" . mysql_real_escape_string($a_r_cyberware['r_ware_specialize']) . "';\n\n";
-      print "document.edit.r_ware_grade.value = '" . mysql_real_escape_string($a_r_cyberware['r_ware_grade']) . "';\n\n";
+      print "document.getElementById('r_ware_item').innerHTML = '" . mysqli_real_escape_string($db, $ware_name) . "';\n\n";
+      print "document.edit.r_ware_number.value = '" . mysqli_real_escape_string($db, $a_r_cyberware['r_ware_number']) . "';\n\n";
+      print "document.edit.r_ware_specialize.value = '" . mysqli_real_escape_string($db, $a_r_cyberware['r_ware_specialize']) . "';\n\n";
+      print "document.edit.r_ware_grade.value = '" . mysqli_real_escape_string($db, $a_r_cyberware['r_ware_grade']) . "';\n\n";
 
       print "document.edit.r_ware_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_ware_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -19,24 +19,24 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from class");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from class");
 
       $q_string  = "select class_subjectid,class_name ";
       $q_string .= "from class ";
       $q_string .= "where class_id = " . $formVars['id'];
-      $q_class = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_class = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_class = mysqli_fetch_array($q_class);
-      mysql_free_result($q_class);
+      mysqli_free_result($q_class);
 
-      print "document.dialog.class_subjectid.value = '" . mysql_real_escape_string($a_class['class_subjectid']) . "';\n";
-      print "document.dialog.class_name.value = '"      . mysql_real_escape_string($a_class['class_name'])      . "';\n";
+      print "document.dialog.class_subjectid.value = '" . mysqli_real_escape_string($db, $a_class['class_subjectid']) . "';\n";
+      print "document.dialog.class_name.value = '"      . mysqli_real_escape_string($db, $a_class['class_name'])      . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

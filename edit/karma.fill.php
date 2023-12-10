@@ -19,19 +19,19 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from history");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from history");
 
       $q_string  = "select kar_karma,kar_date,kar_notes ";
       $q_string .= "from karma ";
       $q_string .= "where kar_id = " . $formVars['id'];
-      $q_karma = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_karma = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_karma = mysqli_fetch_array($q_karma);
-      mysql_free_result($q_karma);
+      mysqli_free_result($q_karma);
 
-      print "document.edit.kar_karma.value = '"    . mysql_real_escape_string($a_karma['kar_karma'])    . "';\n";
-      print "document.edit.kar_date.value = '"     . mysql_real_escape_string($a_karma['kar_date'])     . "';\n";
-      print "document.edit.kar_notes.value = '"    . mysql_real_escape_string($a_karma['kar_notes'])    . "';\n";
+      print "document.edit.kar_karma.value = '"    . mysqli_real_escape_string($db, $a_karma['kar_karma'])    . "';\n";
+      print "document.edit.kar_date.value = '"     . mysqli_real_escape_string($db, $a_karma['kar_date'])     . "';\n";
+      print "document.edit.kar_notes.value = '"    . mysqli_real_escape_string($db, $a_karma['kar_notes'])    . "';\n";
 
       $value = (2000 - strlen($a_karma['kar_notes']));
 
@@ -40,7 +40,7 @@
       print "document.edit.kar_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

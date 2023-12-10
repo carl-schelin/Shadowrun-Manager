@@ -16,7 +16,11 @@
     $package = "melee.mysql.php";
     $formVars['update']                = clean($_GET['update'],                 10);
     $formVars['r_melee_character']     = clean($_GET['r_melee_character'],      10);
-    $formVars['melee_class']           = clean($_GET['melee_class'],            10);
+
+    $formVars['melee_class'] = 0;
+    if (isset($_GET['melee_class'])) {
+      $formVars['melee_class'] = clean($_GET['melee_class'], 10);
+    }
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
@@ -25,7 +29,7 @@
       $formVars['r_melee_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_melee_number'] = clean($_GET['r_melee_number'], 10);
 
@@ -37,7 +41,7 @@
         }
 
         if ($formVars['r_melee_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_melee_character   =   " . $formVars['r_melee_character']   . "," .
@@ -48,9 +52,9 @@
             $message = "Melee Weapon added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_melee_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_melee_number']);
 
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -59,7 +63,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {
 
@@ -82,7 +86,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('melee_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('melee_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -140,8 +144,8 @@
           $q_string .= "and melee_class = " . $formVars['melee_class'] . " ";
         }
         $q_string .= "order by melee_name,melee_class ";
-        $q_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_melee) > 0) {
+        $q_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_melee) > 0) {
           while ($a_melee = mysqli_fetch_array($q_melee)) {
 
 # this adds the melee_id to the r_melee_character
@@ -164,7 +168,7 @@
               $q_string  = "select runr_strength ";
               $q_string .= "from runners ";
               $q_string .= "where runr_id = " . $formVars['r_melee_character'] . " ";
-              $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+              $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
               $a_runners = mysqli_fetch_array($q_runners);
 
               $melee_damage = ($a_runners['runr_strength'] + $a_melee['melee_damage']);
@@ -211,12 +215,12 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('melee_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('melee_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -273,8 +277,8 @@
       $q_string .= "left join versions on versions.ver_id = melee.melee_book ";
       $q_string .= "where r_melee_character = " . $formVars['r_melee_character'] . " ";
       $q_string .= "order by melee_class,melee_name ";
-      $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_melee) > 0) {
+      $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_melee) > 0) {
         while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_melacc(" . $a_r_melee['r_melee_id'] . ");showDiv('melee-hide');\">";
@@ -296,7 +300,7 @@
             $q_string  = "select runr_strength ";
             $q_string .= "from runners ";
             $q_string .= "where runr_id = " . $formVars['r_melee_character'] . " ";
-            $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+            $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
             $a_runners = mysqli_fetch_array($q_runners);
 
             $melee_damage = ($a_runners['runr_strength'] + $a_r_melee['melee_damage']);
@@ -353,8 +357,8 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Melee\" and r_acc_character = " . $formVars['r_melee_character'] . " and r_acc_parentid = " . $a_r_melee['r_melee_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
             while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_melacc('melacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
@@ -403,11 +407,11 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_melee);
+      mysqli_free_result($q_r_melee);
 
-      print "document.getElementById('my_melee_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_melee_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

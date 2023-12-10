@@ -19,28 +19,28 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from contact");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from contact");
 
       $q_string  = "select con_name,con_archetype,con_character,con_book,con_page,con_owner ";
       $q_string .= "from contact ";
       $q_string .= "where con_id = " . $formVars['id'];
-      $q_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $q_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_contact = mysqli_fetch_array($q_contact);
-      mysql_free_result($q_contact);
+      mysqli_free_result($q_contact);
 
-      print "document.dialog.con_character.value = '"  . mysql_real_escape_string($a_contact['con_character']) . "';\n";
-      print "document.dialog.con_owner.value = '"      . mysql_real_escape_string($a_contact['con_owner'])     . "';\n";
-      print "document.dialog.con_name.value = '"       . mysql_real_escape_string($a_contact['con_name'])      . "';\n";
-      print "document.dialog.con_archetype.value = '"  . mysql_real_escape_string($a_contact['con_archetype']) . "';\n";
-      print "document.dialog.con_book.value = '"       . mysql_real_escape_string($a_contact['con_book'])      . "';\n";
-      print "document.dialog.con_page.value = '"       . mysql_real_escape_string($a_contact['con_page'])      . "';\n";
+      print "document.dialog.con_character.value = '"  . mysqli_real_escape_string($db, $a_contact['con_character']) . "';\n";
+      print "document.dialog.con_owner.value = '"      . mysqli_real_escape_string($db, $a_contact['con_owner'])     . "';\n";
+      print "document.dialog.con_name.value = '"       . mysqli_real_escape_string($db, $a_contact['con_name'])      . "';\n";
+      print "document.dialog.con_archetype.value = '"  . mysqli_real_escape_string($db, $a_contact['con_archetype']) . "';\n";
+      print "document.dialog.con_book.value = '"       . mysqli_real_escape_string($db, $a_contact['con_book'])      . "';\n";
+      print "document.dialog.con_page.value = '"       . mysqli_real_escape_string($db, $a_contact['con_page'])      . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

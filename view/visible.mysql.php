@@ -11,20 +11,21 @@
 
   $package = "visible.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
   $formVars['id'] = clean($_GET['id'], 10);
 
   $q_string  = "select runr_name,runr_aliases,meta_name,runr_archetype,runr_archetype,";
-  $q_string .= "runr_age,runr_sex,runr_height,runr_weight,";
-  $q_string .= "runr_currentedge,runr_totaledge ";
+  $q_string .= "runr_age,runr_sex,runr_height,runr_weight,runr_currentedge,runr_totaledge ";
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_runners = mysqli_fetch_array($q_runners);
+
+  $a_runners['runr_ethnicity'] = 'Undefined';
 
   $sex = "Female";
   if ($a_runners['runr_sex']) {
@@ -56,9 +57,9 @@
   $q_string .= "from runners ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_runners = mysqli_fetch_array($q_runners);
 
-  print "document.getElementById('visible_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('visible_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>
