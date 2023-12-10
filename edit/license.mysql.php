@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['lic_id']         = clean($_GET['id'],               10);
         $formVars['lic_type']       = clean($_GET['lic_type'],         80);
@@ -36,7 +36,7 @@
         }
 
         if (strlen($formVars['lic_type']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "lic_character  =   " . $formVars['lic_character']   . "," .
@@ -51,15 +51,15 @@
             $query = "update r_license set " . $q_string . " where lic_id = " . $formVars['lic_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['lic_type']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['lic_type']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

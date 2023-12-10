@@ -15,9 +15,12 @@
   if (isset($_SESSION['username'])) {
     $package = "gear.mysql.php";
     $formVars['update']             = clean($_GET['update'],              10);
-    $formVars['r_gear_id']          = clean($_GET['r_gear_id'],           10);
     $formVars['r_gear_character']   = clean($_GET['r_gear_character'],    10);
-    $formVars['gear_class']         = clean($_GET['gear_class'],          10);
+
+    $formVars['gear_class'] = 0;
+    if (isset($_GET['gear_class'])) {
+      $formVars['gear_class']         = clean($_GET['gear_class'],          10);
+    }
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
@@ -26,7 +29,7 @@
       $formVars['r_gear_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_gear_number']      = clean($_GET['r_gear_number'],       10);
         $formVars['r_gear_details']     = clean($_GET['r_gear_details'],      60);
@@ -40,7 +43,7 @@
         }
 
         if ($formVars['r_gear_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_gear_character   =   " . $formVars['r_gear_character']   . "," .
@@ -58,9 +61,9 @@
             $message = "Gear updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_gear_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_gear_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -69,7 +72,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {
 
@@ -94,7 +97,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('gear_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('gear_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
 # now list all the items to select
@@ -151,9 +154,9 @@
           $q_string .= "and gear_class = " . $formVars['gear_class'] . " ";
         }
         $q_string .= "order by gear_name,gear_rating,gear_class,ver_version ";
-        $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_gear) > 0) {
-          while ($a_gear = mysql_fetch_array($q_gear)) {
+        $q_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_gear) > 0) {
+          while ($a_gear = mysqli_fetch_array($q_gear)) {
 
 # this adds the gear_id to the r_gear_character
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('gear.mysql.php?update=-3&r_gear_character=" . $formVars['r_gear_character'] . "&gear_class=" . $a_gear['gear_class'] . "');\">";
@@ -190,12 +193,12 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('gear_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('gear_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -250,9 +253,9 @@
       $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
       $q_string .= "where r_gear_character = " . $formVars['r_gear_character'] . " ";
       $q_string .= "order by gear_name,r_gear_details,gear_rating,gear_class,ver_version ";
-      $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_gear) > 0) {
-        while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+      $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_gear) > 0) {
+        while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_gearacc(" . $a_r_gear['r_gear_id'] . ");showDiv('gear-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gear('gear.del.php?id="  . $a_r_gear['r_gear_id'] . "');\">";
@@ -304,9 +307,9 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Gear\" and r_acc_character = " . $formVars['r_gear_character'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gearacc('gearacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";
@@ -353,11 +356,11 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_gear);
+      mysqli_free_result($q_r_gear);
 
-      print "document.getElementById('my_gear_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_gear_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

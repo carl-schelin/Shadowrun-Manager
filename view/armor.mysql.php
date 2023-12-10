@@ -11,13 +11,13 @@
 
   $package = "knowledge.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
   $formVars['id'] = clean($_GET['id'], 10);
 
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+  $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\" colspan=\"3\">Armor</th>";
   $output .= "</tr>\n";
@@ -33,9 +33,9 @@
   $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
   $q_string .= "where r_arm_character = " . $formVars['id'] . " ";
   $q_string .= "order by arm_name,arm_rating ";
-  $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_armor) > 0) {
-    while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
+  $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_armor) > 0) {
+    while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
 
       $arm_name = $a_r_armor['arm_name'];
       if ($a_r_armor['r_arm_details'] != '') {
@@ -60,9 +60,9 @@
       $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
       $q_string .= "where sub_name = \"Clothing and Armor\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_armor['r_arm_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
           $capacity = return_Rating($a_r_accessory['acc_capacity']);
@@ -82,6 +82,6 @@
     $output = "";
   }
 
-  print "document.getElementById('armor_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('armor_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

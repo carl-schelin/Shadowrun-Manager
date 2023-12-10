@@ -21,9 +21,9 @@
       $where = " and mem_group = " . $formVars['group'] . " ";
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -88,9 +88,9 @@
       $q_string .= "left join versions  on versions.ver_id    = runners.runr_version ";
       $q_string .= "where (ver_active = 1 or runr_version = 0) " . $where;
       $q_string .= "order by runr_owner,runr_archetype ";
-      $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_runners) > 0) {
-        while ($a_runners = mysql_fetch_array($q_runners)) {
+      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_runners) > 0) {
+        while ($a_runners = mysqli_fetch_array($q_runners)) {
 
           $linkdel     = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_character('mooks.del.php?id="  . $a_runners['runr_id'] . "');\">";
           $viewstart   = "<a href=\"" . $Viewroot   . "/mooks.php?id=" . $a_runners['runr_id'] . "\" target=\"_blank\">";
@@ -106,21 +106,21 @@
             $q_string  = "select mem_id ";
             $q_string .= "from members ";
             $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_runners['runr_id'] . " ";
-            $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_members) > 0) {
+            $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_members) > 0) {
               $display = 'Yes';
             }
           } else {
 # I'm a Johnson, show me everyone in the group
-            if (check_userlevel(1)) {
+            if (check_userlevel($db, $AL_Johnson)) {
               $display = 'Yes';
             }
 # it's my character so show me no matter what
-            if (check_owner($a_runners['runr_id'])) {
+            if (check_owner($db, $a_runners['runr_id'])) {
               $display = 'Yes';
             }
 # are we a gm and the character is available for running?
-            if (check_userlevel(2) && check_available($a_runners['runr_id'])) {
+            if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_runners['runr_id'])) {
               $display = 'Yes';
             }
           }
@@ -166,9 +166,9 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('group_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('group_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

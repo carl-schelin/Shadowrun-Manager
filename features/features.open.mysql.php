@@ -9,13 +9,13 @@
   $called = 'yes';
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('4');
+  check_login($db, $AL_Guest);
 
   header('Content-Type: text/javascript');
 
   $package = "features.open.mysql.php";
 
-  logaccess($_SESSION['username'], $package, "Creating the open feature request listing.");
+  logaccess($db, $_SESSION['username'], $package, "Creating the open feature request listing.");
 
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
@@ -77,18 +77,18 @@
   $q_string .= "left join modules on modules.mod_id = features.feat_module ";
   $q_string .= "where feat_closed = '0000-00-00' " . $where;
   $q_string .= "order by feat_severity desc,feat_priority desc,feat_subject ";
-  $q_features = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_features) > 0) {
-    while ($a_features = mysql_fetch_array($q_features)) {
+  $q_features = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_features) > 0) {
+    while ($a_features = mysqli_fetch_array($q_features)) {
 
       $q_string  = "select feat_timestamp ";
       $q_string .= "from features_detail ";
       $q_string .= "where feat_feat_id = " . $a_features['feat_id'] . " ";
       $q_string .= "order by feat_timestamp ";
       $q_string .= "limit 1 ";
-      $q_features_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_features_detail) > 0) {
-        $a_features_detail = mysql_fetch_array($q_features_detail);
+      $q_features_detail = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_features_detail) > 0) {
+        $a_features_detail = mysqli_fetch_array($q_features_detail);
         $detail_time = explode(" ", $a_features_detail['feat_timestamp']);
       } else {
         $detail_time[0] = 'No Details';
@@ -97,7 +97,7 @@
       $linkstart = "<a href=\"" . $Featureroot . "/ticket.php?id="   . $a_features['feat_id']     . "#problem\">";
       $linklist  = "<a href=\"" . $Featureroot . "/features.php?id=" . $a_features['feat_module'] . "#open\">";
       $linkend   = "</a>";
-      if ($a_features['feat_openby'] == $_SESSION['uid'] || check_userlevel(1)) {
+      if ($a_features['feat_openby'] == $_SESSION['uid'] || check_userlevel($db, $AL_Johnson)) {
         $delstart = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_feature('features.open.del.php?id="  . $a_features['feat_id'] . "');\">";
         $delend   = "</a>";
       } else {
@@ -139,8 +139,8 @@
 
   $output .= "</table>";
 
-  mysql_free_result($q_features);
+  mysqli_free_result($q_features);
 
-  print "document.getElementById('open_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('open_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

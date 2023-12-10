@@ -19,20 +19,20 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(2)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from groups");
+    if (check_userlevel($db, $AL_Fixer)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from groups");
 
       $q_string  = "select grp_disabled,grp_name,grp_email,grp_owner ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['id'];
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
-      mysql_free_result($q_groups);
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_groups = mysqli_fetch_array($q_groups);
+      mysqli_free_result($q_groups);
 
-      $user = return_Index($a_groups['grp_owner'], "select usr_id from users order by usr_last,usr_first");
+      $user = return_Index($db, $a_groups['grp_owner'], "select usr_id from users order by usr_last,usr_first");
 
-      print "document.groups.grp_name.value = '"      . mysql_real_escape_string($a_groups['grp_name'])      . "';\n";
-      print "document.groups.grp_email.value = '"     . mysql_real_escape_string($a_groups['grp_email'])     . "';\n";
+      print "document.groups.grp_name.value = '"      . mysqli_real_escape_string($db, $a_groups['grp_name'])      . "';\n";
+      print "document.groups.grp_email.value = '"     . mysqli_real_escape_string($db, $a_groups['grp_email'])     . "';\n";
 
       print "document.groups.grp_disabled['" . $a_groups['grp_disabled'] . "'].selected = true;\n";
       print "document.groups.grp_owner['"    . $user                     . "'].selected = true;\n";
@@ -42,7 +42,7 @@
       print "document.groups.update.disabled = false;\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

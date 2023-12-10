@@ -24,7 +24,7 @@
       $formVars['id'] = 0;
     }
 
-    if (check_userlevel(2)) {
+    if (check_userlevel($db, $AL_Fixer)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars["feat_id"]          = clean($_GET["feat_id"],          10);
         $formVars["feat_text"]        = clean($_GET["feat_text"],      2000);
@@ -36,7 +36,7 @@
         }
 
         if (strlen($formVars['feat_text']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "feat_feat_id   =   " . $formVars['id']             . "," . 
@@ -53,9 +53,9 @@
             $message = "Comment updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['feat_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['feat_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -64,13 +64,13 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $q_string  = "select feat_closed ";
       $q_string .= "from features ";
       $q_string .= "where feat_id = " . $formVars['id'];
-      $q_features = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_features = mysql_fetch_array($q_features);
+      $q_features = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_features = mysqli_fetch_array($q_features);
 
 
       $output  = "<p></p>\n";
@@ -118,8 +118,8 @@
       $q_string .= "left join users on users.usr_id = features_detail.feat_user ";
       $q_string .= "where feat_feat_id = " . $formVars['id'] . " ";
       $q_string .= "order by feat_timestamp desc ";
-      $q_features_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_features_detail = mysql_fetch_array($q_features_detail)) {
+      $q_features_detail = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_features_detail = mysqli_fetch_array($q_features_detail)) {
 
         if ($a_features['feat_closed'] == '0000-00-00') {
           $linkstart = "<a href=\"#\" onclick=\"show_file('"     . $Featureroot . "/comments.fill.php?id=" . $a_features_detail['feat_id'] . "');showDiv('request-hide');\">";
@@ -139,11 +139,11 @@
         $output .= "</tr>";
       }
 
-      mysql_free_result($q_features_detail);
+      mysqli_free_result($q_features_detail);
 
       $output .= "</table>";
 
-      print "document.getElementById('detail_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+      print "document.getElementById('detail_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
       if ($a_features['feat_closed'] == '0000-00-00') {
         print "document.start.feat_text.value = '';\n";
@@ -152,7 +152,7 @@
       }
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']            = clean($_GET['id'],            10);
         $formVars['gear_class']    = clean($_GET['gear_class'],    60);
@@ -62,7 +62,7 @@
         }
 
         if (strlen($formVars['gear_class']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "gear_class    = \"" . $formVars['gear_class']    . "\"," .
@@ -85,16 +85,16 @@
             $query = "update gear set " . $q_string . " where gear_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['gear_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['gear_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $gear_list = array("gear");
 
@@ -154,9 +154,9 @@
         $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
         $q_string .= "where ver_admin = 1 ";
         $q_string .= "order by class_name,gear_name,gear_rating,ver_version ";
-        $q_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_gear) > 0) {
-          while ($a_gear = mysql_fetch_array($q_gear)) {
+        $q_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_gear) > 0) {
+          while ($a_gear = mysqli_fetch_array($q_gear)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.gear.fill.php?id="  . $a_gear['gear_id'] . "');jQuery('#dialogGear').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_gear('add.gear.del.php?id=" . $a_gear['gear_id'] . "');\">";
@@ -180,9 +180,9 @@
             $q_string  = "select r_gear_id ";
             $q_string .= "from r_gear ";
             $q_string .= "where r_gear_number = " . $a_gear['gear_id'] . " ";
-            $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_gear) > 0) {
-              while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+            $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_gear) > 0) {
+              while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
                 $total++;
               }
             }
@@ -213,7 +213,7 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('" . $gear . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('" . $gear . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
       print "document.dialog.gear_name.value = '';\n";
@@ -228,7 +228,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

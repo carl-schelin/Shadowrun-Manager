@@ -11,7 +11,7 @@
 
   $package = "gear.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -37,9 +37,9 @@
   $q_string .= "left join class on class.class_id = gear.gear_class ";
   $q_string .= "where r_gear_character = " . $formVars['id'] . " ";
   $q_string .= "order by gear_name,gear_rating ";
-  $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_gear) > 0) {
-    while ($a_r_gear = mysql_fetch_array($q_r_gear)) {
+  $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_gear) > 0) {
+    while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
 
       $gear_name = $a_r_gear['gear_name'];
       if ($a_r_gear['r_gear_details'] != '') {
@@ -68,9 +68,9 @@
       $q_string .= "left join class on class.class_id = accessory.acc_class ";
       $q_string .= "where sub_name = \"Gear\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 
@@ -96,6 +96,6 @@
   }
 
 
-  print "document.getElementById('gear_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('gear_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

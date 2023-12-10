@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']            = clean($_GET['id'],            10);
         $formVars['ver_book']      = clean($_GET['ver_book'],      60);
@@ -34,8 +34,8 @@
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
-        if ($formVars['year'] == '') {
-          $formVars['year'] = 0;
+        if ($formVars['ver_year'] == '') {
+          $formVars['ver_year'] = 0;
         }
         if ($formVars['ver_core'] == 'true') {
           $formVars['ver_core'] = 1;
@@ -54,7 +54,7 @@
         }
 
         if (strlen($formVars['ver_book']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "ver_book       = \"" . $formVars['ver_book']      . "\"," .
@@ -72,16 +72,16 @@
             $query = "update versions set " . $q_string . " where ver_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['ver_book']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['ver_book']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $book_list = array("1.0", "2.0", "3.0", "4.0", "4.5", "5.0", "6.0");
 
@@ -156,9 +156,9 @@
         $q_string .= "from versions ";
         $q_string .= "where ver_version = \"" . $book . "\" ";
         $q_string .= "order by ver_book ";
-        $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_versions) > 0) {
-          while ($a_versions = mysql_fetch_array($q_versions)) {
+        $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_versions) > 0) {
+          while ($a_versions = mysqli_fetch_array($q_versions)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.books.fill.php?id="  . $a_versions['ver_id'] . "');jQuery('#dialogBook').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_book('add.books.del.php?id=" . $a_versions['ver_id'] . "');\">";
@@ -198,7 +198,7 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('" . $title . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('" . $title . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
       print "document.dialog.ver_book.value = '';\n";
@@ -212,7 +212,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

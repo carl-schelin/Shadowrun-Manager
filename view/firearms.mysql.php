@@ -11,7 +11,7 @@
 
   $package = "firearms.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -41,9 +41,9 @@
   $q_string .= "left join class on class.class_id = firearms.fa_class ";
   $q_string .= "where r_fa_character = " . $formVars['id'] . " ";
   $q_string .= "order by class_name,fa_name ";
-  $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_firearms) > 0) {
-    while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+  $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_firearms) > 0) {
+    while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
       $fa_mode = return_Mode($a_r_firearms['fa_mode1'], $a_r_firearms['fa_mode2'], $a_r_firearms['fa_mode3']);
 
@@ -78,9 +78,9 @@
       $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
       $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
       $q_string .= "order by acc_name,acc_rating,ver_version ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_name = $a_r_accessory['acc_name'];
           if ($a_r_accessory['acc_mount'] != '') {
@@ -111,9 +111,9 @@
       $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
       $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
       $q_string .= "order by ammo_name,class_name ";
-      $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_ammo) > 0) {
-        while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+      $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_ammo) > 0) {
+        while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 
@@ -138,6 +138,6 @@
     $output = "";
   }
 
-  print "document.getElementById('firearms_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('firearms_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

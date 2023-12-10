@@ -1,6 +1,7 @@
 <?php
   session_start(); 
   include('settings.php');
+  include('functions/functions.php');
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -67,7 +68,7 @@ if (isset($_POST['contactus'])) {
       $comments = stripslashes($comments);
     }
 
-    $address = "carl@schelin.org";
+    $address = $EmergencyContact;
 
     $e_subject = 'You\'ve been contacted by ' . $name . '.';
 

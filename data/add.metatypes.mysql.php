@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']             = clean($_GET['id'],             10);
         $formVars['meta_name']      = clean($_GET['meta_name'],      60);
@@ -48,7 +48,7 @@
         }
 
         if (strlen($formVars['meta_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "meta_name    = \"" . $formVars['meta_name'] . "\"," .
@@ -66,16 +66,16 @@
             $query = "update metatypes set " . $q_string . " where meta_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['meta_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['meta_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -126,9 +126,9 @@
       $q_string .= "left join versions on versions.ver_id = metatypes.meta_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by meta_name,ver_version ";
-      $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_metatypes) > 0) {
-        while ($a_metatypes = mysql_fetch_array($q_metatypes)) {
+      $q_metatypes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_metatypes) > 0) {
+        while ($a_metatypes = mysqli_fetch_array($q_metatypes)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.metatypes.fill.php?id="  . $a_metatypes['meta_id'] . "');jQuery('#dialogMetatype').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_metatypes('add.metatypes.del.php?id=" . $a_metatypes['meta_id'] . "');\">";
@@ -142,9 +142,9 @@
           $q_string  = "select runr_metatype ";
           $q_string .= "from runners ";
           $q_string .= "where runr_metatype = " . $a_metatypes['meta_id'] . " ";
-          $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_runners) > 0) {
-            while ($a_runners = mysql_fetch_array($q_runners)) {
+          $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_runners) > 0) {
+            while ($a_runners = mysqli_fetch_array($q_runners)) {
               $total++;
             }
           }
@@ -173,7 +173,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.meta_name.value = '';\n";
       print "document.dialog.meta_walk.value = '';\n";
@@ -184,7 +184,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

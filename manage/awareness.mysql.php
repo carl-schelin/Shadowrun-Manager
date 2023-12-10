@@ -17,7 +17,7 @@
 
     $formVars['id'] = clean($_GET['id'], 10);
 
-    logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+    logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
     $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
     $output .= "<tr>\n";
@@ -33,9 +33,9 @@
     $q_string .= "from publicity ";
     $q_string .= "where pub_character = " . $formVars['id'] . " ";
     $q_string .= "order by pub_date ";
-    $q_publicity = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_publicity) > 0) {
-      while ($a_publicity = mysql_fetch_array($q_publicity)) {
+    $q_publicity = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_publicity) > 0) {
+      while ($a_publicity = mysqli_fetch_array($q_publicity)) {
 
         $output .= "<tr>\n";
         $output .=   "<td class=\"ui-widget-content delete\" width=\"120\">" . $a_publicity['pub_publicity'] . "</td>\n";
@@ -48,7 +48,7 @@
 
     $output .= "</table>\n";
 
-    print "document.getElementById('awareness_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+    print "document.getElementById('awareness_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
   }
 ?>

@@ -24,9 +24,9 @@
       $formVars['not_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        logaccess($_SESSION['username'], $package, "Building the query.");
+        logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
         $formVars['not_id']          = clean($_GET['not_id'],          10);
         $formVars['not_notoriety']   = clean($_GET['not_notoriety'],   10);
@@ -59,9 +59,9 @@
             $message = "Character Notoriety updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['not_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Notes for: " . $formVars['not_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');";
         }
@@ -71,7 +71,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -105,12 +105,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('notoriety_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('notoriety_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -127,9 +127,9 @@
       $q_string .= "from notoriety ";
       $q_string .= "where not_character = " . $formVars['not_character'] . " ";
       $q_string .= "order by not_date ";
-      $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_notoriety) > 0) {
-        while ($a_notoriety = mysql_fetch_array($q_notoriety)) {
+      $q_notoriety = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_notoriety) > 0) {
+        while ($a_notoriety = mysqli_fetch_array($q_notoriety)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('notoriety.fill.php?id=" . $a_notoriety['not_id'] . "');showDiv('notoriety-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_notoriety('notoriety.del.php?id="  . $a_notoriety['not_id'] . "');\">";
@@ -147,7 +147,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('notoriety_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('notoriety_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.not_notoriety.value = '';\n\n";
       print "document.edit.not_date.value = '" . date('Y-m-d') . "';\n\n";
@@ -157,7 +157,7 @@
       print "document.edit.not_update.disabled = true;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -15,7 +15,7 @@
     </ul>
   </li>
 <?php
-  if (check_userlevel(1)) {
+  if (check_userlevel($db, $AL_Johnson)) {
 ?>
   <li id="tm_mental"><a href="<?php print $Siteroot; ?>/index.mental.php">Mental</a>
     <ul>

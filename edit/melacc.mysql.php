@@ -24,7 +24,7 @@
       $formVars['r_melee_id'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_acc_character']    = clean($_GET['r_acc_character'],    10);
         $formVars['r_acc_number']       = clean($_GET['r_acc_number'],       10);
@@ -37,7 +37,7 @@
         }
 
         if ($formVars['r_acc_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_acc_character   =   " . $formVars['r_acc_character']   . "," .
@@ -49,9 +49,9 @@
             $message = "Melee Accessory added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_acc_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
 
@@ -61,7 +61,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -112,7 +112,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('melacc_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('melacc_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       } else {
 
 # r_fire_id == the id of the firearm owned/selected. If zero, then no firearm has been selected and no accessories presented.
@@ -132,8 +132,8 @@
         $q_string .= "from r_melee ";
         $q_string .= "left join melee on melee.melee_id = r_melee.r_melee_number ";
         $q_string .= "where r_melee_id = " . $formVars['r_melee_id'] . " ";
-        $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_melee = mysql_fetch_array($q_r_melee);
+        $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_r_melee = mysqli_fetch_array($q_r_melee);
 
 # for that class or something that works for all; numbers because both acc_class and fa_class are numeric. no need to convert to text
         $where .= "and (acc_class = " . $a_r_melee['melee_class'] . " or acc_class = 0) ";
@@ -149,9 +149,9 @@
         $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
         $q_string .= $where . " and ver_active = 1 ";
         $q_string .= "order by acc_name,acc_rating,ver_version ";
-        $q_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_accessory) > 0) {
-          while ($a_accessory = mysql_fetch_array($q_accessory)) {
+        $q_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_accessory) > 0) {
+          while ($a_accessory = mysqli_fetch_array($q_accessory)) {
 
             $linkstart  = "<a href=\"#\" onclick=\"javascript:show_file('melacc.mysql.php";
             $linkstart .= "?update=0";
@@ -201,16 +201,16 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_accessory);
+        mysqli_free_result($q_accessory);
 
         $output .= "</table>\n";
 
-        mysql_free_result($q_r_ammo);
+        mysqli_free_result($q_r_ammo);
 
-        print "document.getElementById('melacc_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('melacc_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

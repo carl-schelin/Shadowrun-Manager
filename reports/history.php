@@ -11,7 +11,7 @@
 
   $package = "history.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   $formVars['group'] = 0;
   if (isset($_GET['group'])) {
@@ -58,8 +58,8 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -96,18 +96,18 @@ $(document).ready( function () {
   $q_string .= "left join users on users.usr_id = group_notes.note_user ";
   $q_string .= "where note_group = " . $formVars['group'] . " ";
   $q_string .= "order by usr_last,usr_first,note_date ";
-  $q_group_notes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_group_notes) > 0) {
-    while ($a_group_notes = mysql_fetch_array($q_group_notes)) {
+  $q_group_notes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_group_notes) > 0) {
+    while ($a_group_notes = mysqli_fetch_array($q_group_notes)) {
 
       $display = "No";
 
 # I'm a Johnson, show me everyone in the group
-      if (check_userlevel(1)) {
+      if (check_userlevel($db, $AL_Johnson)) {
         $display = 'Yes';
       }
 # are we a gm for this group and the character is available for running?
-      if (check_userlevel(2)) {
+      if (check_userlevel($db, $AL_Fixer)) {
         $display = 'Yes';
       }
 
@@ -130,9 +130,9 @@ $(document).ready( function () {
   $q_string .= "left join runners on runners.runr_id = history.his_character ";
   $q_string .= "left join users on users.usr_id = runners.runr_owner ";
   $q_string .= "order by runr_name,his_date ";
-  $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_history) > 0) {
-    while ($a_history = mysql_fetch_array($q_history)) {
+  $q_history = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_history) > 0) {
+    while ($a_history = mysqli_fetch_array($q_history)) {
 
       $display = "No";
 
@@ -140,21 +140,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_history['his_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = "Yes";
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_history['his_character'])) {
+        if (check_owner($db, $a_history['his_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_history['his_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_history['his_character'])) {
           $display = 'Yes';
         }
       }
@@ -190,8 +190,8 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -227,9 +227,9 @@ $(document).ready( function () {
     $q_string .= "left join runners on runners.runr_id = history.his_character ";
     $q_string .= "left join users on users.usr_id = runners.runr_owner ";
     $q_string .= "order by runr_name,his_date ";
-    $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_history) > 0) {
-      while ($a_history = mysql_fetch_array($q_history)) {
+    $q_history = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_history) > 0) {
+      while ($a_history = mysqli_fetch_array($q_history)) {
 
         $display = "No";
 
@@ -237,21 +237,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_history['his_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = "Yes";
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_history['his_character'])) {
+          if (check_owner($db, $a_history['his_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_history['his_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_history['his_character'])) {
             $display = 'Yes';
           }
         }

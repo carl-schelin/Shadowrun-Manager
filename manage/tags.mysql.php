@@ -11,7 +11,7 @@
 
   $package = "tags.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -51,8 +51,8 @@
   $q_string .= "from tags ";
   $q_string .= "where tag_character = " . $formVars['id'] . " and tag_view = 0 and tag_owner = " . $formVars['uid'] . " ";
   $q_string .= "group by tag_name ";
-  $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_tags = mysql_fetch_array($q_tags)) {
+  $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "\">";
     $linkend   = "</a>";
 
@@ -73,8 +73,8 @@
   $q_string .= "from tags ";
   $q_string .= "where tag_character = " . $formVars['id'] . " and tag_view = 1 ";
   $q_string .= "group by tag_name ";
-  $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_tags = mysql_fetch_array($q_tags)) {
+  $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_tags = mysqli_fetch_array($q_tags)) {
     $linkstart = "<a href=\"" . $Reportroot . "/tag.view.php?tag=" . $a_tags['tag_name'] . "\">";
     $linkend   = "</a>";
 
@@ -85,6 +85,6 @@
 
   $output .= "</div>\n";
 
-  print "document.getElementById('tags_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+  print "document.getElementById('tags_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 ?>

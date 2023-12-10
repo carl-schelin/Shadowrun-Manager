@@ -11,7 +11,7 @@
 
   $package = "traditions.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -22,11 +22,11 @@
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#tradition\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Tradition Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -58,9 +58,9 @@
   $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
   $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
   $q_string .= "where r_trad_character = " . $formVars['id'] . " ";
-  $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_tradition) > 0) {
-    while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_tradition) > 0) {
+    while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
       $tradition_book = return_Book($a_r_tradition['ver_book'], $a_r_tradition['trad_page']);
 
@@ -79,6 +79,6 @@
 
   $output .= "</table>";
      
-  print "document.getElementById('traditions_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('traditions_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

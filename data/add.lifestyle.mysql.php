@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                   = clean($_GET['id'],                  10);
         $formVars['life_style']           = clean($_GET['life_style'],          60);
@@ -43,7 +43,7 @@
         }
 
         if (strlen($formVars['life_style']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "life_style            = \"" . $formVars['life_style']           . "\"," .
@@ -59,16 +59,16 @@
             $query = "update lifestyle set " . $q_string . " where life_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['life_style']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['life_style']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -104,9 +104,9 @@
       $q_string .= "left join versions on versions.ver_id = lifestyle.life_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by life_style,ver_version ";
-      $q_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_lifestyle) > 0) {
-        while ($a_lifestyle = mysql_fetch_array($q_lifestyle)) {
+      $q_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_lifestyle) > 0) {
+        while ($a_lifestyle = mysqli_fetch_array($q_lifestyle)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.lifestyle.fill.php?id="  . $a_lifestyle['life_id'] . "');jQuery('#dialogLifestyle').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_lifestyle('add.lifestyle.del.php?id=" . $a_lifestyle['life_id'] . "');\">";
@@ -122,9 +122,9 @@
           $q_string  = "select r_life_id ";
           $q_string .= "from r_lifestyle ";
           $q_string .= "where r_life_number = " . $a_lifestyle['life_id'] . " ";
-          $q_r_lifestyle = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_lifestyle) > 0) {
-            while ($a_r_lifestyle = mysql_fetch_array($q_r_lifestyle)) {
+          $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_lifestyle) > 0) {
+            while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
               $total++;
             }
           }
@@ -150,7 +150,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.life_style.value = '';\n";
       print "document.dialog.life_mincost.value = '';\n";
@@ -159,7 +159,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

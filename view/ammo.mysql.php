@@ -11,7 +11,7 @@
 
   $package = "ammo.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -38,9 +38,9 @@
   $q_string .= "left join class on class.class_id = ammo.ammo_class ";
   $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = 0 ";
   $q_string .= "order by class_name,ammo_name ";
-  $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_ammo) > 0) {
-    while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+  $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_ammo) > 0) {
+    while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
       $ammo_rating = return_Rating($a_r_ammo['ammo_rating']);
       $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
@@ -61,6 +61,6 @@
     $output = "";
   }
 
-  print "document.getElementById('ammo_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('ammo_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

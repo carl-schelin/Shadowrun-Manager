@@ -19,26 +19,26 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_spells");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_spells");
 
       $q_string  = "select r_spell_number,spell_name,r_spell_special ";
       $q_string .= "from r_spells ";
       $q_string .= "left join spells on spells.spell_id = r_spells.r_spell_number ";
       $q_string .= "where r_spell_id = " . $formVars['id'];
-      $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_spells = mysql_fetch_array($q_r_spells);
-      mysql_free_result($q_r_spells);
+      $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_spells = mysqli_fetch_array($q_r_spells);
+      mysqli_free_result($q_r_spells);
 
-      print "document.getElementById('r_spell_item').innerHTML = '" . mysql_real_escape_string($a_r_spells['spell_name']) . "';\n\n";
-      print "document.edit.r_spell_number.value = '" . mysql_real_escape_string($a_r_spells['r_spell_number'])     . "';\n";
-      print "document.edit.r_spell_special.value = '" . mysql_real_escape_string($a_r_spells['r_spell_special'])     . "';\n";
+      print "document.getElementById('r_spell_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_spells['spell_name']) . "';\n\n";
+      print "document.edit.r_spell_number.value = '" . mysqli_real_escape_string($db, $a_r_spells['r_spell_number'])     . "';\n";
+      print "document.edit.r_spell_special.value = '" . mysqli_real_escape_string($db, $a_r_spells['r_spell_special'])     . "';\n";
 
       print "document.edit.r_spell_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_spell_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

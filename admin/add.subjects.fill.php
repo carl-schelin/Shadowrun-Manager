@@ -19,23 +19,23 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from subjects");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from subjects");
 
       $q_string  = "select sub_name ";
       $q_string .= "from subjects ";
       $q_string .= "where sub_id = " . $formVars['id'];
-      $q_subjects = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_subjects = mysql_fetch_array($q_subjects);
-      mysql_free_result($q_subjects);
+      $q_subjects = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_subjects = mysqli_fetch_array($q_subjects);
+      mysqli_free_result($q_subjects);
 
-      print "document.dialog.sub_name.value = '" . mysql_real_escape_string($a_subjects['sub_name']) . "';\n";
+      print "document.dialog.sub_name.value = '" . mysqli_real_escape_string($db, $a_subjects['sub_name']) . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

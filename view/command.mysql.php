@@ -11,7 +11,7 @@
 
   $package = "command.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -25,9 +25,9 @@
   $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
   $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
   $q_string .= "order by cmd_brand,cmd_model,cmd_rating ";
-  $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_command) > 0) {
-    while ($a_r_command = mysql_fetch_array($q_r_command)) {
+  $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_command) > 0) {
+    while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
       $output .= "<tr>";
@@ -84,8 +84,8 @@
       $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_command['r_cmd_id'] . " ";
       $q_string .= "order by acc_name,acc_rating,ver_version ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -96,7 +96,7 @@
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
         $output .= "</tr>\n";
 
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
@@ -118,8 +118,8 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_command['r_cmd_id'] . " and pgm_type = 2 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_program) > 0) {
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
         $output .= "<tr>";
@@ -130,7 +130,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
@@ -145,8 +145,8 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_command['r_cmd_id'] . " and pgm_type = 3 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_program) > 0) {
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
         $output .= "<tr>";
@@ -157,7 +157,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
@@ -172,6 +172,6 @@
     $output  = "";
   }
 
-  print "document.getElementById('command_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('command_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

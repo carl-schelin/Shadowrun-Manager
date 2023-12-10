@@ -10,17 +10,17 @@
 
   $package = "error.php";
 
-  logaccess($formVars['uid'], $package, "Accessing the script.");
+  logaccess($db, $formVars['uid'], $package, "Accessing the script.");
 
   $formVars['script'] = clean($_GET['script'], 60);
-  $formVars['error']  = mysql_real_escape_string(clean($_GET['error'], 1024));
-  $formVars['mysql']  = mysql_real_escape_string(clean($_GET['mysql'], 1024));
+  $formVars['error']  = mysqli_real_escape_string($db, clean($_GET['error'], 1024));
+  $formVars['mysql']  = mysqli_real_escape_string($db, clean($_GET['mysql'], 1024));
 
 # add a bug report to the bug tracking database.
 # need to create an initial one,
 # then add the errors to the tracker
 # error string to be used for the die() function
-# die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+# die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
   $q_string  =
     "bug_module     =   " . "7"                                   . "," . 
@@ -31,9 +31,9 @@
     "bug_openby     =   " . $_SESSION['uid'];
 
   $query = "insert into bugs set bug_id = null," . $q_string;
-  $insert = mysql_query($query) or die($query . ": " . mysql_error());
+  $insert = mysqli_query($db, $query) or die($query . ": " . mysqli_error($db));
 
-  $bug_id = last_insert_id();
+  $bug_id = last_insert_id($db);
 
   $q_string = 
     "bug_bug_id =   " . $bug_id                               . "," . 
@@ -41,7 +41,7 @@
     "bug_user   =   " . $_SESSION['uid'];
 
   $query = "insert into bugs_detail set bug_id = null," . $q_string;
-  $insert = mysql_query($query) or die($query . ": " . mysql_error());
+  $insert = mysqli_query($db, $query) or die($query . ": " . mysqli_error($db));
 
   $q_string = 
     "bug_bug_id =   " . $bug_id                               . "," . 
@@ -49,7 +49,7 @@
     "bug_user   =   " . $_SESSION['uid'];
 
   $query = "insert into bugs_detail set bug_id = null," . $q_string;
-  $insert = mysql_query($query) or die($query . ": " . mysql_error());
+  $insert = mysqli_query($db, $query) or die($query . ": " . mysqli_error($db));
 
   if ($called == 'no') {
 ?>

@@ -17,7 +17,7 @@
 
     $formVars['id'] = clean($_GET['id'], 10);
 
-    logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+    logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
     $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
     $output .= "<tr>\n";
@@ -33,9 +33,9 @@
     $q_string .= "from notoriety ";
     $q_string .= "where not_character = " . $formVars['id'] . " ";
     $q_string .= "order by not_date ";
-    $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_notoriety) > 0) {
-      while ($a_notoriety = mysql_fetch_array($q_notoriety)) {
+    $q_notoriety = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_notoriety) > 0) {
+      while ($a_notoriety = mysqli_fetch_array($q_notoriety)) {
 
         $output .= "<tr>\n";
         $output .=   "<td class=\"ui-widget-content delete\" width=\"120\">" . $a_notoriety['not_notoriety'] . "</td>\n";
@@ -48,7 +48,7 @@
 
     $output .= "</table>\n";
 
-    print "document.getElementById('notoriety_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+    print "document.getElementById('notoriety_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
   }
 ?>

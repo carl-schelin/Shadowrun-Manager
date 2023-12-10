@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_know_id']          = clean($_GET['id'],                  10);
         $formVars['r_know_number']      = clean($_GET['r_know_number'],       10);
@@ -42,7 +42,7 @@
         }
 
         if ($formVars['r_know_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_know_character   =   " . $formVars['r_know_character']   . "," .
@@ -58,9 +58,9 @@
             $query = "update r_knowledge set " . $q_string . " where r_know_id = " . $formVars['r_know_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_know_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_know_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
@@ -69,7 +69,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -92,8 +92,8 @@
         $q_string  = "select know_id,know_name ";
         $q_string .= "from knowledge ";
         $q_string .= "order by know_name ";
-        $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_knowledge = mysql_fetch_array($q_knowledge)) {
+        $q_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
           $output .= "<option value=\"" . $a_knowledge['know_id'] . "\">" . $a_knowledge['know_name'] . "</option>\n";
         }
 
@@ -114,8 +114,8 @@
         $q_string  = "select s_know_id,s_know_name ";
         $q_string .= "from s_knowledge ";
         $q_string .= "order by s_know_name ";
-        $q_s_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_s_knowledge = mysql_fetch_array($q_s_knowledge)) {
+        $q_s_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_s_knowledge = mysqli_fetch_array($q_s_knowledge)) {
           $output .= "<option value=\"" . $a_s_knowledge['s_know_id'] . "\">" . $a_s_knowledge['s_know_name'] . "</option>\n";
         }
 
@@ -124,12 +124,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('knowledge_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('knowledge_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -183,9 +183,9 @@
       $q_string .= "left join versions on versions.ver_id = s_knowledge.s_know_book ";
       $q_string .= "where r_know_character = " . $formVars['r_know_character'] . " ";
       $q_string .= "order by know_name ";
-      $q_r_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_knowledge) > 0) {
-        while ($a_r_knowledge = mysql_fetch_array($q_r_knowledge)) {
+      $q_r_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_knowledge) > 0) {
+        while ($a_r_knowledge = mysqli_fetch_array($q_r_knowledge)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('knowledge.fill.php?id=" . $a_r_knowledge['r_know_id'] . "');showDiv('knowledge-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_knowledge('knowledge.del.php?id="  . $a_r_knowledge['r_know_id'] . "');\">";
@@ -194,8 +194,8 @@
           $q_string  = "select " . $a_r_knowledge['att_column'] . " ";
           $q_string .= "from runners ";
           $q_string .= "where runr_id = " . $formVars['r_know_character'] . " ";
-          $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_runners = mysql_fetch_array($q_runners);
+          $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_runners = mysqli_fetch_array($q_runners);
 
           $know_book = return_Book($a_r_knowledge['ver_book'], $a_r_knowledge['s_know_page']);
 
@@ -243,13 +243,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_knowledge);
+      mysqli_free_result($q_r_knowledge);
 
-      print "document.getElementById('knowledge_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('knowledge_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_know_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

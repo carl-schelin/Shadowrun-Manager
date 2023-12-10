@@ -19,18 +19,18 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Removing parentid " . $formVars['id'] . " from r_ammo");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Removing parentid " . $formVars['id'] . " from r_ammo");
 
       $q_string  = "update  ";
       $q_string .= "r_ammo ";
       $q_string .= "set r_ammo_parentid = 0 ";
       $q_string .= "where r_ammo_id= " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       print "alert('Ammunition association removed.');\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Access denied");
+      logaccess($db, $_SESSION['username'], $package, "Access denied");
     }
   }
 ?>

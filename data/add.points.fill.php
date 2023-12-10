@@ -19,27 +19,27 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from points");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from points");
 
       $q_string  = "select point_number,point_cost,point_level,point_book,point_page ";
       $q_string .= "from points ";
       $q_string .= "where point_id = " . $formVars['id'];
-      $q_points = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_points = mysql_fetch_array($q_points);
-      mysql_free_result($q_points);
+      $q_points = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_points = mysqli_fetch_array($q_points);
+      mysqli_free_result($q_points);
 
-      print "document.dialog.point_number.value = '"  . mysql_real_escape_string($a_points['point_number'])   . "';\n";
-      print "document.dialog.point_cost.value = '"    . mysql_real_escape_string($a_points['point_cost'])     . "';\n";
-      print "document.dialog.point_level.value = '"   . mysql_real_escape_string($a_points['point_level'])    . "';\n";
-      print "document.dialog.point_book.value = '"    . mysql_real_escape_string($a_points['point_book'])     . "';\n";
-      print "document.dialog.point_page.value = '"    . mysql_real_escape_string($a_points['point_page'])     . "';\n";
+      print "document.dialog.point_number.value = '"  . mysqli_real_escape_string($db, $a_points['point_number'])   . "';\n";
+      print "document.dialog.point_cost.value = '"    . mysqli_real_escape_string($db, $a_points['point_cost'])     . "';\n";
+      print "document.dialog.point_level.value = '"   . mysqli_real_escape_string($db, $a_points['point_level'])    . "';\n";
+      print "document.dialog.point_book.value = '"    . mysqli_real_escape_string($db, $a_points['point_book'])     . "';\n";
+      print "document.dialog.point_page.value = '"    . mysqli_real_escape_string($db, $a_points['point_page'])     . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

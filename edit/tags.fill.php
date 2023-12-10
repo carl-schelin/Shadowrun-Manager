@@ -19,17 +19,17 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from tags");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from tags");
 
       $q_string  = "select tag_name,tag_view ";
       $q_string .= "from tags ";
       $q_string .= "where tag_id = " . $formVars['id'];
-      $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_tags = mysql_fetch_array($q_tags);
-      mysql_free_result($q_tags);
+      $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_tags = mysqli_fetch_array($q_tags);
+      mysqli_free_result($q_tags);
 
-      print "document.edit.tag_name.value = '" . mysql_real_escape_string($a_tags['tag_name']) . "';\n";
+      print "document.edit.tag_name.value = '" . mysqli_real_escape_string($db, $a_tags['tag_name']) . "';\n";
 
       print "document.edit.tag_view['" . $a_tags['tag_view'] . "'].checked = true;\n";
 
@@ -37,7 +37,7 @@
 
       print "document.edit.tag_id.disabled = false;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

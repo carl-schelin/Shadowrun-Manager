@@ -19,27 +19,27 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_contact");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_contact");
 
       $q_string  = "select r_con_number,r_con_loyalty,r_con_connection,r_con_faction,r_con_notes ";
       $q_string .= "from r_contact ";
       $q_string .= "where r_con_id = " . $formVars['id'];
-      $q_r_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_contact = mysql_fetch_array($q_r_contact);
-      mysql_free_result($q_r_contact);
+      $q_r_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_contact = mysqli_fetch_array($q_r_contact);
+      mysqli_free_result($q_r_contact);
 
-      print "document.edit.r_con_number.value = '"     . mysql_real_escape_string($a_r_contact['r_con_number'])     . "';\n";
-      print "document.edit.r_con_loyalty.value = '"    . mysql_real_escape_string($a_r_contact['r_con_loyalty'])    . "';\n";
-      print "document.edit.r_con_connection.value = '" . mysql_real_escape_string($a_r_contact['r_con_connection']) . "';\n";
-      print "document.edit.r_con_faction.value = '"    . mysql_real_escape_string($a_r_contact['r_con_faction'])    . "';\n";
-      print "document.edit.r_con_notes.value = '"      . mysql_real_escape_string($a_r_contact['r_con_notes'])      . "';\n";
+      print "document.edit.r_con_number.value = '"     . mysqli_real_escape_string($db, $a_r_contact['r_con_number'])     . "';\n";
+      print "document.edit.r_con_loyalty.value = '"    . mysqli_real_escape_string($db, $a_r_contact['r_con_loyalty'])    . "';\n";
+      print "document.edit.r_con_connection.value = '" . mysqli_real_escape_string($db, $a_r_contact['r_con_connection']) . "';\n";
+      print "document.edit.r_con_faction.value = '"    . mysqli_real_escape_string($db, $a_r_contact['r_con_faction'])    . "';\n";
+      print "document.edit.r_con_notes.value = '"      . mysqli_real_escape_string($db, $a_r_contact['r_con_notes'])      . "';\n";
 
       print "document.edit.r_con_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_con_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -10,11 +10,11 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('2');
+  check_login($db, $AL_Fixer);
 
   $package = "bugs.closed.mysql.php";
 
-  logaccess($_SESSION['username'], $package, "Creating the closed bugs listing.");
+  logaccess($db, $_SESSION['username'], $package, "Creating the closed bugs listing.");
 
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
@@ -68,15 +68,15 @@
   $q_string .= "left join users   on users.usr_id   = bugs.bug_openby ";
   $q_string .= "where bug_closed != '0000-00-00' " . $where;
   $q_string .= "order by mod_name,bug_discovered desc";
-  $q_bugs = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_bugs) > 0) {
-    while ($a_bugs = mysql_fetch_array($q_bugs)) {
+  $q_bugs = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_bugs) > 0) {
+    while ($a_bugs = mysqli_fetch_array($q_bugs)) {
 
       $q_string  = "select usr_name ";
       $q_string .= "from users ";
       $q_string .= "where usr_id = " . $a_bugs['bug_closeby'] . " ";
-      $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_users = mysql_fetch_array($q_users);
+      $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_users = mysqli_fetch_array($q_users);
 
       $linkstart = "<a href=\"" . $Bugroot . "/ticket.php?id=" . $a_bugs['bug_id']     . "\">";
       $linklist  = "<a href=\"" . $Bugroot . "/bugs.php?id="   . $a_bugs['bug_module'] . "#closed\">";
@@ -99,8 +99,8 @@
 
   $output .= "</table>";
 
-  mysql_free_result($q_bugs);
+  mysqli_free_result($q_bugs);
 
-  print "document.getElementById('closed_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('closed_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

@@ -19,15 +19,15 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Updating settings for " . $formVars['id']);
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Updating settings for " . $formVars['id']);
 
       $q_string  = "select r_deck_attack,r_deck_sleaze,r_deck_data,r_deck_firewall ";
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
-      $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck);
-      mysql_free_result($q_r_cyberdeck);
+      $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck);
+      mysqli_free_result($q_r_cyberdeck);
 
 # get the value of left
       if (isset($_GET['left'])) {
@@ -60,7 +60,7 @@
         }
 
         if (strlen($query) > 0) {
-          $input = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         }
       }
 
@@ -91,12 +91,12 @@
         }
 
         if (strlen($query) > 0) {
-          $input = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          $input = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         }
       }
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

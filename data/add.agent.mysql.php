@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']             = clean($_GET['id'],             10);
         $formVars['agt_name']       = clean($_GET['agt_name'],       30);
@@ -48,7 +48,7 @@
         }
 
         if (strlen($formVars['agt_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "agt_name        = \"" . $formVars['agt_name']       . "\"," .
@@ -66,16 +66,16 @@
             $query = "update agents set " . $q_string . " where agt_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['agt_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['agt_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -126,9 +126,9 @@
       $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
       $q_string .= "where ver_admin = 1 and ver_active = 1 ";
       $q_string .= "order by agt_name,agt_rating,ver_version ";
-      $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_agents) > 0) {
-        while ($a_agents = mysql_fetch_array($q_agents)) {
+      $q_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_agents) > 0) {
+        while ($a_agents = mysqli_fetch_array($q_agents)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.agent.fill.php?id="  . $a_agents['agt_id'] . "');jQuery('#dialogAgent').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_agent('add.agent.del.php?id=" . $a_agents['agt_id'] . "');\">";
@@ -146,9 +146,9 @@
           $q_string  = "select r_agt_id ";
           $q_string .= "from r_agents ";
           $q_string .= "where r_agt_number = " . $a_agents['agt_id'] . " ";
-          $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_agents) > 0) {
-            while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+          $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_agents) > 0) {
+            while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
               $total++;
             }
           }
@@ -176,7 +176,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('agent_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('agent_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
     }
 
     print "document.dialog.agt_name.value = '';\n";
@@ -188,7 +188,7 @@
     print "$(\"#button-update\").button(\"disable\");\n";
 
   } else {
-    logaccess($_SESSION['username'], $package, "Unauthorized access.");
+    logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
   }
 
 ?>

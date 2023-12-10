@@ -11,7 +11,7 @@
 
   $package = "detail.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -27,15 +27,15 @@
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_runners = mysql_fetch_array($q_runners);
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  $a_runners = mysqli_fetch_array($q_runners);
 
   $q_string  = "select r_deck_data ";
   $q_string .= "from r_cyberdeck ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " and r_deck_active = 1 ";
-  $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_cyberdeck) > 0) {
-    $a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck);
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_cyberdeck) > 0) {
+    $a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck);
     $data_processing = $a_r_cyberdeck['r_deck_data'];
   } else {
     $data_processing = 0;
@@ -46,9 +46,9 @@
   $q_string  = "select kar_karma ";
   $q_string .= "from karma ";
   $q_string .= "where kar_character = " . $formVars['id'] . " ";
-  $q_karma = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_karma) > 0) {
-    while ($a_karma = mysql_fetch_array($q_karma)) {
+  $q_karma = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_karma) > 0) {
+    while ($a_karma = mysqli_fetch_array($q_karma)) {
       if ($a_karma['kar_karma'] > 0) {
         $totalkarma += $a_karma['kar_karma'];
       }
@@ -59,11 +59,11 @@
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Runner Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -222,8 +222,8 @@
   $output .= "  <td class=\"ui-widget-content\"><strong>Agility</strong>: "    . $a_runners['runr_agility']    . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Logic</strong>: "      . $a_runners['runr_logic']    . "</td>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Essence</strong>: "      . $a_runners['runr_essence']   . "</td>";
-  $output .= "  <td class=\"ui-widget-content\" title=\"INT*2\"><strong>Astral</strong>: " . ($a_runners['runr_intuition'] + $a_runner['runr_intuition']) . " + 2d6</td>";
-  $output .= "  <td class=\"ui-widget-content\" title=\"" . $intention . "\"><strong>Judge Intent</strong>: " . $intvalue . "</td>";
+  $output .= "  <td class=\"ui-widget-content\" title=\"INT*2\"><strong>Astral</strong>: " . ($a_runners['runr_intuition'] + $a_runners['runr_intuition']) . " + 2d6</td>";
+  $output .= "  <td class=\"ui-widget-content\" title=\"" . $intentions . "\"><strong>Judge Intent</strong>: " . $intvalue . "</td>";
   $output .= "</tr>";
   $output .= "<tr>";
   $output .= "  <td class=\"ui-widget-content\"><strong>Reaction</strong>: "   . $a_runners['runr_reaction'] . "</td>";
@@ -250,6 +250,7 @@
   $output .= "</tr>";
   $output .= "</table>";
 
+  $physical_limit = 0;
   if ($a_runners['ver_version'] == 5.0) {
     $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
     $output .= "<tr>";
@@ -299,15 +300,15 @@
   $q_string  = "select act_id,act_attribute,act_default ";
   $q_string .= "from active ";
   $q_string .= "where act_name = 'Gymnastics' ";
-  $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_active = mysql_fetch_array($q_active);
+  $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  $a_active = mysqli_fetch_array($q_active);
 
   $q_string  = "select r_act_id,r_act_rank ";
   $q_string .= "from r_active ";
   $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
-  $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_active) > 0) {
-    $a_r_active = mysql_fetch_array($q_r_active);
+  $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_active) > 0) {
+    $a_r_active = mysqli_fetch_array($q_r_active);
     $dodge = $a_r_active['r_act_rank'];
   } else {
     $dodge = 0;
@@ -319,15 +320,15 @@
   $q_string  = "select act_id,act_attribute,act_default ";
   $q_string .= "from active ";
   $q_string .= "where act_name = 'Unarmed Combat' ";
-  $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_active = mysql_fetch_array($q_active);
+  $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  $a_active = mysqli_fetch_array($q_active);
 
   $q_string  = "select r_act_id,r_act_rank ";
   $q_string .= "from r_active ";
   $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
-  $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_active) > 0) {
-    $a_r_active = mysql_fetch_array($q_r_active);
+  $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_active) > 0) {
+    $a_r_active = mysqli_fetch_array($q_r_active);
     $unarmedcombat = $a_r_active['r_act_rank'];
   } else {
     $unarmedcombat = 0;
@@ -351,5 +352,5 @@
 
 ?>
 
-document.getElementById('detail_mysql').innerHTML = '<?php print mysql_real_escape_string($output); ?>';
+document.getElementById('detail_mysql').innerHTML = '<?php print mysqli_real_escape_string($db, $output); ?>';
 

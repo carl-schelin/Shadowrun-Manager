@@ -11,7 +11,7 @@
 
   $package = "cyberware.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   $formVars['group'] = 0;
   if (isset($_GET['group'])) {
@@ -71,8 +71,8 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -119,10 +119,11 @@ $(document).ready( function () {
   $q_string .= "left join class on class.class_id = cyberware.ware_class ";
   $q_string .= "left join grades on grades.grade_id = r_cyberware.r_ware_grade ";
   $q_string .= "left join versions on versions.ver_id = cyberware.ware_book ";
+  $q_strong .= "where ver_active = 1 ";
   $q_string .= "order by runr_name,ware_name ";
-  $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_cyberware) > 0) {
-    while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+  $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_cyberware) > 0) {
+    while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
       $display = 'No';
 
@@ -131,21 +132,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_cyberware['r_ware_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = 'Yes';
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_r_cyberware['r_ware_character'])) {
+        if (check_owner($db, $a_r_cyberware['r_ware_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_r_cyberware['r_ware_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_cyberware['r_ware_character'])) {
           $display = 'Yes';
         }
       }
@@ -156,7 +157,7 @@ $(document).ready( function () {
           $grade = " (" . $a_r_cyberware['grade_name'] . ")";
         }
 
-        $rating = return_Rating($a_r_cyberware['ware_rate']);
+        $rating = return_Rating($a_r_cyberware['ware_rating']);
 
         $capacity = return_Capacity($a_r_cyberware['ware_capacity']);
 
@@ -189,9 +190,9 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Cyberware\" and r_acc_character = " . $a_r_cyberware['r_ware_character'] . " and r_acc_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
           $q_string .= "order by acc_name,acc_rating ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $acc_name = $a_r_accessory['acc_name'];
               if ($a_r_accessory['acc_mount'] != '') {
@@ -227,9 +228,9 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
           $q_string .= "where r_fa_character = " . $a_r_cyberware['r_ware_character'] . " and r_fa_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
           $q_string .= "order by fa_name,fa_class ";
-          $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_firearms) > 0) {
-            while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+          $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_firearms) > 0) {
+            while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
               $fa_avail = return_Avail($a_r_firearms['fa_avail'], $a_r_firearms['fa_perm']);
 
@@ -261,9 +262,9 @@ $(document).ready( function () {
                 $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
                 $q_string .= "where r_ammo_character = " . $a_r_cyberware['r_ware_character'] . " and r_ammo_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
                 $q_string .= "order by ammo_name ";
-                $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-                if (mysql_num_rows($q_r_ammo) > 0) {
-                  while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+                $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+                if (mysqli_num_rows($q_r_ammo) > 0) {
+                  while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
                     $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 
@@ -323,8 +324,8 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -370,10 +371,11 @@ $(document).ready( function () {
     $q_string .= "left join class on class.class_id = cyberware.ware_class ";
     $q_string .= "left join grades on grades.grade_id = r_cyberware.r_ware_grade ";
     $q_string .= "left join versions on versions.ver_id = cyberware.ware_book ";
+    $q_string .= "where ver_active = 1 ";
     $q_string .= "order by runr_name,ware_name ";
-    $q_r_cyberware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_cyberware) > 0) {
-      while ($a_r_cyberware = mysql_fetch_array($q_r_cyberware)) {
+    $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_cyberware) > 0) {
+      while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
 
         $display = 'No';
 
@@ -382,21 +384,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_cyberware['r_ware_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = 'Yes';
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_r_cyberware['r_ware_character'])) {
+          if (check_owner($db, $a_r_cyberware['r_ware_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_r_cyberware['r_ware_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_cyberware['r_ware_character'])) {
             $display = 'Yes';
           }
         }
@@ -442,9 +444,9 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Cyberware\" and r_acc_character = " . $a_r_cyberware['r_ware_character'] . " and r_acc_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
           $q_string .= "order by acc_name,acc_rating ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $acc_name = $a_r_accessory['acc_name'];
               if ($a_r_accessory['acc_mount'] != '') {
@@ -479,9 +481,9 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
           $q_string .= "where r_ammo_character = " . $a_r_cyberware['r_ware_character'] . " and r_ammo_parentid = " . $a_r_cyberware['r_ware_id'] . " ";
           $q_string .= "order by ammo_name ";
-          $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_ammo) > 0) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 

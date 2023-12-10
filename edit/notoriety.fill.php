@@ -19,19 +19,19 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from notoriety");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from notoriety");
 
       $q_string  = "select not_notoriety,not_date,not_notes ";
       $q_string .= "from notoriety ";
       $q_string .= "where not_id = " . $formVars['id'];
-      $q_notoriety = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_notoriety = mysql_fetch_array($q_notoriety);
-      mysql_free_result($q_notoriety);
+      $q_notoriety = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_notoriety = mysqli_fetch_array($q_notoriety);
+      mysqli_free_result($q_notoriety);
 
-      print "document.edit.not_notoriety.value = '"   . mysql_real_escape_string($a_notoriety['not_notoriety'])  . "';\n";
-      print "document.edit.not_date.value = '"        . mysql_real_escape_string($a_notoriety['not_date'])       . "';\n";
-      print "document.edit.not_notes.value = '"       . mysql_real_escape_string($a_notoriety['not_notes'])      . "';\n";
+      print "document.edit.not_notoriety.value = '"   . mysqli_real_escape_string($db, $a_notoriety['not_notoriety'])  . "';\n";
+      print "document.edit.not_date.value = '"        . mysqli_real_escape_string($db, $a_notoriety['not_date'])       . "';\n";
+      print "document.edit.not_notes.value = '"       . mysqli_real_escape_string($db, $a_notoriety['not_notes'])      . "';\n";
 
       $value = (2000 - strlen($a_notoriety['not_notes']));
 
@@ -40,7 +40,7 @@
       print "document.edit.not_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

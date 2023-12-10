@@ -8,11 +8,11 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('1');
+  check_login($db, $AL_Johnson);
 
   $package = "add.class.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
 ?>
 <!DOCTYPE HTML>
@@ -33,7 +33,7 @@
 <script type="text/javascript">
 <?php
 
-  if (check_userlevel(1)) {
+  if (check_userlevel($db, $AL_Johnson)) {
 ?>
 function delete_class( p_script_url ) {
   var question;
@@ -192,8 +192,8 @@ $("#button-update").button("disable");
   $q_string  = "select sub_id,sub_name ";
   $q_string .= "from subjects ";
   $q_string .= "order by sub_name ";
-  $q_subjects = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_subjects = mysql_fetch_array($q_subjects)) {
+  $q_subjects = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_subjects = mysqli_fetch_array($q_subjects)) {
     print "<option value=\"" . $a_subjects['sub_id'] . "\">" . $a_subjects['sub_name'] . "</option>\n";
   }
 ?>

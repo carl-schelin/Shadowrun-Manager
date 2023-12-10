@@ -8,11 +8,15 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('3');
+
+# connect to the database
+  $db = db_connect($DBserver, $DBname, $DBuser, $DBpassword);
+
+  check_login($db, $AL_Shadowrunner);
 
   $package = "mooks.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
@@ -28,8 +32,8 @@
   $q_string .= "runr_physicalcon,runr_stuncon,runr_desc,runr_sop,runr_available,runr_version ";
   $q_string .= "from runners ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_runners = mysql_fetch_array($q_runners);
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  $a_runners = mysqli_fetch_array($q_runners);
 
   if ($a_runners['runr_available']) {
     $available = " checked";
@@ -1816,8 +1820,8 @@ $(document).ready( function() {
   $q_string  = "select usr_id,usr_first,usr_last ";
   $q_string .= "from users ";
   $q_string .= "order by usr_last ";
-  $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_users = mysql_fetch_array($q_users)) {
+  $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_users = mysqli_fetch_array($q_users)) {
     if ($a_users['usr_id'] == $a_runners['runr_owner']) {
       print "<option selected value=\"" . $a_users['usr_id'] . "\">" . $a_users['usr_last'] . ", " . $a_users['usr_first'] . "</option>\n";
     } else {
@@ -1838,8 +1842,8 @@ $(document).ready( function() {
   $q_string .= "left join versions on versions.ver_id = metatypes.meta_book ";
   $q_string .= "where ver_active = 1 ";
   $q_string .= "order by meta_name ";
-  $q_metatypes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_metatypes = mysql_fetch_array($q_metatypes)) {
+  $q_metatypes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_metatypes = mysqli_fetch_array($q_metatypes)) {
     print "<option value=\"" . $a_metatypes['meta_id'] . "\">" . $a_metatypes['meta_name'] . "</option>\n";
   }
 ?>
@@ -1908,8 +1912,8 @@ $(document).ready( function() {
   $q_string .= "from versions ";
   $q_string .= "where ver_core = 1 and ver_active = 1 ";
   $q_string .= "order by ver_book ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_versions = mysqli_fetch_array($q_versions)) {
     if ($a_runners['runr_version'] == $a_versions['ver_id']) {
       print "<option selected=\"true\" value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_book'] . "</option>\n";
     } else {

@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                = clean($_GET['id'],              10);
         $formVars['action_name']       = clean($_GET['action_name'],     30);
@@ -57,7 +57,7 @@
         }
 
         if (strlen($formVars['action_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "action_name         = \"" . $formVars['action_name']      . "\"," .
@@ -78,16 +78,16 @@
             $query = "update actions set " . $q_string . " where action_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['action_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['action_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -139,9 +139,9 @@
       $q_string .= "left join versions on versions.ver_id = actions.action_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by action_name,ver_version ";
-      $q_actions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_actions) > 0) {
-        while ($a_actions = mysql_fetch_array($q_actions)) {
+      $q_actions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_actions) > 0) {
+        while ($a_actions = mysqli_fetch_array($q_actions)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.actions.fill.php?id="  . $a_actions['action_id'] . "');jQuery('#dialogActions').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_action('add.actions.del.php?id=" . $a_actions['action_id'] . "');\">";
@@ -177,7 +177,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.action_name.value = '';\n";
       print "document.dialog.action_type[0].checked = true;\n";
@@ -191,7 +191,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

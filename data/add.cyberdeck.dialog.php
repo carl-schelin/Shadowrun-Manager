@@ -45,8 +45,8 @@
   $q_string  = "select dur_id,dur_name ";
   $q_string .= "from duration ";
   $q_string .= "order by dur_id ";
-  $q_duration = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_duration = mysql_fetch_array($q_duration)) {
+  $q_duration = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_duration = mysqli_fetch_array($q_duration)) {
     print "<option value=\"" . $a_duration['dur_id'] . "\">" . $a_duration['dur_name'] . "</option>\n";
   }
 ?>
@@ -65,8 +65,8 @@
   $q_string .= "from versions ";
   $q_string .= "where ver_admin = 1 ";
   $q_string .= "order by ver_short ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_versions = mysqli_fetch_array($q_versions)) {
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>

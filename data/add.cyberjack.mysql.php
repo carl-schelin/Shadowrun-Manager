@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']             = clean($_GET['id'],            10);
         $formVars['jack_class']     = clean($_GET['jack_class'],    10);
@@ -66,7 +66,7 @@
         }
 
         if (strlen($formVars['jack_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "jack_class      =   " . $formVars['jack_class']      . "," .
@@ -90,16 +90,16 @@
             $query = "update cyberjack set " . $q_string . " where jack_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['jack_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['jack_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -156,9 +156,9 @@
       $q_string .= "left join versions on versions.ver_id = cyberjack.jack_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by jack_name,jack_rating,ver_version ";
-      $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_cyberjack) > 0) {
-        while ($a_cyberjack = mysql_fetch_array($q_cyberjack)) {
+      $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_cyberjack) > 0) {
+        while ($a_cyberjack = mysqli_fetch_array($q_cyberjack)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.cyberjack.fill.php?id="  . $a_cyberjack['jack_id'] . "');jQuery('#dialogCyberjack').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberjack('add.cyberjack.del.php?id=" . $a_cyberjack['jack_id'] . "');\">";
@@ -182,9 +182,9 @@
           $q_string  = "select r_jack_id ";
           $q_string .= "from r_cyberjack ";
           $q_string .= "where r_jack_number = " . $a_cyberjack['jack_id'] . " ";
-          $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_cyberjack) > 0) {
-            while ($a_r_cyberjack = mysql_fetch_array($q_r_cyberjack)) {
+          $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_cyberjack) > 0) {
+            while ($a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack)) {
               $total++;
             }
           }
@@ -217,7 +217,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.jack_name.value = '';\n";
       print "document.dialog.jack_rating.value = '';\n";
@@ -233,7 +233,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

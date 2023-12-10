@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['id']               = clean($_GET['id'],             10);
         $formVars['know_attribute']   = clean($_GET['know_attribute'], 10);
@@ -31,7 +31,7 @@
         }
 
         if (strlen($formVars['know_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "know_name        = \"" . $formVars['know_name']      . "\"," .
@@ -42,9 +42,9 @@
             $message = "Knowledge Skill added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['know_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['know_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -63,13 +63,13 @@
       $q_string  = "select know_id,know_name ";
       $q_string .= "from knowledge ";
       $q_string .= "order by know_name ";
-      $q_knowledge = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_knowledge = mysql_fetch_array($q_knowledge)) {
+      $q_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_knowledge = mysqli_fetch_array($q_knowledge)) {
         print "selbox.options[selbox.options.length] = new Option(\"" . htmlspecialchars($a_knowledge['know_name']) . "\"," . $a_knowledge['know_id'] . ");\n";
       }
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -2,14 +2,9 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login(3);
+  check_login($db, $AL_Shadowrunner);
 
-  logaccess($_SESSION['username'], "index.php", "Checking out the index.");
-
-  $formVars['start'] = clean($_GET['start'], 10);
-  if ($formVars['start'] == '') {
-    $formVars['start'] = 'inventory';
-  }
+  logaccess($db, $_SESSION['username'], "index.php", "Checking out the index.");
 
 ?>
 <!DOCTYPE HTML>

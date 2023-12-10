@@ -16,7 +16,11 @@
     $package = "firearms.mysql.php";
     $formVars['update']             = clean($_GET['update'],              10);
     $formVars['r_fa_character']     = clean($_GET['r_fa_character'],      10);
-    $formVars['fa_class']           = clean($_GET['fa_class'],            10);
+
+    $formVars['fa_class'] = 0;
+    if (isset($_GET['fa_class'])) {
+      $formVars['fa_class']           = clean($_GET['fa_class'],            10);
+    }
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
@@ -24,11 +28,8 @@
     if ($formVars['r_fa_character'] == '') {
       $formVars['r_fa_character'] = -1;
     }
-    if ($formVars['fa_class'] == '') {
-      $formVars['fa_class'] = 0;
-    }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_fa_number']      = clean($_GET['r_fa_number'],       10);
 
@@ -40,7 +41,7 @@
         }
 
         if ($formVars['r_fa_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_fa_character   =   " . $formVars['r_fa_character']   . "," .
@@ -51,11 +52,11 @@
             $message = "Firearm added.";
           }
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
 # here let's go through any firearms accessories and anything with a -1 is added automatically
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_fa_number']);
 
           print "alert('" . $message . "');\n";
         } else {
@@ -64,7 +65,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       if ($formVars['update'] == -3) {
 
@@ -87,7 +88,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('firearms_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('firearms_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -149,9 +150,9 @@
           $q_string .= "and fa_class = " . $formVars['fa_class'] . " ";
         }
         $q_string .= "order by fa_name,fa_class ";
-        $q_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_firearms) > 0) {
-          while ($a_firearms = mysql_fetch_array($q_firearms)) {
+        $q_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_firearms) > 0) {
+          while ($a_firearms = mysqli_fetch_array($q_firearms)) {
 
 # this adds the fa_id to the r_fa_character
             $filterstart = "<a href=\"#\" onclick=\"javascript:show_file('firearms.mysql.php?update=-3&r_fa_character=" . $formVars['r_fa_character'] . "&fa_class=" . $a_firearms['fa_class'] . "');\">";
@@ -201,12 +202,12 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('arms_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('arms_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -267,9 +268,9 @@
       $q_string .= "left join versions on versions.ver_id = firearms.fa_book ";
       $q_string .= "where r_fa_character = " . $formVars['r_fa_character'] . " and r_fa_faid = 0 ";
       $q_string .= "order by fa_name,fa_class ";
-      $q_r_firearms = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_firearms) > 0) {
-        while ($a_r_firearms = mysql_fetch_array($q_r_firearms)) {
+      $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_firearms) > 0) {
+        while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_fireacc(" . $a_r_firearms['r_fa_id'] . ");showDiv('firearms-hide');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_firearms('firearms.del.php?id="  . $a_r_firearms['r_fa_id'] . "');\">";
@@ -328,9 +329,9 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where sub_name = \"Firearms\" and r_acc_character = " . $formVars['r_fa_character'] . " and r_acc_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_fireacc('fireacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";
@@ -385,9 +386,9 @@
           $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
           $q_string .= "where r_ammo_character = " . $formVars['r_fa_character'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
           $q_string .= "order by ammo_name,class_name ";
-          $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_ammo) > 0) {
-            while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+          $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_ammo) > 0) {
+            while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_fireammo('fireammo.del.php?id="  . $a_r_ammo['r_ammo_id'] . "');\">";
 
@@ -431,11 +432,11 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_firearms);
+      mysqli_free_result($q_r_firearms);
 
-      print "document.getElementById('my_firearms_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_firearms_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

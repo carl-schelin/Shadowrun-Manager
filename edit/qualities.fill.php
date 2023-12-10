@@ -19,24 +19,24 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_qualities");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_qualities");
 
       $q_string  = "select r_qual_number,r_qual_details ";
       $q_string .= "from r_qualities ";
       $q_string .= "where r_qual_id = " . $formVars['id'];
-      $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_qualities = mysql_fetch_array($q_r_qualities);
-      mysql_free_result($q_r_qualities);
+      $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_qualities = mysqli_fetch_array($q_r_qualities);
+      mysqli_free_result($q_r_qualities);
 
-      print "document.edit.r_qual_number.value = '"  . mysql_real_escape_string($a_r_qualities['r_qual_number'])  . "';\n";
-      print "document.edit.r_qual_details.value = '" . mysql_real_escape_string($a_r_qualities['r_qual_details']) . "';\n";
+      print "document.edit.r_qual_number.value = '"  . mysqli_real_escape_string($db, $a_r_qualities['r_qual_number'])  . "';\n";
+      print "document.edit.r_qual_details.value = '" . mysqli_real_escape_string($db, $a_r_qualities['r_qual_details']) . "';\n";
 
       print "document.edit.r_qual_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_qual_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

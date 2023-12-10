@@ -24,7 +24,7 @@
       $formVars['r_jack_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_jack_number']  = clean($_GET['r_jack_number'],  10);
 
@@ -36,14 +36,14 @@
         }
 
         if ($formVars['r_jack_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # get the company id
           $q_string  = "select jack_access ";
           $q_string .= "from cyberjack ";
           $q_string .= "where jack_id = " . $formVars['r_jack_number'] . " ";
-          $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberjack = mysql_fetch_array($q_cyberjack);
+          $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_cyberjack = mysqli_fetch_array($q_cyberjack);
 
           $jack_access =
             $a_cyberjack['jack_access'] . ":" .
@@ -62,9 +62,9 @@
             $message = "Cyberjack added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -84,7 +84,7 @@
         }
 
         if ($formVars['r_jack_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # need to make sure the user doesn't fudge the numbers, adding more of one and less of another.
 # make sure 
@@ -93,8 +93,8 @@
           $q_string  = "select jack_access ";
           $q_string .= "from cyberjack ";
           $q_string .= "where jack_id = " . $formVars['r_jack_number'] . " ";
-          $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberjack = mysql_fetch_array($q_cyberjack);
+          $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_cyberjack = mysqli_fetch_array($q_cyberjack);
 
           $jack_access =
             $a_cyberjack['jack_access'] . ":" .
@@ -113,9 +113,9 @@
             $message = "Cyberjack added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -124,7 +124,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
 # list all the available cyberjacks
       if ($formVars['update'] == -3) {
@@ -176,8 +176,8 @@
         $q_string  = "select r_jack_id ";
         $q_string .= "from r_cyberjack ";
         $q_string .= "where r_jack_character = " . $formVars['r_jack_character'] . " ";
-        $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_cyberjack) > 0) {
+        $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_cyberjack) > 0) {
           $output .= "<tr>\n";
           $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">Cyberjack already assigned.</td>\n";
           $output .= "</tr>\n";
@@ -189,9 +189,9 @@
           $q_string .= "left join versions on versions.ver_id = cyberjack.jack_book ";
           $q_string .= "where ver_active = 1 ";
           $q_string .= "order by jack_rating,jack_cost,ver_version ";
-          $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_cyberjack) > 0) {
-            while ($a_cyberjack = mysql_fetch_array($q_cyberjack)) {
+          $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_cyberjack) > 0) {
+            while ($a_cyberjack = mysqli_fetch_array($q_cyberjack)) {
 
 # this adds the jack_id to the r_jack_character and refreshes the cyberjack table
               $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('mycyberjack.mysql.php?update=1&r_jack_character=" . $formVars['r_jack_character'] . "&jack_id=" . $a_cyberjack['jack_id'] . "');javascript:show_file('cyberjack.mysql.php?update=-3&r_jack_character=" . $formVars['r_jack_character'] . "');\">";
@@ -228,11 +228,11 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('cyberjack_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('cyberjack_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

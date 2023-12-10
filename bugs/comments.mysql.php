@@ -24,7 +24,7 @@
       $formVars['id'] = 0;
     }
 
-    if (check_userlevel(2)) {
+    if (check_userlevel($db, $AL_Fixer)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars["bug_id"]          = clean($_GET["bug_id"],          10);
         $formVars["bug_text"]        = clean($_GET["bug_text"],      2000);
@@ -36,7 +36,7 @@
         }
 
         if (strlen($formVars['bug_text']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "bug_bug_id    =   " . $formVars['id']            . "," . 
@@ -53,9 +53,9 @@
             $message = "Comment updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['bug_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['bug_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -64,13 +64,13 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $q_string  = "select bug_closed ";
       $q_string .= "from bugs ";
       $q_string .= "where bug_id = " . $formVars['id'];
-      $q_bugs = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_bugs = mysql_fetch_array($q_bugs);
+      $q_bugs = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_bugs = mysqli_fetch_array($q_bugs);
 
 
       $output  = "<p></p>\n";
@@ -118,8 +118,8 @@
       $q_string .= "left join users on users.usr_id = bugs_detail.bug_user ";
       $q_string .= "where bug_bug_id = " . $formVars['id'] . " ";
       $q_string .= "order by bug_timestamp desc ";
-      $q_bugs_detail = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_bugs_detail = mysql_fetch_array($q_bugs_detail)) {
+      $q_bugs_detail = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_bugs_detail = mysqli_fetch_array($q_bugs_detail)) {
 
         if ($a_bugs['bug_closed'] == '0000-00-00') {
           $linkstart = "<a href=\"#details\" onclick=\"show_file('"     . $Bugroot . "/comments.fill.php?id=" . $a_bugs_detail['bug_id'] . "');showDiv('problem-hide');\">";
@@ -139,11 +139,11 @@
         $output .= "</tr>";
       }
 
-      mysql_free_result($q_bugs_detail);
+      mysqli_free_result($q_bugs_detail);
 
       $output .= "</table>";
 
-      print "document.getElementById('detail_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+      print "document.getElementById('detail_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
       if ($a_bugs['bug_closed'] == '0000-00-00') {
         print "document.start.bug_text.value = '';\n";
@@ -152,7 +152,7 @@
       }
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

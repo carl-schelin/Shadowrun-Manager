@@ -11,7 +11,7 @@
 
   $package = "qualities.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   $formVars['group'] = 0;
   if (isset($_GET['group'])) {
@@ -58,8 +58,8 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -101,9 +101,9 @@ $(document).ready( function () {
   $q_string .= "left join qualities on qualities.qual_id = r_qualities.r_qual_number ";
   $q_string .= "left join versions on versions.ver_id = qualities.qual_book ";
   $q_string .= "order by runr_name,qual_value desc,qual_name ";
-  $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_qualities) > 0) {
-    while ($a_r_qualities = mysql_fetch_array($q_r_qualities)) {
+  $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_qualities) > 0) {
+    while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
       $display = "No";
 
@@ -111,21 +111,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_qualities['r_qual_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = "Yes";
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_r_qualities['r_qual_character'])) {
+        if (check_owner($db, $a_r_qualities['r_qual_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_r_qualities['r_qual_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_qualities['r_qual_character'])) {
           $display = 'Yes';
         }
       }
@@ -170,8 +170,8 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -212,9 +212,9 @@ $(document).ready( function () {
     $q_string .= "left join qualities on qualities.qual_id = r_qualities.r_qual_number ";
     $q_string .= "left join versions on versions.ver_id = qualities.qual_book ";
     $q_string .= "order by runr_name,qual_value desc,qual_name ";
-    $q_r_qualities = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_qualities) > 0) {
-      while ($a_r_qualities = mysql_fetch_array($q_r_qualities)) {
+    $q_r_qualities = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_qualities) > 0) {
+      while ($a_r_qualities = mysqli_fetch_array($q_r_qualities)) {
 
         $display = "No";
 
@@ -222,21 +222,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_qualities['r_qual_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = "Yes";
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_r_qualities['r_qual_character'])) {
+          if (check_owner($db, $a_r_qualities['r_qual_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_r_qualities['r_qual_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_qualities['r_qual_character'])) {
             $display = 'Yes';
           }
         }

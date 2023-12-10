@@ -25,7 +25,7 @@
       $formVars['r_meta_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_meta_id']          = clean($_GET['id'],                 10);
         $formVars['r_meta_number']      = clean($_GET['r_meta_number'],       10);
@@ -35,7 +35,7 @@
         }
 
         if ($formVars['r_meta_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_meta_character   =   " . $formVars['r_meta_character']   . "," .
@@ -50,9 +50,9 @@
             $message = "Metamagic updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_meta_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_meta_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -63,7 +63,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -84,7 +84,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('metamagics_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('metamagics_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -130,9 +130,9 @@
         $q_string .= "left join versions on versions.ver_id = metamagics.meta_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by meta_name ";
-        $q_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_metamagics) > 0) {
-          while ($a_metamagics = mysql_fetch_array($q_metamagics)) {
+        $q_metamagics = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_metamagics) > 0) {
+          while ($a_metamagics = mysqli_fetch_array($q_metamagics)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('metamagics.mysql.php?update=0&r_meta_character=" . $formVars['r_meta_character'] . "&r_meta_number=" . $a_metamagics['meta_id'] . "');\">";
             $linkend   = "</a>";
@@ -155,14 +155,14 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_adept);
+        mysqli_free_result($q_metamagics);
 
-        print "document.getElementById('magics_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('magics_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -210,9 +210,9 @@
       $q_string .= "left join versions on versions.ver_id = metamagics.meta_book ";
       $q_string .= "where r_meta_character = " . $formVars['r_meta_character'] . " ";
       $q_string .= "order by meta_name ";
-      $q_r_metamagics = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_metamagics) > 0) {
-        while ($a_r_metamagics = mysql_fetch_array($q_r_metamagics)) {
+      $q_r_metamagics = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_metamagics) > 0) {
+        while ($a_r_metamagics = mysqli_fetch_array($q_r_metamagics)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('metamagics.fill.php?id=" . $a_r_metamagics['r_meta_id'] . "');showDiv('metamagics-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_metamagics('metamagics.del.php?id="  . $a_r_metamagics['r_meta_id'] . "');\">";
@@ -237,13 +237,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_metamagics);
+      mysqli_free_result($q_r_metamagics);
 
-      print "document.getElementById('my_magics_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_magics_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_meta_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -19,17 +19,17 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_tradition");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_tradition");
 
       $q_string  = "delete ";
       $q_string .= "from r_tradition ";
       $q_string .= "where r_trad_id= " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       print "alert('Tradition deleted.');\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Access denied");
+      logaccess($db, $_SESSION['username'], $package, "Access denied");
     }
   }
 ?>

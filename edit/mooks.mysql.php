@@ -24,7 +24,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['runr_name'] != 'Blank' && ($formVars['update'] == 0 || $formVars['update'] == 1)) {
         $formVars["runr_owner"]        = clean($_GET["runr_owner"],          10);
         $formVars["runr_aliases"]      = clean($_GET["runr_aliases"],        60);
@@ -122,7 +122,7 @@
         $newrunner = $formVars['id'];
 
         if (strlen($formVars['runr_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "runr_owner           =   " . $formVars['runr_owner']        . "," . 
@@ -154,23 +154,23 @@
             "runr_version         =   " . $formVars['runr_version'];
 
           if ($formVars['update'] == 1) {
-            logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['runr_name']);
+            logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['runr_name']);
 
             $query = "update members set mem_owner = " . $formVars['runr_owner'] . " where mem_runner = " . $formVars['id'];
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
             $query = "update runners set " . $q_string . " where runr_id = " . $formVars['id'];
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
             print "alert('Runner updated');\n";
           }
 
           if ($formVars['update'] == 0) {
-            logaccess($_SESSION['username'], $package, "Adding: " . $formVars['runr_name']);
+            logaccess($db, $_SESSION['username'], $package, "Adding: " . $formVars['runr_name']);
 
             $query = "insert into runners set runr_id = NULL, " . $q_string;
-            $result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-            $newrunner = last_insert_id();
+            $result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
+            $newrunner = last_insert_id($db);
 
             print "alert('Runner created');\n";
 

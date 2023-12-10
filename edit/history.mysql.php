@@ -24,9 +24,9 @@
       $formVars['his_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        logaccess($_SESSION['username'], $package, "Building the query.");
+        logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
         $formVars['his_id']          = clean($_GET['his_id'],          10);
         $formVars['his_date']        = clean($_GET['his_date'],        12);
@@ -51,9 +51,9 @@
             $query = "update history set " . $q_string . " where his_id = " . $formVars['his_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['his_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Notes for: " . $formVars['his_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         }
 
       }
@@ -61,7 +61,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -93,12 +93,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('history_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('history_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -114,9 +114,9 @@
       $q_string .= "from history ";
       $q_string .= "where his_character = " . $formVars['his_character'] . " ";
       $q_string .= "order by his_date ";
-      $q_history = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_history) > 0) {
-        while ($a_history = mysql_fetch_array($q_history)) {
+      $q_history = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_history) > 0) {
+        while ($a_history = mysqli_fetch_array($q_history)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('history.fill.php?id=" . $a_history['his_id'] . "');showDiv('history-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_history('history.del.php?id="  . $a_history['his_id'] . "');\">";
@@ -133,7 +133,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('history_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('history_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.his_date.value = '" . date('Y-m-d') . "';\n\n";
       print "document.edit.his_notes.value = '';\n\n";
@@ -142,7 +142,7 @@
       print "document.edit.his_update.disabled = true;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

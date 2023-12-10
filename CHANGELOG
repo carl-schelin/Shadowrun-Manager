@@ -1,0 +1,36 @@
+:%s/mysql_query(/mysqli_query($db, /g
+:%s/mysql_real_escape_string(/mysqli_real_escape_string($db, /g
+:%s/mysql_num_rows/mysqli_num_rows/g
+:%s/mysql_num_rows/mysqli_num_rows/g
+:%s/mysql_free_result/mysqli_free_result/g
+:%s/mysql_fetch_row/mysqli_fetch_row/g
+:%s/mysql_error(/mysqli_error($db/g
+:%s/logaccess(/logaccess($db, /g
+:%s/check_login(1/check_login($db, $AL_Johnson/g
+:%s/check_login(2/check_login($db, $AL_Fixer/g
+:%s/check_login(3/check_login($db, $AL_Shadowrunner/g
+:%s/check_login(4/check_login($db, $AL_Guest/g
+:%s/check_userlevel(1/check_userlevel($db, $AL_Johnson/g
+:%s/check_userlevel(2/check_userlevel($db, $AL_Fixer/g
+:%s/check_userlevel(3/check_userlevel($db, $AL_Shadowrunner/g
+:%s/check_userlevel(4/check_userlevel($db, $AL_Guest/g
+:%s/show_Help(/show_Help($db, /g
+:%s/return_Index(/return_Index($db, /g
+:%s/check_grouplevel(/check_grouplevel($db, /g
+
+
+:%s/check_owner(/check_owner($db, /g
+
+:%s/check_available(/check_available($db, /g
+:%s/members_Available(/members_Available($db, /g
+:%s/groups_Available(/groups_Available($db, /g
+
+:%s/check_userlevel('1'/check_userlevel($db, $AL_Johnson/g
+:%s/check_userlevel('2'/check_userlevel($db, $AL_Fixer/g
+:%s/check_userlevel('3'/check_userlevel($db, $AL_Shadowrunner/g
+:%s/check_userlevel('4'/check_userlevel($db, $AL_Guest/g
+
+:%s/check_login('1'/check_login($db, $AL_Johnson/g
+:%s/check_login('2'/check_login($db, $AL_Fixer/g
+:%s/check_login('3'/check_login($db, $AL_Shadowrunner/g
+:%s/check_login('4'/check_login($db, $AL_Guest/g

@@ -11,7 +11,7 @@
 
   $package = "sprites.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -22,11 +22,11 @@
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#sprites\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Sprite Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -63,9 +63,9 @@
   $q_string .= "from r_sprite ";
   $q_string .= "left join sprites on sprites.sprite_id = r_sprite.r_sprite_number ";
   $q_string .= "where r_sprite_character = " . $formVars['id'] . " ";
-  $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_sprite) > 0) {
-    while ($a_r_sprite = mysql_fetch_array($q_r_sprite)) {
+  $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_sprite) > 0) {
+    while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
 
       $registered = 'No';
       if ($a_r_sprite['r_sprite_registered']) {
@@ -93,6 +93,6 @@
 
   $output .= "</table>";
      
-  print "document.getElementById('sprites_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('sprites_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

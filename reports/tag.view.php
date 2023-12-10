@@ -11,7 +11,7 @@
 
   $package = "tag.view.php";
 
-  logaccess($formVars['uid'], $package, "Reports tag view.");
+  logaccess($db, $formVars['uid'], $package, "Reports tag view.");
 
   if (isset($_GET['tag'])) {
     $formVars['tag'] = clean($_GET['tag'], 20);
@@ -25,7 +25,7 @@
   }
 
 # if help has not been seen yet,
-#  if (show_Help($Reportpath . "/" . $package)) {
+#  if (show_Help($db, $Reportpath . "/" . $package)) {
 #    $display = "display: block";
 #  } else {
     $display = "display: none";
@@ -124,9 +124,9 @@ $(document).ready( function () {
   $q_string .= "left join tags on tags.tag_character = runners.runr_id ";
   $q_string .= $tag;
   $q_string .= "order by runr_owner,runr_archetype ";
-  $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_runners) > 0) {
-    while ($a_runners = mysql_fetch_array($q_runners)) {
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_runners) > 0) {
+    while ($a_runners = mysqli_fetch_array($q_runners)) {
 
       $linkdel     = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_character('mooks.del.php?id="  . $a_runners['runr_id'] . "');\">";
       $viewstart   = "<a href=\"" . $Viewroot   . "/mooks.php?id=" . $a_runners['runr_id'] . "\">";
@@ -162,7 +162,7 @@ $(document).ready( function () {
     }
   } else {
     print "<tr>\n";
-    print "  <td class=\"ui-widget-content\" colspan=\"14\">No Runners to display.</td>\n";
+    print "  <td class=\"ui-widget-content\" colspan=\"18\">No Runners to display.</td>\n";
     print "</tr>\n";
   }
 

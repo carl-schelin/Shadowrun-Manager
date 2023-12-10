@@ -19,36 +19,36 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from cyberdeck");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from cyberdeck");
 
       $q_string  = "delete ";
       $q_string .= "from cyberdeck ";
       $q_string .= "where deck_id = " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
 # need to delete all runner owned cyberdecks plus accessories, programs, and agents.
       $q_string  = "select r_deck_id ";
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_number = " . $formVars['id'] . " ";
-      $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_cyberdeck) > 0) {
-        while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+      $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_cyberdeck) > 0) {
+        while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 # delete from accessories
           $q_string  = "delete ";
           $q_string .= "from r_programs ";
           $q_string .= "where r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'];
-          $input = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $input = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
           $q_string  = "delete ";
           $q_string .= "from r_agents ";
           $q_string .= "where r_agt_cyberdeck = " . $a_r_cyberdeck['r_deck_id'];
-          $input = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+          $input = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
         }
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Access denied");
+      logaccess($db, $_SESSION['username'], $package, "Access denied");
     }
   }
 ?>

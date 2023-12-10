@@ -8,11 +8,11 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('1');
+  check_login($db, $AL_Johnson);
 
   $package = "add.users.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
 ?>
 <!DOCTYPE HTML>
@@ -33,7 +33,7 @@
 <script type="text/javascript">
 <?php
 
-  if (check_userlevel(1)) {
+  if (check_userlevel($db, $AL_Johnson)) {
 ?>
 function delete_user( p_script_url ) {
   var question;
@@ -169,8 +169,8 @@ $(document).ready( function() {
   $q_string .= "from levels ";
   $q_string .= "where lvl_disabled = 0 ";
   $q_string .= "order by lvl_level";
-  $q_levels = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_levels = mysql_fetch_array($q_levels)) {
+  $q_levels = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_levels = mysqli_fetch_array($q_levels)) {
     print "<option value=\"" . $a_levels['lvl_level'] . "\">" . $a_levels['lvl_name'] . "</option>\n";
   }
 ?>
@@ -180,8 +180,8 @@ $(document).ready( function() {
   $q_string  = "select theme_id,theme_title ";
   $q_string .= "from themes ";
   $q_string .= "order by theme_title";
-  $q_themes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_themes = mysql_fetch_array($q_themes)) {
+  $q_themes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_themes = mysqli_fetch_array($q_themes)) {
     print "<option value=\"" . $a_themes['theme_id'] . "\">" . $a_themes['theme_title'] . "</option>\n";
   }
 ?>

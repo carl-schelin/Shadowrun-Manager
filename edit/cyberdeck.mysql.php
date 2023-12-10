@@ -24,7 +24,7 @@
       $formVars['r_deck_character'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_deck_number']  = clean($_GET['r_deck_number'],  10);
 
@@ -36,14 +36,14 @@
         }
 
         if ($formVars['r_deck_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # get the company id
           $q_string  = "select deck_access ";
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['r_deck_number'] . " ";
-          $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberdeck = mysql_fetch_array($q_cyberdeck);
+          $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
             $a_cyberdeck['deck_access'] . ":" .
@@ -62,9 +62,9 @@
             $message = "Cyberdeck added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -84,7 +84,7 @@
         }
 
         if ($formVars['r_deck_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # need to make sure the user doesn't fudge the numbers, adding more of one and less of another.
 # make sure 
@@ -93,8 +93,8 @@
           $q_string  = "select deck_access ";
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['r_deck_number'] . " ";
-          $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberdeck = mysql_fetch_array($q_cyberdeck);
+          $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
             $a_cyberdeck['deck_access'] . ":" .
@@ -113,9 +113,9 @@
             $message = "Cyberdeck added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -124,7 +124,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
 # list all the available cyberdecks
       if ($formVars['update'] == -3) {
@@ -181,9 +181,9 @@
         $q_string .= "left join versions on versions.ver_id = cyberdeck.deck_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by deck_rating,deck_cost,ver_version ";
-        $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_cyberdeck) > 0) {
-          while ($a_cyberdeck = mysql_fetch_array($q_cyberdeck)) {
+        $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_cyberdeck) > 0) {
+          while ($a_cyberdeck = mysqli_fetch_array($q_cyberdeck)) {
 
 # this adds the deck_id to the r_deck_character
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('mycyberdeck.mysql.php?update=1&r_deck_character=" . $formVars['r_deck_character'] . "&deck_id=" . $a_cyberdeck['deck_id'] . "');\">";
@@ -222,11 +222,11 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('cyberdeck_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('cyberdeck_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

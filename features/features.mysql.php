@@ -9,7 +9,7 @@
   $called = 'yes';
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('2');
+  check_login($db, $AL_Fixer);
 
   $package = "features.mysql.php";
 
@@ -20,7 +20,7 @@
   $formVars['feat_openby']        = clean($_POST['feat_openby'],       10);
   $formVars['feat_subject']       = clean($_POST['feat_subject'],     255);
 
-  logaccess($_SESSION['username'], $package, "Creating a new record.");
+  logaccess($db, $_SESSION['username'], $package, "Creating a new record.");
 
   if (strlen($formVars['feat_subject']) > 0) {
 
@@ -33,15 +33,15 @@
       "feat_timestamp  = \"" . date("Y-m-d H:i:s")          . "\"," . 
       "feat_subject    = \"" . $formVars['feat_subject']    . "\"";
 
-    logaccess($_SESSION['username'], $package, "Adding detail: " . $formVars['feat_module']);
+    logaccess($db, $_SESSION['username'], $package, "Adding detail: " . $formVars['feat_module']);
 
-    $result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+    $result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
-    $query = "select last_insert_id()";
-    $q_result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
-    $a_result = mysql_fetch_array($q_result);
+    $query = "select last_insert_id($db)";
+    $q_result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
+    $a_result = mysqli_fetch_array($q_result);
 
-    $feature = $a_result['last_insert_id()'];
+    $feature = $a_result['last_insert_id($db)'];
 
     $q_string = 
       "feat_feat_id   =   " . $feature                  . "," . 
@@ -50,7 +50,7 @@
 
     $query = "insert into features_detail set feat_id = NULL," . $q_string;
 
-    $result = mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+    $result = mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
     $url = $Featureroot . "/ticket.php?id=" . $feature . "#problem";
 

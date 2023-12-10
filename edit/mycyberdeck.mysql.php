@@ -16,13 +16,12 @@
     $package = "mycyberdeck.mysql.php";
     $formVars['update']              = clean($_GET['update'],              10);
     $formVars['r_deck_character']    = clean($_GET['r_deck_character'],    10);
-    $formVars['r_deck_id']           = clean($_GET['r_deck_id'],           10);
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 1) {
         $formVars['deck_id'] = clean($_GET['deck_id'], 10);
 
@@ -31,13 +30,13 @@
         }
 
         if ($formVars['deck_id'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string  = "select deck_attack,deck_sleaze,deck_data,deck_firewall,deck_access ";
           $q_string .= "from cyberdeck ";
           $q_string .= "where deck_id = " . $formVars['deck_id'] . " ";
-          $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberdeck = mysql_fetch_array($q_cyberdeck);
+          $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
 
           $deck_access =
             $a_cyberdeck['deck_access'] . ":" .
@@ -60,9 +59,9 @@
             $message = "Cyberdeck added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         }
@@ -77,7 +76,7 @@
         }
 
         if ($formVars['r_deck_id'] > 0 && $formVars['pgm_id'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_pgm_character   =   " . $formVars['r_deck_character']   . "," .
@@ -89,9 +88,9 @@
             $message = "Program added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['pgm_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['pgm_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -109,7 +108,7 @@
         }
 
         if ($formVars['r_deck_id'] > 0 && $formVars['agt_id'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_agt_character   =   " . $formVars['r_deck_character']   . "," .
@@ -121,9 +120,9 @@
             $message = "Agent added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['agt_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['agt_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -137,12 +136,12 @@
 # print forms for each of the cyberdeck bits.
 # first; the main one which sets the cyberdeck being edited. You can't buy anything else until you get a cyberdeck
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $shiftleft  = "<input type=\"button\" value=\"&lt;\" onClick=\"javascript:cyberdeck_left('cyberdeck.option.php'";
         $shiftright = "<input type=\"button\" value=\"&gt;\" onClick=\"javascript:cyberdeck_right('cyberdeck.option.php'";
 
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
         $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Active Cyberdeck Form</th>\n";
         $output .= "</tr>\n";
@@ -157,12 +156,12 @@
 
         $output .= "<input type=\"hidden\" name=\"r_deck_id\"      value=\"0\">\n";
 
-        print "document.getElementById('cyberdeck_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('cyberdeck_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
 # show your cyberdeck and all associated programs.
       $output  = "<p></p>\n";
@@ -357,9 +356,9 @@
       $q_string .= "left join versions on versions.ver_id = cyberdeck.deck_book ";
       $q_string .= "where r_deck_character = " . $formVars['r_deck_character'] . " ";
       $q_string .= "order by deck_brand,deck_model,ver_version ";
-      $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_cyberdeck) > 0) {
-        while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+      $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_cyberdeck) > 0) {
+        while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_deckacc(" . $a_r_cyberdeck['r_deck_id'] . ");showDiv('cyberdeck-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberdeck('cyberdeck.del.php?id="  . $a_r_cyberdeck['r_deck_id'] . "');\">";
@@ -420,8 +419,8 @@
           $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
           $q_string .= "where r_acc_character = " . $formVars['r_deck_character'] . " and r_acc_parentid = " . $a_r_cyberdeck['r_deck_id'] . " ";
           $q_string .= "order by acc_name,acc_rating,ver_version ";
-          $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_accessory) > 0) {
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
 
             $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
             $output .= "<tr>\n";
@@ -436,7 +435,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckacc('deckacc.del.php?id="  . $a_r_accessory['r_acc_id'] . "');\">";
               $linkend   = "</a>";
@@ -476,8 +475,8 @@
           $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
           $q_string .= "where r_pgm_character = " . $formVars['r_deck_character'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 0 ";
           $q_string .= "order by pgm_name ";
-          $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_program) > 0) {
+          $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_program) > 0) {
             $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
             $output .= "<tr>\n";
             $output .=   "<th class=\"ui-state-default\" colspan=\"7\">Cyberdeck Common Programs</th>\n";
@@ -491,7 +490,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_program = mysql_fetch_array($q_r_program)) {
+            while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
@@ -524,8 +523,8 @@
           $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
           $q_string .= "where r_pgm_character = " . $formVars['r_deck_character'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 1 ";
           $q_string .= "order by pgm_name ";
-          $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_program) > 0) {
+          $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_program) > 0) {
             $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
             $output .= "<tr>\n";
             $output .=   "<th class=\"ui-state-default\" colspan=\"7\">Cyberdeck Hacking Programs</th>\n";
@@ -539,7 +538,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_program = mysql_fetch_array($q_r_program)) {
+            while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
@@ -572,8 +571,8 @@
           $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
           $q_string .= "where r_agt_character = " . $formVars['r_deck_character'] . " and r_agt_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " ";
           $q_string .= "order by agt_name,agt_rating ";
-          $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_agents) > 0) {
+          $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_agents) > 0) {
             $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
             $output .= "<tr>\n";
             $output .=   "<th class=\"ui-state-default\" colspan=\"7\">Cyberdeck Agents</th>\n";
@@ -587,7 +586,7 @@
             $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
             $output .= "</tr>\n";
 
-            while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+            while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_agent('agent.del.php?id="  . $a_r_agents['r_agt_id'] . "');\">";
               $linkend   = "</a>";
@@ -624,7 +623,7 @@
       } else {
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\" colspan=\"12\">Cyberdeck ID: " . $a_r_cyberdeck['r_deck_access'] . "</th>\n";
+        $output .=   "<th class=\"ui-state-default\" colspan=\"12\">Cyberdeck ID:</th>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .=   "<th class=\"ui-state-default\">Del</th>\n";
@@ -646,12 +645,12 @@
         $output .= "</table>\n";
       }
 
-      mysql_free_result($q_r_cyberdeck);
+      mysqli_free_result($q_r_cyberdeck);
 
-      print "document.getElementById('my_cyberdeck_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_cyberdeck_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

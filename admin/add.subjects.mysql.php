@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']            = clean($_GET['id'],            10);
         $formVars['sub_name']      = clean($_GET['sub_name'],      60);
@@ -30,7 +30,7 @@
         }
 
         if (strlen($formVars['sub_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "sub_name       = \"" . $formVars['sub_name']      . "\"";
@@ -44,9 +44,9 @@
             $message = "Subject updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sub_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['sub_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -55,7 +55,7 @@
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -98,9 +98,9 @@
       $q_string  = "select sub_id,sub_name ";
       $q_string .= "from subjects ";
       $q_string .= "order by sub_name ";
-      $q_subjects = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_subjects) > 0) {
-        while ($a_subjects = mysql_fetch_array($q_subjects)) {
+      $q_subjects = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_subjects) > 0) {
+        while ($a_subjects = mysqli_fetch_array($q_subjects)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.subjects.fill.php?id="  . $a_subjects['sub_id'] . "');jQuery('#dialogSubject').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_subject('add.subjects.del.php?id=" . $a_subjects['sub_id'] . "');\">";
@@ -120,14 +120,14 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('subject_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('subject_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.sub_name.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

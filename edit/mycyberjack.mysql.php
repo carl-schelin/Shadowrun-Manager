@@ -16,13 +16,12 @@
     $package = "mycyberjack.mysql.php";
     $formVars['update']              = clean($_GET['update'],              10);
     $formVars['r_jack_character']    = clean($_GET['r_jack_character'],    10);
-    $formVars['r_jack_id']           = clean($_GET['r_jack_id'],           10);
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 1) {
         $formVars['jack_id'] = clean($_GET['jack_id'], 10);
 
@@ -31,13 +30,13 @@
         }
 
         if ($formVars['jack_id'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string  = "select jack_data,jack_firewall,jack_access ";
           $q_string .= "from cyberjack ";
           $q_string .= "where jack_id = " . $formVars['jack_id'] . " ";
-          $q_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_cyberjack = mysql_fetch_array($q_cyberjack);
+          $q_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_cyberjack = mysqli_fetch_array($q_cyberjack);
 
           $jack_access =
             $a_cyberjack['jack_access'] . ":" .
@@ -58,9 +57,9 @@
             $message = "Cyberjack added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         }
@@ -71,12 +70,12 @@
 # print forms for each of the cyberjack bits.
 # first; the main one which sets the cyberjack being edited. You can't buy anything else until you get a cyberjack
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $shiftleft  = "<input type=\"button\" value=\"&lt;\" onClick=\"javascript:cyberjack_left('cyberjack.option.php'";
         $shiftright = "<input type=\"button\" value=\"&gt;\" onClick=\"javascript:cyberjack_right('cyberjack.option.php'";
 
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
         $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Active Cyberjack Form</th>\n";
         $output .= "</tr>\n";
@@ -88,12 +87,12 @@
         $output .= "</table>\n";
         $output .= "<input type=\"hidden\" name=\"r_jack_id\"      value=\"0\">\n";
 
-        print "document.getElementById('cyberjack_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('cyberjack_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
 # show your cyberjack and all associated programs.
       $output  = "<p></p>\n";
@@ -129,9 +128,9 @@
       $q_string .= "left join versions on versions.ver_id = cyberjack.jack_book ";
       $q_string .= "where r_jack_character = " . $formVars['r_jack_character'] . " ";
       $q_string .= "order by jack_name,ver_version ";
-      $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_cyberjack) > 0) {
-        while ($a_r_cyberjack = mysql_fetch_array($q_r_cyberjack)) {
+      $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_cyberjack) > 0) {
+        while ($a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:attach_jackacc(" . $a_r_cyberjack['r_jack_id'] . ");showDiv('cyberjack-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cyberjack('cyberjack.del.php?id="  . $a_r_cyberjack['r_jack_id'] . "');\">";
@@ -191,7 +190,7 @@
       } else {
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .=   "<th class=\"ui-state-default\" colspan=\"12\">Cyberjack ID: " . $a_r_cyberjack['r_jack_access'] . "</th>\n";
+        $output .=   "<th class=\"ui-state-default\" colspan=\"12\">Cyberjack ID:</th>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .=   "<th class=\"ui-state-default\">Del</th>\n";
@@ -210,12 +209,12 @@
         $output .= "</table>\n";
       }
 
-      mysql_free_result($q_r_cyberjack);
+      mysqli_free_result($q_r_cyberjack);
 
-      print "document.getElementById('my_cyberjack_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_cyberjack_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

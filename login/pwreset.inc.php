@@ -60,17 +60,17 @@ if (isset($_POST['login'])) {
           $newpass2 = md5($_POST['newpassword2']); 
 
           $q_string = "select usr_id,usr_first,usr_last from users where usr_name='$user' and usr_passwd='$oldpass'"; 
-          $q_users = mysql_query($q_string);
+          $q_users = mysqli_query($db, $q_string);
 
 // Check that at least one row was returned 
-          $c_users = mysql_num_rows($q_users); 
+          $c_users = mysqli_num_rows($q_users); 
 
           if ($c_users > 0) { 
 
             $q_string = "update users set usr_passwd = '$newpass1',usr_reset = 0 where usr_name = '$user' and usr_passwd = '$oldpass'";
-            $q_users = mysql_query($q_string);
+            $q_users = mysqli_query($db, $q_string);
 
-            logaccess($_SESSION['username'], "pwreset.inc.php", $_SESSION['name'] . " has reset their password.");
+            logaccess($db, $_SESSION['username'], "pwreset.inc.php", $_SESSION['name'] . " has reset their password.");
 
 //  Successful login code will go here... 
 

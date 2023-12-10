@@ -19,8 +19,8 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from cyberdeck");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from cyberdeck");
 
       $q_string  = "select deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,deck_firewall,";
       $q_string .= "deck_programs,deck_access,deck_avail,deck_perm,deck_cost,deck_book,deck_page,deck_index,";
@@ -28,40 +28,40 @@
       $q_string .= "deck_response ";
       $q_string .= "from cyberdeck ";
       $q_string .= "where deck_id = " . $formVars['id'];
-      $q_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_cyberdeck = mysql_fetch_array($q_cyberdeck);
-      mysql_free_result($q_cyberdeck);
+      $q_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_cyberdeck = mysqli_fetch_array($q_cyberdeck);
+      mysqli_free_result($q_cyberdeck);
 
-      print "document.dialog.deck_brand.value = '"     . mysql_real_escape_string($a_cyberdeck['deck_brand'])     . "';\n";
-      print "document.dialog.deck_model.value = '"     . mysql_real_escape_string($a_cyberdeck['deck_model'])     . "';\n";
-      print "document.dialog.deck_rating.value = '"    . mysql_real_escape_string($a_cyberdeck['deck_rating'])    . "';\n";
-      print "document.dialog.deck_attack.value = '"    . mysql_real_escape_string($a_cyberdeck['deck_attack'])    . "';\n";
-      print "document.dialog.deck_sleaze.value = '"    . mysql_real_escape_string($a_cyberdeck['deck_sleaze'])    . "';\n";
-      print "document.dialog.deck_data.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_data'])      . "';\n";
-      print "document.dialog.deck_firewall.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_firewall'])  . "';\n";
-      print "document.dialog.deck_persona.value = '"   . mysql_real_escape_string($a_cyberdeck['deck_persona'])   . "';\n";
-      print "document.dialog.deck_hardening.value = '" . mysql_real_escape_string($a_cyberdeck['deck_hardening']) . "';\n";
-      print "document.dialog.deck_memory.value = '"    . mysql_real_escape_string($a_cyberdeck['deck_memory'])    . "';\n";
-      print "document.dialog.deck_storage.value = '"   . mysql_real_escape_string($a_cyberdeck['deck_storage'])   . "';\n";
-      print "document.dialog.deck_load.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_load'])      . "';\n";
-      print "document.dialog.deck_io.value = '"        . mysql_real_escape_string($a_cyberdeck['deck_io'])        . "';\n";
-      print "document.dialog.deck_response.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_response'])  . "';\n";
-      print "document.dialog.deck_programs.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_programs'])  . "';\n";
-      print "document.dialog.deck_access.value = '"    . mysql_real_escape_string($a_cyberdeck['deck_access'])    . "';\n";
-      print "document.dialog.deck_avail.value = '"     . mysql_real_escape_string($a_cyberdeck['deck_avail'])     . "';\n";
-      print "document.dialog.deck_perm.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_perm'])      . "';\n";
-      print "document.dialog.deck_basetime.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_basetime'])  . "';\n";
-      print "document.dialog.deck_duration.value = '"  . mysql_real_escape_string($a_cyberdeck['deck_duration'])  . "';\n";
-      print "document.dialog.deck_index.value = '"     . mysql_real_escape_string($a_cyberdeck['deck_index'])     . "';\n";
-      print "document.dialog.deck_cost.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_cost'])      . "';\n";
-      print "document.dialog.deck_book.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_book'])      . "';\n";
-      print "document.dialog.deck_page.value = '"      . mysql_real_escape_string($a_cyberdeck['deck_page'])      . "';\n";
+      print "document.dialog.deck_brand.value = '"     . mysqli_real_escape_string($db, $a_cyberdeck['deck_brand'])     . "';\n";
+      print "document.dialog.deck_model.value = '"     . mysqli_real_escape_string($db, $a_cyberdeck['deck_model'])     . "';\n";
+      print "document.dialog.deck_rating.value = '"    . mysqli_real_escape_string($db, $a_cyberdeck['deck_rating'])    . "';\n";
+      print "document.dialog.deck_attack.value = '"    . mysqli_real_escape_string($db, $a_cyberdeck['deck_attack'])    . "';\n";
+      print "document.dialog.deck_sleaze.value = '"    . mysqli_real_escape_string($db, $a_cyberdeck['deck_sleaze'])    . "';\n";
+      print "document.dialog.deck_data.value = '"      . mysqli_real_escape_string($db, $a_cyberdeck['deck_data'])      . "';\n";
+      print "document.dialog.deck_firewall.value = '"  . mysqli_real_escape_string($db, $a_cyberdeck['deck_firewall'])  . "';\n";
+      print "document.dialog.deck_persona.value = '"   . mysqli_real_escape_string($db, $a_cyberdeck['deck_persona'])   . "';\n";
+      print "document.dialog.deck_hardening.value = '" . mysqli_real_escape_string($db, $a_cyberdeck['deck_hardening']) . "';\n";
+      print "document.dialog.deck_memory.value = '"    . mysqli_real_escape_string($db, $a_cyberdeck['deck_memory'])    . "';\n";
+      print "document.dialog.deck_storage.value = '"   . mysqli_real_escape_string($db, $a_cyberdeck['deck_storage'])   . "';\n";
+      print "document.dialog.deck_load.value = '"      . mysqli_real_escape_string($db, $a_cyberdeck['deck_load'])      . "';\n";
+      print "document.dialog.deck_io.value = '"        . mysqli_real_escape_string($db, $a_cyberdeck['deck_io'])        . "';\n";
+      print "document.dialog.deck_response.value = '"  . mysqli_real_escape_string($db, $a_cyberdeck['deck_response'])  . "';\n";
+      print "document.dialog.deck_programs.value = '"  . mysqli_real_escape_string($db, $a_cyberdeck['deck_programs'])  . "';\n";
+      print "document.dialog.deck_access.value = '"    . mysqli_real_escape_string($db, $a_cyberdeck['deck_access'])    . "';\n";
+      print "document.dialog.deck_avail.value = '"     . mysqli_real_escape_string($db, $a_cyberdeck['deck_avail'])     . "';\n";
+      print "document.dialog.deck_perm.value = '"      . mysqli_real_escape_string($db, $a_cyberdeck['deck_perm'])      . "';\n";
+      print "document.dialog.deck_basetime.value = '"  . mysqli_real_escape_string($db, $a_cyberdeck['deck_basetime'])  . "';\n";
+      print "document.dialog.deck_duration.value = '"  . mysqli_real_escape_string($db, $a_cyberdeck['deck_duration'])  . "';\n";
+      print "document.dialog.deck_index.value = '"     . mysqli_real_escape_string($db, $a_cyberdeck['deck_index'])     . "';\n";
+      print "document.dialog.deck_cost.value = '"      . mysqli_real_escape_string($db, $a_cyberdeck['deck_cost'])      . "';\n";
+      print "document.dialog.deck_book.value = '"      . mysqli_real_escape_string($db, $a_cyberdeck['deck_book'])      . "';\n";
+      print "document.dialog.deck_page.value = '"      . mysqli_real_escape_string($db, $a_cyberdeck['deck_page'])      . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

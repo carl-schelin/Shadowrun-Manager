@@ -11,7 +11,7 @@
 
   $package = "active.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   $formVars['group'] = 0;
   if (isset($_GET['group'])) {
@@ -59,8 +59,8 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -94,18 +94,21 @@ $(document).ready( function () {
     $q_string  = "select runr_name ";
     $q_string .= "from runners ";
     $q_string .= "left join members on members.mem_runner = runners.runr_id ";
-    $q_string .= "where mem_group = " . $formVars['group'] . " ";
+    $q_string .= "left join versions on versions.ver_id = runners.runr_book ";
+    $q_string .= "where ver_active = 1 and mem_group = " . $formVars['group'] . " ";
     $q_string .= "order by runr_name ";
-    $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_runners = mysql_fetch_array($q_runners)) {
+    $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    while ($a_runners = mysqli_fetch_array($q_runners)) {
       print "  <th class=\"ui-state-default\">" . $a_runners['runr_name'] . "</th>\n";
     }
   } else {
     $q_string  = "select runr_name ";
     $q_string .= "from runners ";
+    $q_string .= "left join versions on versions.ver_id = runners.runr_book ";
+    $q_string .= "where ver_active = 1 ";
     $q_string .= "order by runr_name ";
-    $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_runners = mysql_fetch_array($q_runners)) {
+    $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    while ($a_runners = mysqli_fetch_array($q_runners)) {
       print "  <th class=\"ui-state-default\">" . $a_runners['runr_name'] . "</th>\n";
     }
   }
@@ -118,8 +121,8 @@ $(document).ready( function () {
   $q_string .= "left join versions on versions.ver_id = active.act_book ";
   $q_string .= "where ver_active = 1 ";
   $q_string .= "order by act_name ";
-  $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_active = mysql_fetch_array($q_active)) {
+  $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_active = mysqli_fetch_array($q_active)) {
 
     $startital = "";
     $endital = "";
@@ -140,8 +143,8 @@ $(document).ready( function () {
       $q_string .= "left join members on members.mem_runner = runners.runr_id ";
       $q_string .= "where mem_group = " . $formVars['group'] . " ";
       $q_string .= "order by runr_name ";
-      $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_runners = mysql_fetch_array($q_runners)) {
+      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_runners = mysqli_fetch_array($q_runners)) {
 
         $q_string  = "select r_act_rank,r_act_specialize ";
         $q_string .= "from r_active ";
@@ -149,9 +152,9 @@ $(document).ready( function () {
         $q_string .= "left join members on members.mem_runner = runners.runr_id ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and r_act_number = " . $a_active['act_id'] . " and r_act_character = " . $a_runners['runr_id'] . " ";
         $q_string .= "order by runr_name ";
-        $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_active) > 0) {
-          while ($a_r_active = mysql_fetch_array($q_r_active)) {
+        $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_active) > 0) {
+          while ($a_r_active = mysqli_fetch_array($q_r_active)) {
             $rank = ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank']);
             print "  <td class=\"ui-widget-content delete\">" . $rank;
 
@@ -173,17 +176,17 @@ $(document).ready( function () {
       $q_string  = "select runr_id," . $a_active['att_column'] . " ";
       $q_string .= "from runners ";
       $q_string .= "order by runr_name ";
-      $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_runners = mysql_fetch_array($q_runners)) {
+      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_runners = mysqli_fetch_array($q_runners)) {
 
         $q_string  = "select r_act_rank,r_act_specialize ";
         $q_string .= "from r_active ";
         $q_string .= "left join runners on runners.runr_id = r_active.r_act_character ";
         $q_string .= "where r_act_number = " . $a_active['act_id'] . " and r_act_character = " . $a_runners['runr_id'] . " ";
         $q_string .= "order by runr_name ";
-        $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_active) > 0) {
-          while ($a_r_active = mysql_fetch_array($q_r_active)) {
+        $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_active) > 0) {
+          while ($a_r_active = mysqli_fetch_array($q_r_active)) {
             $rank = ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank']);
             print "  <td class=\"ui-widget-content delete\">" . $rank;
 
@@ -221,8 +224,8 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -256,18 +259,21 @@ $(document).ready( function () {
       $q_string  = "select runr_name ";
       $q_string .= "from runners ";
       $q_string .= "left join members on members.mem_runner = runners.runr_id ";
-      $q_string .= "where mem_group = " . $formVars['opposed'] . " ";
+      $q_string .= "left join versions on versions.ver_id = runners.runr_book ";
+      $q_string .= "where ver_active = 1 and mem_group = " . $formVars['opposed'] . " ";
       $q_string .= "order by runr_name ";
-      $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_runners = mysql_fetch_array($q_runners)) {
+      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_runners = mysqli_fetch_array($q_runners)) {
         print "  <th class=\"ui-state-default\">" . $a_runners['runr_name'] . "</th>\n";
       }
     } else {
       $q_string  = "select runr_name ";
       $q_string .= "from runners ";
+      $q_string .= "left join versions on versions.ver_id = runners.runr_book ";
+      $q_string .= "where ver_active = 1 ";
       $q_string .= "order by runr_name ";
-      $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_runners = mysql_fetch_array($q_runners)) {
+      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_runners = mysqli_fetch_array($q_runners)) {
         print "  <th class=\"ui-state-default\">" . $a_runners['runr_name'] . "</th>\n";
       }
     }
@@ -280,8 +286,8 @@ $(document).ready( function () {
     $q_string .= "left join versions on versions.ver_id = active.act_book ";
     $q_string .= "where ver_active = 1 ";
     $q_string .= "order by act_name ";
-    $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_active = mysql_fetch_array($q_active)) {
+    $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    while ($a_active = mysqli_fetch_array($q_active)) {
 
       $startital = "";
       $endital = "";
@@ -302,8 +308,8 @@ $(document).ready( function () {
         $q_string .= "left join members on members.mem_runner = runners.runr_id ";
         $q_string .= "where mem_group = " . $formVars['opposed'] . " ";
         $q_string .= "order by runr_name ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_runners = mysqli_fetch_array($q_runners)) {
 
           $q_string  = "select r_act_rank,r_act_specialize ";
           $q_string .= "from r_active ";
@@ -311,9 +317,9 @@ $(document).ready( function () {
           $q_string .= "left join members on members.mem_runner = runners.runr_id ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and r_act_number = " . $a_active['act_id'] . " and r_act_character = " . $a_runners['runr_id'] . " ";
           $q_string .= "order by runr_name ";
-          $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_active) > 0) {
-            while ($a_r_active = mysql_fetch_array($q_r_active)) {
+          $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_active) > 0) {
+            while ($a_r_active = mysqli_fetch_array($q_r_active)) {
               $rank = ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank']);
               print "  <td class=\"ui-widget-content delete\">" . $rank;
 
@@ -335,17 +341,17 @@ $(document).ready( function () {
         $q_string  = "select runr_id," . $a_active['att_column'] . " ";
         $q_string .= "from runners ";
         $q_string .= "order by runr_name ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_runners = mysql_fetch_array($q_runners)) {
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_runners = mysqli_fetch_array($q_runners)) {
 
           $q_string  = "select r_act_rank,r_act_specialize ";
           $q_string .= "from r_active ";
           $q_string .= "left join runners on runners.runr_id = r_active.r_act_character ";
           $q_string .= "where r_act_number = " . $a_active['act_id'] . " and r_act_character = " . $a_runners['runr_id'] . " ";
           $q_string .= "order by runr_name ";
-          $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_active) > 0) {
-            while ($a_r_active = mysql_fetch_array($q_r_active)) {
+          $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_active) > 0) {
+            while ($a_r_active = mysqli_fetch_array($q_r_active)) {
               $rank = ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank']);
               print "  <td class=\"ui-widget-content delete\">" . $rank;
   

@@ -19,27 +19,27 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_cyberjack");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_cyberjack");
 
       $q_string  = "select jack_name,r_jack_data,r_jack_firewall ";
       $q_string .= "from r_cyberjack ";
       $q_string .= "left join cyberjack on cyberjack.jack_id = r_cyberjack.r_jack_number ";
       $q_string .= "where r_jack_id = " . $formVars['id'];
-      $q_r_cyberjack = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_cyberjack = mysql_fetch_array($q_r_cyberjack);
-      mysql_free_result($q_r_cyberjack);
+      $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack);
+      mysqli_free_result($q_r_cyberjack);
 
-      print "document.getElementById('r_jack_item').innerHTML = '" . mysql_real_escape_string($a_r_cyberjack['jack_name']) . "';\n\n";
+      print "document.getElementById('r_jack_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_cyberjack['jack_name']) . "';\n\n";
 
-      print "document.getElementById('r_jack_data').innerHTML = '"     . mysql_real_escape_string($a_r_cyberjack['r_jack_data']) . "';\n";
-      print "document.getElementById('r_jack_firewall').innerHTML = '" . mysql_real_escape_string($a_r_cyberjack['r_jack_firewall']) . "';\n";
+      print "document.getElementById('r_jack_data').innerHTML = '"     . mysqli_real_escape_string($db, $a_r_cyberjack['r_jack_data']) . "';\n";
+      print "document.getElementById('r_jack_firewall').innerHTML = '" . mysqli_real_escape_string($db, $a_r_cyberjack['r_jack_firewall']) . "';\n";
 
       print "document.edit.r_jack_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_jack_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

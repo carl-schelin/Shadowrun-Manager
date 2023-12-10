@@ -8,11 +8,11 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('1');
+  check_login($db, $AL_Johnson);
 
   $package = "add.command.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
 # build a command manafacturer's ID
   $cmd_access =
@@ -39,7 +39,7 @@
 <script type="text/javascript">
 <?php
 
-  if (check_userlevel(1)) {
+  if (check_userlevel($db, $AL_Johnson)) {
 ?>
 function delete_command( p_script_url ) {
   var question;

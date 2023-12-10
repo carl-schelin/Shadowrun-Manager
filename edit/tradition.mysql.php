@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_trad_id']          = clean($_GET['r_trad_id'],           10);
         $formVars['r_trad_number']      = clean($_GET['r_trad_number'],       10);
@@ -31,7 +31,7 @@
         }
 
         if ($formVars['r_trad_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_trad_character   =   " . $formVars['r_trad_character']   . "," .
@@ -46,9 +46,9 @@
             $message = "Tradition updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_spell_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_spell_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -59,7 +59,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<p></p>\n";
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -94,15 +94,15 @@
 
         $q_string  = "select s_trad_id,s_trad_name ";
         $q_string .= "from s_tradition ";
-        $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_s_tradition = mysql_fetch_array($q_s_tradition)) {
+        $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
           $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
         }
 
         $q_string  = "select att_id,att_name ";
         $q_string .= "from attributes ";
-        $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_attributes = mysql_fetch_array($q_attributes)) {
+        $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_attributes = mysqli_fetch_array($q_attributes)) {
           $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
         }
 
@@ -125,9 +125,9 @@
         $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by trad_name ";
-        $q_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_tradition) > 0) {
-          while ($a_tradition = mysql_fetch_array($q_tradition)) {
+        $q_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_tradition) > 0) {
+          while ($a_tradition = mysqli_fetch_array($q_tradition)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tradition.mysql.php?update=0&r_trad_character=" . $formVars['r_trad_character'] . "&r_trad_number=" . $a_tradition['trad_id'] . "');\">";
             $linkend   = "</a>";
@@ -154,14 +154,14 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_r_tradition);
+        mysqli_free_result($q_tradition);
 
-        print "document.getElementById('traditions_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('traditions_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -196,15 +196,15 @@
 
       $q_string  = "select s_trad_id,s_trad_name ";
       $q_string .= "from s_tradition ";
-      $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_s_tradition = mysql_fetch_array($q_s_tradition)) {
+      $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
         $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
       }
 
       $q_string  = "select att_id,att_name ";
       $q_string .= "from attributes ";
-      $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_attributes = mysql_fetch_array($q_attributes)) {
+      $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_attributes = mysqli_fetch_array($q_attributes)) {
         $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
       }
 
@@ -229,9 +229,9 @@
       $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
       $q_string .= "where r_trad_character = " . $formVars['r_trad_character'] . " ";
       $q_string .= "order by trad_name ";
-      $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_tradition) > 0) {
-        while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+      $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_tradition) > 0) {
+        while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_tradition('tradition.del.php?id="  . $a_r_tradition['r_trad_id'] . "');\">";
 
@@ -261,12 +261,12 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_tradition);
+      mysqli_free_result($q_r_tradition);
 
-      print "document.getElementById('my_traditions_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_traditions_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -19,28 +19,28 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_command");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_command");
 
       $q_string  = "select cmd_brand,cmd_model,r_cmd_number,r_cmd_noise,r_cmd_sharing ";
       $q_string .= "from r_command ";
       $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
       $q_string .= "where r_cmd_id = " . $formVars['id'];
-      $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_command = mysql_fetch_array($q_r_command);
-      mysql_free_result($q_r_command);
+      $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_command = mysqli_fetch_array($q_r_command);
+      mysqli_free_result($q_r_command);
 
-      print "document.getElementById('r_cmd_item').innerHTML = '" . mysql_real_escape_string($a_r_command['cmd_brand'] . " " . $a_r_command['cmd_model']) . "';\n\n";
+      print "document.getElementById('r_cmd_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_command['cmd_brand'] . " " . $a_r_command['cmd_model']) . "';\n\n";
 
-      print "document.edit.r_cmd_noise.value = '"   . mysql_real_escape_string($a_r_command['r_cmd_noise'])   . "';\n";
-      print "document.edit.r_cmd_sharing.value = '" . mysql_real_escape_string($a_r_command['r_cmd_sharing']) . "';\n";
-      print "document.edit.r_cmd_number.value = '"  . mysql_real_escape_string($a_r_command['r_cmd_number']) . "';\n";
+      print "document.edit.r_cmd_noise.value = '"   . mysqli_real_escape_string($db, $a_r_command['r_cmd_noise'])   . "';\n";
+      print "document.edit.r_cmd_sharing.value = '" . mysqli_real_escape_string($db, $a_r_command['r_cmd_sharing']) . "';\n";
+      print "document.edit.r_cmd_number.value = '"  . mysqli_real_escape_string($db, $a_r_command['r_cmd_number']) . "';\n";
 
       print "document.edit.r_cmd_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_cmd_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

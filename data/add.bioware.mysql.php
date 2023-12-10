@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']           = clean($_GET['id'],           10);
         $formVars['bio_class']    = clean($_GET['bio_class'],    30);
@@ -62,7 +62,7 @@
         }
 
         if (strlen($formVars['bio_class']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "bio_class       = \"" . $formVars['bio_class']       . "\"," .
@@ -85,16 +85,16 @@
             $query = "update bioware set " . $q_string . " where bio_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['bio_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['bio_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $bioware_list = array("basic", "biosculpting", "cosmetic", "cultured", "endosymbiont", "leech");
 
@@ -171,9 +171,9 @@
         $q_string .= "left join versions on versions.ver_id = bioware.bio_book ";
         $q_string .= "where class_name = \"" . $bioware_group . "\" and ver_admin = 1 "; 
         $q_string .= "order by class_name,bio_name,bio_rating,ver_version ";
-        $q_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_bioware) > 0) {
-          while ($a_bioware = mysql_fetch_array($q_bioware)) {
+        $q_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_bioware) > 0) {
+          while ($a_bioware = mysqli_fetch_array($q_bioware)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.bioware.fill.php?id="  . $a_bioware['bio_id'] . "');jQuery('#dialogBioWare').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_bioware('add.bioware.del.php?id=" . $a_bioware['bio_id'] . "');\">";
@@ -197,9 +197,9 @@
             $q_string  = "select r_bio_id ";
             $q_string .= "from r_bioware ";
             $q_string .= "where r_bio_number = " . $a_bioware['bio_id'] . " ";
-            $q_r_bioware = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_bioware) > 0) {
-              while ($a_r_bioware = mysql_fetch_array($q_r_bioware)) {
+            $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_bioware) > 0) {
+              while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
                 $total++;
               }
             }
@@ -229,7 +229,7 @@
 
         $output .= "</table>\n";
 
-        print "document.getElementById('" . $bioware . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('" . $bioware . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
       print "document.dialog.bio_name.value = '';\n";
@@ -245,7 +245,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

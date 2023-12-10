@@ -11,7 +11,7 @@
 
   $package = "cyberdeck.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -25,10 +25,10 @@
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
   $q_string .= "order by deck_brand,deck_model,deck_rating ";
-  $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_cyberdeck) > 0) {
+  $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_cyberdeck) > 0) {
 
-    while ($a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck)) {
+    while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
       $output .= "<tr>";
@@ -80,8 +80,8 @@
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberdeck['r_deck_id'] . " ";
       $q_string .= "order by acc_name,acc_rating ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql =" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql =" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -92,7 +92,7 @@
         $output .=   "<th class=\"ui-state-default\">Rating</th>\n";
         $output .= "</tr>\n";
 
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
@@ -116,8 +116,8 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 0 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_program) > 0) {
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
         $output .= "<tr>";
@@ -128,7 +128,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
@@ -143,8 +143,8 @@
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
       $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " and pgm_type = 1 ";
       $q_string .= "order by pgm_name ";
-      $q_r_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_program) > 0) {
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
         $output .= "<tr>";
@@ -155,7 +155,7 @@
         $output .= "  <th class=\"ui-state-default\">Description</th>";
         $output .= "</tr>";
 
-        while ($a_r_program = mysql_fetch_array($q_r_program)) {
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
           $output .= "<tr>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_name']                                      . "</td>";
           $output .= "  <td class=\"ui-widget-content\">"        . $a_r_program['pgm_desc']                                      . "</td>";
@@ -172,8 +172,8 @@
       $q_string .= "left join agents on agents.agt_id = r_agents.r_agt_number ";
       $q_string .= "where r_agt_character = " . $formVars['id'] . " and r_agt_cyberdeck = " . $a_r_cyberdeck['r_deck_id'] . " ";
       $q_string .= "order by agt_name ";
-      $q_r_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_agents) > 0) {
+      $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_agents) > 0) {
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
         $output .= "<tr>";
@@ -184,7 +184,7 @@
         $output .= "  <th class=\"ui-state-default\">Rating</th>";
         $output .= "</tr>";
 
-        while ($a_r_agents = mysql_fetch_array($q_r_agents)) {
+        while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
           $rating = return_Rating($a_r_agents['agt_rating']);
 
@@ -202,6 +202,6 @@
     $output  = "";
   }
 
-  print "document.getElementById('cyberdeck_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('cyberdeck_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

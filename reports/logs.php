@@ -10,9 +10,12 @@
 
   $package = "logs.php";
 
-  logaccess($formVars['username'], $package, "Accessing script");
+  logaccess($db, $formVars['username'], $package, "Accessing script");
 
-  $formVars['sort']= clean($_GET["sort"],    40);
+  $formVars['sort'] = '';
+  if (isset($_GET['sort'])) {
+    $formVars['sort'] = clean($_GET["sort"],    40);
+  }
 
   if (isset($_GET["sort"])) {
     $orderby = "order by " . $formVars['sort'] . $_SESSION['sort'];
@@ -143,8 +146,8 @@ should a problem occur.</p>
   $q_string .= "from log ";
   $q_string .= $where;
   $q_string .= $orderby;
-  $q_log = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_log = mysql_fetch_array($q_log)) {
+  $q_log = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_log = mysqli_fetch_array($q_log)) {
 
     print "<tr>\n";
     print "  <td class=\"ui-widget-content\">" . $a_log['log_id']     . "</td>\n";

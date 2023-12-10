@@ -11,7 +11,7 @@
 
   $package = "armor.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -22,11 +22,11 @@
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#armor\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Armor Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -61,9 +61,9 @@
   $q_string .= "left join versions on versions.ver_id = armor.arm_book ";
   $q_string .= "where r_arm_character = " . $formVars['id'] . " ";
   $q_string .= "order by arm_name,arm_rating,ver_version ";
-  $q_r_armor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_armor) > 0) {
-    while ($a_r_armor = mysql_fetch_array($q_r_armor)) {
+  $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_armor) > 0) {
+    while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
 
       $rating = return_Rating($a_r_armor['arm_rating']);
 
@@ -93,9 +93,9 @@
       $q_string .= "left join versions on versions.ver_id = accessory.acc_book ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_armor['r_arm_id'] . " ";
       $q_string .= "order by acc_name,acc_rating,ver_version ";
-      $q_r_accessory = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_accessory) > 0) {
-        while ($a_r_accessory = mysql_fetch_array($q_r_accessory)) {
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 
@@ -132,6 +132,6 @@
 
   $output .= "</table>";
      
-  print "document.getElementById('armor_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('armor_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

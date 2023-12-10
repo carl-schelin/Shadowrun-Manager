@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']               = clean($_GET['id'],               10);
         $formVars['veh_class']        = clean($_GET['veh_class'],        40);
@@ -136,7 +136,7 @@
         }
 
         if (strlen($formVars['veh_model']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "veh_class        = \"" . $formVars['veh_class']        . "\"," .
@@ -179,16 +179,16 @@
             $query = "update vehicles set " . $q_string . " where veh_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['veh_model']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['veh_model']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $vehicle_list = array("aircraft", "groundcraft", "ldrones", "mdrones", "odrones", "idrones", "sdrones", "watercraft");
 
@@ -277,9 +277,9 @@
         $q_string .= "left join versions on versions.ver_id = vehicles.veh_book ";
         $q_string .= "where class_name like \"" . $veh_name . "%\" and ver_admin = 1 ";
         $q_string .= "order by veh_make,veh_model,ver_version,veh_cost ";
-        $q_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_vehicles) > 0) {
-          while ($a_vehicles = mysql_fetch_array($q_vehicles)) {
+        $q_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_vehicles) > 0) {
+          while ($a_vehicles = mysqli_fetch_array($q_vehicles)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.vehicles.fill.php?id="  . $a_vehicles['veh_id'] . "');jQuery('#dialogVehicle').dialog('open');return false;\">";
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_vehicles('add.vehicles.del.php?id=" . $a_vehicles['veh_id'] . "');\">";
@@ -320,9 +320,9 @@
             $q_string  = "select r_veh_id ";
             $q_string .= "from r_vehicles ";
             $q_string .= "where r_veh_number = " . $a_vehicles['veh_id'] . " ";
-            $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_r_vehicles) > 0) {
-              while ($a_r_vehicles = mysql_fetch_array($q_r_vehicles)) {
+            $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_r_vehicles) > 0) {
+              while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
                 $total++;
               }
             }
@@ -370,7 +370,7 @@
         $output .= "</table>\n";
         $output .= "<p class=\"ui-widget-class\">* On Road/Off Road Handling and Speed.</p>\n";
 
-        print "document.getElementById('" . $vehicle . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('" . $vehicle . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
       print "document.dialog.veh_type.value = '';\n";
@@ -406,7 +406,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

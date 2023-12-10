@@ -11,7 +11,7 @@
 
   $package = "spirits.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -22,11 +22,11 @@
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#spirits\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Spirit Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "</th>";
@@ -70,9 +70,9 @@
   $q_string .= "from r_spirit ";
   $q_string .= "left join spirits on spirits.spirit_id = r_spirit.r_spirit_number ";
   $q_string .= "where r_spirit_character = " . $formVars['id'] . " ";
-  $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_spirit) > 0) {
-    while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+  $q_r_spirit = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_spirit) > 0) {
+    while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
       $bound = 'No';
       if ($a_r_spirit['r_spirit_bound']) {
@@ -106,6 +106,6 @@
 
   $output .= "</table>";
      
-  print "document.getElementById('spirits_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('spirits_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

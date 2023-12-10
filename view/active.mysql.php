@@ -11,7 +11,7 @@
 
   $package = "active.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -36,8 +36,8 @@
   $q_string .= "left join versions on versions.ver_id = active.act_book ";
   $q_string .= "where ver_active = 1 ";
   $q_string .= "order by act_name ";
-  $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_active = mysql_fetch_array($q_active)) {
+  $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_active = mysqli_fetch_array($q_active)) {
 
     $italicstart = "";
     $italicend = "";
@@ -48,15 +48,15 @@
     $q_string  = "select " . $a_active['att_column'] . " ";
     $q_string .= "from runners ";
     $q_string .= "where runr_id = " . $formVars['id'] . " ";
-    $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_runners = mysql_fetch_array($q_runners);
+    $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    $a_runners = mysqli_fetch_array($q_runners);
 
     $q_string  = "select r_act_rank,r_act_group,r_act_specialize,r_act_expert ";
     $q_string .= "from r_active ";
     $q_string .= "where r_act_character = " . $formVars['id'] . " and r_act_number = " . $a_active['act_id'] . " ";
-    $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_active) > 0) {
-      $a_r_active = mysql_fetch_array($q_r_active);
+    $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_active) > 0) {
+      $a_r_active = mysqli_fetch_array($q_r_active);
 
       $group = "";
       if ($a_r_active['r_act_group']) {
@@ -110,6 +110,6 @@
   }
   $output .= "</table>\n";
 
-  print "document.getElementById('active_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('active_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

@@ -8,11 +8,11 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('1');
+  check_login($db, $AL_Johnson);
 
   $package = "add.spirits.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
 ?>
 <!DOCTYPE HTML>
@@ -33,7 +33,7 @@
 <script type="text/javascript">
 <?php
 
-  if (check_userlevel(1)) {
+  if (check_userlevel($db, $AL_Johnson)) {
 ?>
 function delete_spirit( p_script_url ) {
   var question;
@@ -496,8 +496,8 @@ $(document).ready( function() {
   $q_string .= "from versions ";
   $q_string .= "where ver_admin = 1 ";
   $q_string .= "order by ver_short ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_versions = mysql_fetch_array($q_versions)) {
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_versions = mysqli_fetch_array($q_versions)) {
     print "<option value=\"" . $a_versions['ver_id'] . "\">" . $a_versions['ver_short'] . "</option>\n";
   }
 ?>

@@ -19,22 +19,22 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_spirit");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_spirit");
 
       $q_string  = "select spirit_name,r_spirit_number,r_spirit_force,r_spirit_services,r_spirit_bound ";
       $q_string .= "from r_spirit ";
       $q_string .= "left join spirits on spirits.spirit_id = r_spirit.r_spirit_number ";
       $q_string .= "where r_spirit_id = " . $formVars['id'];
-      $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_spirit = mysql_fetch_array($q_r_spirit);
-      mysql_free_result($q_r_spirit);
+      $q_r_spirit = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_spirit = mysqli_fetch_array($q_r_spirit);
+      mysqli_free_result($q_r_spirit);
 
-      print "document.getElementById('r_spirit_item').innerHTML = '" . mysql_real_escape_string($a_r_spirit['spirit_name']) . "';\n\n";
+      print "document.getElementById('r_spirit_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_spirit['spirit_name']) . "';\n\n";
 
-      print "document.edit.r_spirit_number.value = '"   . mysql_real_escape_string($a_r_spirit['r_spirit_number'])   . "';\n";
-      print "document.edit.r_spirit_force.value = '"    . mysql_real_escape_string($a_r_spirit['r_spirit_force'])    . "';\n";
-      print "document.edit.r_spirit_services.value = '" . mysql_real_escape_string($a_r_spirit['r_spirit_services']) . "';\n";
+      print "document.edit.r_spirit_number.value = '"   . mysqli_real_escape_string($db, $a_r_spirit['r_spirit_number'])   . "';\n";
+      print "document.edit.r_spirit_force.value = '"    . mysqli_real_escape_string($db, $a_r_spirit['r_spirit_force'])    . "';\n";
+      print "document.edit.r_spirit_services.value = '" . mysqli_real_escape_string($db, $a_r_spirit['r_spirit_services']) . "';\n";
 
       if ($a_r_spirit['r_spirit_bound']) {
         print "document.edit.r_spirit_bound.checked = true;\n";
@@ -46,7 +46,7 @@
       print "document.edit.spirit_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

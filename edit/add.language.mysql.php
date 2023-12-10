@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['id']               = clean($_GET['id'],             10);
 
@@ -30,7 +30,7 @@
         }
 
         if (strlen($formVars['lang_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "lang_name        = \"" . $formVars['lang_name']      . "\"," .
@@ -41,9 +41,9 @@
             $message = "Language added.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['lang_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['lang_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -61,13 +61,13 @@
       $q_string  = "select lang_id,lang_name ";
       $q_string .= "from language ";
       $q_string .= "order by lang_name ";
-      $q_language = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      while ($a_language = mysql_fetch_array($q_language)) {
+      $q_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      while ($a_language = mysqli_fetch_array($q_language)) {
         print "selbox.options[selbox.options.length] = new Option(\"" . htmlspecialchars($a_language['lang_name']) . "\"," . $a_language['lang_id'] . ");\n";
       }
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

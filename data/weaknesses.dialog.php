@@ -19,23 +19,23 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from sp_weaknesses");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from sp_weaknesses");
 
       $q_string  = "select sp_weak_specialize ";
       $q_string .= "from sp_weaknesses ";
       $q_string .= "where sp_weak_id = " . $formVars['id'];
-      $q_sp_weaknesses = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_sp_weaknesses = mysql_fetch_array($q_sp_weaknesses);
-      mysql_free_result($q_sp_weaknesses);
+      $q_sp_weaknesses = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_sp_weaknesses = mysqli_fetch_array($q_sp_weaknesses);
+      mysqli_free_result($q_sp_weaknesses);
 
-      print "document.weakness.sp_weak_specialize.value = '" . mysql_real_escape_string($a_sp_weaknesses['sp_weak_specialize']) . "';\n";
+      print "document.weakness.sp_weak_specialize.value = '" . mysqli_real_escape_string($db, $a_sp_weaknesses['sp_weak_specialize']) . "';\n";
 
       print "document.weakness.id.value = " . $formVars['id'] . ";\n";
       print "$(\"#weakness-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

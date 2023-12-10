@@ -11,7 +11,7 @@
 
   $package = "spells.mysql.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script.");
+  logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
   header('Content-Type: text/javascript');
 
@@ -41,9 +41,9 @@
   $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
   $q_string .= "where r_spell_character = " . $formVars['id'] . " ";
   $q_string .= "order by spell_group,spell_name ";
-  $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_spells) > 0) {
-    while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
+  $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_spells) > 0) {
+    while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
       if (strlen($a_r_spells['r_spell_special']) > 0) {
         $special = " (" . $a_r_spells['r_spell_special'] . ")";
@@ -70,6 +70,6 @@
     $output = "";
   }
 
-  print "document.getElementById('spells_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n";
+  print "document.getElementById('spells_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
 
 ?>

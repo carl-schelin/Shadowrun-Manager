@@ -10,7 +10,7 @@
 
   $package = "contacts.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   if (isset($_GET["sort"])) {
     $formVars['sort'] = clean($_GET["sort"], 20);
@@ -95,9 +95,9 @@ $(document).ready( function () {
   $q_string .= "left join users on users.usr_id = contact.con_owner ";
   $q_string .= "left join versions on versions.ver_id = contact.con_book ";
   $q_string .= "order by con_name ";
-  $q_contact = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_contact) > 0) {
-    while ($a_contact = mysql_fetch_array($q_contact)) {
+  $q_contact = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_contact) > 0) {
+    while ($a_contact = mysqli_fetch_array($q_contact)) {
 
       $linkstart = "<a href=\"" . $Viewroot . "/mooks.php?id=" . $a_contact['con_id'] . "\" target=\"_blank\">";
       $linkend = "</a>";

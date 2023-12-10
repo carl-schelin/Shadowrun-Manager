@@ -16,7 +16,7 @@
     $package = "agent.mysql.php";
     $formVars['id'] = clean($_GET['id'], 10);
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
 # cyberdecks
       if ($formVars['id'] == 0) {
@@ -29,7 +29,7 @@
         $message = "No agents found.";
       }
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
 # fill in the agent tab on the cyberdeck management table
       $output  = "<p></p>\n";
@@ -77,9 +77,9 @@
       $q_string .= "left join versions on versions.ver_id = agents.agt_book ";
       $q_string .= "where ver_active = 1 ";
       $q_string .= "order by agt_name,agt_rating,ver_version ";
-      $q_agents = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_agents) > 0) {
-        while ($a_agents = mysql_fetch_array($q_agents)) {
+      $q_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_agents) > 0) {
+        while ($a_agents = mysqli_fetch_array($q_agents)) {
 
 # update = 4 == add agents to a deck
           $linkstart = "<a href=\"#\" onclick=\"javascript:select_agent('" . $myprogram . "?update=4&agt_id=" . $a_agents['agt_id'] . "');\">";
@@ -111,10 +111,10 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('" . $table . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('" . $table . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

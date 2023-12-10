@@ -19,29 +19,29 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from mentor");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from mentor");
 
       $q_string  = "select mentor_name,mentor_all,mentor_mage,mentor_adept,mentor_disadvantage,mentor_book,mentor_page ";
       $q_string .= "from mentor ";
       $q_string .= "where mentor_id = " . $formVars['id'];
-      $q_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_mentor = mysql_fetch_array($q_mentor);
-      mysql_free_result($q_mentor);
+      $q_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_mentor = mysqli_fetch_array($q_mentor);
+      mysqli_free_result($q_mentor);
 
-      print "document.dialog.mentor_name.value = '"         . mysql_real_escape_string($a_mentor['mentor_name'])         . "';\n";
-      print "document.dialog.mentor_all.value = '"          . mysql_real_escape_string($a_mentor['mentor_all'])          . "';\n";
-      print "document.dialog.mentor_mage.value = '"         . mysql_real_escape_string($a_mentor['mentor_mage'])         . "';\n";
-      print "document.dialog.mentor_adept.value = '"        . mysql_real_escape_string($a_mentor['mentor_adept'])        . "';\n";
-      print "document.dialog.mentor_disadvantage.value = '" . mysql_real_escape_string($a_mentor['mentor_disadvantage']) . "';\n";
-      print "document.dialog.mentor_book.value = '"         . mysql_real_escape_string($a_mentor['mentor_book'])         . "';\n";
-      print "document.dialog.mentor_page.value = '"         . mysql_real_escape_string($a_mentor['mentor_page'])         . "';\n";
+      print "document.dialog.mentor_name.value = '"         . mysqli_real_escape_string($db, $a_mentor['mentor_name'])         . "';\n";
+      print "document.dialog.mentor_all.value = '"          . mysqli_real_escape_string($db, $a_mentor['mentor_all'])          . "';\n";
+      print "document.dialog.mentor_mage.value = '"         . mysqli_real_escape_string($db, $a_mentor['mentor_mage'])         . "';\n";
+      print "document.dialog.mentor_adept.value = '"        . mysqli_real_escape_string($db, $a_mentor['mentor_adept'])        . "';\n";
+      print "document.dialog.mentor_disadvantage.value = '" . mysqli_real_escape_string($db, $a_mentor['mentor_disadvantage']) . "';\n";
+      print "document.dialog.mentor_book.value = '"         . mysqli_real_escape_string($db, $a_mentor['mentor_book'])         . "';\n";
+      print "document.dialog.mentor_page.value = '"         . mysqli_real_escape_string($db, $a_mentor['mentor_page'])         . "';\n";
 
       print "document.dialog.id.value = '" . $formVars['id'] . "'\n";
       print "$(\"#button-update\").button(\"enable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

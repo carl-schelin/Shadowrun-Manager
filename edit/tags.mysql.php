@@ -24,7 +24,7 @@
       $formVars['tag_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']             = clean($_GET['id'],            10);
         $formVars['tag_name']       = str_replace(' ', '_', clean($_GET['tag_name'], 20));
@@ -36,7 +36,7 @@
         }
 
         if (strlen($formVars['tag_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "tag_character =   " . $formVars['tag_character'] . "," .
@@ -53,9 +53,9 @@
             $message = "Tag updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['tag_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['tag_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -65,7 +65,7 @@
 
 
       if ($formVars['update'] == -3) {
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -95,8 +95,8 @@
         $q_string .= "from tags ";
         $q_string .= "where tag_view = 0 and tag_owner = " . $_SESSION['uid'] . " ";
         $q_string .= "group by tag_name ";
-        $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_tags = mysql_fetch_array($q_tags)) {
+        $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_tags = mysqli_fetch_array($q_tags)) {
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');\">";
           $linkend   = "</a>";
 
@@ -114,8 +114,8 @@
         $q_string .= "from tags ";
         $q_string .= "where tag_view = 1 ";
         $q_string .= "group by tag_name ";
-        $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_tags = mysql_fetch_array($q_tags)) {
+        $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_tags = mysqli_fetch_array($q_tags)) {
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');\">";
           $linkend   = "</a>";
 
@@ -124,11 +124,11 @@
 
         $output .= "</ul>\n";
 
-        print "document.getElementById('tags_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('tags_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -176,9 +176,9 @@
       $q_string .= "left join users on users.usr_id = tags.tag_owner ";
       $q_string .= "where tag_character = " . $formVars['tag_character'] . " ";
       $q_string .= "order by tag_view,tag_name";
-      $q_tags = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_tags) > 0) {
-        while ($a_tags = mysql_fetch_array($q_tags)) {
+      $q_tags = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_tags) > 0) {
+        while ($a_tags = mysqli_fetch_array($q_tags)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('tags.fill.php?id="  . $a_tags['tag_id'] . "');showDiv('tags-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_tags('tags.del.php?id=" . $a_tags['tag_id'] . "');\">";
@@ -205,13 +205,13 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_tags);
+      mysqli_free_result($q_tags);
 
-      print "document.getElementById('tags_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('tags_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.tag_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

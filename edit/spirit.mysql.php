@@ -21,7 +21,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_spirit_id']            = clean($_GET['id'],                  10);
         $formVars['r_spirit_number']        = clean($_GET['r_spirit_number'],     10);
@@ -45,7 +45,7 @@
         }
 
         if ($formVars['r_spirit_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_spirit_character   =   " . $formVars['r_spirit_character']   . "," .
@@ -63,9 +63,9 @@
             $message = "Spirit reinforced.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_spirit_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_spirit_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');\n";
         } else {
@@ -76,7 +76,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -100,7 +100,7 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('spirits_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('spirits_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 
         $output  = "<p></p>\n";
@@ -158,9 +158,9 @@
         $q_string .= "left join versions on versions.ver_id = spirits.spirit_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by spirit_name ";
-        $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_spirits) > 0) {
-          while ($a_spirits = mysql_fetch_array($q_spirits)) {
+        $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_spirits) > 0) {
+          while ($a_spirits = mysqli_fetch_array($q_spirits)) {
 
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('spirit.mysql.php?update=0&r_spirit_character=" . $formVars['r_spirit_character'] . "&r_spirit_number=" . $a_spirits['spirit_id'] . "');\">";
             $linkend = "</a>";
@@ -204,9 +204,9 @@
             $q_string .= "left join versions on versions.ver_id = active.act_book ";
             $q_string .= "where sp_act_creature = " . $a_spirits['spirit_id'] . " ";
             $q_string .= "order by act_name,sp_act_specialize ";
-            $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_sp_active) > 0) {
-              while ($a_sp_active = mysql_fetch_array($q_sp_active)) {
+            $q_sp_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_sp_active) > 0) {
+              while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
                 if (strlen($a_sp_active['sp_act_specialize']) > 0) {
                   $active .= $a_comma . $a_sp_active['act_name'] . " (" . $a_sp_active['sp_act_specialize'] . ")";
@@ -236,9 +236,9 @@
             $q_string .= "left join versions on versions.ver_id = powers.pow_book ";
             $q_string .= "where sp_power_creature = " . $a_spirits['spirit_id'] . " ";
             $q_string .= "order by sp_power_optional,pow_name,sp_power_specialize ";
-            $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_sp_powers) > 0) {
-              while ($a_sp_powers = mysql_fetch_array($q_sp_powers)) {
+            $q_sp_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_sp_powers) > 0) {
+              while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
                 $specialize = $a_sp_powers['pow_name'];
                 if (strlen($a_sp_powers['sp_power_specialize']) > 0) {
@@ -275,9 +275,9 @@
             $q_string .= "left join versions on versions.ver_id = weakness.weak_book ";
             $q_string .= "where sp_weak_creature = " . $a_spirits['spirit_id'] . " ";
             $q_string .= "order by weak_name,sp_weak_specialize ";
-            $q_sp_weaknesses = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            if (mysql_num_rows($q_sp_weaknesses) > 0) {
-              while ($a_sp_weaknesses = mysql_fetch_array($q_sp_weaknesses)) {
+            $q_sp_weaknesses = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            if (mysqli_num_rows($q_sp_weaknesses) > 0) {
+              while ($a_sp_weaknesses = mysqli_fetch_array($q_sp_weaknesses)) {
 
                 if (strlen($a_sp_weaknesses['sp_weak_specialize']) > 0) {
                   $weaknesses .= $comma . $a_sp_weaknesses['weak_name'] . " (" . $a_sp_weaknesses['sp_weak_specialize'] . ")";
@@ -311,13 +311,13 @@
         }
         $output .= "</table>\n";
 
-        mysql_free_result($q_r_spirit);
+        mysqli_free_result($q_spirits);
 
-        print "document.getElementById('spirits_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('spirits_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -380,9 +380,9 @@
       $q_string .= "left join versions on versions.ver_id = spirits.spirit_book ";
       $q_string .= "where r_spirit_character = " . $formVars['r_spirit_character'] . " ";
       $q_string .= "order by spirit_name ";
-      $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_spirit) > 0) {
-        while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+      $q_r_spirit = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_spirit) > 0) {
+        while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('spirit.fill.php?id=" . $a_r_spirit['r_spirit_id'] . "');showDiv('spirit-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_spirit('spirit.del.php?id="  . $a_r_spirit['r_spirit_id'] . "');\">";
@@ -438,9 +438,9 @@
           $q_string .= "left join versions on versions.ver_id = active.act_book ";
           $q_string .= "where sp_act_creature = " . $a_r_spirit['spirit_id'] . " ";
           $q_string .= "order by act_name,sp_act_specialize ";
-          $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_sp_active) > 0) {
-            while ($a_sp_active = mysql_fetch_array($q_sp_active)) {
+          $q_sp_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_sp_active) > 0) {
+            while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
               if ($a_sp_active['att_column'] == "runr_body") {
                 $att_column = "spirit_body";
@@ -470,8 +470,8 @@
               $q_string  = "select " . $att_column . " ";
               $q_string .= "from spirits ";
               $q_string .= "where spirit_id = " . $a_r_spirit['spirit_id'] . " ";
-              $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-              $a_spirits = mysql_fetch_array($q_spirits);
+              $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+              $a_spirits = mysqli_fetch_array($q_spirits);
 
               $specialize = $a_sp_active['act_name'];
               if (strlen($a_sp_active['sp_act_specialize']) > 0) {
@@ -505,9 +505,9 @@
           $q_string .= "left join versions on versions.ver_id = powers.pow_book ";
           $q_string .= "where sp_power_creature = " . $a_r_spirit['spirit_id'] . " ";
           $q_string .= "order by sp_power_optional,pow_name,sp_power_specialize ";
-          $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_sp_powers) > 0) {
-            while ($a_sp_powers = mysql_fetch_array($q_sp_powers)) {
+          $q_sp_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_sp_powers) > 0) {
+            while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
               $specialize = $a_sp_powers['pow_name'];
               if (strlen($a_sp_powers['sp_power_specialize']) > 0) {
@@ -543,9 +543,9 @@
           $q_string .= "left join versions on versions.ver_id = weakness.weak_book ";
           $q_string .= "where sp_weak_creature = " . $a_r_spirit['spirit_id'] . " ";
           $q_string .= "order by weak_name,sp_weak_specialize ";
-          $q_sp_weaknesses = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_sp_weaknesses) > 0) {
-            while ($a_sp_weaknesses = mysql_fetch_array($q_sp_weaknesses)) {
+          $q_sp_weaknesses = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_sp_weaknesses) > 0) {
+            while ($a_sp_weaknesses = mysqli_fetch_array($q_sp_weaknesses)) {
 
               if (strlen($a_sp_weaknesses['sp_weak_specialize']) > 0) {
                 $weaknesses .= $comma . $a_sp_weaknesses['weak_name'] . " (" . $a_sp_weaknesses['sp_weak_specialize'] . ")";
@@ -579,12 +579,12 @@
       }
       $output .= "</table>\n";
 
-      mysql_free_result($q_r_spirit);
+      mysqli_free_result($q_r_spirit);
 
-      print "document.getElementById('my_spirits_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('my_spirits_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -20,7 +20,7 @@
       $formVars['update'] = -1;
     }
 
-    if (check_userlevel(1)) {
+    if (check_userlevel($db, $AL_Johnson)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                = clean($_GET['id'],                10);
         $formVars['sprite_name']       = clean($_GET['sprite_name'],       60);
@@ -55,7 +55,7 @@
         }
 
         if (strlen($formVars['sprite_name']) > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string = 
             "sprite_name          = \"" . $formVars['sprite_name']       . "\"," .
@@ -74,16 +74,16 @@
             $query = "update sprites set " . $q_string . " where sprite_id = " . $formVars['id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['sprite_name']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['sprite_name']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         } else {
           print "alert('You must input data before saving changes.');\n";
         }
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -137,9 +137,9 @@
       $q_string .= "left join versions on versions.ver_id = sprites.sprite_book ";
       $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by sprite_name,ver_version ";
-      $q_sprites = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_sprites) > 0) {
-        while ($a_sprites = mysql_fetch_array($q_sprites)) {
+      $q_sprites = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_sprites) > 0) {
+        while ($a_sprites = mysqli_fetch_array($q_sprites)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.sprites.fill.php?id="  . $a_sprites['sprite_id'] . "');jQuery('#dialogSprite').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_sprite('add.sprite.del.php?id=" . $a_sprites['sprite_id'] . "');\">";
@@ -161,9 +161,9 @@
           $q_string  = "select r_sprite_id ";
           $q_string .= "from r_sprite ";
           $q_string .= "where r_sprite_number = " . $a_sprites['sprite_id'] . " ";
-          $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_r_sprite) > 0) {
-            while ($a_r_sprite = mysql_fetch_array($q_r_sprite)) {
+          $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_sprite) > 0) {
+            while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
               $total++;
             }
           }
@@ -194,7 +194,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('mysql_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.sprite_name.value = '';\n";
       print "document.dialog.sprite_attack.value = '';\n";
@@ -206,7 +206,7 @@
       print "$(\"#button-update\").button(\"disable\");\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 

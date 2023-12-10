@@ -16,7 +16,7 @@
     $package = "program.mysql.php";
     $formVars['id'] = clean($_GET['id'], 10);
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
 # common programs
       if ($formVars['id'] == 0) {
@@ -58,7 +58,7 @@
         $message = "No hacking programs found.";
       }
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
 # fill in the program or hacking tab on the cyberdeck or console management table
       $output  = "<p></p>\n";
@@ -106,9 +106,9 @@
       $q_string .= "left join versions on versions.ver_id = program.pgm_book ";
       $q_string .= "where pgm_type = " . $formVars['id'] . " and ver_active = 1 ";
       $q_string .= "order by pgm_name ";
-      $q_program = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_program) > 0) {
-        while ($a_program = mysql_fetch_array($q_program)) {
+      $q_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_program) > 0) {
+        while ($a_program = mysqli_fetch_array($q_program)) {
 
 # update = 3 == add program to a console or deck
           $linkstart = "<a href=\"#\" onclick=\"javascript:" . $function . "('" . $myprogram . "?update=3&pgm_id=" . $a_program['pgm_id'] . "');\">";
@@ -138,10 +138,10 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('" . $table . "_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('" . $table . "_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

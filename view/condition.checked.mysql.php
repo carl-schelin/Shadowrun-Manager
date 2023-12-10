@@ -18,7 +18,7 @@
     $formVars['cond_id']         = clean($_GET['cond_id'],         10);      # what checkbox was checked
     $formVars['cond_function']   = clean($_GET['cond_function'],   10);      # which condition monitor
 
-    if (check_userlevel($AL_Shadowrunner)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
 # need to check and make sure it's the character owner or higher; runner, fixer, or johnson
 
@@ -27,8 +27,8 @@
         $q_string  = "select runr_body,runr_physicalcon ";
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_runners = mysql_fetch_array($q_runners);
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_runners = mysqli_fetch_array($q_runners);
 
         $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
 
@@ -42,7 +42,7 @@
         $q_string .= "set ";
         $q_string .= "runr_physicalcon = " . $formVars['cond_id'] . " ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
-        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+        $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
         for ($i = 1; $i <= 18; $i++) {
           if ($physical_damage >= $i) {
@@ -61,8 +61,8 @@
         $q_string  = "select runr_willpower,runr_stuncon ";
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_runners = mysql_fetch_array($q_runners);
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_runners = mysqli_fetch_array($q_runners);
 
         $stun_damage = ceil(($a_runners['runr_willpower'] / 2) + 8);
 
@@ -76,7 +76,7 @@
         $q_string .= "set ";
         $q_string .= "runr_stuncon = " . $formVars['cond_id'] . " ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
-        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+        $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
         for ($i = 1; $i <= 12; $i++) {
           if ($stun_damage >= $i) {
@@ -96,8 +96,8 @@
         $q_string .= "from r_commlink ";
         $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
         $q_string .= "where r_link_id = " . $formVars['id'] . " ";
-        $q_r_commlink = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_commlink = mysql_fetch_array($q_r_commlink);
+        $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_r_commlink = mysqli_fetch_array($q_r_commlink);
 
         $matrix_damage = ceil(($a_r_commlink['link_rating'] / 2) + 8);
 
@@ -111,7 +111,7 @@
         $q_string .= "set ";
         $q_string .= "r_link_conmon = " . $formVars['cond_id'] . " ";
         $q_string .= "where r_link_id = " . $formVars['id'] . " ";
-        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+        $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
         for ($i = 1; $i <= 18; $i++) {
           if ($matrix_damage >= $i) {
@@ -131,8 +131,8 @@
         $q_string .= "from r_cyberdeck ";
         $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
         $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
-        $q_r_cyberdeck = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_cyberdeck = mysql_fetch_array($q_r_cyberdeck);
+        $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck);
 
         $matrix_damage = ceil(($a_r_cyberdeck['deck_rating'] / 2) + 8);
 
@@ -146,7 +146,7 @@
         $q_string .= "set ";
         $q_string .= "r_deck_conmon = " . $formVars['cond_id'] . " ";
         $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
-        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+        $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
         for ($i = 1; $i <= 18; $i++) {
           if ($matrix_damage >= $i) {
@@ -166,8 +166,8 @@
         $q_string .= "from r_command ";
         $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
         $q_string .= "where r_cmd_id = " . $formVars['id'] . " ";
-        $q_r_command = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_command = mysql_fetch_array($q_r_command);
+        $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_r_command = mysqli_fetch_array($q_r_command);
 
         $command_damage = ceil(($a_r_command['cmd_rating'] / 2) + 8);
 
@@ -181,7 +181,7 @@
         $q_string .= "set ";
         $q_string .= "r_cmd_conmon = " . $formVars['cond_id'] . " ";
         $q_string .= "where r_cmd_id = " . $formVars['id'] . " ";
-        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+        $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
         for ($i = 1; $i <= 18; $i++) {
           if ($command_damage >= $i) {
@@ -200,8 +200,8 @@
         $q_string  = "select r_sprite_conmon,r_sprite_level ";
         $q_string .= "from r_sprite ";
         $q_string .= "where r_sprite_id = " . $formVars['id'] . " ";
-        $q_r_sprite = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_sprite = mysql_fetch_array($q_r_sprite);
+        $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_r_sprite = mysqli_fetch_array($q_r_sprite);
 
         $sprite_damage = ceil(($a_r_sprite['r_sprite_level'] / 2) + 8);
 
@@ -215,7 +215,7 @@
         $q_string .= "set ";
         $q_string .= "r_sprite_conmon = " . $formVars['cond_id'] . " ";
         $q_string .= "where r_sprite_id = " . $formVars['id'] . " ";
-        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+        $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
         for ($i = 1; $i <= 18; $i++) {
           if ($sprite_damage >= $i) {
@@ -235,8 +235,8 @@
         $q_string .= "from r_vehicles ";
         $q_string .= "left join vehicles on vehicles.veh_id = r_vehicles.r_veh_number ";
         $q_string .= "where r_veh_id = " . $formVars['id'] . " ";
-        $q_r_vehicles = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_r_vehicles = mysql_fetch_array($q_r_cyberdeck);
+        $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_r_vehicles = mysqli_fetch_array($q_r_cyberdeck);
 
         $vehicle_damage = ceil(($a_r_vehicles['veh_body'] / 2) + 8);
 
@@ -250,7 +250,7 @@
         $q_string .= "set ";
         $q_string .= "r_veh_conmon = " . $formVars['cond_id'] . " ";
         $q_string .= "where r_veh_id = " . $formVars['id'] . " ";
-        $result = mysql_query($q_string) or die($q_string . ": " . mysql_error());
+        $result = mysqli_query($db, $q_string) or die($q_string . ": " . mysqli_error($db));
 
         for ($i = 1; $i <= 18; $i++) {
           if ($vehicle_damage >= $i) {
@@ -265,7 +265,7 @@
       }
 
     } else {
-      logaccess($_SESSION['uid'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['uid'], $package, "Unauthorized access.");
     }
   }
 ?>

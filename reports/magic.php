@@ -11,7 +11,7 @@
 
   $package = "magic.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   $formVars['group'] = 0;
   if (isset($_GET['group'])) {
@@ -59,8 +59,8 @@ $(document).ready( function () {
     $q_string  = "select grp_name ";
     $q_string .= "from groups ";
     $q_string .= "where grp_id = " . $formVars['group'] . " ";
-    $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_groups = mysql_fetch_array($q_groups);
+    $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    $a_groups = mysqli_fetch_array($q_groups);
     $groupname = $a_groups['grp_name'] . " ";
   } else {
     $groupname = "";
@@ -91,6 +91,9 @@ $(document).ready( function () {
 
   print "<table class=\"ui-styled-table\" width=\"100%\">\n";
   print "<tr>\n";
+  print   "<th class=\"ui-state-default\" colspan=\"12\">Spells</th>\n";
+  print "</tr>\n";
+  print "<tr>\n";
   print   "<th class=\"ui-state-default\">Owner</th>\n";
   print   "<th class=\"ui-state-default\">Runner (Archetype)</th>\n";
   print   "<th class=\"ui-state-default\">Group</th>\n";
@@ -114,10 +117,11 @@ $(document).ready( function () {
   $q_string .= "left join spells on spells.spell_id = r_spells.r_spell_number ";
   $q_string .= "left join class on class.class_id = spells.spell_group ";
   $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
+  $q_string .= "where ver_active = 1 ";
   $q_string .= "order by runr_name,spell_group,spell_name ";
-  $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_spells) > 0) {
-    while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
+  $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_spells) > 0) {
+    while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
       $display = "No";
 
@@ -125,21 +129,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_spells['r_spell_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = "Yes";
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_r_spells['r_spell_character'])) {
+        if (check_owner($db, $a_r_spells['r_spell_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_r_spells['r_spell_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_spells['r_spell_character'])) {
           $display = 'Yes';
         }
       }
@@ -181,19 +185,22 @@ $(document).ready( function () {
 
   $q_string  = "select s_trad_id,s_trad_name ";
   $q_string .= "from s_tradition ";
-  $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_s_tradition = mysql_fetch_array($q_s_tradition)) {
+  $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
     $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
   }
 
   $q_string  = "select att_id,att_name ";
   $q_string .= "from attributes ";
-  $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  while ($a_attributes = mysql_fetch_array($q_attributes)) {
+  $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_attributes = mysqli_fetch_array($q_attributes)) {
     $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
   }
 
   print "<table class=\"ui-styled-table\" width=\"100%\">\n";
+  print "<tr>\n";
+  print   "<th class=\"ui-state-default\" colspan=\"11\">Traditions</th>\n";
+  print "</tr>\n";
   print "<tr>\n";
   print   "<th class=\"ui-state-default\">Owner</th>\n";
   print   "<th class=\"ui-state-default\">Runner (Archetype)</th>\n";
@@ -216,10 +223,11 @@ $(document).ready( function () {
   $q_string .= "left join users on users.usr_id = runners.runr_owner ";
   $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
   $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
+  $q_string .= "where ver_active = 1 ";
   $q_string .= "order by trad_name ";
-  $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_tradition) > 0) {
-    while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_tradition) > 0) {
+    while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
       $display = "No";
 
@@ -227,21 +235,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_tradition['r_trad_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = "Yes";
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_r_tradition['r_trad_character'])) {
+        if (check_owner($db, $a_r_tradition['r_trad_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_r_tradition['r_trad_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_tradition['r_trad_character'])) {
           $display = 'Yes';
         }
       }
@@ -267,11 +275,19 @@ $(document).ready( function () {
         print "</tr>\n";
       }
     }
+  } else {
+    $class = "ui-widget-content";
+    print "<tr>\n";
+    print "  <td class=\"" . $class . "\" colspan=\"11\">No Mages with defined Traditions</td>\n";
+    print "</tr>\n";
   }
   print "</table>\n";
 
 
   print "<table class=\"ui-styled-table\" width=\"100%\">\n";
+  print "<tr>\n";
+  print   "<th class=\"ui-state-default\" colspan=\"7\">Mentor Spirits</th>\n";
+  print "<\tr>\n";
   print "<tr>\n";
   print   "<th class=\"ui-state-default\">Owner</th>\n";
   print   "<th class=\"ui-state-default\">Runner (Archetype)</th>\n";
@@ -290,10 +306,11 @@ $(document).ready( function () {
   $q_string .= "left join users on users.usr_id = runners.runr_owner ";
   $q_string .= "left join mentor on mentor.mentor_id = r_mentor.r_mentor_number ";
   $q_string .= "left join versions on versions.ver_id = mentor.mentor_book ";
+  $q_string .= "where ver_active = 1 ";
   $q_string .= "order by mentor_name ";
-  $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_mentor) > 0) {
-    while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
+  $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_mentor) > 0) {
+    while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
       $display = "No";
 
@@ -301,21 +318,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_mentor['r_mentor_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = "Yes";
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_r_mentor['r_mentor_character'])) {
+        if (check_owner($db, $a_r_mentor['r_mentor_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_r_mentor['r_mentor_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_mentor['r_mentor_character'])) {
           $display = 'Yes';
         }
       }
@@ -343,6 +360,9 @@ $(document).ready( function () {
 
 
   print "<table class=\"ui-styled-table\" width=\"100%\">\n";
+  print "<tr>\n";
+  print   "<th class=\"ui-state-default\" colspan=\"18\">Mentor Spirits</th>\n";
+  print "<\tr>\n";
   print "<tr>\n";
   print   "<th class=\"ui-state-default\">Owner</th>\n";
   print   "<th class=\"ui-state-default\">Runner (Archetype)</th>\n";
@@ -373,10 +393,11 @@ $(document).ready( function () {
   $q_string .= "left join users on users.usr_id = runners.runr_owner ";
   $q_string .= "left join spirits on spirits.spirit_id = r_spirit.r_spirit_number ";
   $q_string .= "left join versions on versions.ver_id = spirits.spirit_book ";
+  $q_string .= "where ver_active = 1 ";
   $q_string .= "order by spirit_name ";
-  $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_spirit) > 0) {
-    while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+  $q_r_spirit = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_spirit) > 0) {
+    while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
       $display = "No";
 
@@ -384,21 +405,21 @@ $(document).ready( function () {
         $q_string  = "select mem_id ";
         $q_string .= "from members ";
         $q_string .= "where mem_group = " . $formVars['group'] . " and mem_runner = " . $a_r_spirit['r_spirit_character'] . " ";
-        $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_members) > 0) {
+        $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_members) > 0) {
           $display = "Yes";
         }
       } else {
 # I'm a Johnson, show me everyone in the group
-        if (check_userlevel(1)) {
+        if (check_userlevel($db, $AL_Johnson)) {
           $display = 'Yes';
         }
 # it's my character so show me no matter what
-        if (check_owner($a_r_spirit['r_spirit_character'])) {
+        if (check_owner($db, $a_r_spirit['r_spirit_character'])) {
           $display = 'Yes';
         }
 # are we a gm and the character is available for running?
-        if (check_userlevel(2) && check_available($a_r_spirit['r_spirit_character'])) {
+        if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_spirit['r_spirit_character'])) {
           $display = 'Yes';
         }
       }
@@ -458,9 +479,9 @@ $(document).ready( function () {
         $q_string .= "left join versions on versions.ver_id = active.act_book ";
         $q_string .= "where sp_act_creature = " . $a_r_spirit['spirit_id'] . " ";
         $q_string .= "order by act_name ";
-        $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_sp_active) > 0) {
-          while ($a_sp_active = mysql_fetch_array($q_sp_active)) {
+        $q_sp_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_sp_active) > 0) {
+          while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
             if ($a_sp_active['att_column'] == "runr_body") {
               $att_column = "spirit_body";
@@ -490,8 +511,8 @@ $(document).ready( function () {
             $q_string  = "select " . $att_column . " ";
             $q_string .= "from spirits ";
             $q_string .= "where spirit_id = " . $a_r_spirit['spirit_id'] . " ";
-            $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            $a_spirits = mysql_fetch_array($q_spirits);
+            $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            $a_spirits = mysqli_fetch_array($q_spirits);
 
             if ($a_r_spirit['r_spirit_force'] == 0) {
               $active .= $a_comma . $a_sp_active['act_name'] . " (F+(" . return_Spirit($a_r_spirit['r_spirit_force'], ($a_r_spirit['r_spirit_force'] + $a_spirits[$att_column])) . "))";
@@ -504,7 +525,7 @@ $(document).ready( function () {
 
           }
           print "<tr>\n";
-          print "  <td class=\"ui-widget-content\" colspan=\"18\">" . $active . "</td>\n";
+          print "  <td class=\"ui-widget-content\" colspan=\"17\">" . $active . "</td>\n";
           print "  <td class=\"ui-widget-content delete\">" . $active_book . "</td>\n";
           print "</tr>\n";
         }
@@ -520,9 +541,9 @@ $(document).ready( function () {
         $q_string .= "left join versions on versions.ver_id = powers.pow_book ";
         $q_string .= "where sp_power_creature = " . $a_r_spirit['spirit_id'] . " ";
         $q_string .= "order by sp_power_optional,pow_name ";
-        $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_sp_powers) > 0) {
-          while ($a_sp_powers = mysql_fetch_array($q_sp_powers)) {
+        $q_sp_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_sp_powers) > 0) {
+          while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
             if ($a_sp_powers['sp_power_optional']) {
               $optional .= $o_comma . $a_sp_powers['pow_name'];
@@ -535,16 +556,20 @@ $(document).ready( function () {
             $power_book = return_Book($a_sp_powers['ver_book'], $a_sp_powers['pow_page']);
           }
           print "<tr>\n";
-          print "  <td class=\"ui-widget-content\" colspan=\"18\">" . $powers . "</td>\n";
+          print "  <td class=\"ui-widget-content\" colspan=\"17\">" . $powers . "</td>\n";
           print "  <td class=\"ui-widget-content delete\">" . $power_book . "</td>\n";
           print "</tr>\n";
           print "<tr>\n";
-          print "  <td class=\"ui-widget-content\" colspan=\"18\">" . $optional . "</td>\n";
+          print "  <td class=\"ui-widget-content\" colspan=\"17\">" . $optional . "</td>\n";
           print "  <td class=\"ui-widget-content delete\">" . $power_book . "</td>\n";
           print "</tr>\n";
         }
       }
     }
+  } else {
+    print "<tr>\n";
+    print "  <td class=\"ui-widget-content\" colspan=\"18\">No Mentor Spirits</td>\n";
+    print "</tr>\n";
   }
   print "</table>\n";
 
@@ -562,8 +587,8 @@ $(document).ready( function () {
       $q_string  = "select grp_name ";
       $q_string .= "from groups ";
       $q_string .= "where grp_id = " . $formVars['opposed'] . " ";
-      $q_groups = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_groups = mysql_fetch_array($q_groups);
+      $q_groups = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_groups = mysqli_fetch_array($q_groups);
       $groupname = $a_groups['grp_name'] . " ";
     } else {
       $groupname = "";
@@ -618,9 +643,9 @@ $(document).ready( function () {
     $q_string .= "left join class on class.class_id = spells.spell_group ";
     $q_string .= "left join versions on versions.ver_id = spells.spell_book ";
     $q_string .= "order by runr_name,spell_group,spell_name ";
-    $q_r_spells = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_spells) > 0) {
-      while ($a_r_spells = mysql_fetch_array($q_r_spells)) {
+    $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_spells) > 0) {
+      while ($a_r_spells = mysqli_fetch_array($q_r_spells)) {
 
         $display = "No";
 
@@ -628,21 +653,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_spells['r_spell_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = "Yes";
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_r_spells['r_spell_character'])) {
+          if (check_owner($db, $a_r_spells['r_spell_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_r_spells['r_spell_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_spells['r_spell_character'])) {
             $display = 'Yes';
           }
         }
@@ -684,15 +709,15 @@ $(document).ready( function () {
 
     $q_string  = "select s_trad_id,s_trad_name ";
     $q_string .= "from s_tradition ";
-    $q_s_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_s_tradition = mysql_fetch_array($q_s_tradition)) {
+    $q_s_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    while ($a_s_tradition = mysqli_fetch_array($q_s_tradition)) {
       $tradition_name[$a_s_tradition['s_trad_id']] = $a_s_tradition['s_trad_name'];
     }
 
     $q_string  = "select att_id,att_name ";
     $q_string .= "from attributes ";
-    $q_attributes = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    while ($a_attributes = mysql_fetch_array($q_attributes)) {
+    $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    while ($a_attributes = mysqli_fetch_array($q_attributes)) {
       $attribute_name[$a_attributes['att_id']] = $a_attributes['att_name'];
     }
 
@@ -720,9 +745,9 @@ $(document).ready( function () {
     $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
     $q_string .= "left join versions on versions.ver_id = tradition.trad_book ";
     $q_string .= "order by trad_name ";
-    $q_r_tradition = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_tradition) > 0) {
-      while ($a_r_tradition = mysql_fetch_array($q_r_tradition)) {
+    $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_tradition) > 0) {
+      while ($a_r_tradition = mysqli_fetch_array($q_r_tradition)) {
 
         $display = "No";
 
@@ -730,21 +755,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_tradition['r_trad_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = "Yes";
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_r_tradition['r_trad_character'])) {
+          if (check_owner($db, $a_r_tradition['r_trad_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_r_tradition['r_trad_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_tradition['r_trad_character'])) {
             $display = 'Yes';
           }
         }
@@ -794,9 +819,9 @@ $(document).ready( function () {
     $q_string .= "left join mentor on mentor.mentor_id = r_mentor.r_mentor_number ";
     $q_string .= "left join versions on versions.ver_id = mentor.mentor_book ";
     $q_string .= "order by mentor_name ";
-    $q_r_mentor = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_mentor) > 0) {
-      while ($a_r_mentor = mysql_fetch_array($q_r_mentor)) {
+    $q_r_mentor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_mentor) > 0) {
+      while ($a_r_mentor = mysqli_fetch_array($q_r_mentor)) {
 
         $display = "No";
 
@@ -804,21 +829,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_mentor['r_mentor_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = "Yes";
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_r_mentor['r_mentor_character'])) {
+          if (check_owner($db, $a_r_mentor['r_mentor_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_r_mentor['r_mentor_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_mentor['r_mentor_character'])) {
             $display = 'Yes';
           }
         }
@@ -877,9 +902,9 @@ $(document).ready( function () {
     $q_string .= "left join spirits on spirits.spirit_id = r_spirit.r_spirit_number ";
     $q_string .= "left join versions on versions.ver_id = spirits.spirit_book ";
     $q_string .= "order by spirit_name ";
-    $q_r_spirit = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_spirit) > 0) {
-      while ($a_r_spirit = mysql_fetch_array($q_r_spirit)) {
+    $q_r_spirit = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_spirit) > 0) {
+      while ($a_r_spirit = mysqli_fetch_array($q_r_spirit)) {
 
         $display = "No";
 
@@ -887,21 +912,21 @@ $(document).ready( function () {
           $q_string  = "select mem_id ";
           $q_string .= "from members ";
           $q_string .= "where mem_group = " . $formVars['opposed'] . " and mem_runner = " . $a_r_spirit['r_spirit_character'] . " ";
-          $q_members = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_members) > 0) {
+          $q_members = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_members) > 0) {
             $display = "Yes";
           }
         } else {
 # I'm a Johnson, show me everyone in the group
-          if (check_userlevel(1)) {
+          if (check_userlevel($db, $AL_Johnson)) {
             $display = 'Yes';
           }
 # it's my character so show me no matter what
-          if (check_owner($a_r_spirit['r_spirit_character'])) {
+          if (check_owner($db, $a_r_spirit['r_spirit_character'])) {
             $display = 'Yes';
           }
 # are we a gm and the character is available for running?
-          if (check_userlevel(2) && check_available($a_r_spirit['r_spirit_character'])) {
+          if (check_userlevel($db, $AL_Fixer) && check_available($db, $a_r_spirit['r_spirit_character'])) {
             $display = 'Yes';
           }
         }
@@ -961,9 +986,9 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = active.act_book ";
           $q_string .= "where sp_act_creature = " . $a_r_spirit['spirit_id'] . " ";
           $q_string .= "order by act_name ";
-          $q_sp_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_sp_active) > 0) {
-            while ($a_sp_active = mysql_fetch_array($q_sp_active)) {
+          $q_sp_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_sp_active) > 0) {
+            while ($a_sp_active = mysqli_fetch_array($q_sp_active)) {
 
               if ($a_sp_active['att_column'] == "runr_body") {
                 $att_column = "spirit_body";
@@ -993,8 +1018,8 @@ $(document).ready( function () {
               $q_string  = "select " . $att_column . " ";
               $q_string .= "from spirits ";
               $q_string .= "where spirit_id = " . $a_r_spirit['spirit_id'] . " ";
-              $q_spirits = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-              $a_spirits = mysql_fetch_array($q_spirits);
+              $q_spirits = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+              $a_spirits = mysqli_fetch_array($q_spirits);
 
               if ($a_r_spirit['r_spirit_force'] == 0) {
                 $active .= $a_comma . $a_sp_active['act_name'] . " (F+(" . return_Spirit($a_r_spirit['r_spirit_force'], ($a_r_spirit['r_spirit_force'] + $a_spirits[$att_column])) . "))";
@@ -1007,7 +1032,7 @@ $(document).ready( function () {
 
             }
             print "<tr>\n";
-            print "  <td class=\"ui-widget-content\" colspan=\"18\">" . $active . "</td>\n";
+            print "  <td class=\"ui-widget-content\" colspan=\"17\">" . $active . "</td>\n";
             print "  <td class=\"ui-widget-content delete\">" . $active_book . "</td>\n";
             print "</tr>\n";
           }
@@ -1023,9 +1048,9 @@ $(document).ready( function () {
           $q_string .= "left join versions on versions.ver_id = powers.pow_book ";
           $q_string .= "where sp_power_creature = " . $a_r_spirit['spirit_id'] . " ";
           $q_string .= "order by sp_power_optional,pow_name ";
-          $q_sp_powers = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          if (mysql_num_rows($q_sp_powers) > 0) {
-            while ($a_sp_powers = mysql_fetch_array($q_sp_powers)) {
+          $q_sp_powers = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_sp_powers) > 0) {
+            while ($a_sp_powers = mysqli_fetch_array($q_sp_powers)) {
 
               if ($a_sp_powers['sp_power_optional']) {
                 $optional .= $o_comma . $a_sp_powers['pow_name'];
@@ -1038,11 +1063,11 @@ $(document).ready( function () {
               $power_book = return_Book($a_sp_powers['ver_book'], $a_sp_powers['pow_page']);
             }
             print "<tr>\n";
-            print "  <td class=\"ui-widget-content\" colspan=\"18\">" . $powers . "</td>\n";
+            print "  <td class=\"ui-widget-content\" colspan=\"17\">" . $powers . "</td>\n";
             print "  <td class=\"ui-widget-content delete\">" . $power_book . "</td>\n";
             print "</tr>\n";
             print "<tr>\n";
-            print "  <td class=\"ui-widget-content\" colspan=\"18\">" . $optional . "</td>\n";
+            print "  <td class=\"ui-widget-content\" colspan=\"17\">" . $optional . "</td>\n";
             print "  <td class=\"ui-widget-content delete\">" . $power_book . "</td>\n";
             print "</tr>\n";
           }

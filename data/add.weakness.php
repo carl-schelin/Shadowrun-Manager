@@ -8,11 +8,11 @@
   include('settings.php');
   include($Loginpath . '/check.php');
   include($Sitepath . '/function.php');
-  check_login('1');
+  check_login($db, $AL_Johnson);
 
   $package = "add.weakness.php";
 
-  logaccess($_SESSION['username'], $package, "Accessing script");
+  logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
 ?>
 <!DOCTYPE HTML>
@@ -33,7 +33,7 @@
 <script type="text/javascript">
 <?php
 
-  if (check_userlevel(1)) {
+  if (check_userlevel($db, $AL_Johnson)) {
 ?>
 function delete_weakness( p_script_url ) {
   var question;

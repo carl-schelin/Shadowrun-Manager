@@ -19,28 +19,28 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_gear");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Deleting " . $formVars['id'] . " from r_gear");
 
       $q_string  = "select r_gear_character ";
       $q_string .= "from r_gear ";
       $q_string .= "where r_gear_id = " . $formVars['id'] . " ";
-      $q_r_gear = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_r_gear = mysql_fetch_array($q_r_gear);
+      $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_r_gear = mysqli_fetch_array($q_r_gear);
 
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";
       $q_string .= "where r_acc_character = " . $a_r_gear['r_gear_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
-      $result = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       $q_string  = "delete ";
       $q_string .= "from r_gear ";
       $q_string .= "where r_gear_id= " . $formVars['id'];
-      $insert = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
+      $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       print "alert('Gear deleted.');\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Access denied");
+      logaccess($db, $_SESSION['username'], $package, "Access denied");
     }
   }
 ?>

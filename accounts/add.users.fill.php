@@ -19,26 +19,26 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(1)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from users");
+    if (check_userlevel($db, $AL_Johnson)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from users");
 
       $q_string  = "select usr_id,usr_level,usr_disabled,usr_name,usr_first,usr_last,usr_email,usr_phone,";
       $q_string .= "usr_theme,usr_reset ";
       $q_string .= "from users ";
       $q_string .= "where usr_id = " . $formVars['id'];
-      $q_users = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_users = mysql_fetch_array($q_users);
-      mysql_free_result($q_users);
+      $q_users = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_users = mysqli_fetch_array($q_users);
+      mysqli_free_result($q_users);
 
       $disabled = $a_users['usr_disabled'];
-      $levels   = return_Index($a_users['usr_level'],    "select lvl_id from levels where lvl_disabled = 0 order by lvl_id");
-      $theme    = return_Index($a_users['usr_theme'],    "select theme_id from themes order by theme_title") - 1;
+      $levels   = return_Index($db, $a_users['usr_level'],    "select lvl_id from levels where lvl_disabled = 0 order by lvl_id");
+      $theme    = return_Index($db, $a_users['usr_theme'],    "select theme_id from themes order by theme_title") - 1;
 
-      print "document.user.usr_name.value = '"       . mysql_real_escape_string($a_users['usr_name'])     . "';\n";
-      print "document.user.usr_first.value = '"      . mysql_real_escape_string($a_users['usr_first'])    . "';\n";
-      print "document.user.usr_last.value = '"       . mysql_real_escape_string($a_users['usr_last'])     . "';\n";
-      print "document.user.usr_email.value = '"      . mysql_real_escape_string($a_users['usr_email'])    . "';\n";
-      print "document.user.usr_phone.value = '"      . mysql_real_escape_string($a_users['usr_phone'])    . "';\n";
+      print "document.user.usr_name.value = '"       . mysqli_real_escape_string($db, $a_users['usr_name'])     . "';\n";
+      print "document.user.usr_first.value = '"      . mysqli_real_escape_string($db, $a_users['usr_first'])    . "';\n";
+      print "document.user.usr_last.value = '"       . mysqli_real_escape_string($db, $a_users['usr_last'])     . "';\n";
+      print "document.user.usr_email.value = '"      . mysqli_real_escape_string($db, $a_users['usr_email'])    . "';\n";
+      print "document.user.usr_phone.value = '"      . mysqli_real_escape_string($db, $a_users['usr_phone'])    . "';\n";
 
       print "document.user.usr_disabled['" . $disabled . "'].selected = true;\n";
       print "document.user.usr_level['"    . $levels   . "'].selected = true;\n";
@@ -54,7 +54,7 @@
       print "document.user.update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

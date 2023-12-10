@@ -25,7 +25,7 @@
       $formVars['r_act_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['r_act_id']          = clean($_GET['id'],                 10);
         $formVars['r_act_number']      = clean($_GET['r_act_number'],       10);
@@ -51,7 +51,7 @@
         }
 
         if ($formVars['r_act_number'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string =
             "r_act_character   =   " . $formVars['r_act_character']   . "," .
@@ -67,19 +67,19 @@
             $query = "update r_active set " . $q_string . " where r_act_id = " . $formVars['r_act_id'];
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_act_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_act_number']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
         }
 
         if ($formVars['r_act_group'] > 0) {
-          logaccess($_SESSION['username'], $package, "Building the query.");
+          logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
           $q_string  = "select act_group ";
           $q_string .= "from active ";
           $q_string .= "where act_id = " . $formVars['r_act_group'] . " ";
-          $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          $a_active = mysql_fetch_array($q_active);
+          $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          $a_active = mysqli_fetch_array($q_active);
 
 # for the comparison below for highlighting
           $group_highlight = $a_active['act_group'];
@@ -87,8 +87,8 @@
           $q_string  = "select act_id ";
           $q_string .= "from active ";
           $q_string .= "where act_group = \"" . $a_active['act_group'] . "\" ";
-          $q_skill = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-          while ($a_skill = mysql_fetch_array($q_skill)) {
+          $q_skill = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          while ($a_skill = mysqli_fetch_array($q_skill)) {
 
             $q_string =
               "r_act_character   =   " . $formVars['r_act_character']   . "," .
@@ -100,9 +100,9 @@
               $query = "insert into r_active set r_act_id = NULL," . $q_string;
             }
 
-            logaccess($_SESSION['username'], $package, "Saving Changes to: " . $a_skill['act_id']);
+            logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $a_skill['act_id']);
 
-            mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
           }
 
           $message = "Active Skill Group added.";
@@ -119,7 +119,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -144,8 +144,8 @@
         $q_string .= "left join versions on versions.ver_id = active.act_book ";
         $q_string .= "where ver_active = 1 ";
         $q_string .= "order by act_name ";
-        $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_active = mysql_fetch_array($q_active)) {
+        $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_active = mysqli_fetch_array($q_active)) {
           $output .= "<option value=\"" . $a_active['act_id'] . "\">" . $a_active['act_name'] . "</option>\n";
         }
 
@@ -158,8 +158,8 @@
         $q_string .= "left join versions on versions.ver_id = active.act_book ";
         $q_string .= "where act_group != '' and ver_active = 1 ";
         $q_string .= "group by act_group ";
-        $q_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        while ($a_active = mysql_fetch_array($q_active)) {
+        $q_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_active = mysqli_fetch_array($q_active)) {
           $output .= "<option value=\"" . $a_active['act_id'] . "\">" . $a_active['act_group'] . "</option>\n";
         }
 
@@ -169,12 +169,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('active_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('active_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -227,9 +227,9 @@
       $q_string .= "left join versions on versions.ver_id = active.act_book ";
       $q_string .= "where r_act_character = " . $formVars['r_act_character'] . " ";
       $q_string .= "order by act_name ";
-      $q_r_active = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_r_active) > 0) {
-        while ($a_r_active = mysql_fetch_array($q_r_active)) {
+      $q_r_active = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_active) > 0) {
+        while ($a_r_active = mysqli_fetch_array($q_r_active)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('active.fill.php?id=" . $a_r_active['r_act_id'] . "');showDiv('active-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_active('active.del.php?id="  . $a_r_active['r_act_id'] . "');\">";
@@ -269,8 +269,8 @@
             $q_string  = "select " . $a_r_active['att_column'] . " ";
             $q_string .= "from runners ";
             $q_string .= "where runr_id = " . $formVars['r_act_character'] . " ";
-            $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-            $a_runners = mysql_fetch_array($q_runners);
+            $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+            $a_runners = mysqli_fetch_array($q_runners);
 
             $output .= "<tr>\n";
             $output .= "  <td class=\"" . $class . " delete\">" . $linkdel                                                                         . "</td>\n";
@@ -316,9 +316,9 @@
       $output .= "</table>\n";
       $output .= "<p class=\"ui-widget-content\">* Identifies a managed skill group.</p>\n";
 
-      mysql_free_result($q_r_active);
+      mysqli_free_result($q_r_active);
 
-      print "document.getElementById('active_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('active_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.r_act_group[0].selected = true;\n";
       print "document.edit.r_act_group.disabled = false;\n";
@@ -326,7 +326,7 @@
       print "document.edit.r_act_expert.checked = false;\n";
       print "document.edit.r_act_update.disabled = true;\n";
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -17,14 +17,14 @@
 
     $formVars['id'] = clean($_GET['id'], 10);
 
-    logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+    logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
     $q_string  = "select ver_version ";
     $q_string .= "from versions ";
     $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
     $q_string .= "where runr_id = " . $formVars['id'] . " ";
-    $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    $a_versions = mysql_fetch_array($q_versions);
+    $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    $a_versions = mysqli_fetch_array($q_versions);
 
     $output  = "<p></p>\n";
     $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -87,9 +87,9 @@
     $q_string .= "left join versions on versions.ver_id = projectile.proj_book ";
     $q_string .= "where r_proj_character = " . $formVars['id'] . " ";
     $q_string .= "order by class_name,proj_name ";
-    $q_r_projectile = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-    if (mysql_num_rows($q_r_projectile) > 0) {
-      while ($a_r_projectile = mysql_fetch_array($q_r_projectile)) {
+    $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_r_projectile) > 0) {
+      while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
 
         $proj_rating = return_Rating($a_r_projectile['proj_rating']);
 
@@ -99,7 +99,7 @@
 
         $proj_avail = return_Avail($a_r_projectile['proj_avail'], $a_r_projectile['proj_perm']);
 
-        $proj_attack = return_Attack($a_r_projectile['proj_ar1'], $a_r_projectile['proj_ar2'], $a_r_projectile['proj_ar3'], $a_r_projectile['prlj_ar4'], $a_r_projectile['proj_ar5']);
+        $proj_attack = return_Attack($a_r_projectile['proj_ar1'], $a_r_projectile['proj_ar2'], $a_r_projectile['proj_ar3'], $a_r_projectile['proj_ar4'], $a_r_projectile['proj_ar5']);
 
         $totalcost += $a_r_projectile['proj_cost'];
         $proj_cost = return_Cost($a_r_projectile['proj_cost']);
@@ -139,9 +139,9 @@
         $q_string .= "left join versions on versions.ver_id = ammo.ammo_book ";
         $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_projectile['r_proj_id'] . " ";
         $q_string .= "order by ammo_name,class_name ";
-        $q_r_ammo = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        if (mysql_num_rows($q_r_ammo) > 0) {
-          while ($a_r_ammo = mysql_fetch_array($q_r_ammo)) {
+        $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        if (mysqli_num_rows($q_r_ammo) > 0) {
+          while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
             $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 
@@ -189,9 +189,9 @@
 
     $output .= "</table>\n";
 
-    mysql_free_result($q_r_projectile);
+    mysqli_free_result($q_r_projectile);
 
-    print "document.getElementById('projectile_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+    print "document.getElementById('projectile_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
   }
 ?>

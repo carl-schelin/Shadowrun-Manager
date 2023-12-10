@@ -24,9 +24,9 @@
       $formVars['fin_character'] = 0;
     }
 
-    if (check_userlevel(3)) {
+    if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
-        logaccess($_SESSION['username'], $package, "Building the query.");
+        logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
         $formVars['fin_id']          = clean($_GET['fin_id'],          10);
         $formVars['fin_funds']       = clean($_GET['fin_funds'],       10);
@@ -59,9 +59,9 @@
             $message = "Character Karma updated.";
           }
 
-          logaccess($_SESSION['username'], $package, "Saving Notes for: " . $formVars['fin_id']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Notes for: " . $formVars['fin_id']);
 
-          mysql_query($query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysql_error()));
+          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
           print "alert('" . $message . "');";
         }
@@ -71,7 +71,7 @@
 
       if ($formVars['update'] == -3) {
 
-        logaccess($_SESSION['username'], $package, "Creating the form for viewing.");
+        logaccess($db, $_SESSION['username'], $package, "Creating the form for viewing.");
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
@@ -105,12 +105,12 @@
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
-        print "document.getElementById('finance_form').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+        print "document.getElementById('finance_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       }
 
 
-      logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+      logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
@@ -130,9 +130,9 @@
       $q_string .= "from finance ";
       $q_string .= "where fin_character = " . $formVars['fin_character'] . " ";
       $q_string .= "order by fin_date desc,fin_id desc ";
-      $q_finance = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      if (mysql_num_rows($q_finance) > 0) {
-        while ($a_finance = mysql_fetch_array($q_finance)) {
+      $q_finance = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_finance) > 0) {
+        while ($a_finance = mysqli_fetch_array($q_finance)) {
 
           $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('finance.fill.php?id=" . $a_finance['fin_id'] . "');showDiv('finance-hide');\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_finance('finance.del.php?id="  . $a_finance['fin_id'] . "');\">";
@@ -186,7 +186,7 @@
 
       $output .= "</table>\n";
 
-      print "document.getElementById('finance_table').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+      print "document.getElementById('finance_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.edit.fin_funds.value = '';\n\n";
       print "document.edit.fin_date.value = '" . date('Y-m-d') . "';\n\n";
@@ -196,7 +196,7 @@
       print "document.edit.fin_update.disabled = true;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

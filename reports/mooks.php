@@ -10,7 +10,7 @@
 
   $package = "mooks.php";
 
-  logaccess($formVars['username'], $package, "Accessing the script");
+  logaccess($db, $formVars['username'], $package, "Accessing the script");
 
   if (isset($_GET['group'])) {
     $formVars['group'] = clean($_GET['group'], 10);

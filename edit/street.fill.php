@@ -19,19 +19,19 @@
       $formVars['id'] = clean($_GET['id'], 10);
     }
 
-    if (check_userlevel(3)) {
-      logaccess($_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from street");
+    if (check_userlevel($db, $AL_Shadowrunner)) {
+      logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from street");
 
       $q_string  = "select st_cred,st_date,st_notes ";
       $q_string .= "from street ";
       $q_string .= "where st_id = " . $formVars['id'];
-      $q_street = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-      $a_street = mysql_fetch_array($q_street);
-      mysql_free_result($q_street);
+      $q_street = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_street = mysqli_fetch_array($q_street);
+      mysqli_free_result($q_street);
 
-      print "document.edit.st_cred.value = '"     . mysql_real_escape_string($a_street['st_cred'])     . "';\n";
-      print "document.edit.st_date.value = '"     . mysql_real_escape_string($a_street['st_date'])     . "';\n";
-      print "document.edit.st_notes.value = '"    . mysql_real_escape_string($a_street['st_notes'])    . "';\n";
+      print "document.edit.st_cred.value = '"     . mysqli_real_escape_string($db, $a_street['st_cred'])     . "';\n";
+      print "document.edit.st_date.value = '"     . mysqli_real_escape_string($db, $a_street['st_date'])     . "';\n";
+      print "document.edit.st_notes.value = '"    . mysqli_real_escape_string($db, $a_street['st_notes'])    . "';\n";
 
       $value = (2000 - strlen($a_street['st_notes']));
 
@@ -40,7 +40,7 @@
       print "document.edit.st_update.disabled = false;\n\n";
 
     } else {
-      logaccess($_SESSION['username'], $package, "Unauthorized access.");
+      logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");
     }
   }
 ?>

@@ -15,24 +15,24 @@
   $package = "melee.mysql.php";
   $formVars['id'] = clean($_GET['id'], 10);
 
-  logaccess($_SESSION['username'], $package, "Creating the table for viewing.");
+  logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
   $q_string  = "select ver_version ";
   $q_string .= "from versions ";
   $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_versions = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  $a_versions = mysql_fetch_array($q_versions);
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  $a_versions = mysqli_fetch_array($q_versions);
 
   $output  = "<p></p>\n";
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#weapons\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
   $output .= "Melee Information";
-  if (check_userlevel('1') || check_owner($formVars['id'])) {
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
     $output .= "</a>";
   }
   $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('melee-listing-help');\">Help</a></th>\n";
@@ -92,9 +92,9 @@
   $q_string .= "left join versions on versions.ver_id = melee.melee_book ";
   $q_string .= "where r_melee_character = " . $formVars['id'] . " ";
   $q_string .= "order by class_name,melee_name ";
-  $q_r_melee = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-  if (mysql_num_rows($q_r_melee) > 0) {
-    while ($a_r_melee = mysql_fetch_array($q_r_melee)) {
+  $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_melee) > 0) {
+    while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
 
       $melee_reach = '--';
       if ($a_r_melee['melee_reach'] > 0) {
@@ -111,8 +111,8 @@
         $q_string  = "select runr_strength ";
         $q_string .= "from runners ";
         $q_string .= "where runr_id = " . $formVars['id'] . " ";
-        $q_runners = mysql_query($q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysql_error()));
-        $a_runners = mysql_fetch_array($q_runners);
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_runners = mysqli_fetch_array($q_runners);
 
         $melee_damage = ($a_runners['runr_strength'] + $a_r_melee['melee_damage']);
       } else {
@@ -172,8 +172,8 @@
 
   $output .= "</table>\n";
 
-  mysql_free_result($q_r_melee);
+  mysqli_free_result($q_r_melee);
 
-  print "document.getElementById('melee_mysql').innerHTML = '" . mysql_real_escape_string($output) . "';\n\n";
+  print "document.getElementById('melee_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
 ?>
