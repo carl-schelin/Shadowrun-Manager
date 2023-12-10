@@ -15,7 +15,11 @@
   if (isset($_SESSION['username'])) {
     $package = "vehacc.mysql.php";
     $formVars['update']        = clean($_GET['update'],     10);
-    $formVars['r_veh_id']      = clean($_GET['r_veh_id'],   10);
+
+    $formVars['r_veh_id'] = 0;
+    if (isset($_GET['r_veh_id'])) {
+      $formVars['r_veh_id']      = clean($_GET['r_veh_id'],   10);
+    }
 
     if ($formVars['update'] == '') {
       $formVars['update'] = -1;
