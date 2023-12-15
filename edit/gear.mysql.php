@@ -17,6 +17,11 @@
     $formVars['update']             = clean($_GET['update'],              10);
     $formVars['r_gear_character']   = clean($_GET['r_gear_character'],    10);
 
+    $formVars['r_gear_id'] = 0;
+    if (isset($_GET['r_gear_id'])) {
+      $formVars['r_gear_id']         = clean($_GET['r_gear_id'],          10);
+    }
+
     $formVars['gear_class'] = 0;
     if (isset($_GET['gear_class'])) {
       $formVars['gear_class']         = clean($_GET['gear_class'],          10);
