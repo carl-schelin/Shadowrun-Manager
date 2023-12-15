@@ -825,4 +825,12 @@ function return_Level($p_level) {
   return $r_level;
 }
 
+function return_Power($p_level) {
+  $r_level = $p_level;
+  if ($p_level == 0) {
+    $r_level = "Limited by Magic";
+  }
+  return $r_level;
+}
+
 ?>
