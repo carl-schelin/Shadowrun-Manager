@@ -833,4 +833,34 @@ function return_Power($p_level) {
   return $r_level;
 }
 
+function return_Target($p_target) {
+  $r_target = "Device";
+  if ($p_target == 1) {
+    $r_target = "File";
+  }
+  if ($p_target == 2) {
+    $r_target = "Persona";
+  }
+  if ($p_target == 3) {
+    $r_target = "Self";
+  }
+  if ($p_target == 4) {
+    $r_target = "Sprite";
+  }
+
+  return $r_target;
+}
+
+function return_Duration($p_duration) {
+  $r_duration = "Immediate";
+  if ($p_duration == 1) {
+    $r_duration = "Permanent";
+  }
+  if ($p_duration == 2) {
+    $r_duration = "Sustained";
+  }
+
+  return $r_duration;
+}
+
 ?>
