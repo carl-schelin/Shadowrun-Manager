@@ -289,7 +289,6 @@
           $orderby = "where class_name = \"Cyberguns\" ";
         }
 
-        $nuyen = '&yen;';
         $q_string  = "select fa_id,class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
         $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,";
         $q_string .= "fa_rc,fa_fullrc,fa_ammo1,fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,";

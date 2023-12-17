@@ -149,7 +149,6 @@
       $output .=   "<th class=\"ui-state-default\">Book</th>\n";
       $output .= "</tr>\n";
 
-      $nuyen = '&yen;';
       $q_string  = "select jack_id,jack_name,jack_rating,jack_data,jack_firewall,jack_matrix,jack_essence,";
       $q_string .= "jack_access,jack_avail,jack_perm,jack_cost,ver_book,jack_page ";
       $q_string .= "from cyberjack ";

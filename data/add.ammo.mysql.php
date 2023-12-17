@@ -160,7 +160,6 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $nuyen = '&yen;';
       $q_string  = "select ammo_id,class_name,ammo_name,ammo_rounds,ammo_mod,ammo_ap,ammo_blast,ammo_close,ammo_near,";
       $q_string .= "ammo_armor,ammo_rating,ammo_avail,ammo_perm,ammo_basetime,ammo_duration,ammo_index,ammo_cost,ver_book,ammo_page ";
       $q_string .= "from ammo ";

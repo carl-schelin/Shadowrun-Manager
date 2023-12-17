@@ -207,7 +207,6 @@
       $output .=   "<th class=\"ui-state-default\">Location</th>\n";
       $output .= "</tr>\n";
 
-      $nuyen = '&yen;';
       $q_string  = "select melee_id,class_name,melee_class,melee_name,melee_acc,melee_reach,";
       $q_string .= "melee_ar1,melee_ar2,melee_ar3,melee_ar4,melee_ar5,melee_conceal,melee_weight,";
       $q_string .= "melee_damage,melee_type,melee_flag,melee_strength,melee_ap,melee_avail,";

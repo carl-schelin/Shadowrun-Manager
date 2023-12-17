@@ -164,7 +164,6 @@
           $bioware_group = "Leech Symbiont";
         }
 
-        $nuyen = '&yen;';
         $q_string  = "select bio_id,bio_name,bio_rating,bio_essence,bio_avail,bio_perm,bio_basetime,bio_duration,bio_index,bio_cost,ver_book,bio_page ";
         $q_string .= "from bioware ";
         $q_string .= "left join class on class.class_id = bioware.bio_class ";

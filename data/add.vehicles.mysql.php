@@ -267,7 +267,6 @@
           case "watercraft":  $veh_name = "Watercraft";    break;
         }
 
-        $nuyen = '&yen;';
         $q_string  = "select veh_id,veh_type,veh_make,veh_model,veh_onhand,veh_offhand,veh_rate,veh_interval,";
         $q_string .= "veh_onspeed,veh_offspeed,veh_onacc,veh_offacc,veh_pilot,veh_body,veh_armor,veh_sensor,";
         $q_string .= "veh_sig,veh_nav,veh_cargo,veh_load,veh_hardpoints,veh_firmpoints,veh_onseats,veh_offseats,veh_avail,";

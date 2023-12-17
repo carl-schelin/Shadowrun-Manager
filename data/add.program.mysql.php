@@ -139,7 +139,6 @@
           $pgm_type = "3";
         }
 
-        $nuyen = '&yen;';
         $q_string  = "select pgm_id,pgm_name,pgm_type,pgm_desc,pgm_avail,pgm_perm,pgm_cost,ver_book,pgm_page ";
         $q_string .= "from program ";
         $q_string .= "left join versions on versions.ver_id = program.pgm_book ";

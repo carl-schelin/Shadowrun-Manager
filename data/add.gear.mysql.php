@@ -146,7 +146,6 @@
         $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
 
-        $nuyen = '&yen;';
         $q_string  = "select gear_id,class_name,gear_name,gear_rating,gear_capacity,gear_avail,";
         $q_string .= "gear_perm,gear_basetime,gear_duration,gear_index,gear_cost,ver_book,gear_page ";
         $q_string .= "from gear ";

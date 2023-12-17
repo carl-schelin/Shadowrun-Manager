@@ -125,7 +125,6 @@
 
       $output .= "</div>\n";
 
-      $nuyen = '&yen;';
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
       $output .=   "<th class=\"ui-state-default\" width=\"160\">Del</th>\n";

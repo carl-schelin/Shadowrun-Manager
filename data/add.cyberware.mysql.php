@@ -161,7 +161,6 @@
         $output .=   "<th class=\"ui-state-default\">Book</th>\n";
         $output .= "</tr>\n";
 
-        $nuyen = '&yen;';
         $q_string  = "select ware_id,ware_name,ware_rating,ware_essence,ware_capacity,ware_avail,ware_perm,";
         $q_string .= "ware_basetime,ware_duration,ware_index,ware_legality,ware_cost,ver_book,ware_page ";
         $q_string .= "from cyberware ";

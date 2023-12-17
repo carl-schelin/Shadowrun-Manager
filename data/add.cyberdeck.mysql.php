@@ -225,7 +225,6 @@
       $output .=   "<th class=\"ui-state-default\">" . $linkstart . "ver_book,deck_page"   . $linkend . "Book</a></th>\n";
       $output .= "</tr>\n";
 
-      $nuyen = '&yen;';
       $q_string  = "select deck_id,deck_brand,deck_model,deck_rating,deck_attack,deck_sleaze,deck_data,deck_index,";
       $q_string .= "deck_firewall,deck_programs,deck_access,deck_avail,deck_perm,deck_cost,ver_book,deck_page,";
       $q_string .= "deck_persona,deck_hardening,deck_memory,deck_storage,deck_load,deck_io,deck_basetime,deck_duration,";
