@@ -127,7 +127,7 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_ic['ic_id']                      . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_ic['ic_name']         . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_ic['ic_defense']                 . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_ic['ic_description']             . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $a_ic['ic_description']             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $ic_book                            . "</td>\n";
           $output .= "</tr>\n";
         }
