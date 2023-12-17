@@ -286,11 +286,10 @@ $(document).ready( function() {
 <tr>
   <td class="ui-widget-content">Select Search Field: <select name="search_by">
 <option value="0">All Fields</option>
-<option value="1">Server Names</option>
-<option value="2">IP Addresses</option>
-<option value="3">Software</option>
-<option value="4">Hardware</option>
-<option value="5">Asset/Serial/Service Tag</option>
+<option value="1">Mental</option>
+<option value="2">Magic</option>
+<option value="3">Matrix</option>
+<option value="4">Meatspace</option>
 </select></td>
   <td class="ui-widget-content">Search Criteria: <input type="text" name="search_for" size="80"></td>
 </tr>
@@ -301,45 +300,37 @@ $(document).ready( function() {
 <div id="search-tabs">
 
 <ul>
-  <li><a href="#servername">Server Names</a></li>
-  <li><a href="#ipaddr">IP Addresses</a></li>
-  <li><a href="#software">Software</a></li>
-  <li><a href="#asset">Hardware</a></li>
-  <li><a href="#asset">Asset</a></li>
+  <li><a href="#s_mental">Mental</a></li>
+  <li><a href="#s_magic">Magic</a></li>
+  <li><a href="#s_matrix">Matrix</a></li>
+  <li><a href="#s_meatspace">Meatspace</a></li>
 </ul>
 
 
-<div id="servername">
+<div id="s_mental">
 
-<span id="server_search_mysql"></span>
-
-</div>
-
-
-<div id="ipaddr">
-
-<span id="address_search_mysql"></span>
+<span id="mental_search_mysql"></span>
 
 </div>
 
 
-<div id="software">
+<div id="s_magic">
 
-<span id="software_search_mysql"></span>
-
-</div>
-
-
-<div id="hardware">
-
-<span id="hardware_search_mysql"></span>
+<span id="magic_search_mysql"></span>
 
 </div>
 
 
-<div id="asset">
+<div id="s_matrix">
 
-<span id="asset_search_mysql"></span>
+<span id="matrix_search_mysql"></span>
+
+</div>
+
+
+<div id="s_meatspace">
+
+<span id="meatspace_search_mysql"></span>
 
 </div>
 

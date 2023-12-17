@@ -131,10 +131,9 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_adept('add.adept.del.php?id=" . $a_adept['adp_id'] . "');\">";
           $linkend = "</a>";
 
-          $maxlevel = $a_adept['adp_level'];
-          if ($a_adept['adp_level'] == 0) {
-            $maxlevel = "Limited by Magic";
-          }
+          $adept_power = return_Power($a_adept['adp_level']);
+
+          $adept_book = return_Book($a_adept['ver_book'], $a_adept['adp_page']);
 
           $class = "ui-widget-content";
 
@@ -155,14 +154,14 @@
           } else {
             $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
-          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_adept['adp_id']                                      . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                  . "</td>\n";
-          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_adept['adp_name']                         . $linkend . "</td>\n";
-          $output .= "  <td class=\"" . $class . "\">"                     . $a_adept['adp_desc']                                    . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_power']                                   . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_active']                                  . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $maxlevel                                               . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . return_Book($a_adept['ver_book'], $a_adept['adp_page']) . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_adept['adp_id']                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_adept['adp_name']   . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"                     . $a_adept['adp_desc']              . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_power']             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_active']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $adept_power                      . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $adept_book                       . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {

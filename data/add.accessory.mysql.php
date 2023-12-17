@@ -157,7 +157,6 @@
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $nuyen = '&yen;';
       $q_string  = "select acc_id,sub_name,acc_class,class_name,acc_accessory,acc_name,acc_mount,acc_rating,acc_essence,";
       $q_string .= "acc_capacity,acc_avail,acc_perm,acc_basetime,acc_duration,acc_index,acc_cost,ver_book,acc_page ";
       $q_string .= "from accessory ";

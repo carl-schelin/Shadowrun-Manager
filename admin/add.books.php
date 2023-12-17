@@ -150,18 +150,11 @@ $("#button-update").button("disable");
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Active Skill Form</strong>
-  <ul>
-    <li><strong>Type</strong> - Tyep type of the active skill.</li>
-    <li><strong>Name</strong> - The name of the skill.</li>
-    <li><strong>Group</strong> - The group of the skill.</li>
-    <li><strong>Attribute</strong> - The linked attribute for the skill.</li>
-    <li><strong>Default</strong> - Whether the skill can be defaulted (-1).</li>
-    <li><strong>Book</strong> - Select the book where this skill is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
+<p>Add books</p>
+
+<p>The Admin checkbox is for the data entry portion to ensure only someone with admin permissions can make changes.</p>
+
+<p>The Active checkbox activates items from the books for users to select gear from.</p>
 
 </div>
 

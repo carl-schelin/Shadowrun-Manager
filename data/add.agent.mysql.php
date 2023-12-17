@@ -120,7 +120,6 @@
       $output .=   "<th class=\"ui-state-default\">Book</th>\n";
       $output .= "</tr>\n";
 
-      $nuyen = '&yen;';
       $q_string  = "select agt_id,agt_name,agt_rating,agt_avail,agt_perm,agt_cost,ver_book,agt_page ";
       $q_string .= "from agents ";
       $q_string .= "left join versions on versions.ver_id = agents.agt_book ";

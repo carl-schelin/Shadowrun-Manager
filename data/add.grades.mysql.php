@@ -121,7 +121,7 @@
       $q_string  = "select grade_id,grade_name,grade_essence,grade_avail,grade_cost,ver_book,grade_page ";
       $q_string .= "from grades ";
       $q_string .= "left join versions on versions.ver_id = grades.grade_book ";
-      $q_string .= "where ver_active = 1 ";
+      $q_string .= "where ver_admin = 1 ";
       $q_string .= "order by grade_name ";
       $q_grades = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_grades) > 0) {

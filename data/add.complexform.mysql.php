@@ -129,29 +129,11 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_complexform('add.complexform.del.php?id=" . $a_complexform['form_id'] . "');\">";
           $linkend = "</a>";
 
-          $target = "Device";
-          if ($a_complexform['form_target'] == 1) {
-            $target = "File";
-          }
-          if ($a_complexform['form_target'] == 2) {
-            $target = "Persona";
-          }
-          if ($a_complexform['form_target'] == 3) {
-            $target = "Self";
-          }
-          if ($a_complexform['form_target'] == 4) {
-            $target = "Sprite";
-          }
+          $form_target = return_Target($a_complexform['form_target']);
 
-          $duration = "Immediate";
-          if ($a_complexform['form_duration'] == 1) {
-            $duration = "Permanent";
-          }
-          if ($a_complexform['form_duration'] == 2) {
-            $duration = "Sustained";
-          }
+          $form_duration = return_Duration($a_complexform['form_duration']);
 
-          $fading = return_Complex($a_complexform['form_fading'], $a_complexform['form_level']);
+          $form_fading = return_Complex($a_complexform['form_fading'], $a_complexform['form_level']);
 
           $form_book = return_Book($a_complexform['ver_book'], $a_complexform['form_page']);
 
@@ -177,9 +159,9 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_complexform['form_id']              . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                 . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_complexform['form_name'] . $linkend . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $target                                . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $duration                              . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $fading                                . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $form_target                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $form_duration                         . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $form_fading                           . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $form_book                             . "</td>\n";
           $output .= "</tr>\n";
         }
