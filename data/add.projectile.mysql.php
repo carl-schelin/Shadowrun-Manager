@@ -189,7 +189,6 @@
       $output .=   "<th class=\"ui-state-default\">Location</th>\n";
       $output .= "</tr>\n";
 
-      $nuyen = '&yen;';
       $q_string  = "select proj_id,class_name,proj_name,proj_rating,proj_acc,proj_damage,proj_type,proj_strength,proj_ar1,proj_ar2,proj_ar3,proj_ar4,proj_ar5, ";
       $q_string .= "proj_ap,proj_avail,proj_perm,proj_basetime,proj_duration,proj_index,proj_cost,ver_book,proj_page ";
       $q_string .= "from projectile ";
@@ -205,10 +204,9 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_projectile('add.projectile.del.php?id=" . $a_projectile['proj_id'] . "');\">";
           $linkend = "</a>";
 
-          $proj_rating = '--';
-          if ($a_projectile['proj_rating'] > 0) {
-            $proj_rating = $a_projectile['proj_rating'];
-          }
+          $proj_rating = return_Rating($a_projectile['proj_rating']);
+
+          $proj_accuracy = return_Accuracy($a_projectile['proj_acc']);
 
           $proj_damage = return_Strength($a_projectile['proj_damage'], $a_projectile['proj_type'], "", $a_projectile['proj_strength']);
 
@@ -243,19 +241,19 @@
           } else {
             $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
           }
-          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_projectile['proj_id']                                        . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                                          . "</td>\n";
-          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_projectile['class_name']                          . $linkend . "</td>\n";
-          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_projectile['proj_name']                           . $linkend . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_rating                                                    . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_projectile['proj_acc']                                       . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_attack                                                    . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_damage                                                    . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_ap                                                        . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_avail                                                     . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_index                                                     . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_cost                                                      . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_book                                                      . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_projectile['proj_id']               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $total                                 . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_projectile['class_name'] . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_projectile['proj_name']  . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_rating                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_accuracy                         . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_attack                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_damage                           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_ap                               . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_avail                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_index                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_cost                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $proj_book                             . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
