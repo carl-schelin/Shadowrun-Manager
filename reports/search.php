@@ -382,6 +382,51 @@
 
       $output .= "<table class=\"ui-styled-table\">\n";
       $output .= "<tr>\n";
+      $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Power Focuses</th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th class=\"ui-state-default\">Name</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Karma</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Availability</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Cost</th>\n";
+      $output .= "  <th class=\"ui-state-default\">Book/Page</th>\n";
+      $output .= "</tr>\n";
+
+      $q_string  = "select foci_name,foci_karma,foci_avail,foci_perm,foci_cost,ver_book,foci_page ";
+      $q_string .= "from foci ";
+      $q_string .= "left join versions on versions.ver_id = foci.foci_book ";
+      $q_string .= "where foci_name like '%" . $formVars['search_for'] . "%' and ver_active = 1 ";
+      $q_string .= "order by foci_name,foci_karma ";
+      $q_foci = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_foci) > 0) {
+        while ($a_foci = mysqli_fetch_array($q_foci)) {
+
+          $foci_avail = return_Avail($a_foci['foci_avail'], $a_foci['foci_perm']);
+
+          $foci_cost = return_Cost($a_foci['foci_cost']);
+
+          $foci_book = return_Book($a_foci['ver_book'], $a_foci['foci_page']);
+
+          $class = return_Class($a_foci['foci_perm']);
+
+          $output .= "<tr>\n";
+          $output .= "  <td class=\"" . $class . "\">"        . $a_foci['foci_name']  . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $a_foci['foci_karma'] . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $foci_avail           . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $foci_cost            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . $foci_book            . "</td>\n";
+          $output .= "</tr>\n";
+        }
+      } else {
+        $output .= "<tr>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"5\">Search results not found.</td>\n";
+        $output .= "</tr>\n";
+      }
+      $output .= "</table>\n\n";
+
+
+      $output .= "<table class=\"ui-styled-table\">\n";
+      $output .= "<tr>\n";
       $output .= "  <th class=\"ui-state-default\" colspan=\"6\">Mentor Spirits</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
