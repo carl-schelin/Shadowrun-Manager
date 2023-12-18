@@ -158,6 +158,28 @@ $(document).ready( function() {
 
 <div id="com6th">
 
+<p>This is the general how to do combat article. See the other tabs for more specific tasks for those items</p>
+
+<p>Most things are pretty similar (pg 104).</p>
+
+<ol>
+  <li>Grab dice - [Weapon Skill] + Agility vs Reaction + Intuition modified by Surprise, Damage, etc</li>
+  <li>Distribute Edge</li>
+  <li>Roll dice and spend Edge</li>
+  <li>Soak some damage</li>
+  <li>Bring the pain</li>
+</ol>
+
+<p>Combat Edge</p>
+
+<ol>
+  <li>Use an Edge Action (pre), Add 3 to your Initiative, Reroll one dice (post)</li>
+  <li>Negate 1 foe Edge (pre), Use an Edge Action (pre), Add 1 to a single die roll, Give ally 1 Edge</li>
+  <li>Buy one automatic Hit, Heal one box of Stun</li>
+  <li>Add Edge Attribute as a dice pool bonus + explode 6's (pre), Use an Edge Action (pre), Heal 1 box of Physical damage, Reroll failed dice (post)</li>
+  <li>
+
+
 <p>Sixth</p>
 
 </div>
@@ -288,7 +310,17 @@ $(document).ready( function() {
 
 <div id="ran6th">
 
-<p>Sixth</p>
+<p>Mainly what the Attack Rating/Range means (pg 108):</p>
+
+<p>Compared to the opponant's Defense Rating</p>
+
+<ul>
+  <li>Close - 0-3 meters</li>
+  <li>Near - 4-50 meters</li>
+  <li>Medium - 51-250 meters</li>
+  <li>Far - 251-500 meters</li>
+  <li>Extreme - 500+ meters</li>
+</ul>
 
 </div>
 
