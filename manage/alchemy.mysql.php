@@ -65,7 +65,7 @@
     $output .= "</tr>\n";
 
     $q_string  = "select r_alc_id,r_alc_special,spell_id,spell_name,spell_group,class_name,spell_class,spell_type,spell_test,spell_range,";
-    $q_string .= "spell_damage,spell_duration,spell_drain,ver_book,spell_page ";
+    $q_string .= "spell_damage,spell_force,spell_duration,spell_drain,ver_book,spell_page ";
     $q_string .= "from r_alchemy ";
     $q_string .= "left join spells on spells.spell_id = r_alchemy.r_alc_number ";
     $q_string .= "left join class on class.class_id = spells.spell_group ";
@@ -81,7 +81,7 @@
           $spell_name = $a_r_alchemy['spell_name'] . " (" . $a_r_alchemy['r_alc_special'] . ")";
         }
 
-        $spell_drain = return_Drain($a_r_alchemy['spell_drain']);
+        $spell_drain = return_Drain($a_r_alchemy['spell_drain'], $a_r_alchemy['spell_force']);
 
         $spell_book = return_Book($a_r_alchemy['ver_book'], $a_r_alchemy['spell_page']);
 

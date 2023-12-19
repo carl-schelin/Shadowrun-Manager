@@ -95,7 +95,7 @@
   $output .= "</tr>\n";
 
   $q_string  = "select r_spell_special,spell_name,class_name,spell_class,spell_group,spell_type,spell_test,spell_range,";
-  $q_string .= "spell_damage,spell_duration,spell_drain,ver_book,spell_page ";
+  $q_string .= "spell_damage,spell_force,spell_duration,spell_drain,ver_book,spell_page ";
   $q_string .= "from r_spells ";
   $q_string .= "left join spells on spells.spell_id = r_spells.r_spell_number ";
   $q_string .= "left join class on class.class_id = spells.spell_group ";
@@ -112,7 +112,7 @@
         $special = '';
       }
 
-      $spell_drain = return_Drain($a_r_spells['spell_drain']);
+      $spell_drain = return_Drain($a_r_spells['spell_drain'], $a_r_spells['spell_force']);
 
       $spell_book = return_Book($a_r_spells['ver_book'], $a_r_spells['spell_page']);
 
