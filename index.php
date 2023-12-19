@@ -12,6 +12,13 @@
 
   logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 #  $q_string  = "select usr_id,usr_group ";
 #  $q_string .= "from users ";
 #  $q_string .= "where usr_id = " . $_SESSION['uid'] . " ";
@@ -82,7 +89,7 @@ $(document).ready( function() {
  <li><a href="javascript:;" onmousedown="toggleDiv('help');">Help</a></li>
 <?php include($Sitepath . '/topmenu.end.php'); ?>
 
-<div id="help" style="display:none">
+<div id="help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -188,7 +195,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="help-tagcloud" style="display:none">
+<div id="help-tagcloud" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -261,7 +268,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="help-search" style="display:none">
+<div id="help-search" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
