@@ -379,6 +379,17 @@ function delete_adept( p_script_url ) {
   }
 }
 
+function delete_foci( p_script_url ) {
+  var answer = confirm("Delete Foci?")
+
+  if (answer) {
+    script = document.createElement('script');
+    script.src = p_script_url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('foci.mysql.php' + '?update=-1' + '&r_foci_character=<?php print $formVars['id']; ?>');
+  }
+}
+
 function delete_tradition( p_script_url ) {
   var answer = confirm("Delete Tradition?")
 
@@ -1624,6 +1635,7 @@ function clear_fields() {
   show_file('finance.mysql.php'         + '?update=-3&fin_character=<?php print $formVars['id']; ?>');
   show_file('firearms.mysql.php'        + '?update=-3&r_fa_character=<?php print $formVars['id']; ?>');
   show_file('fireacc.mysql.php'         + '?update=-3&r_fa_id=0');
+  show_file('foci.mysql.php'            + '?update=-3&r_foci_character=<?php print $formVars['id']; ?>');
   show_file('gear.mysql.php'            + '?update=-3&r_gear_character=<?php print $formVars['id']; ?>');
   show_file('gearacc.mysql.php'         + '?update=-3&r_gear_id=0');
   show_file('history.mysql.php'         + '?update=-3&his_character=<?php print $formVars['id']; ?>');
@@ -1676,6 +1688,7 @@ $(document).ready( function() {
   $( "#cyberdecktabs"    ).tabs( ).addClass( "tab-shadow" );
   $( "#cyberjacktabs"    ).tabs( ).addClass( "tab-shadow" );
   $( "#cyberwaretabs"    ).tabs( ).addClass( "tab-shadow" );
+  $( "#focitabs"         ).tabs( ).addClass( "tab-shadow" );
   $( "#geartabs"         ).tabs( ).addClass( "tab-shadow" );
   $( "#historytabs"      ).tabs( ).addClass( "tab-shadow" );
   $( "#magic"            ).tabs( ).addClass( "tab-shadow" );
@@ -2459,6 +2472,7 @@ $(document).ready( function() {
   <li><a href="#tradition">Traditions</a></li>
   <li><a href="#mentor">Mentor Spirits</a></li>
   <li><a href="#spirit">Spirits</a></li>
+  <li><a href="#foci">Power Foci</a></li>
   <li><a href="#alchemy">Alchemy</a></li>
   <li><a href="#metamagics">Metamagics</a></li>
   <li><a href="#adept">Adept</a></li>
@@ -2616,6 +2630,9 @@ $(document).ready( function() {
 </div>
 
 
+
+
+
 <div id="spirit">
 
 <table class="ui-styled-table" width="100%">
@@ -2660,6 +2677,62 @@ $(document).ready( function() {
 <div id="spirits">
 
 <span id="spirits_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+
+<div id="foci">
+
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default"><a href="javascript:;" onmousedown="toggleDiv('foci-hide');">Power Focuses</a></th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('foci-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="foci-help" style="display: none">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Notes</strong></li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="foci-hide" style="display: none">
+
+<span id="foci_form"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+<div id="focitabs">
+
+<ul>
+  <li><a href="#my_foci">My Foci</a></li>
+  <li><a href="#focis">Foci</a></li>
+</ul>
+
+<div id="my_foci">
+
+<span id="my_focis_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+<div id="focis">
+
+<span id="focis_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
 
