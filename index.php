@@ -278,8 +278,6 @@ $(document).ready( function() {
 
 <p><strong>Search</strong> - Click the button when ready. A table will be displayed with the search results.</p>
 
-<p><strong>Note:</strong> - In the Software and Hardware search tables, clicking on the Vendor, Software/Model, or Type will restart the search based on the exact text in that field. For example you can enter 'Red' in the search box to bring up everything with the word 'Red' in it (not case sensitive). Further clicking on 'Red Hat' will restart the search and return just systems associated with 'Red Hat'. This does search all three fields so searching on 'OS' might return more systems that just OS.</p>
-
 </div>
 
 </div>
