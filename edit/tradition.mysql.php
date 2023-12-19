@@ -46,7 +46,7 @@
             $message = "Tradition updated.";
           }
 
-          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_spell_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_trad_number']);
 
           mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
