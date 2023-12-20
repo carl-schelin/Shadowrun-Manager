@@ -77,38 +77,7 @@
 
       foreach ($active_list as &$active) {
 
-        $output  = "<p></p>\n";
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
-        $output .= "<tr>\n";
-        $output .= "  <th class=\"ui-state-default\">Active Skill Listing</th>\n";
-        $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('" . $active . "-listing-help');\">Help</a></th>\n";
-        $output .= "</tr>\n";
-        $output .= "</table>\n";
-
-        $output .= "<div id=\"" . $active . "-listing-help\" style=\"display: none\">\n";
-
-        $output .= "<div class=\"main-help ui-widget-content\">\n";
-
-        $output .= "<ul>\n";
-        $output .= "  <li><strong>Active Skill Listing</strong>\n";
-        $output .= "  <ul>\n";
-        $output .= "    <li><strong>Remove</strong> - Click here to delete this Active Skill from the Mooks Database.</li>\n";
-        $output .= "    <li><strong>Editing</strong> - Click on an Active Skill to toggle the form and edit the Active Skill.</li>\n";
-        $output .= "  </ul></li>\n";
-        $output .= "</ul>\n";
-
-        $output .= "<ul>\n";
-        $output .= "  <li><strong>Notes</strong>\n";
-        $output .= "  <ul>\n";
-        $output .= "    <li>Click the <strong>Active Skill Management</strong> title bar to toggle the <strong>Active Skill Form</strong>.</li>\n";
-        $output .= "  </ul></li>\n";
-        $output .= "</ul>\n";
-
-        $output .= "</div>\n";
-
-        $output .= "</div>\n";
-
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
         $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
@@ -133,11 +102,9 @@
             $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_active('add.active.del.php?id=" . $a_active['act_id'] . "');\">";
             $linkend = "</a>";
 
-            if ($a_active['act_default']) {
-              $default = 'Yes';
-            } else {
-              $default = 'No';
-            }
+            $active_default = return_Default($a_active['act_default']);
+
+            $active_book return_Book($a_active['ver_book'], $a_active['act_page']);
 
             $class = "ui-widget-content";
 
@@ -156,14 +123,14 @@
             if ($total > 0) {
               $output .=   "<td class=\"" . $class . " delete\">In use</td>\n";
             } else {
-              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel                                                  . "</td>\n";
+              $output .=   "<td class=\"" . $class . " delete\">" . $linkdel . "</td>\n";
             }
-            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_active['act_id']                                       . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"                     . $a_active['act_group']                                    . "</td>\n";
-            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_active['act_name']                          . $linkend . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $a_active['att_name']                                     . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . $default                                                  . "</td>\n";
-            $output .= "  <td class=\"" . $class . " delete\">"              . return_Book($a_active['ver_book'], $a_active['act_page']) . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_active['act_id']               . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"                     . $a_active['act_group']            . "</td>\n";
+            $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_active['act_name']  . $linkend . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $a_active['att_name']             . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $active_default                   . "</td>\n";
+            $output .= "  <td class=\"" . $class . " delete\">"              . $active_book                      . "</td>\n";
             $output .= "</tr>\n";
           }
         } else {

@@ -14,6 +14,13 @@
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 # build a command manafacturer's ID
   $cmd_access =
     dechex(rand(0,32767)) . ":" .
@@ -154,7 +161,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="command-help" style="display: none">
+<div id="command-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 

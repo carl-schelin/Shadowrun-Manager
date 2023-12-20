@@ -19,6 +19,13 @@
     $formVars['sort'] = clean($_GET['sort'], 50);
   }
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -163,7 +170,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="cyberdeck-help" style="display: none">
+<div id="cyberdeck-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
