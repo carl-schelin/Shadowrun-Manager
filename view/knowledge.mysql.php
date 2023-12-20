@@ -17,6 +17,15 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
+  $q_string  = "select ver_version ";
+  $q_string .= "from versions ";
+  $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+  $q_string .= "where runr_id = " . $formVars['id'] . " ";
+  $q_version = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_version) > 0) {
+    $a_runners = mysqli_fetch_array($q_version);
+  }
+
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\" colspan=\"3\">Knowledge Skills</th>";
@@ -24,7 +33,9 @@
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\">Knowledge Type</th>\n";
   $output .= "  <th class=\"ui-state-default\">Knowledge Skill</th>\n";
-  $output .= "  <th class=\"ui-state-default\">Dice Pool</th>\n";
+  if ($a_runners['ver_version'] == '5.0') {
+    $output .= "  <th class=\"ui-state-default\">Dice Pool</th>\n";
+  }
   $output .= "</tr>\n";
 
   $q_string  = "select know_name,know_attribute,r_know_rank,r_know_specialize ";
@@ -43,29 +54,35 @@
       $q_s_knowledge = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_s_knowledge = mysqli_fetch_array($q_s_knowledge);
 
-      $q_string  = "select att_name,att_column ";
-      $q_string .= "from attributes ";
-      $q_string .= "where att_id = " . $a_s_knowledge['s_know_attribute'] . " ";
-      $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-      $a_attributes = mysqli_fetch_array($q_attributes);
+      if ($a_runners['ver_version'] == '5.0') {
+        $q_string  = "select att_name,att_column ";
+        $q_string .= "from attributes ";
+        $q_string .= "where att_id = " . $a_s_knowledge['s_know_attribute'] . " ";
+        $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_attributes = mysqli_fetch_array($q_attributes);
 
-      $q_string  = "select " . $a_attributes['att_column'] . " ";
-      $q_string .= "from runners ";
-      $q_string .= "where runr_id = " . $formVars['id'] . " ";
-      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-      $a_runners = mysqli_fetch_array($q_runners);
+        $q_string  = "select " . $a_attributes['att_column'] . " ";
+        $q_string .= "from runners ";
+        $q_string .= "where runr_id = " . $formVars['id'] . " ";
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_runners = mysqli_fetch_array($q_runners);
+      }
 
       $output .= "<tr>\n";
       $output .= "  <td class=\"ui-widget-content\">"        . $a_s_knowledge['s_know_name']                                             . "</td>\n";
       $output .= "  <td class=\"ui-widget-content\">"        . $a_r_knowledge['know_name']                                               . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_attributes['att_column']]) . "</td>\n";
+      if ($a_runners['ver_version'] == '5.0') {
+        $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_attributes['att_column']]) . "</td>\n";
+      }
       $output .= "</tr>\n";
 
       if (strlen($a_r_knowledge['r_know_specialize']) > 0) {
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">"        . "&nbsp;"                                                                      . "</td>\n";
         $output .= "  <td class=\"ui-widget-content\">"        . "&gt; " . $a_r_knowledge['r_know_specialize']                                 . "</td>\n";
-        $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_attributes['att_column']] + 2) . "</td>\n";
+        if ($a_runners['ver_version'] == '5.0') {
+          $output .= "  <td class=\"ui-widget-content delete\">" . ($a_r_knowledge['r_know_rank'] + $a_runners[$a_attributes['att_column']] + 2) . "</td>\n";
+        }
         $output .= "</tr>\n";
       }
     }

@@ -132,6 +132,7 @@ function clear_fields() {
   show_file('contacts.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('costs.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('cyberdeck.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('cyberjack.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('cyberware.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('firearms.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('gear.mysql.php?id=<?php print $formVars['id']; ?>');
@@ -147,6 +148,7 @@ function clear_fields() {
   show_file('projectile.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('qualities.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('spells.mysql.php?id=<?php print $formVars['id']; ?>');
+  show_file('foci.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('spirits.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('sprites.mysql.php?id=<?php print $formVars['id']; ?>');
   show_file('traditions.mysql.php?id=<?php print $formVars['id']; ?>');
@@ -172,7 +174,6 @@ $(document).ready( function() {
 
 <ul>
   <li><a href="#character">Character</a></li>
-  <li><a href="#active">Skills</a></li>
   <li><a href="#visible">Visible</a></li>
   <li><a href="#pregens">Pregen View</a></li>
 </ul>
@@ -183,6 +184,12 @@ $(document).ready( function() {
 <span id="character_mysql"><?php print wait_Process('Character Loading...')?></span>
 
 <span id="costs_mysql"><?php print wait_Process('Costs Loading...')?></span>
+
+<span id="active_mysql"><?php wait_Process('Active Skills Loading...'); ?></span>
+
+<span id="knowledge_mysql"><?php wait_Process('Knowledge Skills Loading...'); ?></span>
+
+<span id="language_mysql"><?php wait_Process('Language Skills Loading...'); ?></span>
 
 <span id="lifestyle_mysql"><?php wait_Process('Lifestyle Loading...'); ?></span>
 
@@ -202,6 +209,8 @@ $(document).ready( function() {
 
 <span id="mentors_mysql"><?php wait_Process('Mentor Spirits Loading...'); ?></span>
 
+<span id="foci_mysql"><?php wait_Process('Foci Loading...'); ?></span>
+
 <span id="spirits_mysql"><?php wait_Process('Spirits Loading...'); ?></span>
 
 <span id="adept_mysql"><?php wait_Process('Adapt Powers Loading...'); ?></span>
@@ -211,6 +220,8 @@ $(document).ready( function() {
 <span id="command_mysql"><?php wait_Process('Command Console Loading...'); ?></span>
 
 <span id="cyberdeck_mysql"><?php wait_Process('Cyberdeck Loading...'); ?></span>
+
+<span id="cyberjack_mysql"><?php wait_Process('Cyberjack Loading...'); ?></span>
 
 <span id="persona_mysql"><?php wait_Process('Persona Loading...'); ?></span>
 
@@ -235,17 +246,6 @@ $(document).ready( function() {
 <span id="ammo_mysql"><?php wait_Process('Ammunition Loading...'); ?></span>
 
 <span id="vehicles_mysql"><?php wait_Process('Vehicles Loading...'); ?></span>
-
-</div>
-
-
-<div id="active">
-
-<span id="active_mysql"><?php wait_Process('Active Skills Loading...'); ?></span>
-
-<span id="knowledge_mysql"><?php wait_Process('Knowledge Skills Loading...'); ?></span>
-
-<span id="language_mysql"><?php wait_Process('Language Skills Loading...'); ?></span>
 
 </div>
 

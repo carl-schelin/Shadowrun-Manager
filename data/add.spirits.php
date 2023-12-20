@@ -14,6 +14,13 @@
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -378,7 +385,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="spirit-help" style="display: none">
+<div id="spirit-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -398,7 +405,7 @@ $(document).ready( function() {
 
 </div>
 
-<div id="spirit-hide" style="display: none">
+<div id="spirit-hide" style="<?php print $display; ?>">
 
 <span id="spirit_form"><?php print wait_Process("Please Wait"); ?></span>
 

@@ -201,12 +201,46 @@ The main </p>
 
 <div id="combat">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Combat Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('combat-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="combat-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="combat_table"><?php print wait_Process('Loading Combat Skills...')?></span>
 
 </div>
 
 
 <div id="magical">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Magic Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('magic-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="magic-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="magical_table"><?php print wait_Process('Loading Magical Skills...')?></span>
 
@@ -215,12 +249,46 @@ The main </p>
 
 <div id="physical">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Physical Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('physical-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="ammo-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="physical_table"><?php print wait_Process('Loading Physical Skills...')?></span>
 
 </div>
 
 
 <div id="resonance">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Technomancer Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('technomancer-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="technomancer-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="resonance_table"><?php print wait_Process('Loading Resonance Skills...')?></span>
 
@@ -229,6 +297,23 @@ The main </p>
 
 <div id="social">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Social Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('social-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="social-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="social_table"><?php print wait_Process('Loading Social Skills...')?></span>
 
 </div>
@@ -236,12 +321,46 @@ The main </p>
 
 <div id="technical">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Technical Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('technical-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="technical-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="technical_table"><?php print wait_Process('Loading Technical Skills...')?></span>
 
 </div>
 
 
 <div id="vehicle">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Vehicle Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('vehicle-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="vehicle-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="vehicle_table"><?php print wait_Process('Loading Vehicle Skills...')?></span>
 

@@ -14,6 +14,13 @@
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -143,7 +150,7 @@ $("#button-update").button("disable");
 </tr>
 </table>
 
-<div id="grade-help" style="display: none">
+<div id="grade-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 

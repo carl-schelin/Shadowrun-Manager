@@ -863,4 +863,13 @@ function return_Duration($p_duration) {
   return $r_duration;
 }
 
+function return_Default($p_default) {
+  $r_default = 'No';
+  if ($p_default) {
+    $r_default = 'Yes';
+  }
+
+  return $r_default;
+}
+
 ?>

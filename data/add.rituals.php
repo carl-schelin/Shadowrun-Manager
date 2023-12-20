@@ -14,6 +14,13 @@
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -146,7 +153,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="ritual-help" style="display: none">
+<div id="ritual-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -174,6 +181,24 @@ $(document).ready( function() {
 </table>
 
 </form>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Ritual Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('ritual-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="ritual-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+
+</div>
+
+</div>
 
 
 <span id="mysql_table"><?php print wait_Process('Loading Rituals...')?></span>

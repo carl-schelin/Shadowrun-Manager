@@ -14,6 +14,13 @@
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -139,7 +146,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="knowledge-help" style="display: none">
+<div id="knowledge-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 

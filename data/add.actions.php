@@ -14,6 +14,13 @@
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -144,21 +151,10 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="actions-help" style="display: none">
+<div id="actions-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>actions Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -172,6 +168,24 @@ $(document).ready( function() {
 </table>
 
 </form>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Matrix Actions Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('actions-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="actions-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 
 <span id="mysql_table"><?php print wait_Process('Loading Sprites...')?></span>
 

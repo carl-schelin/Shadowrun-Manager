@@ -17,6 +17,15 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
+  $q_string  = "select ver_version ";
+  $q_string .= "from versions ";
+  $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+  $q_string .= "where runr_id = " . $formVars['id'] . " ";
+  $q_version = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_version) > 0) {
+    $a_runners = mysqli_fetch_array($q_version);
+  }
+
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\" colspan=\"4\">Language Skills</th>";
@@ -24,7 +33,9 @@
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\">Language</th>\n";
-  $output .= "  <th class=\"ui-state-default\">Dice Pool</th>\n";
+  if ($a_runners['ver_version'] == '5.0') {
+    $output .= "  <th class=\"ui-state-default\">Dice Pool</th>\n";
+  }
   $output .= "</tr>\n";
 
   $q_string  = "select lang_name,lang_attribute,r_lang_rank,r_lang_specialize ";
@@ -43,29 +54,38 @@
       $q_s_language = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_s_language = mysqli_fetch_array($q_s_language);
 
-      $q_string  = "select att_name,att_column ";
-      $q_string .= "from attributes ";
-      $q_string .= "where att_id = " . $a_s_language['s_lang_attribute'] . " ";
-      $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-      $a_attributes = mysqli_fetch_array($q_attributes);
+      if ($a_runners['ver_version'] == '5.0') {
+        $q_string  = "select att_name,att_column ";
+        $q_string .= "from attributes ";
+        $q_string .= "where att_id = " . $a_s_language['s_lang_attribute'] . " ";
+        $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_attributes = mysqli_fetch_array($q_attributes);
 
-      $q_string  = "select " . $a_attributes['att_column'] . " ";
-      $q_string .= "from runners ";
-      $q_string .= "where runr_id = " . $formVars['id'] . " ";
-      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-      $a_runners = mysqli_fetch_array($q_runners);
+        $q_string  = "select " . $a_attributes['att_column'] . " ";
+        $q_string .= "from runners ";
+        $q_string .= "where runr_id = " . $formVars['id'] . " ";
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_runners = mysqli_fetch_array($q_runners);
+      }
 
       if ($a_r_language['r_lang_rank'] == 0) {
         $r_lang_rank = "Native Speaker";
         $r_lang_dicepool = "Native Speaker";
+        $r_lang_world = " (Native Speaker)";
       } else {
         $r_lang_rank = $a_r_language['r_lang_rank'];
         $r_lang_dicepool = $a_r_language['r_lang_rank'] + $a_runners[$a_attributes['att_column']];
+        $r_lang_world = "";
       }
 
       $output .= "<tr>\n";
-      $output .= "  <td class=\"ui-widget-content\">"        . $a_r_language['lang_name']                                      . "</td>\n";
-      $output .= "  <td class=\"ui-widget-content delete\">" . $r_lang_dicepool                                                . "</td>\n";
+      if ($a_runners['ver_version'] == '5.0') {
+        $output .= "  <td class=\"ui-widget-content\">"        . $a_r_language['lang_name']                                      . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content delete\">" . $r_lang_dicepool                                                . "</td>\n";
+      }
+      if ($a_runners['ver_version'] == '6.0') {
+        $output .= "  <td class=\"ui-widget-content\">"        . $a_r_language['lang_name'] . $r_lang_world . "</td>\n";
+      }
       $output .= "</tr>\n";
 
       if (strlen($a_r_language['r_lang_specialize']) > 0) {
@@ -79,7 +99,9 @@
 
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">"        . "&gt; " . $a_r_language['r_lang_specialize']                    . "</td>\n";
-        $output .= "  <td class=\"ui-widget-content delete\">" . $r_lang_dicepool                                                . "</td>\n";
+        if ($a_runners['ver_version'] == '5.0') {
+          $output .= "  <td class=\"ui-widget-content delete\">" . $r_lang_dicepool                                                . "</td>\n";
+        }
         $output .= "</tr>\n";
       }
     }

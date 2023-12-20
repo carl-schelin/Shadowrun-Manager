@@ -33,6 +33,7 @@
       <li><a href="<?php print $Dataroot; ?>/add.adept.php">Adept Powers</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.mentor.php">Mentor Spirits</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.metamagics.php">Metamagics</a></li>
+      <li><a href="<?php print $Dataroot; ?>/add.foci.php">Power Focuses</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.rituals.php">Rituals</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.spells.php">Spells</a></li>
       <li><a href="<?php print $Dataroot; ?>/add.power.php">Spirit Powers</a></li>

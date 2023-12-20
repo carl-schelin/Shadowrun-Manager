@@ -18,6 +18,13 @@
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
   }
@@ -376,6 +383,17 @@ function delete_adept( p_script_url ) {
     script.src = p_script_url;
     document.getElementsByTagName('head')[0].appendChild(script);
     show_file('adept.mysql.php' + '?update=-1' + '&r_adp_character=<?php print $formVars['id']; ?>');
+  }
+}
+
+function delete_foci( p_script_url ) {
+  var answer = confirm("Delete Foci?")
+
+  if (answer) {
+    script = document.createElement('script');
+    script.src = p_script_url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('foci.mysql.php' + '?update=-1' + '&r_foci_character=<?php print $formVars['id']; ?>');
   }
 }
 
@@ -1624,6 +1642,7 @@ function clear_fields() {
   show_file('finance.mysql.php'         + '?update=-3&fin_character=<?php print $formVars['id']; ?>');
   show_file('firearms.mysql.php'        + '?update=-3&r_fa_character=<?php print $formVars['id']; ?>');
   show_file('fireacc.mysql.php'         + '?update=-3&r_fa_id=0');
+  show_file('foci.mysql.php'            + '?update=-3&r_foci_character=<?php print $formVars['id']; ?>');
   show_file('gear.mysql.php'            + '?update=-3&r_gear_character=<?php print $formVars['id']; ?>');
   show_file('gearacc.mysql.php'         + '?update=-3&r_gear_id=0');
   show_file('history.mysql.php'         + '?update=-3&his_character=<?php print $formVars['id']; ?>');
@@ -1676,6 +1695,7 @@ $(document).ready( function() {
   $( "#cyberdecktabs"    ).tabs( ).addClass( "tab-shadow" );
   $( "#cyberjacktabs"    ).tabs( ).addClass( "tab-shadow" );
   $( "#cyberwaretabs"    ).tabs( ).addClass( "tab-shadow" );
+  $( "#focitabs"         ).tabs( ).addClass( "tab-shadow" );
   $( "#geartabs"         ).tabs( ).addClass( "tab-shadow" );
   $( "#historytabs"      ).tabs( ).addClass( "tab-shadow" );
   $( "#magic"            ).tabs( ).addClass( "tab-shadow" );
@@ -1745,7 +1765,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="detail-help" style="display: none">
+<div id="detail-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -1982,7 +2002,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="history-listing-help" style="display: none">
+<div id="history-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2011,7 +2031,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="karma-listing-help" style="display: none">
+<div id="karma-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2040,7 +2060,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="finance-listing-help" style="display: none">
+<div id="finance-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2069,7 +2089,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="street-listing-help" style="display: none">
+<div id="street-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2098,7 +2118,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="notoriety-listing-help" style="display: none">
+<div id="notoriety-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2127,7 +2147,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="publicity-listing-help" style="display: none">
+<div id="publicity-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2160,7 +2180,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="tags-help" style="display: none">
+<div id="tags-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2212,7 +2232,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="active-help" style="display: none">
+<div id="active-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2244,7 +2264,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="knowledge-help" style="display: none">
+<div id="knowledge-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2276,7 +2296,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="language-help" style="display: none">
+<div id="language-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2308,7 +2328,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="qualities-help" style="display: none">
+<div id="qualities-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2340,7 +2360,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="contact-help" style="display: none">
+<div id="contact-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2372,7 +2392,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="lifestyle-help" style="display: none">
+<div id="lifestyle-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2404,7 +2424,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="identity-help" style="display: none">
+<div id="identity-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2429,7 +2449,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="license-help" style="display: none">
+<div id="license-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2459,6 +2479,7 @@ $(document).ready( function() {
   <li><a href="#tradition">Traditions</a></li>
   <li><a href="#mentor">Mentor Spirits</a></li>
   <li><a href="#spirit">Spirits</a></li>
+  <li><a href="#foci">Power Foci</a></li>
   <li><a href="#alchemy">Alchemy</a></li>
   <li><a href="#metamagics">Metamagics</a></li>
   <li><a href="#adept">Adept</a></li>
@@ -2474,7 +2495,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="spells-help" style="display: none">
+<div id="spells-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2528,7 +2549,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="tradition-help" style="display: none">
+<div id="tradition-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2577,7 +2598,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="mentor-help" style="display: none">
+<div id="mentor-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2616,6 +2637,9 @@ $(document).ready( function() {
 </div>
 
 
+
+
+
 <div id="spirit">
 
 <table class="ui-styled-table" width="100%">
@@ -2625,7 +2649,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="spirit-help" style="display: none">
+<div id="spirit-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2672,6 +2696,62 @@ $(document).ready( function() {
 
 
 
+<div id="foci">
+
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default"><a href="javascript:;" onmousedown="toggleDiv('foci-hide');">Power Focuses</a></th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('foci-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="foci-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Notes</strong></li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="foci-hide" style="display: none">
+
+<span id="foci_form"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+<div id="focitabs">
+
+<ul>
+  <li><a href="#my_foci">My Foci</a></li>
+  <li><a href="#focis">Foci</a></li>
+</ul>
+
+<div id="my_foci">
+
+<span id="my_focis_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+<div id="focis">
+
+<span id="focis_table"><?php print wait_Process("Please Wait"); ?></span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+
 
 
 <div id="alchemy">
@@ -2683,7 +2763,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="alchemy-help" style="display: none">
+<div id="alchemy-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2738,7 +2818,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="metamagics-help" style="display: none">
+<div id="metamagics-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2793,7 +2873,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="adept-help" style="display: none">
+<div id="adept-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2862,7 +2942,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="commlink-help" style="display: none">
+<div id="commlink-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -2923,7 +3003,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="command-help" style="display: none">
+<div id="command-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3000,7 +3080,7 @@ $(document).ready( function() {
 </tr>
 </table>
 
-<div id="cyberdeck-help" style="display: none">
+<div id="cyberdeck-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3088,7 +3168,7 @@ You'll select your Cyberdeck from the list in the <strong>Cyberdecks</strong> ta
 </tr>
 </table>
 
-<div id="cyberjack-help" style="display: none">
+<div id="cyberjack-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3147,7 +3227,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="sprite-help" style="display: none">
+<div id="sprite-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3200,7 +3280,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="complexform-help" style="display: none">
+<div id="complexform-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3266,7 +3346,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="gear-help" style="display: none">
+<div id="gear-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3330,7 +3410,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="armor-help" style="display: none">
+<div id="armor-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3401,7 +3481,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="bioware-help" style="display: none">
+<div id="bioware-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3495,7 +3575,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="cyberware-help" style="display: none">
+<div id="cyberware-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3598,7 +3678,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="melee-help" style="display: none">
+<div id="melee-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3659,7 +3739,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="ammo-help" style="display: none">
+<div id="ammo-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3712,7 +3792,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="projectile-help" style="display: none">
+<div id="projectile-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3773,7 +3853,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="firearms-help" style="display: none">
+<div id="firearms-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -3834,7 +3914,7 @@ existing one to select a replacement.</p>
 </tr>
 </table>
 
-<div id="vehicles-help" style="display: none">
+<div id="vehicles-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 

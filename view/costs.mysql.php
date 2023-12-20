@@ -17,7 +17,9 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
-  $q_string  = "select runr_body,runr_agility,runr_reaction,runr_strength,runr_willpower,runr_logic,runr_intuition,runr_charisma,runr_magic,runr_initiate,runr_resonance,meta_name ";
+  $q_string  = "select runr_body,runr_agility,runr_reaction,runr_strength,runr_willpower,";
+  $q_string .= "runr_logic,runr_intuition,runr_charisma,runr_magic,runr_initiate,";
+  $q_string .= "runr_resonance,meta_name ";
   $q_string .= "from metatypes ";
   $q_string .= "left join runners on runners.runr_metatype = metatypes.meta_id ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -148,7 +150,7 @@
       $powerpoints = $a_r_adept['adp_power'];
     }
     $totalpower += $powerpoints;
-    $adept = '03';
+    $adept = '01';
   }
 
 # r_alchemy - no essence or costs
@@ -163,9 +165,8 @@
   $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
     $totalcosts   += ($a_r_ammo['r_ammo_rounds'] * $a_r_ammo['ammo_cost']);
-    $ammo = '05';
+    $ammo = '02';
   }
-
 
 # r_armor - arm_cost
   $armor = '';
@@ -176,7 +177,7 @@
   $q_r_armor = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_armor = mysqli_fetch_array($q_r_armor)) {
     $totalcosts   += $a_r_armor['arm_cost'];
-    $armor = '06';
+    $armor = '03';
 
 # r_accessory - has acc_cost for armor
     $q_string  = "select acc_cost ";
@@ -190,7 +191,6 @@
       $accessory = '01';
     }
   }
-
 
 # r_bioware - r_bio_grade plus bio_essence and bio_cost
 # plus any accessory with bioware also gets modified by grade.
@@ -206,34 +206,8 @@
     $totalessence += ($a_r_bioware['grade_essence'] * $a_r_bioware['bio_essence']);
     $bio_essence += ($a_r_bioware['grade_essence'] * $a_r_bioware['bio_essence']);
     $totalcosts   += ($a_r_bioware['grade_cost'] * $a_r_bioware['bio_cost']);
-    $bioware = '07';
+    $bioware = '04';
   }
-
-
-# r_commlink - link_cost
-  $commlink = '';
-  $q_string  = "select r_link_id,link_cost ";
-  $q_string .= "from r_commlink ";
-  $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
-  $q_string .= "where r_link_character = " . $formVars['id'] . " ";
-  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-  while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
-    $totalcosts   += $a_r_commlink['link_cost'];
-    $commlink = '08';
-
-# r_accessory - has acc_cost for armor
-    $q_string  = "select acc_cost ";
-    $q_string .= "from r_accessory ";
-    $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
-    $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
-    $q_string .= "where sub_name = \"Commlinks\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
-    $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
-      $totalcosts   += $a_r_accessory['acc_cost'];
-      $accessory = '01';
-    }
-  }
-
 
 # r_command - cmd_cost
   $command = '';
@@ -244,7 +218,7 @@
   $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_command = mysqli_fetch_array($q_r_command)) {
     $totalcosts   += $a_r_command['cmd_cost'];
-    $command = '26';
+    $command = '05';
 
 # r_accessory - has acc_cost for armor
     $q_string  = "select acc_cost ";
@@ -266,7 +240,31 @@
     $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
     while ($a_r_program = mysqli_fetch_array($q_r_program)) {
       $totalcosts   += $a_r_program['pgm_cost'];
-      $program = '20';
+      $program = '06';
+    }
+  }
+
+# r_commlink - link_cost
+  $commlink = '';
+  $q_string  = "select r_link_id,link_cost ";
+  $q_string .= "from r_commlink ";
+  $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
+  $q_string .= "where r_link_character = " . $formVars['id'] . " ";
+  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
+    $totalcosts   += $a_r_commlink['link_cost'];
+    $commlink = '07';
+
+# r_accessory - has acc_cost for armor
+    $q_string  = "select acc_cost ";
+    $q_string .= "from r_accessory ";
+    $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
+    $q_string .= "left join subjects on subjects.sub_id = accessory.acc_type ";
+    $q_string .= "where sub_name = \"Commlinks\" and r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_commlink['r_link_id'] . " ";
+    $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
+      $totalcosts   += $a_r_accessory['acc_cost'];
+      $accessory = '01';
     }
   }
 
@@ -287,7 +285,7 @@
   $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
     $totalcosts   += $a_r_cyberdeck['deck_cost'];
-    $cyberdeck = '10';
+    $cyberdeck = '08';
 
 # r_accessory - has acc_cost for cyberdecks
     $q_string  = "select acc_cost ";
@@ -309,7 +307,7 @@
     $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
     while ($a_r_program = mysqli_fetch_array($q_r_program)) {
       $totalcosts   += $a_r_program['pgm_cost'];
-      $program = '20';
+      $program = '09';
     }
 
 # r_agents - agt_cost
@@ -321,8 +319,20 @@
     $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
     while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
       $totalcosts   += $a_r_agents['agt_cost'];
-      $agents = '04';
+      $agents = '10';
     }
+  }
+
+# r_cyberjack - 
+  $q_string  = "select r_jack_id,jack_essence,jack_cost ";
+  $q_string .= "from r_cyberjack ";
+  $q_string .= "left join cyberjack on cyberjack.jack_id = r_cyberjack.r_jack_number ";
+  $q_string .= "where r_jack_character = " . $formVars['id'] . " ";
+  $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack)) {
+    $totalessence += $a_r_cyberjack['jack_essence'];
+    $totalcosts   += $a_r_cyberjack['jack_cost'];
+    $cyberjack = '11';
   }
 
 
@@ -338,7 +348,7 @@
   while ($a_r_cyberware = mysqli_fetch_array($q_r_cyberware)) {
     $totalessence += ($a_r_cyberware['grade_essence'] * $a_r_cyberware['ware_essence']);
     $totalcosts   += ($a_r_cyberware['grade_cost'] * $a_r_cyberware['ware_cost']);
-    $cyberware = '11';
+    $cyberware = '12';
 
 # r_accessory - has acc_essence and acc_cost
     $q_string  = "select acc_essence,acc_cost ";
@@ -365,7 +375,7 @@
   $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
     $totalcosts   += $a_r_firearms['fa_cost'];
-    $firearms = '12';
+    $firearms = '13';
 
 # r_accessory - has acc_cost for firearms
     $q_string  = "select acc_cost ";
@@ -380,6 +390,17 @@
     }
   }
 
+# r_foci - foci_cost
+  $firearms = '';
+  $q_string  = "select r_foci_id,foci_cost ";
+  $q_string .= "from r_foci ";
+  $q_string .= "left join foci on foci.foci_id = r_foci.r_foci_number ";
+  $q_string .= "where r_foci_character = " . $formVars['id'] . " ";
+  $q_r_foci = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_r_foci = mysqli_fetch_array($q_r_foci)) {
+    $totalcosts   += $a_r_foci['foci_cost'];
+    $foci = '14';
+  }
 
 # r_gear - gear_cost
   $gear = '';
@@ -390,7 +411,7 @@
   $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
     $totalcosts   += $a_r_gear['gear_cost'];
-    $gear = '13';
+    $gear = '15';
 
 # r_accessory - has acc_cost for firearms
     $q_string  = "select acc_cost ";
@@ -405,7 +426,6 @@
     }
   }
 
-
 # r_identity - no essence or costs
   $identity = '';
 # r_knowledge - no essence or costs
@@ -416,7 +436,6 @@
   $license = '';
 
 # r_lifestyle - life_cost and r_life_months
-  $totalcosts = 0;
   $lifestyle = '';
   $q_string  = "select r_life_months,life_mincost,life_maxcost ";
   $q_string  = "select r_life_months ";
@@ -437,9 +456,8 @@
     }
 
     $totalcosts   += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_mincost'] * $multiplier);
-    $lifestyle = '18';
+    $lifestyle = '16';
   }
-
 
 # r_melee - melee_cost
   $melee = '';
@@ -450,7 +468,7 @@
   $q_r_melee = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_melee = mysqli_fetch_array($q_r_melee)) {
     $totalcosts   += $a_r_melee['melee_cost'];
-    $melee = '19';
+    $melee = '17';
 
 # r_accessory - has acc_cost for firearms
     $q_string  = "select acc_cost ";
@@ -465,10 +483,10 @@
     }
   }
 
-
 # r_mentor - no essence or costs
   $mentor = '';
-
+# r_metamagics - no essence or costs
+  $metamagics = '';
 
 # r_projectile - proj_cost
   $projectile = '';
@@ -479,7 +497,7 @@
   $q_r_projectile = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_projectile = mysqli_fetch_array($q_r_projectile)) {
     $totalcosts   += $a_r_projectile['proj_cost'];
-    $projectile = '26';
+    $projectile = '18';
 
 # r_accessory - has acc_cost for projectiles
     $q_string  = "select acc_cost ";
@@ -494,9 +512,10 @@
     }
   }
 
-
 # r_qualities - no essence or costs
   $qualities = '';
+# r_rituals - no essence or costs
+  $rituals = '';
 # r_spells - no essence or costs (however there is a cost in the gear section)
   $spells = '';
 # r_spirit - no essence or costs
@@ -515,7 +534,7 @@
   $q_r_vehicles = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   while ($a_r_vehicles = mysqli_fetch_array($q_r_vehicles)) {
     $totalcosts   += $a_r_vehicles['veh_cost'];
-    $vehicles = '25';
+    $vehicles = '19';
 
 # r_accessory - has acc_cost for vehicles
     $q_string  = "select acc_cost ";
@@ -544,9 +563,9 @@
   $output .= "<td class=\"ui-widget-content delete\">Total Essence: " . $totalessence . "(" . number_format((6.00 - $totalessence), 2, ".", ",") . ")"  . "</td>";
   $output .= "<td class=\"ui-widget-content delete\">Total Costs: "   . number_format($totalcosts, 0, '.', ',') . $nuyen . "</td>";
   $output .= "<td class=\"ui-widget-content delete\">";
-  $output .= $accessory . $adept . $agents . $ammo . $armor . $bioware . $commlink;
-  $output .= $cyberdeck . $cyberware . $firearms . $gear . $lifestyle . $melee;
-  $output .= $program . $vehicles . $command . $projectile;
+  $output .= $accessory . ":" . $adept . ":" . $agents . ":" . $ammo . ":" . $armor . ":" . $bioware . ":" . $command . ":";
+  $output .= $commlink . ":" . $cyberdeck . ":" . $cyberware . ":" . $firearms . ":" . $gear . ":" . $lifestyle . ":" . $melee . ":";
+  $output .= $program . ":" . $projectile . ":" . $vehicles;
   $output .= "</td>";
   $output .= "</tr>";
   $output .= "<tr>";

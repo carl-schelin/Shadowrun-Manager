@@ -1,5 +1,5 @@
 <?php
-# Script: add.accessory.php
+# Script: add.foci.php
 # Owner: Carl Schelin
 # Coding Standard 3.0 Applied
 # See: https://incowk01/makers/index.php/Coding_Standards
@@ -10,7 +10,7 @@
   include($Sitepath . '/function.php');
   check_login($db, $AL_Johnson);
 
-  $package = "add.accessory.php";
+  $package = "add.foci.php";
 
   logaccess($db, $_SESSION['username'], $package, "Accessing script");
 
@@ -26,7 +26,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Manage Accessories</title>
+<title>Manage Power Focuses</title>
 
 <style type="text/css" title="currentStyle" media="screen">
 <?php include($Sitepath . "/mobile.php"); ?>
@@ -42,12 +42,12 @@
 
   if (check_userlevel($db, $AL_Johnson)) {
 ?>
-function delete_accessory( p_script_url ) {
+function delete_foci( p_script_url ) {
   var question;
   var answer;
 
-  question  = "The Accessory will also be cleared from any character that owns one.\n";
-  question += "Delete this Accessory?";
+  question  = "The Foci may be in use. Only delete if you're sure it's unused.\n";
+  question += "Delete this Foci?";
 
   answer = confirm(question);
 
@@ -55,82 +55,74 @@ function delete_accessory( p_script_url ) {
     script = document.createElement('script');
     script.src = p_script_url;
     document.getElementsByTagName('head')[0].appendChild(script);
-    show_file('add.accessory.mysql.php?update=-1');
+    show_file('add.foci.mysql.php?update=-1');
   }
 }
 <?php
   }
 ?>
 
-function attach_accessory(p_script_url, update) {
-  var aa_form = document.dialog;
-  var aa_url;
+function attach_foci(p_script_url, update) {
+  var af_form = document.dialog;
+  var af_url;
 
-  aa_url  = '?update='   + update;
-  aa_url += "&id="       + aa_form.id.value;
+  af_url  = '?update='   + update;
+  af_url += "&id="       + af_form.id.value;
 
-  aa_url += "&acc_type="      + encode_URI(aa_form.acc_type.value);
-  aa_url += "&acc_class="     + encode_URI(aa_form.acc_class.value);
-  aa_url += "&acc_accessory=" + encode_URI(aa_form.acc_accessory.value);
-  aa_url += "&acc_name="      + encode_URI(aa_form.acc_name.value);
-  aa_url += "&acc_mount="     + encode_URI(aa_form.acc_mount.value);
-  aa_url += "&acc_essence="   + encode_URI(aa_form.acc_essence.value);
-  aa_url += "&acc_rating="    + encode_URI(aa_form.acc_rating.value);
-  aa_url += "&acc_capacity="  + encode_URI(aa_form.acc_capacity.value);
-  aa_url += "&acc_avail="     + encode_URI(aa_form.acc_avail.value);
-  aa_url += "&acc_perm="      + encode_URI(aa_form.acc_perm.value);
-  aa_url += "&acc_basetime="  + encode_URI(aa_form.acc_basetime.value);
-  aa_url += "&acc_duration="  + encode_URI(aa_form.acc_duration.value);
-  aa_url += "&acc_index="     + encode_URI(aa_form.acc_index.value);
-  aa_url += "&acc_cost="      + encode_URI(aa_form.acc_cost.value);
-  aa_url += "&acc_book="      + encode_URI(aa_form.acc_book.value);
-  aa_url += "&acc_page="      + encode_URI(aa_form.acc_page.value);
+  af_url += "&foci_name="         + encode_URI(af_form.foci_name.value);
+  af_url += "&foci_karma="        + encode_URI(af_form.foci_karma.value);
+  af_url += "&foci_avail="        + encode_URI(af_form.foci_avail.value);
+  af_url += "&foci_perm="         + encode_URI(af_form.foci_perm.value);
+  af_url += "&foci_cost="         + encode_URI(af_form.foci_cost.value);
+  af_url += "&foci_book="         + encode_URI(af_form.foci_book.value);
+  af_url += "&foci_page="         + encode_URI(af_form.foci_page.value);
 
   script = document.createElement('script');
-  script.src = p_script_url + aa_url;
+  script.src = p_script_url + af_url;
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 function clear_fields() {
-  show_file('add.accessory.mysql.php?update=-1');
+  show_file('add.foci.mysql.php?update=-1');
 }
 
 $(document).ready( function() {
-  $( '#clickAccessory' ).click(function() {
-    $( "#dialogAccessory" ).dialog('open');
+  $( '#clickFoci' ).click(function() {
+    $( "#dialogFoci" ).dialog('open');
   });
 
-  $( "#dialogAccessory" ).dialog({
+  $( "#dialogFoci" ).dialog({
     autoOpen: false,
+
     modal: true,
-    height: 425,
+    height: 250,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
-      $( "#dialogAccessory" ).hide();
+      $( "#dialogFoci" ).hide();
     },
     buttons: [
       {
         id: "button-cancel",
         text: "Cancel",
         click: function() {
-          attach_accessory('add.accessory.mysql.php', -1);
+          attach_foci('add.foci.mysql.php', -1);
           $( this ).dialog( "close" );
         }
       },
       {
         id: "button-update",
-        text: "Update Accessory",
+        text: "Update Foci",
         click: function() {
-          attach_accessory('add.accessory.mysql.php', 1);
+          attach_foci('add.foci.mysql.php', 1);
           $( this ).dialog( "close" );
         }
       },
       {
         id: "button-add",
-        text: "Add Accessory",
+        text: "Add Foci",
         click: function() {
-          attach_accessory('add.accessory.mysql.php', 0);
+          attach_foci('add.foci.mysql.php', 0);
           $( this ).dialog( "close" );
         }
       }
@@ -146,18 +138,18 @@ $(document).ready( function() {
 <?php include($Sitepath . "/topmenu.start.php"); ?>
 <?php include($Sitepath . "/topmenu.end.php"); ?>
 
-<form name="accessory">
-
 <div id="main">
+
+<form name="foci">
 
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default">Accessory Management</th>
-  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('accessory-help');">Help</a></th>
+  <th class="ui-state-default">Foci Management</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('foci-help');">Help</a></th>
 </tr>
 </table>
 
-<div id="accessory-help" style="<?php print $display; ?>">
+<div id="foci-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -169,7 +161,7 @@ $(document).ready( function() {
 
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="button ui-widget-content"><input type="button" name="addnew" id="clickAccessory" value="Add New Accessory"</td>
+  <td class="button ui-widget-content"><input type="button" name="addnew" id="clickFoci" value="Add Foci"></td>
 </tr>
 </table>
 
@@ -178,12 +170,12 @@ $(document).ready( function() {
 <p></p>
 <table class="ui-styled-table" width="100%">
 <tr>
-  <th class="ui-state-default">Accessory Listing</th>
-  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('accessory-listing-help');">Help</a></th>
+  <th class="ui-state-default">Foci Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('foci-listing-help');">Help</a></th>
 </tr>
 </table>
 
-<div id="accessory-listing-help" style="<?php print $display; ?>">
+<div id="foci-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -193,20 +185,19 @@ $(document).ready( function() {
 </div>
 
 
-<span id="mysql_table"><?php print wait_Process('Loading Accessories...')?></span>
+<span id="mysql_table"><?php print wait_Process('Loading Foci...')?></span>
 
 </div>
 
 
-
-<div id="dialogAccessory" title="Accessory Form">
+<div id="dialogFoci" title="Foci">
 
 <form name="dialog">
 
 <input type="hidden" name="id" value="0">
 
 <?php
-include('add.accessory.dialog.php');
+include('add.foci.dialog.php');
 ?>
 
 </form>
