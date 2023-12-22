@@ -1,4 +1,14 @@
-### This describes how the settings.php file needs to be created.
+### Settings File
+
+This article describes how the settings.php file needs to be created.
+
+At the top is a general description of the server. URL, header, and so on.
+
+If there's a problem, I switch the Sitedebug variable in order to troubleshoot. Generally just set it to NO.
+
+Following that are mainly path variables to subdirectories.
+
+Note that years ago when I first started writing web applications, I couldn't get the 'base directory' option working. So settings.php files need to be in every directory. It works and I've been busy on other things so never got around to fixing it :)
 
 
 ### settings.php
@@ -141,11 +151,8 @@ $Usersroot		= $Siteroot . "/accounts";
 
 # disable access to the site and print a maintenance message
 $Sitemaintenance	= "0";
+
 $Sitecopyright		= "";
-$Siteadmins		= ",carl@internal.pri";
-# Emails on dev server go to the person doing the work.
-$Sitedev		= "carl@internal.pri";
-$EmergencyContact	= "carl@internal.pri";
 
 # Access levels
 $AL_Johnson		= 1;
