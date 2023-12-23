@@ -179,17 +179,6 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Weapon Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -221,43 +210,242 @@ $(document).ready( function() {
 
 
 <div id="tasers">
-<span id="tasers_table"><?php print wait_Process('Loading Tasers...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Taser Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('taser-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="taser-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="tasers_table"><?php print wait_Process('Loading Tasers...')?></span>
+
+</div>
+
 
 <div id="hold-outs">
-<span id="hold-outs_table"><?php print wait_Process('Loading Hold-Outs...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Hold-Out Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('holdout-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="holdout-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="hold-outs_table"><?php print wait_Process('Loading Hold-Outs...')?></span>
+
+</div>
+
 
 <div id="pistols">
-<span id="pistols_table"><?php print wait_Process('Loading Pistols...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Pistol Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('pistol-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="pistol-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="pistols_table"><?php print wait_Process('Loading Pistols...')?></span>
+
+</div>
+
 
 <div id="machineguns">
-<span id="mg_table"><?php print wait_Process('Loading Machine Guns...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Machinegun Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('machinegun-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="machinegun-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="mg_table"><?php print wait_Process('Loading Machine Guns...')?></span>
+
+</div>
+
 
 <div id="rifles">
-<span id="rifles_table"><?php print wait_Process('Loading Rifles...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Rifles Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('rifles-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="rifles-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="rifles_table"><?php print wait_Process('Loading Rifles...')?></span>
+
+</div>
+
 
 <div id="shotguns">
-<span id="shotguns_table"><?php print wait_Process('Loading Shotguns...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Shotgun Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('shotgun-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="shotgun-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="shotguns_table"><?php print wait_Process('Loading Shotguns...')?></span>
+
+</div>
+
 
 <div id="special">
-<span id="special_table"><?php print wait_Process('Loading Special Weapons...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Special Weapon Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('special-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="special-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="special_table"><?php print wait_Process('Loading Special Weapons...')?></span>
+
+</div>
+
 
 <div id="launchers">
-<span id="launchers_table"><?php print wait_Process('Loading Launchers...')?></span>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Launcher Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('launcher-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="launcher-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
+
+</div>
+
+<span id="launchers_table"><?php print wait_Process('Loading Launchers...')?></span>
+
+</div>
+
 
 <div id="cyberguns">
-<span id="cyberguns_table"><?php print wait_Process('Loading Cyberguns...')?></span>
+
+o<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Cybergun Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cybergun-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cybergun-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
 </div>
 
+</div>
+
+<span id="cyberguns_table"><?php print wait_Process('Loading Cyberguns...')?></span>
+
+</div>
+
+
 <div id="errors">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Missing Items Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('missing-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="missing-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="error_table"><?php print wait_Process('Loading Missing...')?></span>
+
 </div>
 
 </div>

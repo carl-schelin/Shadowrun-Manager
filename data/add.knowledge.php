@@ -150,17 +150,6 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Knowledge Skill Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -187,12 +176,46 @@ $(document).ready( function() {
 
 <div id="street">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Street Knowledge Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('street-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="street-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="street_table"><?php print wait_Process('Loading Street Knowledge Skills...')?></span>
 
 </div>
 
 
 <div id="academic">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Academic Knowledge Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('academic-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="academic-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="academic_table"><?php print wait_Process('Loading Academic Knowledge Skills...')?></span>
 
@@ -201,12 +224,46 @@ $(document).ready( function() {
 
 <div id="professional">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Professional Knowledge Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('professional-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="professional-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="professional_table"><?php print wait_Process('Loading Professional Knowledge Skills...')?></span>
 
 </div>
 
 
 <div id="interests">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Interests Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('interests-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="interests-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="interests_table"><?php print wait_Process('Loading Interests...')?></span>
 

@@ -230,12 +230,46 @@ column headers and not all of them are relevant to every Shadowrun edition.</p>
 
 <div id="aircraft">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Aircraft Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('aircraft-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="aircraft-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="aircraft_table"><?php print wait_Process('Loading Aircraft...')?></span>
 
 </div>
 
 
 <div id="groundcraft">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Groundcraft Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('groundcraft-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="melee-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="groundcraft_table"><?php print wait_Process('Loading Groundcraft...')?></span>
 
@@ -244,12 +278,46 @@ column headers and not all of them are relevant to every Shadowrun edition.</p>
 
 <div id="watercraft">
 
+o<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Watercraft Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('watercraft-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="watercraft-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="watercraft_table"><?php print wait_Process('Loading Watercraft...')?></span>
 
 </div>
 
 
 <div id="ldrones">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Large Drone Vehicle Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('large-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="large-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="ldrones_table"><?php print wait_Process('Loading Large Drones...')?></span>
 
@@ -258,12 +326,46 @@ column headers and not all of them are relevant to every Shadowrun edition.</p>
 
 <div id="mdrones">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Medium Drone Vehicle Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('medium-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="medium-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="mdrones_table"><?php print wait_Process('Loading Medium Drones...')?></span>
 
 </div>
 
 
 <div id="sdrones">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Small Drone Vehicle Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('small-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="small-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="sdrones_table"><?php print wait_Process('Loading Small Drones...')?></span>
 
@@ -272,12 +374,46 @@ column headers and not all of them are relevant to every Shadowrun edition.</p>
 
 <div id="idrones">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Minidrone Vehicle Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('minidrone-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="minidrone-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="idrones_table"><?php print wait_Process('Loading Minidrones...')?></span>
 
 </div>
 
 
 <div id="odrones">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Microdrone Vehicle Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('microdrone-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="microdrone-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="odrones_table"><?php print wait_Process('Loading Microdrones...')?></span>
 

@@ -185,6 +185,22 @@ $(document).ready( function() {
 
 </form>
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Gear Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('gear-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="gear-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 <span id="gear_table"><?php print wait_Process('Loading Gear...')?></span>
 
 </div>

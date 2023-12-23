@@ -91,27 +91,7 @@
 
       foreach ($spell_list as &$spell) {
 
-        $output  = "<p></p>\n";
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
-        $output .= "<tr>\n";
-        $output .= "  <th class=\"ui-state-default\">" . ucfirst($spell) . " Spell Listing</th>\n";
-        $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('" . $spell . "-listing-help');\">Help</a></th>\n";
-        $output .= "</tr>\n";
-        $output .= "</table>\n";
-
-        $output .= "<div id=\"" . $spell . "-listing-help\" style=\"display: none\">\n";
-
-        $output .= "<div class=\"main-help ui-widget-content\">\n";
-
-        $output .= "<p><strong>Spell Listing</p>\n";
-
-        $output .= "<p>The main thing you'll want to know is WIL+REA is an Indirect Spell and INT+WIL is a Direct Spell.</p>\n";
-
-        $output .= "</div>\n";
-
-        $output .= "</div>\n";
-
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
         $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";

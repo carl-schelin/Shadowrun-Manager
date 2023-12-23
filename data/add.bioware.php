@@ -161,17 +161,6 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Bioware Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -198,6 +187,22 @@ $(document).ready( function() {
 
 
 <div id="basic">
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Bioware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('bioware-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="bioware-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="basic_table"><?php print wait_Process('Loading Basic BioWare...')?></span>
 
@@ -206,12 +211,46 @@ $(document).ready( function() {
 
 <div id="biosculpting">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Biosculpting Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('biosculpting-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="biosculpting-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="biosculpting_table"><?php print wait_Process('Loading Biosculpting...')?></span>
 
 </div>
 
 
 <div id="cosmetic">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Cosmetic Bioware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cosmetic-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cosmetic-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="cosmetic_table"><?php print wait_Process('Loading Cosmetic...')?></span>
 
@@ -220,6 +259,23 @@ $(document).ready( function() {
 
 <div id="cultured">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Cultured BioWare Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cultured-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cultured-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="cultured_table"><?php print wait_Process('Loading Cultured BioWare...')?></span>
 
 </div>
@@ -227,12 +283,46 @@ $(document).ready( function() {
 
 <div id="endosymbiont">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Endosymbiont Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('endosymbiont-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="endosymbiont-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="endosymbiont_table"><?php print wait_Process('Loading Endosymbiont...')?></span>
 
 </div>
 
 
 <div id="leech">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Leech Bioware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('leech-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="leech-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="leech_table"><?php print wait_Process('Loading Leech BioWare...')?></span>
 

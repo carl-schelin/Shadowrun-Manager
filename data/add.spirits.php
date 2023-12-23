@@ -389,17 +389,6 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>sprite Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -432,12 +421,46 @@ $(document).ready( function() {
 
 <div id="spirits">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Spirit Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('spirit-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="spirit-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="spirits_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
 
 
 <div id="active">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Active Skills Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('active-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="active-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="active_table"><?php print wait_Process("Please Wait"); ?></span>
 
@@ -446,6 +469,23 @@ $(document).ready( function() {
 
 <div id="powers">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Spirit Power Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('power-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="power-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="powers_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
@@ -453,12 +493,46 @@ $(document).ready( function() {
 
 <div id="optional">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Optional Power Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('optional-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="optional-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="optional_table"><?php print wait_Process("Please Wait"); ?></span>
 
 </div>
 
 
 <div id="weakness">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Spirit Weakness Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('weakness-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="weakness-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="weakness_table"><?php print wait_Process("Please Wait"); ?></span>
 

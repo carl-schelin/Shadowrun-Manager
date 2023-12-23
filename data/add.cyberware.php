@@ -163,17 +163,6 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Vehicles Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -202,12 +191,46 @@ $(document).ready( function() {
 
 <div id="earware">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Earware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('earware-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="earware-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="earware_table"><?php print wait_Process('Loading Earware...')?></span>
 
 </div>
 
 
 <div id="eyeware">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Eyeware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('eyeware-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cyberjack-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="eyeware_table"><?php print wait_Process('Loading Eyeware...')?></span>
 
@@ -216,12 +239,46 @@ $(document).ready( function() {
 
 <div id="headware">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Headware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('headware-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="headware-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="headware_table"><?php print wait_Process('Loading Headware...')?></span>
 
 </div>
 
 
 <div id="bodyware">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Bodyware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('bodyware-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="bodyware-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="bodyware_table"><?php print wait_Process('Loading Bodyware...')?></span>
 
@@ -230,12 +287,46 @@ $(document).ready( function() {
 
 <div id="cyberlimbs">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Cyberlimb Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cyberlimb-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cyberlimb-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="cyberlimbs_table"><?php print wait_Process('Loading Cyberlimbs...')?></span>
 
 </div>
 
 
 <div id="cosmetic">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Cosmetic Cyberware Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cosmetic-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cosmetic-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="cosmetic_table"><?php print wait_Process('Loading Cosmetic Cyberware Modifications...')?></span>
 

@@ -71,35 +71,7 @@
 
       foreach ($qualities_list as &$qualities) {
 
-        $output  = "<p></p>\n";
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
-        $output .= "<tr>\n";
-        if ($qualities == 'positive') {
-          $output .= "  <th class=\"ui-state-default\">Positive Qualities Listing</th>\n";
-        } else {
-          $output .= "  <th class=\"ui-state-default\">Negative Qualities Listing</th>\n";
-        }
-        $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('positive-listing-help');\">Help</a></th>\n";
-        $output .= "</tr>\n";
-        $output .= "</table>\n";
-
-        $output .= "<div id=\"positive-listing-help\" style=\"display: none\">\n";
-
-        $output .= "<div class=\"main-help ui-widget-content\">\n";
-
-        $output .= "<ul>\n";
-        $output .= "  <li><strong>Positive Qualities Listing</strong>\n";
-        $output .= "  <ul>\n";
-        $output .= "    <li><strong>Remove</strong> - Click here to delete this Quality from the Mooks Database.</li>\n";
-        $output .= "    <li><strong>Editing</strong> - Click on a Quality to toggle the form and edit the Quality.</li>\n";
-        $output .= "  </ul></li>\n";
-        $output .= "</ul>\n";
-
-        $output .= "</div>\n";
-
-        $output .= "</div>\n";
-
-        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
         $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete</th>\n";
         $output .=   "<th class=\"ui-state-default\">ID</th>\n";
