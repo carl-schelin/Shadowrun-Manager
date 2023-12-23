@@ -66,27 +66,7 @@
 
       logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
-      $output  = "<p></p>\n";
-      $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
-      $output .= "<tr>\n";
-      $output .= "  <th class=\"ui-state-default\">Contact Listing</th>\n";
-      $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('contact-listing-help');\">Help</a></th>\n";
-      $output .= "</tr>\n";
-      $output .= "</table>\n";
-
-      $output .= "<div id=\"contact-listing-help\" style=\"display: none\">\n";
-
-      $output .= "<div class=\"main-help ui-widget-content\">\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Notes</strong></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "</div>\n";
-
-      $output .= "</div>\n";
-
-      $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+      $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
       $output .=   "<th class=\"ui-state-default\" width=\"60\">Delete Contact</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";

@@ -174,6 +174,23 @@ you can go up to 8 levels potentially giving yourself +8 dice.</p>
 
 </form>
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Adept Power Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('adept-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="adept-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="mysql_table"><?php print wait_Process('Loading Adept Powers...')?></span>
 
 </div>

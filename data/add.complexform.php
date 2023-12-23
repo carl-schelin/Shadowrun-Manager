@@ -156,20 +156,6 @@ $("#button-update").button("disable");
 
 <div class="complexform-help ui-widget-content">
 
-<ul>
-  <li><strong>Spell Listing</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the spell.</li>
-    <li><strong>Class</strong> - Spell class.</li>
-    <li><strong>Type</strong> - Mana or Physical Spell.</li>
-    <li><strong>Test</strong> - Test type; Opposed, which is resisted by attribute listed. S(OR) must beat the Object Resistance threshold.</li>
-    <li><strong>Range</strong> - Select the book where this table is located.</li>
-    <li><strong>Damage</strong> - Either Physical or Stun.</li>
-    <li><strong>Duration</strong> - Spell duration. Instant, Sustained, or Permanent.</li>
-    <li><strong>Drain</strong> - Drain Value.</li>
-    <li><strong>Book/Page</strong> - Book and page number where you can find the spell. Core book (sr5) or Street Grimoire (sg).</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -183,6 +169,23 @@ $("#button-update").button("disable");
 </table>
 
 </form>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Complexform Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('complexform-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="complexform-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="complexform_table"><?php print wait_Process('Loading Complex Forms...')?></span>
 

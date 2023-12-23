@@ -205,12 +205,46 @@ some are full force, and some are a hard value.</p>
 
 <div id="combat">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Combat Spell Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('combat-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="combat-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="combat_table"><?php print wait_Process('Loading Combat Spells...')?></span>
 
 </div>
 
 
 <div id="detection">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Detection Spell Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('detection-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="detection-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="detection_table"><?php print wait_Process('Loading Detection Spells...')?></span>
 
@@ -219,6 +253,23 @@ some are full force, and some are a hard value.</p>
 
 <div id="health">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Health Spell Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('health-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="health-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="health_table"><?php print wait_Process('Loading Health Spells...')?></span>
 
 </div>
@@ -226,12 +277,46 @@ some are full force, and some are a hard value.</p>
 
 <div id="illusion">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Illusion Spell Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('illusion-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="illusion-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="illusion_table"><?php print wait_Process('Loading Illusion Spells...')?></span>
 
 </div>
 
 
 <div id="manipulation">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Manipulation Spell Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('manipulation-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="manipulation-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="manipulation_table"><?php print wait_Process('Loading Manipulation Spells...')?></span>
 

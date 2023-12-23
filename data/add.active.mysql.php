@@ -104,7 +104,7 @@
 
             $active_default = return_Default($a_active['act_default']);
 
-            $active_book return_Book($a_active['ver_book'], $a_active['act_page']);
+            $active_book = return_Book($a_active['ver_book'], $a_active['act_page']);
 
             $class = "ui-widget-content";
 

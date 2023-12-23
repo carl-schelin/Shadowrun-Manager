@@ -151,17 +151,6 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>sprite Form</strong>
-  <ul>
-    <li><strong>Name</strong> - The name of the Metatype.</li>
-    <li><strong>Walk</strong> - The Metatype walking speed.</li>
-    <li><strong>Run</strong> - The Metatype run speed.</li>
-    <li><strong>Swim</strong> - The Metatype swim speed.</li>
-    <li><strong>Book</strong> - Select the book where this table is located.</li>
-    <li><strong>Page</strong> - Identify the page number.</li>
-  </ul></li>
-</ul>
 
 </div>
 
@@ -175,6 +164,23 @@ $(document).ready( function() {
 </table>
 
 </form>
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Point Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('point-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="point-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="mysql_table"><?php print wait_Process('Loading Lifestyle Points...')?></span>
 

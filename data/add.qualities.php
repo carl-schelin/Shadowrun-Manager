@@ -189,12 +189,46 @@ $(document).ready( function() {
 
 <div id="positive">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Positive Quality Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('positive-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="positive-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="positive_table"><?php print wait_Process('Loading Positive Qualities...')?></span>
 
 </div>
 
 
 <div id="negative">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Negative Quality Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('negative-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="negative-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
 
 <span id="negative_table"><?php print wait_Process('Loading Negative Qualities...')?></span>
 

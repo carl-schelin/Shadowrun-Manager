@@ -182,6 +182,23 @@ some are full force, and some are a hard value.</p>
 
 </form>
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">Metamagics Listing</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('metamagics-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="metamagics-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+
+</div>
+
+</div>
+
 <span id="metamagics_table"><?php print wait_Process('Loading Metamagics...')?></span>
 
 </div>
