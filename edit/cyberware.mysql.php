@@ -24,8 +24,18 @@
       $formVars['r_ware_character'] = -1;
     }
 
+    $q_string  = "select ver_version ";
+    $q_string .= "from versions ";
+    $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+    $q_string .= "where runr_id = " . $formVars['r_ware_character'] . " ";
+    $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_versions) > 0) {
+      $a_versions = mysqli_fetch_array($q_versions);
+    }
+
     if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
+        $formVars['id']                 = clean($_GET['id'],                  10);
         $formVars['r_ware_number']      = clean($_GET['r_ware_number'],       10);
         $formVars['r_ware_specialize']  = clean($_GET['r_ware_specialize'],   60);
         $formVars['r_ware_grade']       = clean($_GET['r_ware_grade'],        10);
@@ -33,9 +43,15 @@
         if ($formVars['r_ware_number'] == '') {
           $formVars['r_ware_number'] = 1;
         }
-# default is Standard; id == 1
+# default is Standard; id == 1 for 5th and 9 for 6th.
         if ($formVars['r_ware_grade'] == '') {
           $formVars['r_ware_grade'] = 1;
+          if ($a_versions['ver_version'] == '5.0') {
+            $formVars['r_ware_grade'] = 1;
+          }
+          if ($a_versions['ver_version'] == '6.0') {
+            $formVars['r_ware_grade'] = 9;
+          }
         }
 
         if ($formVars['r_ware_number'] > 0) {
@@ -53,7 +69,7 @@
           }
 
           if ($formVars['update'] == 1) {
-            $query = "update r_cyberware set " . $q_string . " where r_ware_id = " . $formVars['r_ware_character'];
+            $query = "update r_cyberware set " . $q_string . " where r_ware_id = " . $formVars['id'];
             $message = "Cyberware updated.";
           }
 
@@ -259,8 +275,8 @@
 
       $costtotal = 0;
       $costgrade = 0;
-      $essensetotal = 0;
-      $essensegrade = 0;
+      $essencetotal = 0;
+      $essencegrade = 0;
       $q_string  = "select r_ware_id,r_ware_specialize,ware_id,ware_class,class_name,ware_name,ware_rating,ware_essence,ware_capacity,";
       $q_string .= "ware_avail,ware_perm,ware_cost,ver_book,ware_page,grade_name,grade_essence,grade_avail,grade_cost ";
       $q_string .= "from r_cyberware ";

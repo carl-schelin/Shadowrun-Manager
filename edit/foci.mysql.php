@@ -148,14 +148,14 @@
             $output .= "  <td class=\"ui-widget-content\" colspan=\"5\">No available Foci.</td>\n";
             $output .= "</tr>\n";
           }
+
+          mysqli_free_result($q_foci);
         } else {
           $output .= "<tr>\n";
           $output .= "  <td class=\"ui-widget-content\" colspan=\"5\">No available Foci. (" . $runner_magic . ")</td>\n";
           $output .= "</tr>\n";
         }
         $output .= "</table>\n";
-
-        mysqli_free_result($q_foci);
 
         print "document.getElementById('focis_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 

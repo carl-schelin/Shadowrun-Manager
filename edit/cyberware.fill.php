@@ -39,9 +39,21 @@
       $ware_name = $a_r_cyberware['ware_name'] . " [Rating: " . $rating . ", Essence: " . $essence . ", Capacity: " . $capacity . "]";
 
       print "document.getElementById('r_ware_item').innerHTML = '" . mysqli_real_escape_string($db, $ware_name) . "';\n\n";
-      print "document.edit.r_ware_number.value = '" . mysqli_real_escape_string($db, $a_r_cyberware['r_ware_number']) . "';\n\n";
+
+      print "document.edit.r_ware_number.value = '"     . mysqli_real_escape_string($db, $a_r_cyberware['r_ware_number'])     . "';\n\n";
       print "document.edit.r_ware_specialize.value = '" . mysqli_real_escape_string($db, $a_r_cyberware['r_ware_specialize']) . "';\n\n";
-      print "document.edit.r_ware_grade.value = '" . mysqli_real_escape_string($db, $a_r_cyberware['r_ware_grade']) . "';\n\n";
+
+      $q_string  = "select grade_id,grade_name ";
+      $q_string .= "from grades ";
+      $q_string .= "left join versions on versions.ver_id = grades.grade_book ";
+      $q_string .= "where ver_active = 1 ";
+      $q_string .= "order by grade_essence desc ";
+
+      $cw_grade = return_Index($db, $a_r_cyberware['r_ware_grade'], $q_string);
+
+      if ($cw_grade > 0) {
+        print "document.edit.r_ware_grade['" . $cw_grade . "'].selected = true;\n\n";
+      }
 
       print "document.edit.r_ware_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_ware_update.disabled = false;\n\n";

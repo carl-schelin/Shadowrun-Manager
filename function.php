@@ -95,7 +95,7 @@ function generatePassword ($length = 8) {
 
 function return_Index($p_db, $p_check, $p_string) {
   $r_index = 0;
-  $count = 1;
+  $count = 0;
   $q_table = mysqli_query($p_db, $p_string) or die($p_string . ": " . mysqli_error($p_db));
   while ($a_table = mysqli_fetch_row($q_table)) {
     if ($p_check == $a_table[0]) {
