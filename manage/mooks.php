@@ -12,6 +12,13 @@
 
   logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
+# if help has not been seen yet,
+  if (show_Help($db, $Dataroot . "/" . $package)) {
+    $display = "display: block";
+  } else {
+    $display = "display: none";
+  }
+
   if (isset($_GET['id'])) {
     $formVars['id'] = clean($_GET['id'], 10);
   }
@@ -199,6 +206,46 @@ $(document).ready( function() {
 
 <div id="active">
 
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#active\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Active Skill Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('active-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="active-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Product</strong> - The product this software is a member of.</li>
+  <li><strong>Vendor</strong> - The software vendor. Clicking on this will load a search page listing all systems associated with this vendor.</li>
+  <li><strong>Software</strong> - The software name and version. Clicking on this will load a search page listing all systems associated with this software package.</li>
+  <li><strong>Type</strong> - The type of software.  Clicking on this will load a search page listing all systems associated with this software type. This is used in various places for reporting (such as OS and Instance).</li>
+  <li><strong>Group</strong> - The group responsible for the software package.</li>
+  <li><strong>Updated</strong> - The last time this entry was updated. A checkmark indicates the software information was gathered automatically.</li>
+</ul>
+
+<p><span class="ui-state-highlight">Highlighted software</span> have been identified as software that defines or is the focus of this system.</p>
+
+<p><span class="ui-state-error">Highlighted software</span> have been identified as customer facing</p>
+
+</div>
+
+</div>
+
 <span id="active_mysql"><?php print wait_Process('Active Skills Loading...')?></span>
 
 </div>
@@ -296,6 +343,47 @@ $(document).ready( function() {
 
 <div id="adept">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#magic\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Adept Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('adept-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="adept-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Product</strong> - The product this software is a member of.</li>
+  <li><strong>Vendor</strong> - The software vendor. Clicking on this will load a search page listing all systems associated with this vendor.</li>
+  <li><strong>Software</strong> - The software name and version. Clicking on this will load a search page listing all systems associated with this software package.</li>
+  <li><strong>Type</strong> - The type of software.  Clicking on this will load a search page listing all systems associated with this software type. This is used in various places for reporting (such as OS and Instance).</li>
+  <li><strong>Group</strong> - The group responsible for the software package.</li>
+  <li><strong>Updated</strong> - The last time this entry was updated. A checkmark indicates the software information was gathered automatically.</li>
+</ul>
+
+<p><span class="ui-state-highlight">Highlighted software</span> have been identified as software that defines or is the focus of this system.</p>
+
+<p><span class="ui-state-error">Highlighted software</span> have been identified as customer facing</p>
+
+</div>
+
+</div>
+
 <span id="adept_mysql"><?php print wait_Process('Adept Skills Loading...')?></span>
 
 </div>
@@ -356,7 +444,7 @@ Cyberdeck Information
 </tr>
 </table>
 
-<div id="cyberdeck-help" style="display: none">
+<div id="cyberdeck-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
 
@@ -502,6 +590,48 @@ Cyberdeck Information
 
 
 <div id="vehicles">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#vehicles\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Vehicle Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('vehicles-listing-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="vehicles-listing-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Spell Listing</strong>
+  <ul>
+    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>
+    <li><strong>Editing</strong> - Click on an association to edit it.</li>
+  </ul></li>
+</ul>
+
+<ul>
+  <li><strong>Notes</strong>
+  <ul>
+    <li>Click the <strong>Association Management</strong> title bar to toggle the <strong>Association Form</strong>.</li>
+  </ul></li>
+</ul>
+
+</div>
+
+</div>
 
 <span id="vehicles_mysql"><?php print wait_Process('Vehicles Loading...')?></span>
 
