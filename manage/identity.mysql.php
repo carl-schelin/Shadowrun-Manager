@@ -14,9 +14,17 @@
 
   if (isset($_SESSION['username'])) {
     $package = "identity.mysql.php";
+
     $formVars['id'] = clean($_GET['id'], 10);
 
     if (check_userlevel($db, $AL_Shadowrunner)) {
+
+      $q_string  = "select ver_version ";
+      $q_string .= "from versions ";
+      $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+      $q_string .= "where runr_id = " . $formVars['id'] . " ";
+      $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_versions = mysqli_fetch_array($q_versions);
 
       logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 

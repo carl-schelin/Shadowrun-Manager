@@ -13,9 +13,8 @@
   include($Sitepath . '/function.php');
 
   $package = "melee.mysql.php";
-  $formVars['id'] = clean($_GET['id'], 10);
 
-  logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
+  $formVars['id'] = clean($_GET['id'], 10);
 
   $q_string  = "select ver_version ";
   $q_string .= "from versions ";
@@ -23,6 +22,8 @@
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
   $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_versions = mysqli_fetch_array($q_versions);
+
+  logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
   $output  = "<p></p>\n";
   $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";

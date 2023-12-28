@@ -17,45 +17,14 @@
 
   $formVars['id'] = clean($_GET['id'], 10);
 
-  $output  = "<p></p>";
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#adept\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-  }
-  $output .= "Adept Information";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "</a>";
-  }
-  $output .= "</th>";
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('adept-help');\">Help</a></th>";
-  $output .= "</tr>";
-  $output .= "</table>";
+  $q_string  = "select ver_version ";
+  $q_string .= "from versions ";
+  $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+  $q_string .= "where runr_id = " . $formVars['id'] . " ";
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  $a_versions = mysqli_fetch_array($q_versions);
 
-  $output .= "<div id=\"adept-help\" style=\"display: none\">";
-
-  $output .= "<div class=\"main-help ui-widget-content\">";
-
-  $output .= "<ul>";
-  $output .= "  <li><strong>Product</strong> - The product this software is a member of.</li>";
-  $output .= "  <li><strong>Vendor</strong> - The software vendor. Clicking on this will load a search page listing all systems associated with this vendor.</li>";
-  $output .= "  <li><strong>Software</strong> - The software name and version. Clicking on this will load a search page listing all systems associated with this software package.</li>";
-  $output .= "  <li><strong>Type</strong> - The type of software.  Clicking on this will load a search page listing all systems associated with this software type. This is used in various places for reporting (such as OS and Instance).</li>";
-  $output .= "  <li><strong>Group</strong> - The group responsible for the software package.</li>";
-  $output .= "  <li><strong>Updated</strong> - The last time this entry was updated. A checkmark indicates the software information was gathered automatically.</li>";
-  $output .= "</ul>";
-
-  $output .= "<p><span class=\"ui-state-highlight\">Highlighted software</span> have been identified as software that defines or is the focus of this system.</p>";
-
-  $output .= "<p><span class=\"ui-state-error\">Highlighted software</span> have been identified as customer facing</p>";
-
-  $output .= "</div>";
-
-  $output .= "</div>";
-
-
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+  $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .= "  <th class=\"ui-state-default\">Power Name</th>\n";
   $output .= "  <th class=\"ui-state-default\">Cost</th>\n";

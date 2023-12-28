@@ -16,7 +16,13 @@
   header('Content-Type: text/javascript');
 
   $formVars['id'] = clean($_GET['id'], 10);
-  $output = '';
+
+  $q_string  = "select ver_version ";
+  $q_string .= "from versions ";
+  $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+  $q_string .= "where runr_id = " . $formVars['id'] . " ";
+  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  $a_versions = mysqli_fetch_array($q_versions);
 
 # people can have more than one cyberdeck so get the cyberdecks and then check for system info and finally build the program listing and stats
 # a basic cyberdeck might have just the normal info. A decker will have common programs and possibly hacking programs (separate listing)
