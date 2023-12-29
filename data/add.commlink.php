@@ -76,6 +76,7 @@ function attach_commlink(p_script_url, update) {
   ac_url += "&link_signal="    + encode_URI(ac_form.link_signal.value);
   ac_url += "&link_data="      + encode_URI(ac_form.link_data.value);
   ac_url += "&link_firewall="  + encode_URI(ac_form.link_firewall.value);
+  ac_url += "&link_program="   + encode_URI(ac_form.link_program.value);
   ac_url += "&link_avail="     + encode_URI(ac_form.link_avail.value);
   ac_url += "&link_perm="      + encode_URI(ac_form.link_perm.value);
   ac_url += "&link_access="    + encode_URI(ac_form.link_access.value);
@@ -102,7 +103,7 @@ $(document).ready( function() {
     autoOpen: false,
 
     modal: true,
-    height: 400,
+    height: 425,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
