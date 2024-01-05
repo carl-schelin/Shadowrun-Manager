@@ -70,9 +70,14 @@
 # adding a program to an existing cyberdeck
       if ($formVars['update'] == 3) {
         $formVars['pgm_id']            = clean($_GET['pgm_id'],           10);
+        $formVars['r_deck_id'] = clean($_GET['r_deck_id'], 10);
 
         if ($formVars['pgm_id'] == '') {
           $formVars['pgm_id'] = 0;
+        }
+
+        if ($formVars['r_deck_id'] == '') {
+          $formVars['r_deck_id'] = 0;
         }
 
         if ($formVars['r_deck_id'] > 0 && $formVars['pgm_id'] > 0) {
@@ -102,9 +107,14 @@
 # adding an agent to an existing cyberdeck
       if ($formVars['update'] == 4) {
         $formVars['agt_id']            = clean($_GET['agt_id'],           10);
+        $formVars['r_deck_id'] = clean($_GET['r_deck_id'], 10);
 
         if ($formVars['agt_id'] == '') {
           $formVars['agt_id'] = 0;
+        }
+
+        if ($formVars['r_deck_id'] == '') {
+          $formVars['r_deck_id'] = 0;
         }
 
         if ($formVars['r_deck_id'] > 0 && $formVars['agt_id'] > 0) {
@@ -492,7 +502,7 @@
 
             while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
-              $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
+              $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
               $costtotal += $a_r_program['pgm_cost'];
@@ -540,7 +550,7 @@
 
             while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
-              $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_program('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
+              $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
               $costtotal += $a_r_program['pgm_cost'];
@@ -588,7 +598,7 @@
 
             while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
-              $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_agent('agent.del.php?id="  . $a_r_agents['r_agt_id'] . "');\">";
+              $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckagt('agent.del.php?id="  . $a_r_agents['r_agt_id'] . "');\">";
               $linkend   = "</a>";
 
               $costtotal += $a_r_agents['agt_cost'];
