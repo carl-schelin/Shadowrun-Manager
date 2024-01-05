@@ -6,21 +6,6 @@
 // Process flow is fill out my[item] then the various tabs.
 
 
-function attach_commlink(p_script_url, update) {
-  var ac_form = document.edit;
-  var ac_url;
-  
-  ac_url  = '?update='   + update;
-  ac_url += "&id="       + ac_form.r_link_id.value;
-
-  ac_url += "&r_link_character="   + <?php print $formVars['id']; ?>;
-
-  script = document.createElement('script');
-  script.src = p_script_url + ac_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('mycommlink.mysql.php'  + '?update=-1&r_link_character=<?php print $formVars['id']; ?>');
-}
-
 function attach_linkacc( p_link_id ) {
   var al_form = document.edit;
   var al_url;
@@ -30,22 +15,6 @@ function attach_linkacc( p_link_id ) {
   show_file('program.mysql.php'     + '?id=0&r_link_id=' + p_link_id);
   show_file('program.mysql.php'     + '?id=1&r_link_id=' + p_link_id);
   show_file('agent.mysql.php'       + '?id=0&update=-1&r_link_id=' + p_link_id);
-  show_file('mycommlink.mysql.php'  + '?update=-1&r_link_character=<?php print $formVars['id']; ?>');
-}
-
-function attach_linkpgm(p_script_url, update) {
-  var al_form = document.edit;
-  var al_url;
-  
-  al_url  = '?update='   + update;
-  al_url += "&id="       + al_form.r_pgm_id.value;
-
-  al_url += "&r_link_character="   + <?php print $formVars['id']; ?>;
-  al_url += "&r_link_id="          + al_form.r_link_id.value;
-
-  script = document.createElement('script');
-  script.src = p_script_url + al_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
   show_file('mycommlink.mysql.php'  + '?update=-1&r_link_character=<?php print $formVars['id']; ?>');
 }
 
@@ -193,22 +162,6 @@ function attach_cmdacc( p_cmd_id ) {
   show_file('mycommand.mysql.php'  + '?update=-1&r_cmd_character=<?php print $formVars['id']; ?>');
 }
 
-function attach_cmdpgm(p_script_url, update) {
-  var ac_form = document.edit;
-  var ac_url;
-  
-  ac_url  = '?update='   + update;
-  ac_url += "&id="       + ac_form.r_pgm_id.value;
-
-  ac_url += "&r_cmd_character="   + <?php print $formVars['id']; ?>;
-  ac_url += "&r_cmd_id="          + ac_form.r_cmd_id.value;
-
-  script = document.createElement('script');
-  script.src = p_script_url + ac_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('mycommand.mysql.php'  + '?update=-1&r_cmd_character=<?php print $formVars['id']; ?>');
-}
-
 function delete_cmdacc( p_script_url ) {
   var answer = confirm("Delete this Command Console Accessory?")
 
@@ -257,6 +210,21 @@ function select_cmdpgm(p_script_url) {
 
 
 
+
+function attach_cyberjack( p_script_url, update ) {
+  var ac_form = document.edit;
+  var ac_url;
+
+  ac_url  = '?update='   + update;
+  ac_url += '&id='       + ac_form.r_jack_id.value;
+
+  ac_url += "&r_jack_character="   + <?php print $formVars['id']; ?>;
+  ac_url += '&r_jack_grade='       + ac_form.r_jack_grade.value;
+
+  script = document.createElement('script');
+  script.src = p_script_url + ac_url;
+  document.getElementsByTagName('head')[0].appendChild(script);
+}
 
 function cyberjack_left(p_script_url, p_value) {
   var cl_form = document.edit;
@@ -345,22 +313,6 @@ function cyberdeck_right(p_script_url, p_value) {
   show_file('mycyberdeck.mysql.php'  + '?update=-1&r_deck_character=<?php print $formVars['id']; ?>');
 }
 
-function attach_program(p_script_url, update) {
-  var ap_form = document.edit;
-  var ap_url;
-  
-  ap_url  = '?update='   + update;
-  ap_url += "&id="       + ap_form.r_pgm_id.value;
-
-  ap_url += "&r_deck_character="   + <?php print $formVars['id']; ?>;
-  ap_url += "&r_deck_id="          + ap_form.r_deck_id.value;
-
-  script = document.createElement('script');
-  script.src = p_script_url + ap_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('mycyberdeck.mysql.php'  + '?update=-1&r_deck_character=<?php print $formVars['id']; ?>');
-}
-
 function select_program(p_script_url) {
   var sp_form = document.edit;
   var sp_url;
@@ -370,22 +322,6 @@ function select_program(p_script_url) {
 
   script = document.createElement('script');
   script.src = p_script_url + sp_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('mycyberdeck.mysql.php'  + '?update=-1&r_deck_character=<?php print $formVars['id']; ?>');
-}
-
-function attach_agent(p_script_url, update) {
-  var aa_form = document.edit;
-  var aa_url;
-  
-  aa_url  = '?update='   + update;
-  aa_url += "&id="       + aa_form.r_agt_id.value;
-
-  aa_url += "&r_agt_character="   + <?php print $formVars['id']; ?>;
-  aa_url += "&r_agt_id="          + aa_form.r_agt_id.value;
-
-  script = document.createElement('script');
-  script.src = p_script_url + aa_url;
   document.getElementsByTagName('head')[0].appendChild(script);
   show_file('mycyberdeck.mysql.php'  + '?update=-1&r_deck_character=<?php print $formVars['id']; ?>');
 }
