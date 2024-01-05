@@ -28,19 +28,23 @@
       $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       $a_r_command = mysqli_fetch_array($q_r_command);
 
-# delete accessories
+# delete all accessories associated with the to be deleted command console
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";
       $q_string .= "where r_acc_character = " . $a_r_command['r_cmd_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
       $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
-# delete all the programs associated with the deleted console
+      print "alert('Rigger Command Console Accessories deleted.');\n";
+
+# delete all the programs associated with the to be deleted command console
       $q_string  = "delete ";
       $q_string .= "from r_program ";
       $q_string .= "where r_pgm_command = " . $formVars['id'] . " ";
       $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
-# need to delete the console plus all associated programs and accessories
+      print "alert('Rigger Command Console Programs deleted.');\n";
+
+# Now that all accessories and programs are deleted, delete the command console.
       $q_string  = "delete ";
       $q_string .= "from r_command ";
       $q_string .= "where r_cmd_id = " . $formVars['id'] . " ";
