@@ -128,7 +128,7 @@ $(document).ready( function() {
 
 <ol>
   <li>Counterspell Major Action</li>
-  <li>Sorcer + Magic</li>
+  <li>Sorcery (Spellcasting +2) + Magic</li>
   <li>LOS, 2 meter radius, +1m per dram of reagents)</li>
   <li>Net hits added to radius for Magic combat rounds</li>
 </ol>
@@ -137,7 +137,7 @@ $(document).ready( function() {
 
 <ol>
   <li>Counterspell Action</li>
-  <li>Sorcery + Magic vs Drain Value x 2</li>
+  <li>Sorcery (Spellcasting +2) + Magic vs Drain Value x 2</li>
   <li>Net hits cancels spell net hits</li>
 </ol>
 
@@ -399,17 +399,40 @@ $(document).ready( function() {
 
 <ul>
   <li>Adjust the spell</li>
-  <li>Spellcasting Test: Sorcery + Magic</li>
-  <li>Deal with drain: Willpower + Tradition (Charisma or Logic). If equal or greater, no effect. If hits is less than Magic, Stun. Otherwise Physical.</li>
+  <li>Spellcasting Test</li>
+  <li>Deal with drain</li>
 </ul>
 
-<p>Adjust the spell: Max adjustments == Magic or Sorcery, whichever is higher</p>
+<p><strong>Adjust the spell</strong>: Max adjustments == Magic or Sorcery, whichever is higher</p>
 
 <ul>
   <li>Amp Up: Combat Spells only. For each point of damage, +2 points of drain</li>
   <li>Increase Area: Increase area effect 2 meters, increase drain by 1</li>
   <li>Shift Area: Shift certain area-effect spells; see spell. Minor Action. No additional drain</li>
 </ul>
+
+<p><strong>Spellcasting Test</strong> is Sorcery (Spellcasting +2) + Magic</p>
+
+<p><strong>Combat</strong>. Attack Rating vs Defense Rating.</p>
+
+<p>Attack Rating = Magic + [Tradition Attribute]</p>
+
+<p>Defense Rating = normal for the character. For a group, the highest DR.</p>
+
+<p>Direct Combat: Opposed by willpower + intuition. Damage is Net hits+Amp Up. No resistance</p>
+
+<p>Indirect Combat: Opposed by willpower + Reaction. Damage is (Magic/2)+Net hits+Amp UP. Resisted by Body.
+
+<p>Check the spell description for additional results and damage. Some such as combat spells leave the opponant in a specific Status (pg 51).</p>
+
+<p><strong>Detection Spells</strong> Sorcery (Spellcasting +2) + Magic vs Body + Willpower for Sentient, Object Resistance otherwise.</p>
+
+<p>Drain is Willpower + Tradition (Shaman: Charisma or Hermetic: Logic) with the Drain Value as the target plus any Amp Up points (DV + (Points x 2)).</p>
+
+<p>
+
+
+
 
 </div>
 
