@@ -872,4 +872,13 @@ function return_Default($p_default) {
   return $r_default;
 }
 
+function return_Grade($p_grade, $p_name) {
+  $r_grade = "";
+  if ($p_grade != '1.00') {
+    $r_grade = " (" . $p_name . ")";
+  }
+
+  return $r_grade;
+}
+
 ?>

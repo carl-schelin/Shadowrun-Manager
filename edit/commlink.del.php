@@ -33,12 +33,29 @@
       $q_string .= "where r_acc_character = " . $a_r_commlink['r_link_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
       $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
+      print "alert('Commlink Accessories deleted.');\n";
+
+      $q_string  = "delete ";
+      $q_string .= "from r_program ";
+      $q_string .= "where r_pgm_commlink = " . $formVars['id'] . " ";
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+
+      print "alert('Commlink Programs deleted.');\n";
+
+      $q_string  = "delete ";
+      $q_string .= "from r_agent ";
+      $q_string .= "where r_agt_commlink = " . $formVars['id'] . " ";
+      $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+
+      print "alert('Commlink Agents deleted.');\n";
+
       $q_string  = "delete ";
       $q_string .= "from r_commlink ";
       $q_string .= "where r_link_id= " . $formVars['id'] . " ";
       $insert = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
       print "alert('Commlink deleted.');\n";
+
     } else {
       logaccess($db, $_SESSION['username'], $package, "Access denied");
     }

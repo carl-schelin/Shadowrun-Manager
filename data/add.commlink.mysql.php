@@ -30,6 +30,7 @@
         $formVars['link_signal']    = clean($_GET['link_signal'],   10);
         $formVars['link_data']      = clean($_GET['link_data'],     10);
         $formVars['link_firewall']  = clean($_GET['link_firewall'], 10);
+        $formVars['link_program']   = clean($_GET['link_program'],  10);
         $formVars['link_cost']      = clean($_GET['link_cost'],     10);
         $formVars['link_access']    = clean($_GET['link_access'],   15);
         $formVars['link_book']      = clean($_GET['link_book'],     10);
@@ -56,6 +57,9 @@
         if ($formVars['link_firewall'] == '') {
           $formVars['link_firewall'] = 0;
         }
+        if ($formVars['link_program'] == '') {
+          $formVars['link_program'] = 0;
+        }
         if ($formVars['link_page'] == '') {
           $formVars['link_page'] = 0;
         }
@@ -72,6 +76,7 @@
             "link_signal   =   " . $formVars['link_signal']   . "," .
             "link_data     =   " . $formVars['link_data']     . "," .
             "link_firewall =   " . $formVars['link_firewall'] . "," .
+            "link_program  =   " . $formVars['link_program']  . "," .
             "link_access   = \"" . $formVars['link_access']   . "\"," .
             "link_book     = \"" . $formVars['link_book']     . "\"," .
             "link_page     =   " . $formVars['link_page'];
@@ -105,6 +110,7 @@
       $output .=   "<th class=\"ui-state-default\">Signal</th>\n";
       $output .=   "<th class=\"ui-state-default\">Data Processing</th>\n";
       $output .=   "<th class=\"ui-state-default\">Firewall</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Active Programs</th>\n";
       $output .=   "<th class=\"ui-state-default\">Company ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
@@ -112,7 +118,7 @@
       $output .= "</tr>\n";
 
       $q_string  = "select link_id,link_brand,link_model,link_rating,link_response,link_signal,link_data,";
-      $q_string .= "link_firewall,link_cost,link_access,link_avail,link_perm,ver_book,link_page ";
+      $q_string .= "link_firewall,link_program,link_cost,link_access,link_avail,link_perm,ver_book,link_page ";
       $q_string .= "from commlink ";
       $q_string .= "left join versions on versions.ver_id = commlink.link_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -160,6 +166,7 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_signal']                                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_data']                                                 . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_firewall']                                             . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_program']                                              . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_commlink['link_access']                                               . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $avail                                                                   . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $cost                                                                    . "</td>\n";
@@ -183,6 +190,7 @@
       print "document.dialog.link_signal.value = '';\n";
       print "document.dialog.link_data.value = '';\n";
       print "document.dialog.link_firewall.value = '';\n";
+      print "document.dialog.link_program.value = '';\n";
       print "document.dialog.link_cost.value = '';\n";
       print "document.dialog.link_access.value = '';\n";
 

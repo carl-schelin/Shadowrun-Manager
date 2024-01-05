@@ -38,7 +38,6 @@
       print "document.getElementById('firewall_val').innerHTML = '" . mysqli_real_escape_string($db, $a_r_cyberdeck['r_deck_firewall']) . "';\n";
 
       print "document.edit.r_deck_id.value = " . $formVars['id'] . ";\n";
-      print "document.edit.r_deck_update.disabled = false;\n\n";
 
     } else {
       logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");

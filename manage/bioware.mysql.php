@@ -9,109 +9,97 @@
   $called = 'yes';
   include($Sitepath . '/guest.php');
 
-  $package = "bioware.mysql.php";
-
-  logaccess($db, $formVars['username'], $package, "Accessing the script.");
-
   header('Content-Type: text/javascript');
 
-  $formVars['id'] = clean($_GET['id'], 10);
-  $output = '';
+  if (isset($_SESSION['username'])) {
+    $package = "bioware.mysql.php";
 
-  $output  = "<p></p>";
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#bioware\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-  }
-  $output .= "Bioware Information";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "</a>";
-  }
-  $output .= "</th>";
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('bioware-help');\">Help</a></th>";
-  $output .= "</tr>";
-  $output .= "</table>";
+    $formVars['id'] = clean($_GET['id'], 10);
 
-  $output .= "<div id=\"bioware-help\" style=\"display: none\">";
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
-  $output .= "<div class=\"main-help ui-widget-content\">";
+      $q_string  = "select ver_version ";
+      $q_string .= "from versions ";
+      $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+      $q_string .= "where runr_id = " . $formVars['id'] . " ";
+      $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_versions = mysqli_fetch_array($q_versions);
 
-  $output .= "<p>Help</p>";
+      logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
-  $output .= "</div>";
-
-  $output .= "</div>";
-
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">Class</th>";
-  $output .= "  <th class=\"ui-state-default\">Bioware</th>";
-  $output .= "  <th class=\"ui-state-default\">Rating</th>";
-  $output .= "  <th class=\"ui-state-default\">Essence</th>";
-  $output .= "  <th class=\"ui-state-default\">Availability</th>";
-  $output .= "  <th class=\"ui-state-default\">Cost</th>";
-  $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
-  $output .= "</tr>";
-
-  $totalcost = 0;
-  $q_string  = "select r_bio_id,class_name,bio_class,bio_name,r_bio_specialize,bio_rating,bio_essence,bio_avail,";
-  $q_string .= "bio_perm,ver_book,bio_page,bio_cost,grade_name,grade_essence ";
-  $q_string .= "from r_bioware ";
-  $q_string .= "left join bioware on bioware.bio_id = r_bioware.r_bio_number ";
-  $q_string .= "left join class on class.class_id = bioware.bio_class ";
-  $q_string .= "left join grades on grades.grade_id = r_bioware.r_bio_grade ";
-  $q_string .= "left join versions on versions.ver_id = bioware.bio_book ";
-  $q_string .= "where r_bio_character = " . $formVars['id'] . " ";
-  $q_string .= "order by bio_class,bio_name,bio_rating,ver_version ";
-  $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-  if (mysqli_num_rows($q_r_bioware) > 0) {
-    while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
-
-      $bio_name = $a_r_bioware['bio_name'];
-      if ($a_r_bioware['r_bio_specialize'] != '') {
-        $bio_name = $a_r_bioware['bio_name'] . " (" . $a_r_bioware['r_bio_specialize'] . ")";
-      }
-
-      $grade = '';
-      if ($a_r_bioware['grade_essence'] != 1.00) {
-        $grade = " (" . $a_r_bioware['grade_name'] . ")";
-      }
-
-      $rating = return_Rating($a_r_bioware['bio_rating']);
-
-      $essence = return_Essence($a_r_bioware['bio_essence']);
-
-      $totalcost += $a_r_bioware['bio_cost'];
-      $cost = return_Cost($a_r_bioware['bio_cost']);
-
-      $book = return_Book($a_r_bioware['ver_book'], $a_r_bioware['bio_page']);
-
-      $avail = return_Avail($a_r_bioware['bio_avail'], $a_r_bioware['bio_perm']);
-
+      $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_bioware['class_name'] . "</td>";
-      $output .= "<td class=\"ui-widget-content\">"        . $bio_name . $grade         . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $rating                    . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $essence                   . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $avail                     . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $cost                      . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $book                      . "</td>";
+      $output .= "  <th class=\"ui-state-default\">Class</th>";
+      $output .= "  <th class=\"ui-state-default\">Bioware</th>";
+      $output .= "  <th class=\"ui-state-default\">Rating</th>";
+      $output .= "  <th class=\"ui-state-default\">Essence</th>";
+      $output .= "  <th class=\"ui-state-default\">Availability</th>";
+      $output .= "  <th class=\"ui-state-default\">Cost</th>";
+      $output .= "  <th class=\"ui-state-default\">Book/Page</th>";
       $output .= "</tr>";
 
-    }
-    $output .= "<tr>\n";
-    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
-    $output .= "</tr>\n";
-  } else {
-    $output .= "<tr>";
-    $output .= "<td class=\"ui-widget-content\" colspan=\"7\">No Bioware selected.</td>";
-    $output .= "</tr>";
-  }
+      $totalcost = 0;
+      $totalessence = 0;
+      $q_string  = "select r_bio_id,class_name,bio_class,bio_name,r_bio_specialize,bio_rating,bio_essence,bio_avail,";
+      $q_string .= "bio_perm,ver_book,bio_page,bio_cost,grade_name,grade_essence,grade_cost,grade_avail ";
+      $q_string .= "from r_bioware ";
+      $q_string .= "left join bioware  on bioware.bio_id  = r_bioware.r_bio_number ";
+      $q_string .= "left join class    on class.class_id  = bioware.bio_class ";
+      $q_string .= "left join grades   on grades.grade_id = r_bioware.r_bio_grade ";
+      $q_string .= "left join versions on versions.ver_id = bioware.bio_book ";
+      $q_string .= "where r_bio_character = " . $formVars['id'] . " ";
+      $q_string .= "order by bio_class,bio_name,bio_rating,ver_version ";
+      $q_r_bioware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_bioware) > 0) {
+        while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
-  $output .= "</table>";
+          $bio_name = $a_r_bioware['bio_name'];
+          if ($a_r_bioware['r_bio_specialize'] != '') {
+            $bio_name = $a_r_bioware['bio_name'] . " (" . $a_r_bioware['r_bio_specialize'] . ")";
+          }
+
+          $grade = return_Grade($a_r_bioware['grade_essence'], $a_r_bioware['grade_name']);
+
+          $rating = return_Rating($a_r_bioware['bio_rating']);
+
+          $essencegrade = ($a_r_bioware['bio_essence'] * $a_r_bioware['grade_essence']);
+          $essence = return_Essence($essencegrade);
+          $totalessence += $essencegrade;
+
+          $costgrade = ($a_r_bioware['bio_cost'] * $a_r_bioware['grade_cost']);
+          $cost = return_Cost($costgrade);
+          $totalcost += $costgrade;
+
+          $book = return_Book($a_r_bioware['ver_book'], $a_r_bioware['bio_page']);
+
+          $avail = return_Avail(($a_r_bioware['bio_avail'] + $a_r_bioware['grade_avail']), $a_r_bioware['bio_perm']);
+
+          $output .= "<tr>";
+          $output .= "<td class=\"ui-widget-content\">"        . $a_r_bioware['class_name'] . "</td>";
+          $output .= "<td class=\"ui-widget-content\">"        . $bio_name . $grade         . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $rating                    . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $essence                   . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $avail                     . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $cost                      . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $book                      . "</td>";
+          $output .= "</tr>";
+
+        }
+        $output .= "<tr>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . " Total essence: " . return_Essence($totalessence) . "</td>\n";
+        $output .= "</tr>\n";
+      } else {
+        $output .= "<tr>";
+        $output .= "<td class=\"ui-widget-content\" colspan=\"7\">No Bioware selected.</td>";
+        $output .= "</tr>";
+      }
+
+      $output .= "</table>";
      
-  print "document.getElementById('bioware_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
-
+      mysqli_free_result($q_r_bioware);
+    }
+  }
 ?>
+
+document.getElementById('bioware_mysql').innerHTML = '<?php print mysqli_real_escape_string($db, $output); ?>';
+

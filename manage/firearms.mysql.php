@@ -2,20 +2,16 @@
 # Script: firearms.mysql.php
 # Owner: Carl Schelin
 # Coding Standard 3.0 Applied
-# See: https://incowk01/makers/index.php/Coding_Standards
-# Description: Retrieve data and update the database with the new info. Prepare and display the table
 
   header('Content-Type: text/javascript');
 
   include('settings.php');
   $called = 'yes';
-  include($Loginpath . '/check.php');
-  include($Sitepath . '/function.php');
+  include($Sitepath . '/guest.php');
 
   $package = "firearms.mysql.php";
-  $formVars['id'] = clean($_GET['id'], 10);
 
-  logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
+  $formVars['id'] = clean($_GET['id'], 10);
 
   $q_string  = "select ver_version ";
   $q_string .= "from versions ";
@@ -24,46 +20,9 @@
   $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_versions = mysqli_fetch_array($q_versions);
 
-  $output  = "<p></p>\n";
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
-  $output .= "<tr>\n";
+  logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
-  $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#weapons\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-  }
-  $output .= "Firearms Information";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "</a>";
-  }
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('firearms-listing-help');\">Help</a></th>\n";
-  $output .= "</tr>\n";
-  $output .= "</table>\n";
-
-  $output .= "<div id=\"firearms-listing-help\" style=\"display: none\">\n";
-
-  $output .= "<div class=\"main-help ui-widget-content\">\n";
-
-  $output .= "<ul>\n";
-  $output .= "  <li><strong>Spell Listing</strong>\n";
-  $output .= "  <ul>\n";
-  $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>\n";
-  $output .= "    <li><strong>Editing</strong> - Click on an association to edit it.</li>\n";
-  $output .= "  </ul></li>\n";
-  $output .= "</ul>\n";
-
-  $output .= "<ul>\n";
-  $output .= "  <li><strong>Notes</strong>\n";
-  $output .= "  <ul>\n";
-  $output .= "    <li>Click the <strong>Association Management</strong> title bar to toggle the <strong>Association Form</strong>.</li>\n";
-  $output .= "  </ul></li>\n";
-  $output .= "</ul>\n";
-
-  $output .= "</div>\n";
-
-  $output .= "</div>\n";
-
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+  $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
   $output .=   "<th class=\"ui-state-default\">Class</th>\n";
   $output .=   "<th class=\"ui-state-default\">Name</th>\n";

@@ -6,22 +6,25 @@
   <td class="ui-widget-content">Model <input type="text" name="link_model" size="20"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Rating <input type="text" name="link_rating" size="3"></td>
+  <td class="ui-widget-content">Rating <input type="text" name="link_rating" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Response <input type="text" name="link_response" size="3"></td>
+  <td class="ui-widget-content">Response <input type="text" name="link_response" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Signal <input type="text" name="link_signal" size="3"></td>
+  <td class="ui-widget-content">Signal <input type="text" name="link_signal" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Data Processing <input type="text" name="link_data" size="3"></td>
+  <td class="ui-widget-content">Data Processing <input type="text" name="link_data" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Firewall <input type="text" name="link_firewall" size="3"></td>
+  <td class="ui-widget-content">Firewall <input type="text" name="link_firewall" size="5"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Cost <input type="text" name="link_cost" size="3"></td>
+  <td class="ui-widget-content">Active Program Slots <input type="text" name="link_program" size="5"></td>
+</tr>
+<tr>
+  <td class="ui-widget-content">Cost <input type="text" name="link_cost" size="5"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Availability <input type="text" name="link_avail" size="5"><input type="text" name="link_perm" size="5"></td>

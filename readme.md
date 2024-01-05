@@ -34,6 +34,10 @@ In the css directory is a readme.md file that provides information on the jQuery
 And you'll need the few images from the img directory for things like the Shadowrun logo and waiting graphics. 
 See http://manager.shadowrun.industries/imgs for the files I have.
 
+Finally there's an option to display some information as a 'Guest'. The '/guest.php' file is imported everywhere 
+when when building, you'll either copy the login.php or nologin.php script over guest.php depending on your 
+requirements.
+
 ### Data
 
 The system was originally written for 5th Edition. I've been expanding it so it has data from 1st through 6th.
@@ -41,6 +45,9 @@ The system was originally written for 5th Edition. I've been expanding it so it 
 The data is taken from the 1st Edition on up through 6th. I've added bits in order to accommodate various differences in 
 the different systems, in part because I want to see if some gear has been there from the beginning and what the price 
 changes might be (and other stats).
+
+For the data elements, where you as the admin enter data, you'll have blanks for all options. For the characters however, 
+they should only see data for the specific Edition their character was created in.
 
 Anyway, keep an eye here as I get the system working. Since I use it for my games, it should be reasonably accurate. 
 Some things just can't be added. I'm mainly looking to add things that a character might need to know/see.

@@ -22,7 +22,7 @@
     if (check_userlevel($db, $AL_Shadowrunner)) {
       logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from r_commlink");
 
-      $q_string  = "select link_brand,link_model ";
+      $q_string  = "select link_brand,link_model,r_link_data,r_link_firewall ";
       $q_string .= "from r_commlink ";
       $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
       $q_string .= "where r_link_id = " . $formVars['id'];
@@ -30,7 +30,9 @@
       $a_r_commlink = mysqli_fetch_array($q_r_commlink);
       mysqli_free_result($q_r_commlink);
 
-      print "document.getElementById('r_link_item').innerHTML = '" . mysqli_real_escape_string($db, $a_r_commlink['link_brand'] . " " . $a_r_commlink['link_model']) . "';\n\n";
+      print "document.getElementById('r_link_item').innerHTML = '"       . mysqli_real_escape_string($db, $a_r_commlink['link_brand'] . " " . $a_r_commlink['link_model']) . "';\n";
+      print "document.getElementById('link_data_val').innerHTML = '"     . mysqli_real_escape_string($db, $a_r_commlink['r_link_data'])     . "';\n";
+      print "document.getElementById('link_firewall_val').innerHTML = '" . mysqli_real_escape_string($db, $a_r_commlink['r_link_firewall']) . "';\n";
 
       print "document.edit.r_link_id.value = " . $formVars['id'] . ";\n";
       print "document.edit.r_link_update.disabled = false;\n\n";

@@ -22,7 +22,7 @@
     if (check_userlevel($db, $AL_Johnson)) {
       logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from commlink");
 
-      $q_string  = "select link_brand,link_model,link_rating,link_data,link_firewall,link_avail,link_perm,";
+      $q_string  = "select link_brand,link_model,link_rating,link_data,link_firewall,link_program,link_avail,link_perm,";
       $q_string .= "link_cost,link_access,link_book,link_page,link_response,link_signal ";
       $q_string .= "from commlink ";
       $q_string .= "where link_id = " . $formVars['id'];
@@ -37,6 +37,7 @@
       print "document.dialog.link_signal.value = '"   . mysqli_real_escape_string($db, $a_commlink['link_signal'])   . "';\n";
       print "document.dialog.link_data.value = '"     . mysqli_real_escape_string($db, $a_commlink['link_data'])     . "';\n";
       print "document.dialog.link_firewall.value = '" . mysqli_real_escape_string($db, $a_commlink['link_firewall']) . "';\n";
+      print "document.dialog.link_program.value = '"  . mysqli_real_escape_string($db, $a_commlink['link_program'])  . "';\n";
       print "document.dialog.link_access.value = '"   . mysqli_real_escape_string($db, $a_commlink['link_access'])   . "';\n";
       print "document.dialog.link_avail.value = '"    . mysqli_real_escape_string($db, $a_commlink['link_avail'])    . "';\n";
       print "document.dialog.link_perm.value = '"     . mysqli_real_escape_string($db, $a_commlink['link_perm'])     . "';\n";

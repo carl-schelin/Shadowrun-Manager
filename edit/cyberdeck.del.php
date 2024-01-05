@@ -26,14 +26,17 @@
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
       $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-      $a_r_cyberdeck = mysqli_fetch_array($q_r_commlink);
+      $a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck);
 
+# delete all accessories associated with the to be deleted deck
       $q_string  = "delete ";
       $q_string .= "from r_accessory ";
       $q_string .= "where r_acc_character = " . $a_r_cyberdeck['r_deck_character'] . " and r_acc_parentid = " . $formVars['id'] . " ";
       $result = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
 
-# delete all the agents associated with the deleted deck
+      print "alert('Cyberdeck Accessories deleted.');\n";
+
+# delete all the agents associated with the to be deleted deck
       $q_string  = "delete ";
       $q_string .= "from r_agents ";
       $q_string .= "where r_agt_cyberdeck = " . $formVars['id'] . " ";
@@ -41,7 +44,7 @@
 
       print "alert('Cyberdeck agents deleted.');\n";
 
-# delete all the programs associated with the deleted deck
+# delete all the programs associated with the to be deleted deck
       $q_string  = "delete ";
       $q_string .= "from r_program ";
       $q_string .= "where r_pgm_cyberdeck = " . $formVars['id'] . " ";
@@ -49,7 +52,7 @@
 
       print "alert('Cyberdeck programs deleted.');\n";
 
-# need to delete the deck plus all associated programs and accessories
+# after all accessories, programs, and accessories are deleted, delete the deck.
       $q_string  = "delete ";
       $q_string .= "from r_cyberdeck ";
       $q_string .= "where r_deck_id = " . $formVars['id'] . " ";
