@@ -874,7 +874,7 @@ function return_Default($p_default) {
 
 function return_Grade($p_grade, $p_name) {
   $r_grade = "";
-  if ($p_grade != '1.00') {
+  if ($p_grade != '1.00' && $p_name != '') {
     $r_grade = " (" . $p_name . ")";
   }
 
