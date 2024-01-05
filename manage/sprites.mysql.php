@@ -9,96 +9,74 @@
   $called = 'yes';
   include($Sitepath . '/guest.php');
 
-  $package = "sprites.mysql.php";
-
-  logaccess($db, $formVars['username'], $package, "Accessing the script.");
-
   header('Content-Type: text/javascript');
 
-  $formVars['id'] = clean($_GET['id'], 10);
+  if (isset($_SESSION['username'])) {
+    $package = "sprites.mysql.php";
 
-  $q_string  = "select ver_version ";
-  $q_string .= "from versions ";
-  $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
-  $q_string .= "where runr_id = " . $formVars['id'] . " ";
-  $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-  $a_versions = mysqli_fetch_array($q_versions);
+    $formVars['id'] = clean($_GET['id'], 10);
 
-  $output  = "<p></p>";
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#sprites\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-  }
-  $output .= "Sprite Information";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "</a>";
-  }
-  $output .= "</th>";
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('sprite-help');\">Help</a></th>";
-  $output .= "</tr>";
-  $output .= "</table>";
+    if (check_userlevel($db, $AL_Shadowrunner)) {
 
-  $output .= "<div id=\"sprite-help\" style=\"display: none\">";
+      $q_string  = "select ver_version ";
+      $q_string .= "from versions ";
+      $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+      $q_string .= "where runr_id = " . $formVars['id'] . " ";
+      $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_versions = mysqli_fetch_array($q_versions);
 
-  $output .= "<div class=\"main-help ui-widget-content\">";
+      logaccess($db, $formVars['username'], $package, "Accessing the script.");
 
-  $output .= "<p>Help</p>";
-
-  $output .= "</div>";
-
-  $output .= "</div>";
-
-
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">Sprite</th>";
-  $output .= "  <th class=\"ui-state-default\">Level</th>";
-  $output .= "  <th class=\"ui-state-default\">Tasks</th>";
-  $output .= "  <th class=\"ui-state-default\">Registered</th>";
-  $output .= "  <th class=\"ui-state-default\">Attack</th>";
-  $output .= "  <th class=\"ui-state-default\">Sleaze</th>";
-  $output .= "  <th class=\"ui-state-default\">Data</th>";
-  $output .= "  <th class=\"ui-state-default\">Firewall</th>";
-  $output .= "  <th class=\"ui-state-default\">Initiative</th>";
-  $output .= "</tr>";
-
-  $q_string  = "select r_sprite_id,sprite_name,r_sprite_level,r_sprite_tasks,r_sprite_registered,";
-  $q_string .= "sprite_attack,sprite_sleaze,sprite_data,sprite_firewall,sprite_initiative ";
-  $q_string .= "from r_sprite ";
-  $q_string .= "left join sprites on sprites.sprite_id = r_sprite.r_sprite_number ";
-  $q_string .= "where r_sprite_character = " . $formVars['id'] . " ";
-  $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-  if (mysqli_num_rows($q_r_sprite) > 0) {
-    while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
-
-      $registered = 'No';
-      if ($a_r_sprite['r_sprite_registered']) {
-        $registered = 'Yes';
-      }
-
+      $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
       $output .= "<tr>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_sprite['sprite_name']     . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['r_sprite_level']    . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['r_sprite_tasks'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $bound                         . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_attack'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_sleaze'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_data'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_firewall'] . "</td>";
-      $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_initiative'] . "</td>";
+      $output .= "  <th class=\"ui-state-default\">Sprite</th>";
+      $output .= "  <th class=\"ui-state-default\">Level</th>";
+      $output .= "  <th class=\"ui-state-default\">Tasks</th>";
+      $output .= "  <th class=\"ui-state-default\">Registered</th>";
+      $output .= "  <th class=\"ui-state-default\">Attack</th>";
+      $output .= "  <th class=\"ui-state-default\">Sleaze</th>";
+      $output .= "  <th class=\"ui-state-default\">Data</th>";
+      $output .= "  <th class=\"ui-state-default\">Firewall</th>";
+      $output .= "  <th class=\"ui-state-default\">Initiative</th>";
       $output .= "</tr>";
 
+      $q_string  = "select r_sprite_id,sprite_name,r_sprite_level,r_sprite_tasks,r_sprite_registered,";
+      $q_string .= "sprite_attack,sprite_sleaze,sprite_data,sprite_firewall,sprite_initiative ";
+      $q_string .= "from r_sprite ";
+      $q_string .= "left join sprites on sprites.sprite_id = r_sprite.r_sprite_number ";
+      $q_string .= "where r_sprite_character = " . $formVars['id'] . " ";
+      $q_r_sprite = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_sprite) > 0) {
+        while ($a_r_sprite = mysqli_fetch_array($q_r_sprite)) {
+
+          $registered = 'No';
+          if ($a_r_sprite['r_sprite_registered']) {
+            $registered = 'Yes';
+          }
+
+          $output .= "<tr>";
+          $output .= "<td class=\"ui-widget-content\">"        . $a_r_sprite['sprite_name']     . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['r_sprite_level']    . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['r_sprite_tasks'] . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $bound                         . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_attack'] . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_sleaze'] . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_data'] . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_firewall'] . "</td>";
+          $output .= "<td class=\"ui-widget-content delete\">" . $a_r_sprite['sprite_initiative'] . "</td>";
+          $output .= "</tr>";
+
+        }
+      } else {
+         $output .= "<tr>";
+         $output .= "<td class=\"ui-widget-content\" colspan=\"9\">No Sprites found</td>";
+         $output .= "</tr>";
+      }
+
+      $output .= "</table>";
     }
-  } else {
-     $output .= "<tr>";
-     $output .= "<td class=\"ui-widget-content\" colspan=\"9\">No Sprites found</td>";
-     $output .= "</tr>";
   }
-
-  $output .= "</table>";
-     
-  print "document.getElementById('sprites_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
-
 ?>
+
+document.getElementById('sprites_mysql').innerHTML = '<?php print mysqli_real_escape_string($db, $output); ?>';
+

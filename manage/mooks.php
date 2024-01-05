@@ -100,6 +100,8 @@ $(document).ready( function() {
   $( "#tabs"      ).tabs( ).addClass( "tab-shadow" );
   $( "#magic"     ).tabs( ).addClass( "tab-shadow" );
   $( "#matrix"    ).tabs( ).addClass( "tab-shadow" );
+  $( "#linktabs"  ).tabs( ).addClass( "tab-shadow" );
+  $( "#cmdtabs"   ).tabs( ).addClass( "tab-shadow" );
   $( "#decktabs"  ).tabs( ).addClass( "tab-shadow" );
   $( "#meatspace" ).tabs( ).addClass( "tab-shadow" );
 });
@@ -154,12 +156,72 @@ $(document).ready( function() {
 
 <div id="character">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#character\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Character Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('character-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="character-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="character_mysql"><?php print wait_Process('Character History Loading...')?></span>
 
 </div>
 
 
 <div id="karma">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#karma\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Karma Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('karma-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="karma-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="karma_mysql"><?php print wait_Process('Karma Loading...')?></span>
 
@@ -168,12 +230,72 @@ $(document).ready( function() {
 
 <div id="nuyen">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#nuyen\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Nuyen Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('nuyen-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="nuyen-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="nuyen_mysql"><?php print wait_Process('Nuyen Loading...')?></span>
 
 </div>
 
 
 <div id="street">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#street\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Street Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('street-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="street-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="street_mysql"><?php print wait_Process('Street Cred Loading...')?></span>
 
@@ -182,12 +304,72 @@ $(document).ready( function() {
 
 <div id="notoriety">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#notoriety\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Notoriety Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('notoriety-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="notoriety-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="notoriety_mysql"><?php print wait_Process('Notoriety Loading...')?></span>
 
 </div>
 
 
 <div id="awareness">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#awareness\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Awareness Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('awareness-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="awareness-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="awareness_mysql"><?php print wait_Process('Public Awareness Loading...')?></span>
 
@@ -198,6 +380,36 @@ $(document).ready( function() {
 
 
 <div id="tags">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#tags\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Tag Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('tags-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="tags-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="tags_mysql"><?php print wait_Process('Tags Loading...')?></span>
 
@@ -229,18 +441,7 @@ Active Skill Information
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Product</strong> - The product this software is a member of.</li>
-  <li><strong>Vendor</strong> - The software vendor. Clicking on this will load a search page listing all systems associated with this vendor.</li>
-  <li><strong>Software</strong> - The software name and version. Clicking on this will load a search page listing all systems associated with this software package.</li>
-  <li><strong>Type</strong> - The type of software.  Clicking on this will load a search page listing all systems associated with this software type. This is used in various places for reporting (such as OS and Instance).</li>
-  <li><strong>Group</strong> - The group responsible for the software package.</li>
-  <li><strong>Updated</strong> - The last time this entry was updated. A checkmark indicates the software information was gathered automatically.</li>
-</ul>
-
-<p><span class="ui-state-highlight">Highlighted software</span> have been identified as software that defines or is the focus of this system.</p>
-
-<p><span class="ui-state-error">Highlighted software</span> have been identified as customer facing</p>
+<p>Help</p>
 
 </div>
 
@@ -253,12 +454,72 @@ Active Skill Information
 
 <div id="knowledge">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#knowledge\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Knowledge Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('knowledge-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="knowledge-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="knowledge_mysql"><?php print wait_Process('Knowledge Skills Loading...')?></span>
 
 </div>
 
 
 <div id="language">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#language\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Language Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('language-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="language-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="language_mysql"><?php print wait_Process('Language Skills Loading...')?></span>
 
@@ -267,12 +528,72 @@ Active Skill Information
 
 <div id="lifestyle">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#lifestyle\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Lifestyle Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('lifestyle-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="lifestyle-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="lifestyle_mysql"><?php print wait_Process('Lifestyles Loading...')?></span>
 
 </div>
 
 
 <div id="qualities">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#qualities\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Qualities Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('qualities-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="qualities-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="qualities_mysql"><?php print wait_Process('Qualities Skills Loading...')?></span>
 
@@ -281,12 +602,72 @@ Active Skill Information
 
 <div id="contacts">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#contacts\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Contacts Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('contacts-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="contacts-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="contact_mysql"><?php print wait_Process('Contacts Loading...')?></span>
 
 </div>
 
 
 <div id="identity">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#identity\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Identities and License Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('identity-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="identity-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="identity_mysql"><?php print wait_Process('Identities Loading...')?></span>
 
@@ -308,12 +689,108 @@ Active Skill Information
 
 <div id="spells">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#spells\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Spell Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('spells-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="spells-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<ul>
+  <li><strong>Drain</strong> - Roll Tradition Drain - if Net Hits > Magic, damage is physical, otherwise stun.</li>
+  <li><strong>Combat Spells</strong> sr5/283
+    <ul>
+      <li><strong>Direct</strong> - Opposed: Spellcasting + Magic (up to 2 x Magic) [Force] vs Body (Physical) or Willpower (Mana) + Counterspelling. Armor ineffective.</li>
+      <li><strong>Indirect</strong> - Spellcasting + Magic vs Reaction + Intuition + Counterspelling. Damage is Force + Net Hits, if opposed reduces to zero, no damage. Opposed soak is Body + Armor + AP (-Force).</li>
+      <li><strong>Elemental</strong> - Additional effects based on type.</li>
+    </li></ul>
+  <li><strong>Detection Spells</strong> Range = Touch. sr5/285
+    <ul>
+      <li><strong>Active</strong> - Opposed: Spellcasting + Magic [Force] vs Willpower + Logic + Counterspelling [Mental] (Physical: Living w/Aura), Force x 2 (Magical Objects), or Object Resistance (sr5/295).</li>
+      <li><strong>Area</strong> - Like hearing. Force x Magic x 10 in meters</li>
+      <li><strong>Directional</strong> - Like normal sight.</li>
+      <li><strong>Extended Area</strong> - Like hearing. Force x Magic x 10 in meters.</li>
+      <li><strong>Passive</strong> - Spellcasting + Magic [Force]. Net Hits replaces Mental as the detection [Limit].</li>
+      <li><strong>Psychic</strong> - Adds an extra sense like Telepathy.</li>
+    </li></ul>
+  <li><strong>Health Spells</strong> Healing is -points of lost essence rounded down to dice pool. sr5/287
+    <ul>
+      <li><strong>Negative</strong> - Opposed: Spellcasting + Magic vs Attribute + Counterspelling.</li>
+    </li></ul>
+  <li><strong>Illusion Spells</strong> sr5/289
+    <ul>
+      <li><strong>Area</strong> - .</li>
+      <li><strong>Multi-Sense</strong> - .</li>
+      <li><strong>Obvious</strong> - .</li>
+      <li><strong>Realistic</strong> - .</li>
+      <li><strong>Single-Sense</strong> - .</li>
+    </li></ul>
+  <li><strong>Manipulation Spells</strong> sr5/292
+    <ul>
+      <li><strong>Area</strong> - .</li>
+      <li><strong>Environmental</strong> - .</li>
+      <li><strong>Mental</strong> - .</li>
+      <li><strong>Physical</strong> - .</li>
+    </li></ul>
+</ul>
+
+</div>
+
+</div>
+
 <span id="spells_mysql"><?php print wait_Process('Spells Loading...')?></span>
 
 </div>
 
 
 <div id="traditions">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#tradition\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Tradition Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('tradition-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="tradition-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="traditions_mysql"><?php print wait_Process('Traditions Loading...')?></span>
 
@@ -322,6 +799,36 @@ Active Skill Information
 
 <div id="spirits">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#spirits\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Spirit Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('spirits-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="spirits-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="spirits_mysql"><?php print wait_Process('Spirits Loading...')?></span>
 
 </div>
@@ -329,12 +836,72 @@ Active Skill Information
 
 <div id="mentor">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#mentor\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Mentor Spirit Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('mentor-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="mentor-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="mentor_mysql"><?php print wait_Process('Mentor Spirits Loading...')?></span>
 
 </div>
 
 
 <div id="alchemy">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#alchemy\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Alchemy Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('alchemy-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="alchemy-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="alchemy_mysql"><?php print wait_Process('Alchemy Loading...')?></span>
 
@@ -367,18 +934,7 @@ Adept Information
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Product</strong> - The product this software is a member of.</li>
-  <li><strong>Vendor</strong> - The software vendor. Clicking on this will load a search page listing all systems associated with this vendor.</li>
-  <li><strong>Software</strong> - The software name and version. Clicking on this will load a search page listing all systems associated with this software package.</li>
-  <li><strong>Type</strong> - The type of software.  Clicking on this will load a search page listing all systems associated with this software type. This is used in various places for reporting (such as OS and Instance).</li>
-  <li><strong>Group</strong> - The group responsible for the software package.</li>
-  <li><strong>Updated</strong> - The last time this entry was updated. A checkmark indicates the software information was gathered automatically.</li>
-</ul>
-
-<p><span class="ui-state-highlight">Highlighted software</span> have been identified as software that defines or is the focus of this system.</p>
-
-<p><span class="ui-state-error">Highlighted software</span> have been identified as customer facing</p>
+<p>Help</p>
 
 </div>
 
@@ -406,14 +962,140 @@ Adept Information
 
 <div id="commlink">
 
-<span id="commlink_mysql"><?php print wait_Process('Commlinks Loading...')?></span>
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#commlink\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Commlink Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('commlink-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="commlink-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
+<div id="linktabs">
+
+<?php
+
+  $tablist = '';
+  $linklist = '';
+
+  $q_string  = "select r_link_id,link_brand ";
+  $q_string .= "from r_commlink ";
+  $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
+  $q_string .= "where r_link_character = " . $formVars['id'] . " ";
+  $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_commlink) > 0) {
+    while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
+
+      $tablist .= "  <li><a href=\"#" . $a_r_commlink['link_brand'] . $a_r_commlink['r_link_id'] . "\">" . $a_r_commlink['link_brand'] . "</a></li>\n";
+
+      $linklist .= "<div id=\"" . $a_r_commlink['link_brand'] . $a_r_commlink['r_link_id'] . "\">\n\n";
+      $linklist .= "<span id=\"" . $a_r_commlink['link_brand'] . $a_r_commlink['r_link_id'] . "_mysql\">" . wait_Process('Commlinks Loading...') . "</span>\n\n";
+      $linklist .= "</div>\n\n\n";
+
+    }
+    print "<ul>\n";
+    print $tablist;
+    print "</ul>\n\n";
+
+    print $linklist;
+  } else {
+    print "<span id=\"nolink_mysql\">" . wait_Process('Loading...'). "</span>\n";
+  }
+
+?>
+
+</div>
 
 </div>
 
 
 <div id="command">
 
-<span id="command_mysql"><?php print wait_Process('Rigger Command Consoles Loading...')?></span>
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#command\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Command Console Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('command-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="command-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
+<div id="cmdtabs">
+
+<?php
+
+  $tablist = '';
+  $cmdlist = '';
+
+  $q_string  = "select r_cmd_id,cmd_brand,cmd_model ";
+  $q_string .= "from r_command ";
+  $q_string .= "left join command on command.cmd_id = r_command.r_cmd_number ";
+  $q_string .= "where r_cmd_character = " . $formVars['id'] . " ";
+  $q_r_command = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_command) > 0) {
+    while ($a_r_command = mysqli_fetch_array($q_r_command)) {
+
+      $tablist .= "  <li><a href=\"#" . $a_r_command['cmd_brand'] . $a_r_command['cmd_model'] . $a_r_command['r_cmd_id'] . "\">" . $a_r_command['cmd_brand'] . " " . $a_r_command['cmd_model'] . "</a></li>\n";
+
+      $cmdlist .= "<div id=\"" . $a_r_command['cmd_brand'] . $a_r_command['cmd_model'] . $a_r_command['r_cmd_id'] . "\">\n\n";
+      $cmdlist .= "<span id=\"" . $a_r_command['cmd_brand'] . $a_r_command['cmd_model'] .  $a_r_command['r_cmd_id'] . "_mysql\">" . wait_Process('Command Consoles Loading...') . "</span>\n\n";
+      $cmdlist .= "</div>\n\n\n";
+
+    }
+    print "<ul>\n";
+    print $tablist;
+    print "</ul>\n\n";
+
+    print $cmdlist;
+  } else {
+    print "<span id=\"nocmd_mysql\">" . wait_Process('Loading...'). "</span>\n";
+  }
+
+?>
+
+</div>
 
 </div>
 
@@ -426,17 +1108,13 @@ Adept Information
   <th class="ui-state-default">
 <?php
   if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-?>
-<a href="<?php print $Editroot; ?>/mooks.php?id=<?php print $formVars['id']; ?>#cyberdeck" target="_blank"><img src="<?php print $Siteroot; ?>/imgs/pencil.gif">
-<?php
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#cyberdeck\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
   }
 ?>
 Cyberdeck Information
 <?php
   if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-?>
-</a>
-<?php
+    print "</a>";
   }
 ?>
 </th>
@@ -448,9 +1126,7 @@ Cyberdeck Information
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Cyberdeck</strong> - </li>
-</ul>
+<p>Help</p>
 
 </div>
 
@@ -463,7 +1139,7 @@ Cyberdeck Information
   $tablist = '';
   $decklist = '';
 
-  $q_string  = "select r_deck_id,deck_brand ";
+  $q_string  = "select r_deck_id,deck_brand,deck_model ";
   $q_string .= "from r_cyberdeck ";
   $q_string .= "left join cyberdeck on cyberdeck.deck_id = r_cyberdeck.r_deck_number ";
   $q_string .= "where r_deck_character = " . $formVars['id'] . " ";
@@ -471,10 +1147,10 @@ Cyberdeck Information
   if (mysqli_num_rows($q_r_cyberdeck) > 0) {
     while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
 
-      $tablist .= "  <li><a href=\"#" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "\">" . $a_r_cyberdeck['deck_brand'] . "</a></li>\n";
+      $tablist .= "  <li><a href=\"#" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['deck_model'] . $a_r_cyberdeck['r_deck_id'] . "\">" . $a_r_cyberdeck['deck_brand'] . " " . $a_r_cyberdeck['deck_model'] . "</a></li>\n";
 
-      $decklist .= "<div id=\"" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "\">\n\n";
-      $decklist .= "<span id=\"" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['r_deck_id'] . "_mysql\">" . wait_Process('Cyberdecks Loading...') . "</span>\n\n";
+      $decklist .= "<div id=\"" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['deck_model'] . $a_r_cyberdeck['r_deck_id'] . "\">\n\n";
+      $decklist .= "<span id=\"" . $a_r_cyberdeck['deck_brand'] . $a_r_cyberdeck['deck_model'] . $a_r_cyberdeck['r_deck_id'] . "_mysql\">" . wait_Process('Cyberdecks Loading...') . "</span>\n\n";
       $decklist .= "</div>\n\n\n";
 
     }
@@ -496,6 +1172,36 @@ Cyberdeck Information
 
 <div id="cyberjack">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#cyberjack\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Cyberjack Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cyberjack-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cyberjack-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="cyberjacks_mysql"><?php print wait_Process('Cyberjacks Loading...')?></span>
 
 </div>
@@ -503,12 +1209,72 @@ Cyberdeck Information
 
 <div id="sprites">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#sprites\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Sprite Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('sprites-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="sprites-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="sprites_mysql"><?php print wait_Process('Sprites Loading...')?></span>
 
 </div>
 
 
 <div id="complex">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#complex\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Complex Form Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('complex-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="complex-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="complex_mysql"><?php print wait_Process('Complex Forms Loading...')?></span>
 
@@ -535,12 +1301,72 @@ Cyberdeck Information
 
 <div id="gear">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#gear\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Gear Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('gear-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="gear-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="gear_mysql"><?php print wait_Process('Gear Loading...')?></span>
 
 </div>
 
 
 <div id="armor">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#armor\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Armor Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('armor-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="armor-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="armor_mysql"><?php print wait_Process('Armor Loading...')?></span>
 
@@ -549,12 +1375,72 @@ Cyberdeck Information
 
 <div id="bioware">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#bioware\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Bioware Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('bioware-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="bioware-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="bioware_mysql"><?php print wait_Process('Bioware Loading...')?></span>
 
 </div>
 
 
 <div id="cyberware">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#cyberware\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Cyberware Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('cyberware-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="cyberware-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="cyberware_mysql"><?php print wait_Process('Cyberware Loading...')?></span>
 
@@ -563,12 +1449,72 @@ Cyberdeck Information
 
 <div id="melee">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#melee\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Melee Weapon Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('melee-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="melee-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="melee_mysql"><?php print wait_Process('Melee Weapons Loading...')?></span>
 
 </div>
 
 
 <div id="ammunition">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#ammunition\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Ammunition Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('ammunition-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="ammunition-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="ammunition_mysql"><?php print wait_Process('Ammunition Loading...')?></span>
 
@@ -577,12 +1523,72 @@ Cyberdeck Information
 
 <div id="projectile">
 
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#projectile\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Projectile Weapon Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('projectile-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="projectile-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
+
 <span id="projectile_mysql"><?php print wait_Process('Projectile Weapons Loading...')?></span>
 
 </div>
 
 
 <div id="firearms">
+
+<p></p>
+<table class="ui-styled-table" width="100%">
+<tr>
+  <th class="ui-state-default">
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#firearms\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
+  }
+?>
+Firearm Information
+<?php
+  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
+    print "</a>";
+  }
+?>
+</th>
+  <th class="ui-state-default" width="20"><a href="javascript:;" onmousedown="toggleDiv('firearms-help');">Help</a></th>
+</tr>
+</table>
+
+<div id="firearms-help" style="<?php print $display; ?>">
+
+<div class="main-help ui-widget-content">
+
+<p>Help</p>
+
+</div>
+
+</div>
 
 <span id="firearms_mysql"><?php print wait_Process('Firearms Loading...')?></span>
 
@@ -614,20 +1620,7 @@ Vehicle Information
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Spell Listing</strong>
-  <ul>
-    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>
-    <li><strong>Editing</strong> - Click on an association to edit it.</li>
-  </ul></li>
-</ul>
-
-<ul>
-  <li><strong>Notes</strong>
-  <ul>
-    <li>Click the <strong>Association Management</strong> title bar to toggle the <strong>Association Form</strong>.</li>
-  </ul></li>
-</ul>
+<p>Help</p>
 
 </div>
 

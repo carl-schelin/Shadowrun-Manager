@@ -26,31 +26,6 @@
 
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#lifestyle\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-  }
-  $output .= "Lifestyle Information";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "</a>";
-  }
-  $output .= "</th>";
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('lifestyle-help');\">Help</a></th>";
-  $output .= "</tr>";
-  $output .= "</table>";
-
-  $output .= "<div id=\"lifestyle-help\" style=\"display: none\">";
-
-  $output .= "<div class=\"main-help ui-widget-content\">";
-
-  $output .= "<p>Help</p>";
-
-  $output .= "</div>";
-
-  $output .= "</div>";
-
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">Lifestyle</th>";
   $output .= "  <th class=\"ui-state-default\">Description</th>";
   $output .= "  <th class=\"ui-state-default\">Months Paid</th>";

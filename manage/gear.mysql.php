@@ -24,34 +24,7 @@
   $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_versions = mysqli_fetch_array($q_versions);
 
-  $output  = "<p></p>\n";
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#gear\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-  }
-  $output .= "Gear Information";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "</a>";
-  }
-  $output .= "</th>";
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('gear-help');\">Help</a></th>";
-  $output .= "</tr>";
-  $output .= "</table>";
-
-  $output .= "<div id=\"gear-help\" style=\"display: none\">";
-
-  $output .= "<div class=\"main-help ui-widget-content\">";
-
-  $output .= "<p>Help</p>";
-
-  $output .= "</div>";
-
-  $output .= "</div>";
-
-
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">Class</th>";
   $output .= "  <th class=\"ui-state-default\">Name</th>";

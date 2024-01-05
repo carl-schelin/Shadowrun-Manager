@@ -5,12 +5,11 @@
 # See: https://incowk01/makers/index.php/Coding_Standards
 # Description: Retrieve data and update the database with the new info. Prepare and display the table
 
-  header('Content-Type: text/javascript');
-
   include('settings.php');
   $called = 'yes';
-  include($Loginpath . '/check.php');
-  include($Sitepath . '/function.php');
+  include($Sitepath . '/guest.php');
+
+  header('Content-Type: text/javascript');
 
   if (isset($_SESSION['username'])) {
     $package = "identity.mysql.php";
@@ -28,46 +27,7 @@
 
       logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
 
-      $output  = "<p></p>\n";
-      $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
-      $output .= "<tr>\n";
-      $output .= "  <th class=\"ui-state-default\">";
-      if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-        $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#identity\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-      }
-      $output .= "Identity and License Information";
-      if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-        $output .= "</a>";
-      }
-      $output .= "</th>";
-      $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('identity-listing-help');\">Help</a></th>\n";
-      $output .= "</tr>\n";
-      $output .= "</table>\n";
-
-      $output .= "<div id=\"identity-listing-help\" style=\"display: none\">\n";
-
-      $output .= "<div class=\"main-help ui-widget-content\">\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Knowledge Skill Listing</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>\n";
-      $output .= "    <li><strong>Editing</strong> - Click on an association to edit it.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Notes</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li>Click the <strong>Association Management</strong> title bar to toggle the <strong>Association Form</strong>.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "</div>\n";
-
-      $output .= "</div>\n";
-
-      $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+      $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
       $output .=   "<th class=\"ui-state-default\">Type</th>\n";
       $output .=   "<th class=\"ui-state-default\">Identity</th>\n";

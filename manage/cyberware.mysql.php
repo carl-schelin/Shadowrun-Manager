@@ -24,34 +24,7 @@
   $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_versions = mysqli_fetch_array($q_versions);
 
-  $output  = "<p></p>";
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
-  $output .= "<tr>";
-  $output .= "  <th class=\"ui-state-default\">";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "<a href=\"" . $Editroot . "/mooks.php?id=" . $formVars['id'] . "#cyberware\" target=\"_blank\"><img src=\"" . $Siteroot . "/imgs/pencil.gif\">";
-  }
-  $output .= "Cyberware Information";
-  if (check_userlevel($db, $AL_Johnson) || check_owner($db, $formVars['id'])) {
-    $output .= "</a>";
-  }
-  $output .= "</th>";
-  $output .= "  <th class=\"ui-state-default\" width=\"20\"><a href=\"javascript:;\" onmousedown=\"toggleDiv('cyberware-help');\">Help</a></th>";
-  $output .= "</tr>";
-  $output .= "</table>";
-
-  $output .= "<div id=\"cyberware-help\" style=\"display: none\">";
-
-  $output .= "<div class=\"main-help ui-widget-content\">";
-
-  $output .= "<p>Help</p>";
-
-  $output .= "</div>";
-
-  $output .= "</div>";
-
-
-  $output .= "<table class=\"ui-styled-table\" width=\"100%\">";
+  $output  = "<table class=\"ui-styled-table\" width=\"100%\">";
   $output .= "<tr>";
   $output .= "  <th class=\"ui-state-default\">Class</th>";
   $output .= "  <th class=\"ui-state-default\">Cyberware</th>";
@@ -64,11 +37,15 @@
   $output .= "</tr>";
 
   $totalcost = 0;
-  $q_string  = "select r_ware_id,class_name,ware_class,ware_name,ware_rating,ware_multiply,ware_essence,ware_capacity,ware_avail,ware_perm,ware_cost,ver_book,ware_page ";
+  $totalessence = 0;
+  $q_string  = "select r_ware_id,grade_essence,grade_name,grade_cost,grade_avail,class_name,";
+  $q_string .= "ware_class,ware_name,ware_rating,ware_multiply,ware_essence,ware_capacity,";
+  $q_string .= "ware_avail,ware_perm,ware_cost,ver_book,ware_page ";
   $q_string .= "from r_cyberware ";
   $q_string .= "left join cyberware on cyberware.ware_id = r_cyberware.r_ware_number ";
-  $q_string .= "left join versions on versions.ver_id = cyberware.ware_book ";
-  $q_string .= "left join class on class.class_id = cyberware.ware_class ";
+  $q_string .= "left join class     on class.class_id    = cyberware.ware_class ";
+  $q_string .= "left join grades    on grades.grade_id   = r_cyberware.r_ware_grade ";
+  $q_string .= "left join versions  on versions.ver_id   = cyberware.ware_book ";
   $q_string .= "where r_ware_character = " . $formVars['id'] . " ";
   $q_string .= "order by ware_name,ware_rating,ver_version ";
   $q_r_cyberware = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
@@ -77,20 +54,25 @@
 
       $rating = return_Rating($a_r_cyberware['ware_rating']);
 
-      $essence = return_Essence($a_r_cyberware['ware_essence']);
+      $grade = return_Grade($a_r_cyberware['grade_essence'], $a_r_cyberware['grade_name']);
+
+      $essencegrade = ($a_r_cyberware['ware_essence'] * $a_r_cyberware['grade_essence']);
+      $essence = return_Essence($essencegrade);
+      $totalessence += $essencegrade;
 
       $capacity = return_Capacity($a_r_cyberware['ware_capacity']);
 
-      $avail = return_Avail($a_r_cyberware['ware_avail'], $a_r_cyberware['ware_perm']);
+      $avail = return_Avail(($a_r_cyberware['ware_avail'] + $a_r_cyberware['grade_avail']), $a_r_cyberware['ware_perm']);
 
-      $totalcost += $a_r_cyberware['ware_cost'];
-      $cost = return_Cost($a_r_cyberware['ware_cost']);
+      $costgrade = ($a_r_cyberware['ware_cost'] * $a_r_cyberware['grade_cost']);
+      $cost = return_Cost($costgrade);
+      $totalcost += $costgrade;
 
       $book = return_Book($a_r_cyberware['ver_book'], $a_r_cyberware['ware_page']);
 
       $output .= "<tr>";
       $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberware['class_name'] . "</td>";
-      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberware['ware_name']  . "</td>";
+      $output .= "<td class=\"ui-widget-content\">"        . $a_r_cyberware['ware_name'] . $grade . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $rating                      . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $essence                     . "</td>";
       $output .= "<td class=\"ui-widget-content delete\">" . $capacity                    . "</td>";
@@ -146,7 +128,7 @@
       }
     }
     $output .= "<tr>\n";
-    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
+    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">Total Cost: " . return_Cost($totalcost) . " Total essence: " . return_Essence($totalessence) . "</td>\n";
     $output .= "</tr>\n";
   } else {
     $output .= "<tr>";
