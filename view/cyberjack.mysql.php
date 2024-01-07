@@ -59,7 +59,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" " . $checked . " id=\"jackcon" . ${i} . "\"  onclick=\"edit_CyberjackCondition(" . ${i} . ", " . $a_r_cyberjack['r_jack_id'] . ", 'cyberjack');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"jackcon" . $i . "\"  onclick=\"edit_CyberjackCondition(" . $i . ", " . $a_r_cyberjack['r_jack_id'] . ", 'cyberjack');\">\n";
         }
       }
       $output .= "</td>\n";
