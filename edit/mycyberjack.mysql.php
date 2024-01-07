@@ -23,10 +23,27 @@
 
     if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 1) {
-        $formVars['jack_id'] = clean($_GET['jack_id'], 10);
+        $formVars['jack_id']      = clean($_GET['jack_id'], 10);
 
         if ($formVars['jack_id'] == '') {
           $formVars['jack_id'] = 0;
+        }
+
+# get the version of the edition the character is based on
+        $q_string  = "select ver_version ";
+        $q_string .= "from versions ";
+        $q_string .= "left join runners on runners.runr_version = versions.ver_id ";
+        $q_string .= "where runr_id = " . $formVars['r_jack_character'] . " ";
+        $q_versions = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_versions = mysqli_fetch_array($q_versions);
+
+# default is Standard; id == 1 for 5th and 9 for 6th.
+        $formVars['r_jack_grade'] = 1;
+        if ($a_versions['ver_version'] == '5.0') {
+          $formVars['r_jack_grade'] = 1;
+        }
+        if ($a_versions['ver_version'] == '6.0') {
+          $formVars['r_jack_grade'] = 9;
         }
 
         if ($formVars['jack_id'] > 0) {
@@ -48,6 +65,7 @@
           $q_string =
             "r_jack_character     =   " . $formVars['r_jack_character'] . "," .
             "r_jack_number        =   " . $formVars['jack_id']          . "," .
+            "r_jack_grade         =   " . $formVars['r_jack_grade']     . "," .
             "r_jack_data          =   " . $a_cyberjack['jack_data']     . "," .
             "r_jack_firewall      =   " . $a_cyberjack['jack_firewall'] . "," .
             "r_jack_access        = \"" . $jack_access                  . "\"";
@@ -57,7 +75,7 @@
             $message = "Cyberjack added.";
           }
 
-          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['jack_id']);
 
           mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
@@ -77,15 +95,36 @@
 
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
+        $output .= "  <td class=\"button ui-widget-content\">\n";
+        $output .= "<input type=\"button\" name=\"r_jack_refresh\" value=\"Refresh My Cyberjack Listing\" onClick=\"javascript:attach_cyberjack('cyberjack.mysql.php', -1);\">\n";
+        $output .= "<input type=\"button\" name=\"r_jack_update\"  value=\"Update Cyberjack\"          onClick=\"javascript:attach_cyberjack('cyberjack.mysql.php', 1);hideDiv('cyberjack-hide');\">\n";
+        $output .= "<input type=\"hidden\" name=\"r_jack_id\"      value=\"0\">\n";
+        $output .= "<input type=\"hidden\" name=\"r_jack_number\"  value=\"0\">\n";
+        $output .= "</tr>\n";
+        $output .= "</table>\n";
+
+        $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
+        $output .= "<tr>\n";
         $output .= "  <th class=\"ui-state-default\" colspan=\"5\">Active Cyberjack Form</th>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" width=\"33%\">Active Cyberjack: <span id=\"r_jack_item\">None Selected</span></td>\n";
-        $output .= "  <td class=\"ui-widget-content\" width=\"33%\">" . $shiftleft . ", 'firewall');\">Data Processing: <span id=\"r_jack_data\">0</span>" . $shiftright . ", 'firewall');\">\n";
-        $output .= "  <td class=\"ui-widget-content\" width=\"33%\">" . $shiftleft . ", 'data');\">Firewall: <span id=\"r_jack_firewall\">0</span>"      . $shiftright . ", 'data');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"25%\">Active Cyberjack: <span id=\"r_jack_item\">None Selected</span></td>\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"25%\">" . $shiftleft . ", 'firewall');\">Data Processing: <span id=\"r_jack_data\">0</span>" . $shiftright . ", 'firewall');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"25%\">" . $shiftleft . ", 'data');\">Firewall: <span id=\"r_jack_firewall\">0</span>"      . $shiftright . ", 'data');\">\n";
+        $output .= "  <td class=\"ui-widget-content\" width=\"25%\">Grade: <select name=\"r_jack_grade\">\n";
+
+        $q_string  = "select grade_id,grade_name ";
+        $q_string .= "from grades ";
+        $q_string .= "left join versions on versions.ver_id = grades.grade_book ";
+        $q_string .= "where ver_active = 1 ";
+        $q_string .= "order by grade_essence desc ";
+        $q_grades = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        while ($a_grades = mysqli_fetch_array($q_grades)) {
+          $output .= "<option value=\"" . $a_grades['grade_id'] . "\">" . $a_grades['grade_name'] . "</option>\n";
+        }
+        $output .= "</select></td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
-        $output .= "<input type=\"hidden\" name=\"r_jack_id\"      value=\"0\">\n";
 
         print "document.getElementById('cyberjack_form').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
@@ -183,7 +222,7 @@
 
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\">Total Essence: " . return_Essence($essencetotal) . ", Total Cost: " . return_Cost($costtotal) . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\">Total Cost: " . return_Cost($costtotal) . ", Total Essence: " . return_Essence($essencetotal) . "</td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
