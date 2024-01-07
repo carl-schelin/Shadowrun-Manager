@@ -59,7 +59,7 @@
             $message = "Cyberdeck added.";
           }
 
-          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_deck_number']);
+          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['deck_id']);
 
           mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
 
@@ -358,7 +358,6 @@
 
       $output .= "</div>\n";
 
-      $costtotal = 0;
       $q_string  = "select r_deck_id,deck_brand,deck_model,r_deck_number,r_deck_attack,r_deck_sleaze,r_deck_data,r_deck_firewall,";
       $q_string .= "deck_rating,deck_avail,deck_perm,deck_programs,r_deck_access,deck_cost,ver_book,deck_page ";
       $q_string .= "from r_cyberdeck ";
@@ -394,11 +393,10 @@
 
           $deck_rating = return_Rating($a_r_cyberdeck['deck_rating']);
 
-          $costtotal += $a_r_cyberdeck['deck_cost'];
-
           $deck_avail = return_Avail($a_r_cyberdeck['deck_avail'], $a_r_cyberdeck['deck_perm']);
 
           $deck_cost = return_Cost($a_r_cyberdeck['deck_cost']);
+          $totalcost = $a_r_cyberdeck['deck_cost'];
 
           $deck_book = return_Book($a_r_cyberdeck['ver_book'], $a_r_cyberdeck['deck_page']);
 
@@ -452,7 +450,7 @@
 
               $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
-              $costtotal += $a_r_accessory['acc_cost'];
+              $totalcost += $a_r_accessory['acc_cost'];
 
               $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
 
@@ -505,11 +503,10 @@
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
-              $costtotal += $a_r_program['pgm_cost'];
-
               $pgm_avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
               $pgm_cost = return_Cost($a_r_program['pgm_cost']);
+              $totalcost += $a_r_program['pgm_cost'];
 
               $pgm_book = return_Book($a_r_program['ver_book'], $a_r_program['pgm_page']);
 
@@ -553,11 +550,10 @@
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
-              $costtotal += $a_r_program['pgm_cost'];
-
               $pgm_avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
               $pgm_cost = return_Cost($a_r_program['pgm_cost']);
+              $totalcost += $a_r_program['pgm_cost'];
 
               $pgm_book = return_Book($a_r_program['ver_book'], $a_r_program['pgm_page']);
 
@@ -601,13 +597,12 @@
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_deckagt('agent.del.php?id="  . $a_r_agents['r_agt_id'] . "');\">";
               $linkend   = "</a>";
 
-              $costtotal += $a_r_agents['agt_cost'];
-
               $agt_rating = return_Rating($a_r_agents['agt_rating']);
 
               $agt_avail = return_Avail($a_r_agents['agt_avail'], $a_r_agents['agt_perm']);
 
               $agt_cost = return_Cost($a_r_agents['agt_cost']);
+              $totalcost += $a_r_agents['agt_cost'];
 
               $agt_book = return_Book($a_r_agents['ver_book'], $a_r_agents['agt_page']);
 
@@ -625,7 +620,7 @@
           }
         $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
+        $output .= "  <td class=\"ui-widget-content\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
         $output .= "</tr>\n";
         $output .= "</table>\n";
 
