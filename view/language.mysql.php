@@ -74,7 +74,11 @@
         $r_lang_world = " (Native Speaker)";
       } else {
         $r_lang_rank = $a_r_language['r_lang_rank'];
-        $r_lang_dicepool = $a_r_language['r_lang_rank'] + $a_runners[$a_attributes['att_column']];
+        if ($a_runners['ver_version'] == '5.0') {
+        }
+        if ($a_runners['ver_version'] == '6.0') {
+          $r_lang_dicepool = '';
+        }
         $r_lang_world = "";
       }
 
