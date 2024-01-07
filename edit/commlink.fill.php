@@ -35,7 +35,6 @@
       print "document.getElementById('link_firewall_val').innerHTML = '" . mysqli_real_escape_string($db, $a_r_commlink['r_link_firewall']) . "';\n";
 
       print "document.edit.r_link_id.value = " . $formVars['id'] . ";\n";
-      print "document.edit.r_link_update.disabled = false;\n\n";
 
     } else {
       logaccess($db, $_SESSION['username'], $package, "Unauthorized access.");

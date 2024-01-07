@@ -999,7 +999,7 @@ Commlink Information
   $tablist = '';
   $linklist = '';
 
-  $q_string  = "select r_link_id,link_brand ";
+  $q_string  = "select r_link_id,link_brand,link_model ";
   $q_string .= "from r_commlink ";
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
@@ -1007,10 +1007,10 @@ Commlink Information
   if (mysqli_num_rows($q_r_commlink) > 0) {
     while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
 
-      $tablist .= "  <li><a href=\"#" . $a_r_commlink['link_brand'] . $a_r_commlink['r_link_id'] . "\">" . $a_r_commlink['link_brand'] . "</a></li>\n";
+      $tablist .= "  <li><a href=\"#" . $a_r_commlink['link_brand'] . $a_r_commlink['link_model'] . $a_r_commlink['r_link_id'] . "\">" . $a_r_commlink['link_brand'] . " " . $a_r_commlink['link_model'] . "</a></li>\n";
 
-      $linklist .= "<div id=\"" . $a_r_commlink['link_brand'] . $a_r_commlink['r_link_id'] . "\">\n\n";
-      $linklist .= "<span id=\"" . $a_r_commlink['link_brand'] . $a_r_commlink['r_link_id'] . "_mysql\">" . wait_Process('Commlinks Loading...') . "</span>\n\n";
+      $linklist .= "<div id=\"" . $a_r_commlink['link_brand'] . $a_r_commlink['link_model'] . $a_r_commlink['r_link_id'] . "\">\n\n";
+      $linklist .= "<span id=\"" . $a_r_commlink['link_brand'] . $a_r_commlink['link_model'] . $a_r_commlink['r_link_id'] . "_mysql\">" . wait_Process('Commlinks Loading...') . "</span>\n\n";
       $linklist .= "</div>\n\n\n";
 
     }

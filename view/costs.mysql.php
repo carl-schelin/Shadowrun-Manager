@@ -438,25 +438,26 @@
 # r_lifestyle - life_cost and r_life_months
   $lifestyle = '';
   $q_string  = "select r_life_months,life_mincost,life_maxcost ";
-  $q_string  = "select r_life_months ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
   $q_string .= "where r_life_character = " . $formVars['id'] . " ";
   $q_r_lifestyle = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-  while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
+  if (mysqli_num_rows($q_r_lifestyle) > 0) {
+    while ($a_r_lifestyle = mysqli_fetch_array($q_r_lifestyle)) {
 
 # if troll, * 2;
 # if dwarf, * 1.2;
-    $multiplier = 1;
-    if ($a_metatypes['meta_name'] == 'Dwarf') {
-      $multiplier = 1.2;
-    }
-    if ($a_metatypes['meta_name'] == 'Troll') {
-      $multiplier = 2;
-    }
+      $multiplier = 1;
+      if ($a_metatypes['meta_name'] == 'Dwarf') {
+        $multiplier = 1.2;
+      }
+      if ($a_metatypes['meta_name'] == 'Troll') {
+        $multiplier = 2;
+      }
 
-    $totalcosts   += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_mincost'] * $multiplier);
-    $lifestyle = '16';
+      $totalcosts   += ($a_r_lifestyle['r_life_months'] * $a_r_lifestyle['life_mincost'] * $multiplier);
+      $lifestyle = '16';
+    }
   }
 
 # r_melee - melee_cost

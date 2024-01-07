@@ -27,12 +27,24 @@
     if (check_userlevel($db, $AL_Shadowrunner)) {
       if ($formVars['update'] == 0) {
         $formVars['r_jack_number']  = clean($_GET['r_jack_number'],  10);
+        $formVars['r_jack_grade']   = clean($_GET['r_jack_grade'],   10);
 
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
         if ($formVars['r_jack_number'] == '') {
           $formVars['r_jack_number'] = 1;
+        }
+
+# default is Standard; id == 1 for 5th and 9 for 6th.
+        if ($formVars['r_jack_grade'] == '') {
+          $formVars['r_jack_grade'] = 1;
+          if ($a_versions['ver_version'] == '5.0') {
+            $formVars['r_jack_grade'] = 1;
+          }
+          if ($a_versions['ver_version'] == '6.0') {
+            $formVars['r_jack_grade'] = 9;
+          }
         }
 
         if ($formVars['r_jack_number'] > 0) {
@@ -55,6 +67,7 @@
           $q_string =
             "r_jack_character =   " . $formVars['r_jack_character'] . "," .
             "r_jack_number    =   " . $formVars['r_jack_number']    . "," . 
+            "r_jack_grade     =   " . $formVars['r_jack_grade']     . "," .
             "r_jack_access    = \"" . $formVars['r_jack_access']    . "\"";
 
           if ($formVars['update'] == 0) {
@@ -106,11 +119,12 @@
           $q_string =
             "r_jack_character =   " . $formVars['r_jack_character'] . "," .
             "r_jack_number    =   " . $formVars['r_jack_number']    . "," . 
+            "r_jack_grade     =   " . $formVars['r_jack_grade']     . "," . 
             "r_jack_access    = \"" . $formVars['r_jack_access']    . "\"";
 
           if ($formVars['update'] == 0) {
             $query = "insert into r_cyberjack set r_jack_id = NULL," . $q_string;
-            $message = "Cyberjack added.";
+            $message = "Cyberjack updated.";
           }
 
           logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_jack_number']);

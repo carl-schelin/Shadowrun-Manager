@@ -66,7 +66,7 @@
             $checked = 'checked=\"true\"';
           }
 
-          $output .= "<input type=\"checkbox\" " . $checked . " id=\"deckcon" . ${i} . "\"  onclick=\"edit_CyberdeckCondition(" . ${i} . ", " . $a_r_cyberdeck['r_deck_id'] . ", 'cyberdeck');\">\n";
+          $output .= "<input type=\"checkbox\" " . $checked . " id=\"deckcon" . $i . "\"  onclick=\"edit_CyberdeckCondition(" . $i . ", " . $a_r_cyberdeck['r_deck_id'] . ", 'cyberdeck');\">\n";
         }
       }
       $output .= "</td>\n";
@@ -75,7 +75,7 @@
       $output .= "</table>";
 
 
-      $q_string  = "select r_acc_id,acc_name,acc_rating ";
+      $q_string  = "select r_acc_id,acc_name,acc_rating,acc_cost ";
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
       $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberdeck['r_deck_id'] . " ";
@@ -95,8 +95,6 @@
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           $acc_rating = return_Rating($a_r_accessory['acc_rating']);
-
-          $costtotal += $a_r_accessory['acc_cost'];
 
           $class = "ui-widget-content";
 

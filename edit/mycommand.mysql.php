@@ -182,7 +182,6 @@
 
       $output .= "</div>\n";
 
-      $costtotal = 0;
       $q_string  = "select r_cmd_id,cmd_brand,cmd_model,r_cmd_number,r_cmd_noise,r_cmd_sharing,cmd_data,";
       $q_string .= "cmd_firewall,cmd_programs,cmd_rating,cmd_avail,cmd_perm,r_cmd_access,cmd_cost,ver_book,cmd_page ";
       $q_string .= "from r_command ";
@@ -218,11 +217,10 @@
 
           $cmd_rating = return_Rating($a_r_command['cmd_rating']);
 
-          $costtotal += $a_r_command['cmd_cost'];
-
           $cmd_avail = return_Avail($a_r_command['cmd_avail'], $a_r_command['cmd_perm']);
 
           $cmd_cost = return_Cost($a_r_command['cmd_cost']);
+          $totalcost = $a_r_command['cmd_cost'];
 
           $cmd_book = return_Book($a_r_command['ver_book'], $a_r_command['cmd_page']);
 
@@ -277,11 +275,10 @@
 
               $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
-              $costtotal += $a_r_accessory['acc_cost'];
-
               $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
 
               $acc_cost = return_Cost($a_r_accessory['acc_cost']);
+              $totalcost += $a_r_accessory['acc_cost'];
 
               $acc_book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
 
@@ -330,11 +327,10 @@
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cmdpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
-              $costtotal += $a_r_program['pgm_cost'];
-
               $pgm_avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
               $pgm_cost = return_Cost($a_r_program['pgm_cost']);
+              $totalcost += $a_r_program['pgm_cost'];
 
               $pgm_book = return_Book($a_r_program['ver_book'], $a_r_program['pgm_page']);
 
@@ -378,7 +374,7 @@
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_cmdpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
-              $costtotal += $a_r_program['pgm_cost'];
+              $totalcost += $a_r_program['pgm_cost'];
 
               $pgm_avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
@@ -401,7 +397,7 @@
 
           $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
           $output .= "<tr>\n";
-          $output .= "  <td class=\"ui-widget-content\">Total Cost: " . return_Cost($costtotal) . "</td>\n";
+          $output .= "  <td class=\"ui-widget-content\">Total Cost: " . return_Cost($totalcost) . "</td>\n";
           $output .= "</tr>\n";
           $output .= "</table>\n";
 

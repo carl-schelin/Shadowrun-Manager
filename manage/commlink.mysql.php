@@ -227,7 +227,7 @@
           $output .= "</tr>\n";
           $output .= "</table>\n";
 
-          print "document.getElementById('" . $a_r_commlink['link_brand'] . $a_r_commlink['r_link_id'] . "_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
+          print "document.getElementById('" . $a_r_commlink['link_brand'] . $a_r_commlink['link_model'] . $a_r_commlink['r_link_id'] . "_mysql').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n";
         }
       } else {
         $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";

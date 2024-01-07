@@ -202,7 +202,6 @@
 
       $output .= "</div>\n";
 
-      $totalcost = 0;
       $q_string  = "select r_link_id,link_brand,link_model,r_link_number,r_link_data,r_link_firewall,";
       $q_string .= "link_rating,link_avail,link_perm,link_program,r_link_access,link_cost,ver_book,link_page ";
       $q_string .= "from r_commlink ";
@@ -236,11 +235,10 @@
 
           $link_rating = return_Rating($a_r_commlink['link_rating']);
 
-          $totalcost += $a_r_commlink['link_cost'];
-
           $link_avail = return_Avail($a_r_commlink['link_avail'], $a_r_commlink['link_perm']);
 
           $link_cost = return_Cost($a_r_commlink['link_cost']);
+          $totalcost = $a_r_commlink['link_cost'];
 
           $link_book = return_Book($a_r_commlink['ver_book'], $a_r_commlink['link_page']);
 
@@ -292,11 +290,10 @@
 
               $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
-              $totalcost += $a_r_accessory['acc_cost'];
-
               $acc_avail = return_Avail($a_r_accessory['acc_avail'], $a_r_accessory['acc_perm']);
 
               $acc_cost = return_Cost($a_r_accessory['acc_cost']);
+              $totalcost += $a_r_accessory['acc_cost'];
 
               $acc_book = return_Book($a_r_accessory['ver_book'], $a_r_accessory['acc_page']);
 
@@ -345,11 +342,10 @@
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_linkpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
-              $totalcost += $a_r_program['pgm_cost'];
-
               $pgm_avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
               $pgm_cost = return_Cost($a_r_program['pgm_cost']);
+              $totalcost += $a_r_program['pgm_cost'];
 
               $pgm_book = return_Book($a_r_program['ver_book'], $a_r_program['pgm_page']);
 
@@ -393,11 +389,10 @@
               $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_linkpgm('program.del.php?id="  . $a_r_program['r_pgm_id'] . "');\">";
               $linkend   = "</a>";
 
-              $totalcost += $a_r_program['pgm_cost'];
-
               $pgm_avail = return_Avail($a_r_program['pgm_avail'], $a_r_program['pgm_perm']);
 
               $pgm_cost = return_Cost($a_r_program['pgm_cost']);
+              $totalcost += $a_r_program['pgm_cost'];
 
               $pgm_book = return_Book($a_r_program['ver_book'], $a_r_program['pgm_page']);
 

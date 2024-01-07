@@ -124,18 +124,6 @@ function delete_melacc( p_script_url ) {
   }
 }
 
-function delete_projacc( p_script_url ) {
-  var answer = confirm("Delete this Projectile Accessory?")
-
-  if (answer) {
-    script = document.createElement('script');
-    script.src = p_script_url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-    show_file('projectile.mysql.php' + '?update=-1' + '&r_proj_character=<?php print $formVars['id']; ?>');
-    show_file('projacc.mysql.php' + '?update=-1' + '&r_proj_character=<?php print $formVars['id']; ?>');
-  }
-}
-
 function delete_vehicles( p_script_url ) {
   var answer = confirm("Delete this Vehicle?")
 
@@ -221,17 +209,6 @@ function delete_gearacc( p_script_url ) {
     script.src = p_script_url;
     document.getElementsByTagName('head')[0].appendChild(script);
     show_file('gear.mysql.php' + '?update=-1' + '&r_gear_character=<?php print $formVars['id']; ?>');
-  }
-}
-
-function delete_vehacc( p_script_url ) {
-  var answer = confirm("Delete this Vehicle Accessory?")
-
-  if (answer) {
-    script = document.createElement('script');
-    script.src = p_script_url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-    show_file('vehicles.mysql.php' + '?update=-1' + '&r_veh_character=<?php print $formVars['id']; ?>');
   }
 }
 

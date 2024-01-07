@@ -100,21 +100,6 @@ function delete_foci( p_script_url ) {
 
 
 
-function attach_tradition(p_script_url, update) {
-  var at_form = document.edit;
-  var at_url;
-  
-  at_url  = '?update='   + update;
-  at_url += "&id="       + at_form.r_trad_id.value;
-
-  at_url += "&r_trad_character="  + <?php print $formVars['id']; ?>;
-  at_url += "&r_trad_number="     + encode_URI(at_form.r_trad_number.value);
-
-  script = document.createElement('script');
-  script.src = p_script_url + at_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-}
-
 function delete_tradition( p_script_url ) {
   var answer = confirm("Delete Tradition?")
 
@@ -158,21 +143,6 @@ function delete_spirit( p_script_url ) {
 }
 
 
-
-function attach_mentor( p_script_url, update ) {
-  var am_form = document.edit;
-  var am_url;
-
-  am_url  = '?update='   + update;
-  am_url += '&id='       + am_form.id.value;
-
-  am_url += "&r_mentor_character="    + <?php print $formVars['id']; ?>;
-  am_url += "&r_mentor_number="       + am_form.r_mentor_number.value;
-
-  script = document.createElement('script');
-  script.src = p_script_url + am_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-}
 
 function delete_mentor( p_script_url ) {
   var answer = confirm("Delete this Mentor Spirit?")
