@@ -224,6 +224,8 @@ function attach_cyberjack( p_script_url, update ) {
   script = document.createElement('script');
   script.src = p_script_url + ac_url;
   document.getElementsByTagName('head')[0].appendChild(script);
+  show_file('mycyberjack.mysql.php'  + '?update=-1&r_jack_character=<?php print $formVars['id']; ?>');
+  show_file('cyberjack.mysql.php'    + '?update=-3&r_jack_character=<?php print $formVars['id']; ?>');
 }
 
 function cyberjack_left(p_script_url, p_value) {
