@@ -43,7 +43,7 @@ function attach_finance(p_script_url, update) {
   var af_form = document.edit;
   var af_url;
   
-  if (Number.isInteger(af_form.fin_funds.value)) {
+  if (Number.isInteger(+af_form.fin_funds.value)) {
 
     af_url  = '?update='    + update;
     af_url += "&fin_id="    + af_form.fin_id.value;
@@ -58,7 +58,7 @@ function attach_finance(p_script_url, update) {
     document.getElementsByTagName('head')[0].appendChild(script);
     show_file('finance.mysql.php' + '?update=-1' + '&fin_character=<?php print $formVars['id']; ?>');
   } else {
-    alert("Value: " + af_form.fin_funds.value + " is not a valid integer. The number cannot contain non-numeric values.");
+    alert("Value: [" + af_form.fin_funds.value + "] is not a valid integer. The number cannot contain non-numeric values.");
   }
 
 }
@@ -83,78 +83,89 @@ function attach_history(p_script_url, update) {
 function attach_karma(p_script_url, update) {
   var ak_form = document.edit;
   var ak_url;
-  
-  if (Number.isInteger(ak_form.fin_funds.value)) {
+
+  if (Number.isInteger(+ak_form.kar_karma.value)) {
     ak_url  = '?update='    + update;
     ak_url += "&kar_id="    + ak_form.kar_id.value;
 
     ak_url += "&kar_character=" + <?php print $formVars['id']; ?>;
-    ak_url += "&kar_karma="     + encode_URI(ak_form.kar_karma.value);
+    ak_url += "&kar_karma="     + ak_form.kar_karma.value;
     ak_url += "&kar_date="      + encode_URI(ak_form.kar_date.value);
     ak_url += "&kar_notes="     + encode_URI(ak_form.kar_notes.value);
 
     script = document.createElement('script');
     script.src = p_script_url + ak_url;
     document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('karma.mysql.php' + '?update=-1' + '&kar_character=<?php print $formVars['id']; ?>');
   } else {
-    alert("Value: " + ak_form.kar_karma.value + " is not a valid integer. The number cannot contain non-numeric values.");
+    alert("Value: [" + ak_form.kar_karma.value + "] is not a valid integer. The number cannot contain non-numeric values.");
   }
-
-  show_file('karma.mysql.php' + '?update=-1' + '&kar_character=<?php print $formVars['id']; ?>');
 }
 
 function attach_street(p_script_url, update) {
   var as_form = document.edit;
   var as_url;
   
-  as_url  = '?update='    + update;
-  as_url += "&st_id="     + as_form.st_id.value;
+  if (Number.isInteger(+as_form.st_cred.value)) {
+    as_url  = '?update='    + update;
+    as_url += "&st_id="     + as_form.st_id.value;
 
-  as_url += "&st_character=" + <?php print $formVars['id']; ?>;
-  as_url += "&st_cred="      + encode_URI(as_form.st_cred.value);
-  as_url += "&st_date="      + encode_URI(as_form.st_date.value);
-  as_url += "&st_notes="     + encode_URI(as_form.st_notes.value);
+    as_url += "&st_character=" + <?php print $formVars['id']; ?>;
+    as_url += "&st_cred="      + as_form.st_cred.value;
+    as_url += "&st_date="      + encode_URI(as_form.st_date.value);
+    as_url += "&st_notes="     + encode_URI(as_form.st_notes.value);
 
-  script = document.createElement('script');
-  script.src = p_script_url + as_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('street.mysql.php' + '?update=-1' + '&st_character=<?php print $formVars['id']; ?>');
+    script = document.createElement('script');
+    script.src = p_script_url + as_url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('street.mysql.php' + '?update=-1' + '&st_character=<?php print $formVars['id']; ?>');
+  } else {
+    alert("Value: [" + as_form.st_cred.value + "] is not a valid integer. The number cannot contain non-numeric values.");
+  }
 }
 
 function attach_notoriety(p_script_url, update) {
   var an_form = document.edit;
   var an_url;
   
-  an_url  = '?update='    + update;
-  an_url += "&not_id="    + an_form.not_id.value;
+  if (Number.isInteger(+an_form.not_notoriety.value)) {
+    an_url  = '?update='    + update;
+    an_url += "&not_id="    + an_form.not_id.value;
 
-  an_url += "&not_character=" + <?php print $formVars['id']; ?>;
-  an_url += "&not_notoriety=" + encode_URI(an_form.not_notoriety.value);
-  an_url += "&not_date="      + encode_URI(an_form.not_date.value);
-  an_url += "&not_notes="     + encode_URI(an_form.not_notes.value);
+    an_url += "&not_character=" + <?php print $formVars['id']; ?>;
+    an_url += "&not_notoriety=" + an_form.not_notoriety.value;
+    an_url += "&not_date="      + encode_URI(an_form.not_date.value);
+    an_url += "&not_notes="     + encode_URI(an_form.not_notes.value);
 
-  script = document.createElement('script');
-  script.src = p_script_url + an_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('notoriety.mysql.php' + '?update=-1' + '&not_character=<?php print $formVars['id']; ?>');
+    script = document.createElement('script');
+    script.src = p_script_url + an_url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('notoriety.mysql.php' + '?update=-1' + '&not_character=<?php print $formVars['id']; ?>');
+  } else {
+    alert("Value: [" + an_form.not_notoriety.value + "] is not a valid integer. The number cannot contain non-numeric values.");
+  }
 }
 
 function attach_publicity(p_script_url, update) {
   var ap_form = document.edit;
   var ap_url;
   
-  ap_url  = '?update='    + update;
-  ap_url += "&pub_id="    + ap_form.pub_id.value;
+  if (Number.isInteger(+ap_form.pub_publicity.value)) {
+    ap_url  = '?update='    + update;
+    ap_url += "&pub_id="    + ap_form.pub_id.value;
 
-  ap_url += "&pub_character=" + <?php print $formVars['id']; ?>;
-  ap_url += "&pub_publicity=" + encode_URI(ap_form.pub_publicity.value);
-  ap_url += "&pub_date="      + encode_URI(ap_form.pub_date.value);
-  ap_url += "&pub_notes="     + encode_URI(ap_form.pub_notes.value);
+    ap_url += "&pub_character=" + <?php print $formVars['id']; ?>;
+    ap_url += "&pub_publicity=" + ap_form.pub_publicity.value;
+    ap_url += "&pub_date="      + encode_URI(ap_form.pub_date.value);
+    ap_url += "&pub_notes="     + encode_URI(ap_form.pub_notes.value);
 
-  script = document.createElement('script');
-  script.src = p_script_url + ap_url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-  show_file('publicity.mysql.php' + '?update=-1' + '&pub_character=<?php print $formVars['id']; ?>');
+    script = document.createElement('script');
+    script.src = p_script_url + ap_url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+    show_file('publicity.mysql.php' + '?update=-1' + '&pub_character=<?php print $formVars['id']; ?>');
+  } else {
+    alert("Value: [" + ap_form.pub_publicity.value + "] is not a valid integer. The number cannot contain non-numeric values.");
+  }
 }
 
 function attach_active(p_script_url, update) {
