@@ -41,6 +41,10 @@
           $formVars['st_date'] = date('Y-m-d');
         }
 
+        if ($formVars['st_notes'] == '') {
+          $formVars['st_notes'] = "Blank Notes";
+        }
+
         if (strlen($formVars['st_notes']) > 0) {
 
           $q_string =
@@ -89,14 +93,14 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Street Cred Awarded:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"st_cred\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"number\" name=\"st_cred\"></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Event Date:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"st_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"date\" name=\"st_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Event:</td>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"3\">";
-        $output .= "<textarea id=\"st_notes\" name=\"st_notes\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"st_notes\" name=\"st_notes\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.edit.st_notes, document.edit.st_noteLen, 2000);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.edit.st_notes, document.edit.st_noteLen, 2000);\">\n";
         $output .= "</textarea>\n\n";
@@ -117,9 +121,9 @@
       $output .=   "<th class=\"ui-state-default\" colspan=\"4\">Character Street Cred Listing</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Street Cred Awarded</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Event Date</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"120\">Street Cred Awarded</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"80\">Event Date</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event</th>\n";
       $output .= "</tr>\n";
 
@@ -136,10 +140,10 @@
           $linkend   = "</a>";
 
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content\" width=\"60\">" . $linkdel                                      . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"120\">"       . $a_street['st_cred']            . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"80\">"      . $a_street['st_date']             . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content\">"              . $linkstart . $a_street['st_notes'] . $linkend . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">" . $linkdel                                      . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\">"       . $a_street['st_cred']             . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\">"       . $a_street['st_date']             . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">" . $linkstart . $a_street['st_notes'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
 
         }

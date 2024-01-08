@@ -79,12 +79,12 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Event Date:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"his_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"date\" name=\"his_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Event:</td>\n";
         $output .= "  <td class=\"ui-widget-content\">";
-        $output .= "<textarea id=\"his_notes\" name=\"his_notes\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"his_notes\" name=\"his_notes\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.edit.his_notes, document.edit.his_noteLen, 2000);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.edit.his_notes, document.edit.his_noteLen, 2000);\">\n";
         $output .= "</textarea>\n\n";
@@ -105,8 +105,8 @@
       $output .=   "<th class=\"ui-state-default\" colspan=\"3\">Character History Listing</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Event Date</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"80\">Event Date</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event</th>\n";
       $output .= "</tr>\n";
 
@@ -123,9 +123,9 @@
           $linkend   = "</a>";
 
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content\" width=\"60\">" . $linkdel                                        . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"80\">"       . $a_history['his_date']             . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content\">"              . $linkstart . $a_history['his_notes'] . $linkend . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">"              . $linkdel                           . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\">"       . $a_history['his_date']             . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">" . $linkstart . $a_history['his_notes'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
 
         }

@@ -88,7 +88,7 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"3\">\n";
-        $output .= "<textarea id=\"id_background\" name=\"id_background\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"id_background\" name=\"id_background\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.edit.id_background, document.edit.idbLen, 1800);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.edit.id_background, document.edit.idbLen, 1800);\">\n";
         $output .= "</textarea>\n\n";

@@ -41,6 +41,10 @@
           $formVars['pub_date'] = date('Y-m-d');
         }
 
+        if ($formVars['pub_notes'] == '') {
+          $formVars['pub_notes'] = 'Blank Notes';
+        }
+
         if (strlen($formVars['pub_notes']) > 0) {
 
           $q_string =
@@ -89,14 +93,14 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Publicity Earned:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"pub_publicity\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"number\" name=\"pub_publicity\"></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Event Date:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"pub_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"date\" name=\"pub_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Event:</td>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"3\">";
-        $output .= "<textarea id=\"pub_notes\" name=\"pub_notes\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"pub_notes\" name=\"pub_notes\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.edit.pub_notes, document.edit.pub_noteLen, 2000);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.edit.pub_notes, document.edit.pub_noteLen, 2000);\">\n";
         $output .= "</textarea>\n\n";
@@ -117,9 +121,9 @@
       $output .=   "<th class=\"ui-state-default\" colspan=\"4\">Character Publicity Listing</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Publicity Earned</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Event Date</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"120\">Publicity Earned</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"80\">Event Date</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event</th>\n";
       $output .= "</tr>\n";
 
@@ -136,10 +140,10 @@
           $linkend   = "</a>";
 
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content\" width=\"60\">" . $linkdel                                      . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"120\">"       . $a_publicity['pub_publicity']            . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"80\">"      . $a_publicity['pub_date']             . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content\">"              . $linkstart . $a_publicity['pub_notes'] . $linkend . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">"              . $linkdel                             . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\">"       . $a_publicity['pub_publicity']        . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\">"       . $a_publicity['pub_date']             . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">" . $linkstart . $a_publicity['pub_notes'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
 
         }

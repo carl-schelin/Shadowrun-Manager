@@ -41,6 +41,10 @@
           $formVars['not_date'] = date('Y-m-d');
         }
 
+        if ($formVars['not_notes'] == '') {
+          $formVars['not_notes'] = "Blank Notes";
+        }
+
         if (strlen($formVars['not_notes']) > 0) {
 
           $q_string =
@@ -89,14 +93,14 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Notoriety Earned:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"not_notoriety\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"number\" name=\"not_notoriety\"></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Event Date:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"not_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"date\" name=\"not_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Event:</td>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"3\">";
-        $output .= "<textarea id=\"not_notes\" name=\"not_notes\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"not_notes\" name=\"not_notes\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.edit.not_notes, document.edit.not_noteLen, 2000);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.edit.not_notes, document.edit.not_noteLen, 2000);\">\n";
         $output .= "</textarea>\n\n";
@@ -117,9 +121,9 @@
       $output .=   "<th class=\"ui-state-default\" colspan=\"4\">Character Notoriety Listing</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Notoriety Earned</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Event Date</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"120\">Notoriety Earned</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"80\">Event Date</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event</th>\n";
       $output .= "</tr>\n";
 
@@ -136,10 +140,10 @@
           $linkend   = "</a>";
 
           $output .= "<tr>\n";
-          $output .=   "<td class=\"ui-widget-content\" width=\"60\">" . $linkdel                                      . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"120\">"       . $a_notoriety['not_notoriety']            . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content delete\" width=\"80\">"      . $a_notoriety['not_date']             . "</td>\n";
-          $output .=   "<td class=\"ui-widget-content\">"              . $linkstart . $a_notoriety['not_notes'] . $linkend . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">"              . $linkdel                             . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\">"       . $a_notoriety['not_notoriety']        . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content delete\">"       . $a_notoriety['not_date']             . "</td>\n";
+          $output .=   "<td class=\"ui-widget-content\">" . $linkstart . $a_notoriety['not_notes'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
 
         }

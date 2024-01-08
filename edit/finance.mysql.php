@@ -41,6 +41,10 @@
           $formVars['fin_date'] = date('Y-m-d');
         }
 
+        if ($formVars['fin_notes'] == '') {
+          $formVars['fin_notes'] = "Blank Notes";
+        }
+
         if (strlen($formVars['fin_notes']) > 0) {
 
           $q_string =
@@ -89,14 +93,14 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Nuyen:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"fin_funds\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"number\" name=\"fin_funds\"></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Event Date:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"fin_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"date\" name=\"fin_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Event:</td>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"3\">";
-        $output .= "<textarea id=\"fin_notes\" name=\"fin_notes\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"fin_notes\" name=\"fin_notes\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.edit.fin_notes, document.edit.fin_noteLen, 2000);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.edit.fin_notes, document.edit.fin_noteLen, 2000);\">\n";
         $output .= "</textarea>\n\n";
@@ -117,10 +121,10 @@
       $output .=   "<th class=\"ui-state-default\" colspan=\"5\">Character Nuyen Listing</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
-      $output .=   "<th class=\"ui-state-default\">+Nuyen</th>\n";
-      $output .=   "<th class=\"ui-state-default\">-Nuyen</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Event Date</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"120\">+Nuyen</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"120\">-Nuyen</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"80\">Event Date</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event</th>\n";
       $output .= "</tr>\n";
 
@@ -154,11 +158,11 @@
           }
 
           $output .= "<tr>\n";
-          $output .=   "<td class=\"" . $class . "\" width=\"60\">" . $linkdel                                        . "</td>\n";
-          $output .=   "<td class=\"" . $class . " delete\">"       . $positive                                       . "</td>\n";
-          $output .=   "<td class=\"" . $class . " delete\">"       . $negative                                       . "</td>\n";
-          $output .=   "<td class=\"" . $class . " delete\">"       . $a_finance['fin_date']                          . "</td>\n";
-          $output .=   "<td class=\"" . $class . "\">"              . $linkstart . $a_finance['fin_notes'] . $linkend . "</td>\n";
+          $output .=   "<td class=\"" . $class . "\">" . $linkdel                                        . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $positive                          . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $negative                          . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $a_finance['fin_date']             . "</td>\n";
+          $output .=   "<td class=\"" . $class . "\">" . $linkstart . $a_finance['fin_notes'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
 
         }
@@ -176,11 +180,11 @@
         }
 
         $output .= "<tr>\n";
-        $output .=   "<td class=\"" . $class . " delete\" width=\"60\">" . "--"          . "</td>\n";
-        $output .=   "<td class=\"" . $class . " delete\">"              . $positive     . "</td>\n";
-        $output .=   "<td class=\"" . $class . " delete\">"              . $negative     . "</td>\n";
-        $output .=   "<td class=\"" . $class . " delete\">"              . date('Y-m-d') . "</td>\n";
-        $output .=   "<td class=\"" . $class . "\">"                     . "Total Nuyen" . "</td>\n";
+        $output .=   "<td class=\"" . $class . " delete\">" . "--" . "</td>\n";
+        $output .=   "<td class=\"" . $class . " delete\">"        . $positive     . "</td>\n";
+        $output .=   "<td class=\"" . $class . " delete\">"        . $negative     . "</td>\n";
+        $output .=   "<td class=\"" . $class . " delete\">"        . date('Y-m-d') . "</td>\n";
+        $output .=   "<td class=\"" . $class . "\">"               . "Total Nuyen" . "</td>\n";
         $output .= "</tr>\n";
       }
 
