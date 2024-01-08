@@ -84,7 +84,7 @@ function attach_karma(p_script_url, update) {
   var ak_form = document.edit;
   var ak_url;
   
-  if (Number.isInteger(af_form.fin_funds.value)) {
+  if (Number.isInteger(ak_form.fin_funds.value)) {
     ak_url  = '?update='    + update;
     ak_url += "&kar_id="    + ak_form.kar_id.value;
 
