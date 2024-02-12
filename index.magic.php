@@ -395,7 +395,7 @@ $(document).ready( function() {
 
 <div id="sor6th">
 
-<p>Spellcasting. Page 131</p>
+<p>Casting Spells. Page 131</p>
 
 <ul>
   <li>Adjust the spell</li>
@@ -413,25 +413,23 @@ $(document).ready( function() {
 
 <p><strong>Spellcasting Test</strong> is Sorcery (Spellcasting +2) + Magic</p>
 
-<p><strong>Combat</strong>. Attack Rating vs Defense Rating.</p>
+<p><strong>Combat</strong>. Attack Rating vs Defense Rating. Difference of 4, +1 Edge.</p>
 
 <p>Attack Rating = Magic + [Tradition Attribute]</p>
 
-<p>Defense Rating = normal for the character. For a group, the highest DR.</p>
+<p>Defense Rating = Body + Armor + other effects (pg 39). For a group, the highest DR.</p>
 
 <p>Direct Combat: Opposed by willpower + intuition. Damage is Net hits+Amp Up. No resistance</p>
 
-<p>Indirect Combat: Opposed by willpower + Reaction. Damage is (Magic/2)+Net hits+Amp UP. Resisted by Body.
+<p>Indirect Combat: Opposed by willpower + Reaction. Damage is (Magic/2)+Net hits+Amp Up. Resisted by Body.
 
-<p>Check the spell description for additional results and damage. Some such as combat spells leave the opponant in a specific Status (pg 51).</p>
+<p>Check the spell description for additional results and damage. Some such as combat spells leave the opponent in a specific Status (pg 110 and pg 51).</p>
+
+<p>Drain (pg 131) is Willpower + Tradition (Shaman: Charisma or Hermetic: Logic) with the Drain Value as the target plus any Amp Up points (DV + (Points x 2)).</p>
+
+<p>If Net Damage is greater than Magic, then Physical vs Stun damage.</p>
 
 <p><strong>Detection Spells</strong> Sorcery (Spellcasting +2) + Magic vs Body + Willpower for Sentient, Object Resistance otherwise.</p>
-
-<p>Drain is Willpower + Tradition (Shaman: Charisma or Hermetic: Logic) with the Drain Value as the target plus any Amp Up points (DV + (Points x 2)).</p>
-
-<p>
-
-
 
 
 </div>
