@@ -30,6 +30,7 @@
   $output .= "</tr>\n";
 
   $name = '';
+  $spellcaster = 0;
   $q_string  = "select spell_id,class_name,spell_name,spell_class,spell_group,spell_type,spell_test,spell_range,";
   $q_string .= "spell_damage,spell_duration,spell_force,spell_drain,ver_book,spell_page ";
   $q_string .= "from spells ";
@@ -54,6 +55,7 @@
       $q_string .= "where r_spell_character = " . $formVars['id'] . " and r_spell_number = " . $a_spells['spell_id'] . " ";
       $q_r_spells = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_r_spells) > 0) {
+        $spellcaster++;
         $class = "ui-state-highlight";
       }
 
@@ -71,7 +73,8 @@
       $output .= "</tr>\n";
     }
     $output .= "</table>\n";
-  } else {
+  }
+  if ($spellcaster == 0) {
     $output = "";
   }
 
