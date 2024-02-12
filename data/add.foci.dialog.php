@@ -6,6 +6,9 @@
   <td class="ui-widget-content">Karma <input type="text" name="foci_karma" size="10"></td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Bonding Cost <input type="text" name="foci_bonding" size="10"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Availability <input type="text" name="foci_avail" size="10"> Perm <input type="text" name="foci_perm" size="4"></td>
 </tr>
 <tr>

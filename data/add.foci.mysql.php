@@ -25,6 +25,7 @@
         $formVars['id']                = clean($_GET['id'],               10);
         $formVars['foci_name']         = clean($_GET['foci_name'],        30);
         $formVars['foci_karma']        = clean($_GET['foci_karma'],       10);
+        $formVars['foci_bonding']      = clean($_GET['foci_bonding'],     10);
         $formVars['foci_avail']        = clean($_GET['foci_avail'],       10);
         $formVars['foci_perm']         = clean($_GET['foci_perm'],         5);
         $formVars['foci_cost']         = clean($_GET['foci_cost'],        10);
@@ -36,6 +37,9 @@
         }
         if ($formVars['foci_karma'] == '') {
           $formVars['foci_karma'] = 0;
+        }
+        if ($formVars['foci_bonding'] == '') {
+          $formVars['foci_bonding'] = 0;
         }
         if ($formVars['foci_cost'] == '') {
           $formVars['foci_cost'] = 0;
@@ -53,6 +57,7 @@
           $q_string = 
             "foci_name           = \"" . $formVars['foci_name']        . "\"," .
             "foci_karma          =   " . $formVars['foci_karma']       . "," .
+            "foci_bonding        =   " . $formVars['foci_bonding']     . "," .
             "foci_avail          =   " . $formVars['foci_avail']       . "," .
             "foci_perm           = \"" . $formVars['foci_perm']        . "\"," .
             "foci_cost           =   " . $formVars['foci_cost']        . "," .
@@ -79,16 +84,17 @@
 
       $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete Foci</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete Focus</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
       $output .=   "<th class=\"ui-state-default\">Karma</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Bonding Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select foci_id,foci_name,foci_karma,foci_avail,foci_perm,foci_cost,ver_book,foci_page ";
+      $q_string  = "select foci_id,foci_name,foci_karma,foci_bonding,foci_avail,foci_perm,foci_cost,ver_book,foci_page ";
       $q_string .= "from foci ";
       $q_string .= "left join versions on versions.ver_id = foci.foci_book ";
       $q_string .= "where ver_admin = 1 ";
@@ -97,7 +103,7 @@
       if (mysqli_num_rows($q_foci) > 0) {
         while ($a_foci = mysqli_fetch_array($q_foci)) {
 
-          $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.foci.fill.php?id="  . $a_foci['foci_id'] . "');jQuery('#dialogFoci').dialog('open');return false;\">";
+          $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('add.foci.fill.php?id="  . $a_foci['foci_id'] . "');jQuery('#dialogFocus').dialog('open');return false;\">";
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_foci('add.foci.del.php?id=" . $a_foci['foci_id'] . "');\">";
           $linkend = "</a>";
 
@@ -114,6 +120,7 @@
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_foci['foci_id']               . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_foci['foci_name']  . $linkend . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_foci['foci_karma']            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_foci['foci_bonding']          . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $foci_avail                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $foci_cost                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $foci_book                       . "</td>\n";
@@ -121,7 +128,7 @@
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
@@ -131,9 +138,10 @@
 
       print "document.dialog.foci_name.value = '';\n";
       print "document.dialog.foci_karma.value = '';\n";
+      print "document.dialog.foci_bonding.value = '';\n";
       print "document.dialog.foci_avail.value = '';\n";
+      print "document.dialog.foci_perm.value = '';\n";
       print "document.dialog.foci_cost.value = '';\n";
-      print "document.dialog.foci_page.value = '';\n";
 
       print "$(\"#button-update\").button(\"disable\");\n";
 
