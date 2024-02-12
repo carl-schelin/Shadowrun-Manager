@@ -70,8 +70,8 @@ function attach_foci(p_script_url, update) {
   af_url += "&id="       + af_form.id.value;
 
   af_url += "&foci_name="         + encode_URI(af_form.foci_name.value);
+  af_url += "&foci_force="        + encode_URI(af_form.foci_force.value);
   af_url += "&foci_karma="        + encode_URI(af_form.foci_karma.value);
-  af_url += "&foci_bonding="      + encode_URI(af_form.foci_bonding.value);
   af_url += "&foci_avail="        + encode_URI(af_form.foci_avail.value);
   af_url += "&foci_perm="         + encode_URI(af_form.foci_perm.value);
   af_url += "&foci_cost="         + encode_URI(af_form.foci_cost.value);

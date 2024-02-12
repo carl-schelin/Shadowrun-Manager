@@ -3,10 +3,10 @@
   <td class="ui-widget-content">Name <input type="text" name="foci_name" size="30"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Karma <input type="text" name="foci_karma" size="10"></td>
+  <td class="ui-widget-content">Force <input type="text" name="foci_force" size="10"></td>
 </tr>
 <tr>
-  <td class="ui-widget-content">Bonding Cost <input type="text" name="foci_bonding" size="10"></td>
+  <td class="ui-widget-content">Karma Bonding Cost <input type="text" name="foci_karma" size="10"></td>
 </tr>
 <tr>
   <td class="ui-widget-content">Availability <input type="text" name="foci_avail" size="10"> Perm <input type="text" name="foci_perm" size="4"></td>

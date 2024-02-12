@@ -24,8 +24,8 @@
       if ($formVars['update'] == 0 || $formVars['update'] == 1) {
         $formVars['id']                = clean($_GET['id'],               10);
         $formVars['foci_name']         = clean($_GET['foci_name'],        30);
+        $formVars['foci_force']        = clean($_GET['foci_force'],       10);
         $formVars['foci_karma']        = clean($_GET['foci_karma'],       10);
-        $formVars['foci_bonding']      = clean($_GET['foci_bonding'],     10);
         $formVars['foci_avail']        = clean($_GET['foci_avail'],       10);
         $formVars['foci_perm']         = clean($_GET['foci_perm'],         5);
         $formVars['foci_cost']         = clean($_GET['foci_cost'],        10);
@@ -35,11 +35,11 @@
         if ($formVars['id'] == '') {
           $formVars['id'] = 0;
         }
+        if ($formVars['foci_force'] == '') {
+          $formVars['foci_force'] = 0;
+        }
         if ($formVars['foci_karma'] == '') {
           $formVars['foci_karma'] = 0;
-        }
-        if ($formVars['foci_bonding'] == '') {
-          $formVars['foci_bonding'] = 0;
         }
         if ($formVars['foci_cost'] == '') {
           $formVars['foci_cost'] = 0;
@@ -56,8 +56,8 @@
 
           $q_string = 
             "foci_name           = \"" . $formVars['foci_name']        . "\"," .
+            "foci_force          =   " . $formVars['foci_force']       . "," .
             "foci_karma          =   " . $formVars['foci_karma']       . "," .
-            "foci_bonding        =   " . $formVars['foci_bonding']     . "," .
             "foci_avail          =   " . $formVars['foci_avail']       . "," .
             "foci_perm           = \"" . $formVars['foci_perm']        . "\"," .
             "foci_cost           =   " . $formVars['foci_cost']        . "," .
@@ -87,18 +87,18 @@
       $output .=   "<th class=\"ui-state-default\" width=\"160\">Delete Focus</th>\n";
       $output .=   "<th class=\"ui-state-default\">ID</th>\n";
       $output .=   "<th class=\"ui-state-default\">Name</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Karma</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Bonding Cost</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Force</th>\n";
+      $output .=   "<th class=\"ui-state-default\">Karma Bonding Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Availability</th>\n";
       $output .=   "<th class=\"ui-state-default\">Cost</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
-      $q_string  = "select foci_id,foci_name,foci_karma,foci_bonding,foci_avail,foci_perm,foci_cost,ver_book,foci_page ";
+      $q_string  = "select foci_id,foci_name,foci_force,foci_karma,foci_avail,foci_perm,foci_cost,ver_book,foci_page ";
       $q_string .= "from foci ";
       $q_string .= "left join versions on versions.ver_id = foci.foci_book ";
       $q_string .= "where ver_admin = 1 ";
-      $q_string .= "order by foci_name,foci_karma,ver_version ";
+      $q_string .= "order by foci_name,foci_force,ver_version ";
       $q_foci = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_foci) > 0) {
         while ($a_foci = mysqli_fetch_array($q_foci)) {
@@ -119,8 +119,8 @@
           $output .=   "<td class=\"" . $class . " delete\">" . $linkdel . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\" width=\"60\">" . $a_foci['foci_id']               . "</td>\n";
           $output .= "  <td class=\"" . $class . "\">"        . $linkstart . $a_foci['foci_name']  . $linkend . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">"              . $a_foci['foci_force']            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_foci['foci_karma']            . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_foci['foci_bonding']          . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $foci_avail                      . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $foci_cost                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $foci_book                       . "</td>\n";
@@ -137,8 +137,8 @@
       print "document.getElementById('mysql_table').innerHTML = '" . mysqli_real_escape_string($db, $output) . "';\n\n";
 
       print "document.dialog.foci_name.value = '';\n";
+      print "document.dialog.foci_force.value = '';\n";
       print "document.dialog.foci_karma.value = '';\n";
-      print "document.dialog.foci_bonding.value = '';\n";
       print "document.dialog.foci_avail.value = '';\n";
       print "document.dialog.foci_perm.value = '';\n";
       print "document.dialog.foci_cost.value = '';\n";

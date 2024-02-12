@@ -22,7 +22,7 @@
     if (check_userlevel($db, $AL_Johnson)) {
       logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from foci");
 
-      $q_string  = "select foci_name,foci_karma,foci_bonding,foci_avail,foci_perm,foci_cost,foci_book,foci_page ";
+      $q_string  = "select foci_name,foci_force,foci_karma,foci_avail,foci_perm,foci_cost,foci_book,foci_page ";
       $q_string .= "from foci ";
       $q_string .= "where foci_id = " . $formVars['id'];
       $q_foci = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
@@ -30,8 +30,8 @@
       mysqli_free_result($q_foci);
 
       print "document.dialog.foci_name.value = '"       . mysqli_real_escape_string($db, $a_foci['foci_name'])    . "';\n";
+      print "document.dialog.foci_force.value = '"      . mysqli_real_escape_string($db, $a_foci['foci_force']) . "';\n";
       print "document.dialog.foci_karma.value = '"      . mysqli_real_escape_string($db, $a_foci['foci_karma'])   . "';\n";
-      print "document.dialog.foci_bonding.value = '"    . mysqli_real_escape_string($db, $a_foci['foci_bonding']) . "';\n";
       print "document.dialog.foci_avail.value = '"      . mysqli_real_escape_string($db, $a_foci['foci_avail'])   . "';\n";
       print "document.dialog.foci_perm.value = '"       . mysqli_real_escape_string($db, $a_foci['foci_perm'])    . "';\n";
       print "document.dialog.foci_cost.value = '"       . mysqli_real_escape_string($db, $a_foci['foci_cost'])    . "';\n";
