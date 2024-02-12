@@ -98,7 +98,7 @@
       $q_string .= "from foci ";
       $q_string .= "left join versions on versions.ver_id = foci.foci_book ";
       $q_string .= "where ver_admin = 1 ";
-      $q_string .= "order by foci_name,foci_karma,ver_version ";
+      $q_string .= "order by foci_name,foci_force,ver_version ";
       $q_foci = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_foci) > 0) {
         while ($a_foci = mysqli_fetch_array($q_foci)) {
