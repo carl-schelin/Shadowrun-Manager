@@ -46,8 +46,8 @@ function delete_foci( p_script_url ) {
   var question;
   var answer;
 
-  question  = "The Foci may be in use. Only delete if you're sure it's unused.\n";
-  question += "Delete this Foci?";
+  question  = "The Focus may be in use. Only delete if you're sure it's unused.\n\n";
+  question += "Delete this Focus?";
 
   answer = confirm(question);
 
@@ -71,6 +71,7 @@ function attach_foci(p_script_url, update) {
 
   af_url += "&foci_name="         + encode_URI(af_form.foci_name.value);
   af_url += "&foci_karma="        + encode_URI(af_form.foci_karma.value);
+  af_url += "&foci_bonding="      + encode_URI(af_form.foci_bonding.value);
   af_url += "&foci_avail="        + encode_URI(af_form.foci_avail.value);
   af_url += "&foci_perm="         + encode_URI(af_form.foci_perm.value);
   af_url += "&foci_cost="         + encode_URI(af_form.foci_cost.value);
@@ -87,19 +88,19 @@ function clear_fields() {
 }
 
 $(document).ready( function() {
-  $( '#clickFoci' ).click(function() {
-    $( "#dialogFoci" ).dialog('open');
+  $( '#clickFocus' ).click(function() {
+    $( "#dialogFocus" ).dialog('open');
   });
 
-  $( "#dialogFoci" ).dialog({
+  $( "#dialogFocus" ).dialog({
     autoOpen: false,
 
     modal: true,
-    height: 250,
+    height: 275,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
-      $( "#dialogFoci" ).hide();
+      $( "#dialogFocus" ).hide();
     },
     buttons: [
       {
@@ -112,7 +113,7 @@ $(document).ready( function() {
       },
       {
         id: "button-update",
-        text: "Update Foci",
+        text: "Update Focus",
         click: function() {
           attach_foci('add.foci.mysql.php', 1);
           $( this ).dialog( "close" );
@@ -120,7 +121,7 @@ $(document).ready( function() {
       },
       {
         id: "button-add",
-        text: "Add Foci",
+        text: "Add Focus",
         click: function() {
           attach_foci('add.foci.mysql.php', 0);
           $( this ).dialog( "close" );
@@ -161,7 +162,7 @@ $(document).ready( function() {
 
 <table class="ui-styled-table" width="100%">
 <tr>
-  <td class="button ui-widget-content"><input type="button" name="addnew" id="clickFoci" value="Add Foci"></td>
+  <td class="button ui-widget-content"><input type="button" name="addnew" id="clickFocus" value="Add Focus"></td>
 </tr>
 </table>
 
@@ -190,7 +191,7 @@ $(document).ready( function() {
 </div>
 
 
-<div id="dialogFoci" title="Foci">
+<div id="dialogFocus" title="Focus">
 
 <form name="dialog">
 

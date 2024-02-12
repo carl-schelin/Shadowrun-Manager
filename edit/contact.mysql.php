@@ -107,7 +107,7 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"4\">\n";
-        $output .= "<textarea id=\"r_con_notes\" name=\"r_con_notes\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"r_con_notes\" name=\"r_con_notes\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.start.r_con_notes, document.edit.remLen, 1800);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.start.r_con_notes, document.edit.remLen, 1800);\">\n";
         $output .= "</textarea>\n\n";

@@ -41,6 +41,10 @@
           $formVars['kar_date'] = date('Y-m-d');
         }
 
+        if ($formVars['kar_notes'] == '') {
+          $formVars['kar_notes'] = 'Blank Note';
+        }
+
         if (strlen($formVars['kar_notes']) > 0) {
 
           $q_string =
@@ -89,14 +93,14 @@
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Karma Awarded:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"kar_karma\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"number\" name=\"kar_karma\"></td>\n";
         $output .= "  <td class=\"ui-widget-content\">Event Date:</td>\n";
-        $output .= "  <td class=\"ui-widget-content\"><input type=\"text\" name=\"kar_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
+        $output .= "  <td class=\"ui-widget-content\"><input type=\"date\" name=\"kar_date\" value=\"" . date('Y-m-d') . "\"></td>\n";
         $output .= "</tr>\n";
         $output .= "<tr>\n";
         $output .= "  <td class=\"ui-widget-content\">Event:</td>\n";
         $output .= "  <td class=\"ui-widget-content\" colspan=\"3\">";
-        $output .= "<textarea id=\"kar_notes\" name=\"kar_notes\" cols=\"200\" rows=\"5\"\n";
+        $output .= "<textarea id=\"kar_notes\" name=\"kar_notes\" cols=\"80\" rows=\"5\"\n";
         $output .= "  onKeyDown=\"textCounter(document.edit.kar_notes, document.edit.kar_noteLen, 2000);\"\n";
         $output .= "  onKeyUp  =\"textCounter(document.edit.kar_notes, document.edit.kar_noteLen, 2000);\">\n";
         $output .= "</textarea>\n\n";
@@ -117,10 +121,10 @@
       $output .=   "<th class=\"ui-state-default\" colspan=\"5\">Character Karma Listing</th>\n";
       $output .= "</tr>\n";
       $output .= "<tr>\n";
-      $output .=   "<th class=\"ui-state-default\">Del</th>\n";
-      $output .=   "<th class=\"ui-state-default\">+Karma</th>\n";
-      $output .=   "<th class=\"ui-state-default\">-Karma</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Event Date</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"60\">Del</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"120\">+Karma</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"120\">-Karma</th>\n";
+      $output .=   "<th class=\"ui-state-default\" width=\"80\">Event Date</th>\n";
       $output .=   "<th class=\"ui-state-default\">Event</th>\n";
       $output .= "</tr>\n";
 
@@ -147,11 +151,11 @@
           }
 
           $output .= "<tr>\n";
-          $output .=   "<td class=\"" . $class . "\" width=\"60\">" . $linkdel                                      . "</td>\n";
-          $output .=   "<td class=\"" . $class . " delete\">"       . $positive                                     . "</td>\n";
-          $output .=   "<td class=\"" . $class . " delete\">"       . $negative                                     . "</td>\n";
-          $output .=   "<td class=\"" . $class . " delete\">"       . $a_karma['kar_date']                          . "</td>\n";
-          $output .=   "<td class=\"" . $class . "\">"              . $linkstart . $a_karma['kar_notes'] . $linkend . "</td>\n";
+          $output .=   "<td class=\"" . $class . "\">"              . $linkdel                         . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $positive                        . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $negative                        . "</td>\n";
+          $output .=   "<td class=\"" . $class . " delete\">"       . $a_karma['kar_date']             . "</td>\n";
+          $output .=   "<td class=\"" . $class . "\">" . $linkstart . $a_karma['kar_notes'] . $linkend . "</td>\n";
           $output .= "</tr>\n";
 
         }
