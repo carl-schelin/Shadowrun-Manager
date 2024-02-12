@@ -19,7 +19,7 @@
 
   $output  = "<table class=\"ui-styled-table\" width=\"100%\">\n";
   $output .= "<tr>\n";
-  $output .= "  <th class=\"ui-state-default\" colspan=\"8\">Firearms</th>";
+  $output .= "  <th class=\"ui-state-default\" colspan=\"9\">Firearms</th>";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   $output .=   "<th class=\"ui-state-default\">Class</th>\n";
@@ -28,6 +28,7 @@
   $output .=   "<th class=\"ui-state-default\">Damage</th>\n";
   $output .=   "<th class=\"ui-state-default\">AP</th>\n";
   $output .=   "<th class=\"ui-state-default\">Mode</th>\n";
+  $output .=   "<th class=\"ui-state-default\">Attack</th>\n";
   $output .=   "<th class=\"ui-state-default\">RC</th>\n";
   $output .=   "<th class=\"ui-state-default\">Ammo</th>\n";
   $output .= "</tr>\n";
@@ -35,10 +36,11 @@
   $nuyen = '&yen;';
   $q_string  = "select r_fa_id,class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
   $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_rc,fa_fullrc,fa_ammo1,";
+  $q_string .= "fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5, ";
   $q_string .= "fa_clip1,fa_ammo2,fa_clip2 ";
   $q_string .= "from r_firearms ";
   $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
-  $q_string .= "left join class on class.class_id = firearms.fa_class ";
+  $q_string .= "left join class    on class.class_id = firearms.fa_class ";
   $q_string .= "where r_fa_character = " . $formVars['id'] . " ";
   $q_string .= "order by class_name,fa_name ";
   $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
@@ -53,6 +55,8 @@
 
       $fa_ap = return_Penetrate($a_r_firearms['fa_ap']);
 
+      $fa_attack = return_Attack($a_r_firearms['fa_ar1'], $a_r_firearms['fa_ar2'], $a_r_firearms['fa_ar3'], $a_r_firearms['fa_ar4'], $a_r_firearms['fa_ar5']);
+
       $fa_ammo = return_Ammo($a_r_firearms['fa_ammo1'], $a_r_firearms['fa_clip1'], $a_r_firearms['fa_ammo2'], $a_r_firearms['fa_clip2']);
 
       $output .= "<tr>\n";
@@ -62,6 +66,7 @@
       $output .= "  <td class=\"ui-widget-content delete\">" . $fa_damage                  . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . $fa_ap                      . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . $fa_mode                    . "</td>\n";
+      $output .= "  <td class=\"ui-widget-content delete\">" . $fa_attack                  . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . $fa_rc                      . "</td>\n";
       $output .= "  <td class=\"ui-widget-content delete\">" . $fa_ammo                    . "</td>\n";
       $output .= "</tr>\n";
@@ -98,6 +103,7 @@
           $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
           $output .= "</tr>\n";
         }
       }
@@ -125,6 +131,7 @@
           $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . $a_r_ammo['ammo_mod']                                       . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . $ammo_ap                                                    . "</td>\n";
+          $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">" . "--"                                                            . "</td>\n";
