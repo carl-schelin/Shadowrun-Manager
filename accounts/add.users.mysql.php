@@ -226,7 +226,7 @@
     }
   }
 
-function display_user( $p_title, $p_toggle, $p_query ) {
+function display_User( $p_title, $p_toggle, $p_query ) {
 
   include('settings.php');
 

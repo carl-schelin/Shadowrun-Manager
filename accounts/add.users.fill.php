@@ -31,8 +31,9 @@
       mysqli_free_result($q_users);
 
       $disabled = $a_users['usr_disabled'];
-      $levels   = return_Index($db, $a_users['usr_level'],    "select lvl_id from levels where lvl_disabled = 0 order by lvl_id");
-      $theme    = return_Index($db, $a_users['usr_theme'],    "select theme_id from themes order by theme_title") - 1;
+# because there's an 'Unassigned' entry in the drop down, add one to the results to properly display.
+      $levels   = return_Index($db, $a_users['usr_level'],    "select lvl_id from levels where lvl_disabled = 0 order by lvl_id") + 1;
+      $theme    = return_Index($db, $a_users['usr_theme'],    "select theme_id from themes order by theme_title");
 
       print "document.user.usr_name.value = '"       . mysqli_real_escape_string($db, $a_users['usr_name'])     . "';\n";
       print "document.user.usr_first.value = '"      . mysqli_real_escape_string($db, $a_users['usr_first'])    . "';\n";
