@@ -18,8 +18,8 @@
   }
 
 # PDF Configuration
-  require_once($Sitedir . '/tcpdf.manager/config/lang/eng.php');
-  require_once($Sitedir . '/tcpdf.manager/tcpdf.php');
+  require_once($Sitedir . '../tcpdf.manager/config/lang/eng.php');
+  require_once($Sitedir . '../tcpdf.manager/tcpdf.php');
 
   $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
   $pdf->SetCreator('Shadowrun Character Sheet');
