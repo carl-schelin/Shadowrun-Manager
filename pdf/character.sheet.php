@@ -786,12 +786,18 @@
       $header = "&nbsp;";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"4\"><i>CONTACTS</i></td>";
+  $output .= "</tr>\n";
   $output .= "</table>\n";
 
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
-
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>ARMOR</strong></th>";
+  $output .= "  <th><strong>RATING</strong></th>";
+  $output .= "</tr>\n";
   $q_string  = "select r_arm_id,r_arm_details,arm_name,arm_rating ";
   $q_string .= "from r_armor ";
   $q_string .= "left join armor on armor.arm_id = r_armor.r_arm_number ";
@@ -810,8 +816,13 @@
 
       $armor = $arm_name;
       if ($rating != '--') {
-        $armor .= " " . $rating;
+        $arm_rating = " " . $rating;
       }
+
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $arm_name   . "</td>\n";
+      $output .= "  <th>" . $arm_rating . "</th>\n";
+      $output .= "</tr>\n";
 
       $paren = " (";
       $q_string  = "select acc_name,acc_rating ";
@@ -826,34 +837,29 @@
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 
-          $armor .= $paren . $a_r_accessory['acc_name'];
+          $acc_name = $a_r_accessory['acc_name'];
           if ($rating != '--') {
-            $armor .= " " . $rating;
+            $acc_name .= " " . $rating;
           }
-          $paren = ", ";
         }
-# if we added an accessory, then paren == the accessory
-        if ($paren != " (") {
-          $armor .= ")";
-        }
+
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"2\">&gt; " . $acc_name . "</td>\n";
+        $output .= "</tr>\n";
       }
-      $output .= "<tr>\n";
-      $output .= "  <td>" . $armor . "</td>\n";
-      $output .= "</tr>\n";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"2\"><i>ARMOR</i></td>";
+  $output .= "</tr>\n";
   $output .= "</table>\n";
-
-
-
-
-
-
-
-
 
   $output .= "<p></p>\n";
 
+
+
+
+# commlink initiatives
   $output .= "<table>\n";
   if ($a_runners['ver_version'] == 5.0) {
     $mental_limit   = ceil((($a_runners['runr_logic'] * 2)    + $a_runners['runr_intuition'] + $a_runners['runr_willpower']) /3);
@@ -918,7 +924,7 @@
     }
   }
 
-
+# rigger initiatives
   $colon = ": ";
   $q_string  = "select r_cmd_id,cmd_brand,cmd_model,cmd_data ";
   $q_string .= "from r_command ";
@@ -957,7 +963,7 @@
     }
   }
 
-
+# cyberdeck initiatives
   $colon = ": ";
   $q_string  = "select r_deck_id,deck_brand,deck_model,r_deck_data ";
   $q_string .= "from r_cyberdeck ";
@@ -996,6 +1002,7 @@
     }
   }
 
+# technomancer initiatives
 # technomancers only have AR and VR Hot-Sim stats.
 # use resonance + intuition for stats
   $colon = ": ";
@@ -1014,7 +1021,14 @@
     $output .= "</tr>\n";
     $header = "&nbsp;";
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>INITIATIVES</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
 
   $header = "Complex Forms";
   $complex = "";
@@ -1037,10 +1051,14 @@
     $output .= "  <td colspan=\"8\">" . $complex . "</td>\n";
     $output .= "</tr>\n";
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>COMPLEX FORMS</i></td>\n";
+  $output .= "</tr>\n";
   $output .= "</table>\n";
 
   $output .= "<p></p>\n";
 
+  $output .= "<table>\n";
   $header = "Commlink";
   $commlink = "";
   $q_string  = "select r_link_id,link_id,link_brand,link_model,link_rating,r_link_access,r_link_active ";
@@ -1097,7 +1115,14 @@
       $header = "&nbsp;";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>COMMLINKS</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
 
   $header = "Rigger Command Console";
   $command = "";
@@ -1167,7 +1192,14 @@
       $header = "&nbsp;";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>COMMAND CONSOLE</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
 
   $header = "Cyberdeck";
   $cyberdeck = "";
@@ -1280,8 +1312,22 @@
       $header = "&nbsp;";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>CYBERDECKS</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
 
+  $output .= "<table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>CYBERJACKS</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
+
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
   $header = "Cyberware";
   $cyberware = "";
   $paren = '';
@@ -1351,7 +1397,14 @@
     $output .= "  <td colspan=\"8\">" . $cyberware . "</td>\n";
     $output .= "</tr>\n";
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>CYBERWARE</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
   $header = "Bioware";
   $bioware = "";
   $paren = "";
@@ -1402,8 +1455,26 @@
     $output .= "  <td colspan=\"8\">" . $bioware . "</td>\n";
     $output .= "</tr>\n";
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>BIOWARE</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
 
+  $output .= "<table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>VEHICLE</strong></th>\n";
+  $output .= "  <th><strong>TYPE</strong></th>\n";
+  $output .= "  <th><strong>HANDLING</strong></th>\n";
+  $output .= "  <th><strong>SPEED</strong></th>\n";
+  $output .= "  <th><strong>ACCELERATION</strong></th>\n";
+  $output .= "  <th><strong>BODY</strong></th>\n";
+  $output .= "  <th><strong>ARMOR</strong></th>\n";
+  $output .= "  <th><strong>PILOT</strong></th>\n";
+  $output .= "  <th><strong>SENSOR</strong></th>\n";
+  $output .= "  <th><strong>SEATS</strong></th>\n";
+  $output .= "</tr>\n";
   $header = "Vehicles";
   $vehicles = '';
   $q_string  = "select r_veh_id,veh_type,veh_make,veh_model,veh_onacc,veh_offacc,veh_onhand,";
@@ -1425,20 +1496,18 @@
 
       $veh_seats = return_Seats($a_r_vehicles['veh_onseats'], $a_r_vehicles['veh_offseats']);
 
-      $vehicles  = $a_r_vehicles['veh_make'] . " " . $a_r_vehicles['veh_model'];
-      $vehicles .= " [" . $a_r_vehicles['veh_type'] . ", ";
-      $vehicles .= "Handling " . $veh_handling . ", ";
-      $vehicles .= "Speed " . $veh_speed . ", ";
-      $vehicles .= "Accel " . $veh_acceleration . ", ";
-      $vehicles .= "Body " . $a_r_vehicles['veh_body'] . ", ";
-      $vehicles .= "Armor " . $a_r_vehicles['veh_armor'] . ", ";
-      $vehicles .= "Pilot " . $a_r_vehicles['veh_pilot'] . ", ";
-      $vehicles .= "Sensor " . $a_r_vehicles['veh_sensor'];
-      if ($veh_seats != '') {
-        $vehicles .= ", Seats " . $veh_seats;
-      }
-      $vehicles .= "]";
-
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_vehicles['veh_make'] . " " . $a_r_vehicles['veh_model'] . "</td>\n";
+      $output .= "  <td>" . $a_r_vehicles['veh_type']                                    . "</td>\n";
+      $output .= "  <th>" . $veh_handling                                                . "</th>\n";
+      $output .= "  <th>" . $veh_speed                                                   . "</th>\n";
+      $output .= "  <th>" . $veh_acceleration                                            . "</th>\n";
+      $output .= "  <th>" . $a_r_vehicles['veh_body']                                    . "</th>\n";
+      $output .= "  <th>" . $a_r_vehicles['veh_armor']                                   . "</th>\n";
+      $output .= "  <th>" . $a_r_vehicles['veh_pilot']                                   . "</th>\n";
+      $output .= "  <th>" . $a_r_vehicles['veh_sensor']                                  . "</th>\n";
+      $output .= "  <th>" . $veh_seats                                                   . "</th>\n";
+      $output .= "</tr>\n";
 
       $comma = " w/";
       $q_string  = "select r_acc_id,acc_name,acc_mount ";
@@ -1474,13 +1543,19 @@
         }
       }
       $output .= "<tr>\n";
-      $output .= "  <th colspan=\"2\">" . $header . "</th>";
-      $output .= "  <td colspan=\"8\">" . $vehicles . "</td>\n";
+      $output .= "  <td>" . $vehicles . "</td>\n";
       $output .= "</tr>\n";
       $header = "&nbsp;";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>VEHICLES</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
 
   $header = "Gear";
   $gear = "";
@@ -1546,12 +1621,22 @@
     $output .= "  <td colspan=\"8\">" . $gear . "</td>\n";
     $output .= "</tr>\n";
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"8\"><i>GEAR</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
 
-
-  $header = "Melee Weapons";
-  $melee = "&nbsp;";
+  $output .= "<table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>WEAPON</strong></th>\n";
+  $output .= "  <th><strong>TYPE</strong></th>\n";
+  $output .= "  <th><strong>DV</strong></th>\n";
+  $output .= "  <th><strong>ATTACK RATINGS</strong></th>\n";
+  $output .= "</tr>\n";
   $q_string  = "select r_melee_id,class_name,melee_class,melee_name,melee_acc,melee_reach,melee_damage,";
+  $q_string .= "melee_ar1,melee_ar2,melee_ar3,melee_ar4,melee_ar5,";
   $q_string .= "melee_type,melee_flag,melee_strength,melee_ap ";
   $q_string .= "from r_melee ";
   $q_string .= "left join melee on melee.melee_id = r_melee.r_melee_number ";
@@ -1594,25 +1679,31 @@
         $melee_ap = $a_r_melee['melee_ap'];
       }
 
-      $melee  = $a_r_melee['melee_name'] . " [";
-      $melee .= $a_r_melee['class_name'] . ", ";
-      $melee .= "Reach " . $melee_reach . ", ";
-      $melee .= "Acc " . $a_r_melee['melee_acc'] . ", ";
-      $melee .= "DV " . $melee_damage . ", ";
-      $melee .= "AP " . $melee_ap . "]";
+      $melee_attack = return_Attack($a_r_melee['melee_ar1'], $a_r_melee['melee_ar2'], $a_r_melee['melee_ar3'], $a_r_melee['melee_ar4'], $a_r_melee['melee_ar5']);
 
       $output .= "<tr>\n";
-      $output .= "  <th colspan=\"2\">" . $header . "</th>";
-      $output .= "  <td colspan=\"8\">" . $melee . "</td>\n";
+      $output .= "  <td>" . $a_r_melee['melee_name'] . "</td>\n";
+      $output .= "  <td>" . $a_r_melee['class_name'] . "</td>\n";
+      $output .= "  <th>" . $melee_damage            . "</th>\n";
+      $output .= "  <th>" . $melee_attack            . "</th>\n";
       $output .= "</tr>\n";
-      $header = "&nbsp;";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"4\"><i>MELEE WEAPONS</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
 
-  $header = "Projectile Weapons";
-  $projectile = "&nbsp;";
+  $output .= "<table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>WEAPON</strong></th>\n";
+  $output .= "  <th><strong>DV</strong></th>\n";
+  $output .= "  <th><strong>ATTACK RATINGS</strong></th>\n";
+  $output .= "</tr>\n";
   $q_string  = "select r_proj_id,proj_id,class_name,proj_name,proj_rating,proj_acc,proj_damage,";
+  $q_string .= "proj_ar1,proj_ar2,proj_ar3,proj_ar4,proj_ar5,";
   $q_string .= "proj_type,proj_strength,proj_ap ";
   $q_string .= "from r_projectile ";
   $q_string .= "left join projectile on projectile.proj_id = r_projectile.r_proj_number ";
@@ -1631,10 +1722,14 @@
       if ($proj_rating != "--") {
         $projectile .= " (Rating " . $proj_rating . ")";
       }
-      $projectile .= " [" . $a_r_projectile['class_name'] . ", ";
-      $projectile .= "Acc " . $a_r_projectile['proj_acc'] . ", ";
-      $projectile .= "DV " . $proj_damage . ", ";
-      $projectile .= "AP " . $proj_ap . "]";
+
+      $proj_attack = return_Attack($a_r_projectile['proj_ar1'], $a_r_projectile['proj_ar2'], $a_r_projectile['proj_ar3'], $a_r_projectile['proj_ar4'], $a_r_projectile['proj_ar5']);
+
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_projectile['class_name'] . "</td>\n";
+      $output .= "  <th>" . $proj_damage                  . "</th>\n";
+      $output .= "  <th>" . $proj_attack                  . "</th>\n";
+      $output .= "</tr>\n";
 
       $with = " w/";
       $q_string  = "select r_ammo_id,r_ammo_rounds,ammo_id,class_name,ammo_name,ammo_rounds,ammo_mod,ammo_rating,ammo_ap ";
@@ -1648,9 +1743,10 @@
         while ($a_r_ammo = mysqli_fetch_array($q_r_ammo)) {
 
           $ammo_rating = return_Rating($a_r_ammo['ammo_rating']);
+
           $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 
-          $projectile .= $with . ($a_r_ammo['r_ammo_rounds'] * $a_r_ammo['ammo_rounds']) . " rounds " . $a_r_ammo['ammo_name'];
+          $projectile = ($a_r_ammo['r_ammo_rounds'] * $a_r_ammo['ammo_rounds']) . " rounds " . $a_r_ammo['ammo_name'];
           $with = " ";
           if ($a_r_ammo['ammo_mod'] != '') {
             $projectile .= $with . "DV " . $a_r_ammo['ammo_mod'];
@@ -1662,27 +1758,33 @@
           if ($ammo_rating != '--') {
             $projectile .= " (Rating " . $ammo_rating . ")";
           }
-          $with = ", ";
 
+          $output .= "<tr>\n";
+          $output .= "  <td colspan=\"3\">&gt; " . $projectile . "</td>\n";
+          $output .= "</tr>\n";
         }
       }
-
-      $output .= "<tr>\n";
-      $output .= "  <th colspan=\"2\">" . $header . "</th>";
-      $output .= "  <td colspan=\"8\">" . $projectile . "</td>\n";
-      $output .= "</tr>\n";
-      $header = "&nbsp;";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"3\"><i>PROJECTILE WEAPONS</i></td>\n";
+  $output .= "</tr>\n";
   $output .= "</table>\n";
 
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
-  $header = "Firearms";
-  $firearm = "&nbsp;";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>WEAPON</strong></th>\n";
+  $output .= "  <th><strong>TYPE</strong></th>\n";
+  $output .= "  <th><strong>DV</strong></th>\n";
+  $output .= "  <th><strong>MODES</strong></th>\n";
+  $output .= "  <th><strong>ATTACK RATINGS</strong></th>\n";
+  $output .= "  <th><strong>AMMO</strong></th>\n";
+  $output .= "</tr>\n";
   $q_string  = "select r_fa_id,fa_id,class_name,fa_name,fa_acc,fa_damage,fa_type,fa_flag,";
   $q_string .= "fa_ap,fa_mode1,fa_mode2,fa_mode3,fa_rc,fa_fullrc,fa_ammo1,";
+  $q_string .= "fa_ar1,fa_ar2,fa_ar3,fa_ar4,fa_ar5,";
   $q_string .= "fa_clip1,fa_ammo2,fa_clip2,fa_avail,fa_perm,fa_cost,ver_book,fa_page ";
   $q_string .= "from r_firearms ";
   $q_string .= "left join firearms on firearms.fa_id = r_firearms.r_fa_number ";
@@ -1696,6 +1798,8 @@
 
       $fa_mode = return_Mode($a_r_firearms['fa_mode1'], $a_r_firearms['fa_mode2'], $a_r_firearms['fa_mode3']);
 
+      $fa_attack = return_Attack($a_r_firearms['fa_ar1'], $a_r_firearms['fa_ar2'], $a_r_firearms['fa_ar3'], $a_r_firearms['fa_ar4'], $a_r_firearms['fa_ar5']);
+
       $fa_damage = return_Damage($a_r_firearms['fa_damage'], $a_r_firearms['fa_type'], $a_r_firearms['fa_flag']);
 
       $fa_rc = return_Recoil($a_r_firearms['fa_rc'], $a_r_firearms['fa_fullrc']);
@@ -1704,14 +1808,14 @@
 
       $fa_ammo = return_Ammo($a_r_firearms['fa_ammo1'], $a_r_firearms['fa_clip1'], $a_r_firearms['fa_ammo2'], $a_r_firearms['fa_clip2']);
 
-      $firearm  = $a_r_firearms['fa_name'] . " [";
-      $firearm .= $a_r_firearms['class_name'] . ", ";
-      $firearm .= "Acc " . $a_r_firearms['fa_acc'] . ", ";
-      $firearm .= "DV " . $fa_damage . ", ";
-      $firearm .= "AP " . $fa_ap . ", ";
-      $firearm .= $fa_mode . ", ";
-      $firearm .= "RC " . $fa_rc . ", ";
-      $firearm .= $fa_ammo . "]";
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_firearms['fa_name']    . "</td>\n";
+      $output .= "  <td>" . $a_r_firearms['class_name'] . "</td>\n";
+      $output .= "  <th>" . $fa_damage                  . "</th>\n";
+      $output .= "  <th>" . $fa_mode                    . "</th>\n";
+      $output .= "  <th>" . $fa_attack                  . "</th>\n";
+      $output .= "  <th>" . $fa_ammo                    . "</th>\n";
+      $output .= "</tr>\n";
 
       $with = " w/";
 # now get any accessories. Simple enough; check for r_accessory for character and the id of the parent, then get the info
@@ -1734,13 +1838,13 @@
             $acc_name = $a_r_accessory['acc_name'] . " (" . $a_r_accessory['acc_mount'] . ")";
           }
 
-          $firearm .= $with . $acc_name;
-          $with = ', ';
-
+          $output .= "<tr>\n";
+          $output .= "  <td>&nbsp;</td>\n";
+          $output .= "  <td colspan=\"5\">" . $acc_name . "</td>\n";
+          $output .= "</tr>\n";
         }
       }
 
-      $with = " w/";
 # associate any ammo with the weapon
       $q_string  = "select r_ammo_rounds,ammo_name,ammo_rounds,ammo_mod,ammo_ap,ammo_blast ";
       $q_string .= "from r_ammo ";
@@ -1753,7 +1857,7 @@
 
           $ammo_ap = return_Penetrate($a_r_ammo['ammo_ap']);
 
-          $firearm .= $with . ($a_r_ammo['r_ammo_rounds'] * $a_r_ammo['ammo_rounds']) . " rounds " . $a_r_ammo['ammo_name'] . " " . $a_r_ammo['class_name'];
+          $firearm = ($a_r_ammo['r_ammo_rounds'] * $a_r_ammo['ammo_rounds']) . " rounds " . $a_r_ammo['ammo_name'] . " " . $a_r_ammo['class_name'];
           $bracket = " [";
           if ($a_r_ammo['ammo_mod'] != '') {
             $firearm .= $bracket . "DV " . $a_r_ammo['ammo_mod'];
@@ -1770,20 +1874,24 @@
           if ($bracket != " [") {
             $firearm .= "]";
           }
-          $with = ", ";
+
+          $output .= "<tr>\n";
+          $output .= "  <td>&nbsp;</td>\n";
+          $output .= "  <td colspan=\"5\">" . $firearm . " Ammunition</td>\n";
+          $output .= "</tr>\n";
 
         }
       }
-      $output .= "<tr>\n";
-      $output .= "  <td>" . $firearm . "</td>\n";
-      $output .= "</tr>\n";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"6\"><i>RANGED WEAPONS</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
 
+  $output .= "<p></p>\n";
 
-  $header = "Ammunition";
-  $ammo = "";
-  $comma = ", ";
+  $output .= "<table>\n";
   $q_string  = "select r_ammo_rounds,ammo_rounds,class_name,ammo_name,ammo_mod,ammo_ap,ammo_blast ";
   $q_string .= "from r_ammo ";
   $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
@@ -1821,7 +1929,7 @@
     }
   }
   $output .= "<tr>\n";
-  $output .= "  <td><i>RANGED WEAPONS</i></td>\n";
+  $output .= "  <td><i>AMMUNITION</i></td>\n";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
@@ -2062,6 +2170,6 @@
 
 
   $pdf->writeHTMLCell($w=0, $h=0, $x='', $y='', $output, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
-  $pdf->Output('character.sheet.pdf', 'I');
+  $pdf->Output('character.sheet.' . $formVars['id'] . '.pdf', 'I');
 
 ?>
