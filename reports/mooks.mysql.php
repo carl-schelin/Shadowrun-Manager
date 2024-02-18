@@ -59,6 +59,7 @@
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
       $output .= "<tr>\n";
       $output .= "  <th class=\"ui-state-default\">Delete</th>\n";
+      $output .= "  <th class=\"ui-state-default\">PDF</th>\n";
       $output .= "  <th class=\"ui-state-default\">View</th>\n";
       $output .= "  <th class=\"ui-state-default\">Manage</th>\n";
       $output .= "  <th class=\"ui-state-default\">Edit</th>\n";
@@ -67,15 +68,6 @@
       $output .= "  <th class=\"ui-state-default\">Archetype</th>\n";
       $output .= "  <th class=\"ui-state-default\">Metatype</th>\n";
       $output .= "  <th class=\"ui-state-default\">Release</th>\n";
-      $output .= "  <th class=\"ui-state-default\">BOD</th>\n";
-      $output .= "  <th class=\"ui-state-default\">AGI</th>\n";
-      $output .= "  <th class=\"ui-state-default\">REA</th>\n";
-      $output .= "  <th class=\"ui-state-default\">STR</th>\n";
-      $output .= "  <th class=\"ui-state-default\">WIL</th>\n";
-      $output .= "  <th class=\"ui-state-default\">LOG</th>\n";
-      $output .= "  <th class=\"ui-state-default\">INT</th>\n";
-      $output .= "  <th class=\"ui-state-default\">CHA</th>\n";
-      $output .= "  <th class=\"ui-state-default\">EDG</th>\n";
       $output .= "</tr>\n";
 
       $q_string  = "select runr_id,usr_first,usr_last,runr_name,runr_archetype,meta_name,runr_agility,runr_body, ";
@@ -93,11 +85,11 @@
         while ($a_runners = mysqli_fetch_array($q_runners)) {
 
           $linkdel     = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_character('mooks.del.php?id="  . $a_runners['runr_id'] . "');\">";
-          $viewstart   = "<a href=\"" . $Viewroot   . "/mooks.php?id=" . $a_runners['runr_id'] . "\" target=\"_blank\">";
-          $managestart = "<a href=\"" . $Manageroot . "/mooks.php?id=" . $a_runners['runr_id'] . "\" target=\"_blank\">";
-          $editstart   = "<a href=\"" . $Editroot   . "/mooks.php?id=" . $a_runners['runr_id'] . "\" target=\"_blank\">";
+          $pdfstart    = "<a href=\"" . $PDFroot    . "/character.sheet.php?id=" . $a_runners['runr_id'] . "\" target=\"_blank\">";
+          $viewstart   = "<a href=\"" . $Viewroot   . "/mooks.php?id="           . $a_runners['runr_id'] . "\" target=\"_blank\">";
+          $managestart = "<a href=\"" . $Manageroot . "/mooks.php?id="           . $a_runners['runr_id'] . "\" target=\"_blank\">";
+          $editstart   = "<a href=\"" . $Editroot   . "/mooks.php?id="           . $a_runners['runr_id'] . "\" target=\"_blank\">";
           $linkend     = "</a>";
-
 
           $display = 'No';
 
@@ -138,6 +130,7 @@
           if ($display == 'Yes') {
             $output .= "<tr>\n";
             $output .= "  <td class=\"ui-widget-content\" width=\"60\">" . $linkdel                                                                       . "</td>\n";
+            $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"       . $pdfstart  . "PDF"                                     . $linkend . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"       . $viewstart . "View"                                    . $linkend . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"       . $managestart . "Manage"                                . $linkend . "</td>\n";
             $output .= "  <td class=\"ui-widget-content delete\" width=\"60\">"       . $editstart . "Edit"                                    . $linkend . "</td>\n";
@@ -146,15 +139,6 @@
             $output .= "  <td class=\"ui-widget-content\">"                           . $a_runners['runr_archetype']                                      . "</td>\n";
             $output .= "  <td class=\"ui-widget-content\">"                           . $a_runners['meta_name']                                           . "</td>\n";
             $output .= "  <td class=\"ui-widget-content\">"                           . $release                                                          . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_body']                                           . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_agility']                                        . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_reaction']                                       . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_strength']                                       . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_willpower']                                      . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_logic']                                          . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_intuition']                                      . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_charisma']                                       . "</td>\n";
-            $output .= "  <td class=\"ui-widget-content delete\">"                    . $a_runners['runr_totaledge']                                      . "</td>\n";
             $output .= "</tr>\n";
           }
         }
