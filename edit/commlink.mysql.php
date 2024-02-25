@@ -42,7 +42,7 @@
           logaccess($db, $_SESSION['username'], $package, "Building the query.");
 
 # get the company id
-          $q_string  = "select link_access ";
+          $q_string  = "select link_data,link_firewall,link_access ";
           $q_string .= "from commlink ";
           $q_string .= "where link_id = " . $formVars['r_link_number'] . " ";
           $q_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
@@ -58,6 +58,8 @@
           $q_string =
             "r_link_character   =   " . $formVars['r_link_character']   . "," .
             "r_link_number      =   " . $formVars['r_link_number']      . "," .
+            "r_link_data        =   " . $a_commlink['link_data']        . "," .
+            "r_link_firewall    =   " . $a_commlink['link_firewall']    . "," .
             "r_link_access      = \"" . $link_access                    . "\"";
 
           if ($formVars['update'] == 1) {

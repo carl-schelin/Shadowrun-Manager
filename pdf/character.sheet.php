@@ -18,8 +18,8 @@
   }
 
 # PDF Configuration
-  require_once($Sitedir . '/../tcpdf.manager/config/lang/eng.php');
-  require_once($Sitedir . '/../tcpdf.manager/tcpdf.php');
+  require_once($Sitedir . $Siteinstall . '/../tcpdf.manager/config/lang/eng.php');
+  require_once($Sitedir . $Siteinstall . '/../tcpdf.manager/tcpdf.php');
 
   $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
   $pdf->SetCreator('Shadowrun Character Sheet');
@@ -38,7 +38,12 @@
   $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
   $pdf->setLanguageArray($l);
   $pdf->setFontSubsetting(true);
-  $pdf->SetFont('dejavusans', '', 8, '', true);
+  $pdf->SetFont('dejavusans', '', 12, '', true);
+# light green
+  $pdf->SetFillColor(220, 255, 220);
+
+# page one
+#  $pdf->writeHTMLCell($w=0, $h=0, $x='', $y='', $output, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
   $pdf->AddPage();
 
   $output  = "<head>\n";
@@ -58,11 +63,14 @@
   $output .= "</head>\n";
   $output .= "<body>\n";
 
+  $output .= "<h2><strong>Shadowrun Character Manager</strong></h2>\n";
+
 # Now create the data to be printed
-  $q_string  = "select runr_name,runr_aliases,meta_name,runr_archetype,runr_essence,runr_totaledge,runr_body,";
+  $q_string  = "select usr_first,usr_last,runr_name,runr_aliases,meta_name,runr_archetype,runr_essence,runr_totaledge,runr_body,";
   $q_string .= "runr_agility,runr_reaction,runr_strength,runr_willpower,runr_logic,runr_age,runr_sex,";
   $q_string .= "runr_intuition,runr_charisma,runr_resonance,runr_magic,runr_initiate,runr_version,ver_version ";
   $q_string .= "from runners ";
+  $q_string .= "left join users on users.usr_id = runners.runr_owner ";
   $q_string .= "left join metatypes on metatypes.meta_id = runners.runr_metatype ";
   $q_string .= "left join versions on versions.ver_id = runners.runr_version ";
   $q_string .= "where runr_id = " . $formVars['id'] . " ";
@@ -90,19 +98,24 @@
     }
   }
 
+  $charsex = "Male";
+  if ($a_runners['runr_sex']) {
+    $charsex = "Female";
+  }
+
   $output .= "<table>\n";
   $output .= "<tr>\n";
-  $output .= "  <td><strong>NAME/ALIAS</strong>: " . $a_runners['runr_name'] . "/" . $a_runners['runr_aliases'] . "</td>";
+  $output .= "  <td><strong>PLAYER/NAME/ALIAS</strong>: " . $a_runners['usr_first'] . " " . $a_runners['usr_last'] . "/" . $a_runners['runr_name'] . "/" . $a_runners['runr_aliases'] . "</td>";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  $output .= "  <td>AGE: " . $a_runners['runr_age'] . " ";
-  $output .= "SEX: " . $a_runners['runr_sex'] . " ";
-  $output .= "LIFESTYLE: " . $lifestyle . " ";
-  $output .= "TOTAL KARMA: " . $a_runners['runr_karma'] . " ";
-  $output .= "CURRENT KARMA: " . $a_runners['runr_karma'] . "</td>";
+  $output .= "  <td><strong>AGE</strong>: " . $a_runners['runr_age'] . " ";
+  $output .= "<strong>SEX</strong>: " . $charsex . " ";
+  $output .= "<strong>LIFESTYLE</strong>: " . $lifestyle . " ";
+  $output .= "<strong>TOTAL KARMA</strong>: " . $a_runners['runr_karma'] . " ";
+  $output .= "<strong>CURRENT KARMA</strong>: " . $a_runners['runr_karma'] . "</td>";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  $output .= "  <td>METATYPE: " . $a_runners['meta_name'] . "</td>";
+  $output .= "  <td><strong>METATYPE:</strong> " . $a_runners['meta_name'] . "</td>";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   $output .= "  <td><i>PERSONAL DATA</i></td>\n";
@@ -255,9 +268,7 @@
 
   $output .= "<p></p>\n";
 
-
   $output .= "<table>\n";
-
   $output .= "<tr>\n";
   $output .= "<td><table>\n";
   $output .= "<tr>\n";
@@ -288,10 +299,10 @@
   $output .= "</tr>\n";
   $output .= "</table></td>\n";
 
-
   $output .= "<td><table>\n";
   $output .= "<tr>\n";
-  $output .= "  <td><strong>IDENTITY (SIN)/LICENSE TYPE (RATING)</strong></td>\n";
+  $output .= "  <th><strong>IDENTITY (TYPE)</strong></th>\n";
+  $output .= "  <th><strong>RATING</strong></th>\n";
   $output .= "</tr>\n";
   $identity = "";
   $comma = "";
@@ -313,8 +324,10 @@
         }
       }
 
-      $identity .= " (" . $a_r_identity['id_name'] . ")";
-      $identity .= " (Rating " . $a_r_identity['id_rating'] . ")";
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_identity['id_name'] . " (" . $identity . ")</td>\n";
+      $output .= "  <th>" . $a_r_identity['id_rating']                   . "</th>\n";
+      $output .= "</tr>\n";
 
       $comma = " [";
       $q_string  = "select lic_id,lic_type,lic_rating ";
@@ -325,29 +338,22 @@
       if (mysqli_num_rows($q_r_license) > 0) {
         while ($a_r_license = mysqli_fetch_array($q_r_license)) {
 
-          $identity .= $comma . $a_r_license['lic_type'];
-          $identity .= " (Rating " . $a_r_license['lic_rating'] . ")";
-          $comma = ", ";
+          $output .= "<tr>\n";
+          $output .= "  <td>&gt; " . $a_r_license['lic_type'] . "</td>\n";
+          $output .= "  <th>" . $a_r_license['lic_rating']    . "</th>\n";
+          $output .= "</tr>\n";
         }
       }
-      if ($comma != ' [') {
-        $identity .= "]";
-      }
-      $output .= "<tr>\n";
-      $output .= "  <td>" . $identity . "</td>\n";
-      $output .= "</tr>\n";
-      $header = "&nbsp;";
     }
   }
   $output .= "<tr>\n";
-  $output .= "  <td><i>IDENTITES/LICENSES</i></td>\n";
+  $output .= "  <td colspan=\"2\"><i>IDENTITES/LICENSES</i></td>\n";
   $output .= "</tr>\n";
   $output .= "</table></td>\n";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
   $output .= "<p></p>\n";
-
 
   $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
   $stun_damage = ceil(($a_runners['runr_willpower'] / 2) + 8);
@@ -621,7 +627,7 @@
     $q_string .= "from runners ";
     $q_string .= "where runr_id = " . $formVars['id'] . " ";
     $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-    $a_runners = mysqli_fetch_array($q_runners);
+    $a_r_runners = mysqli_fetch_array($q_runners);
 
     $q_string  = "select r_act_rank,r_act_group,r_act_specialize,r_act_expert ";
     $q_string .= "from r_active ";
@@ -640,8 +646,8 @@
       $output .= "  <td>" . $strongstart . $italicstart . $a_active['act_name'] . $group                                    . $italicend . $strongend . "</td>\n";
       $output .= "  <th>" . $strongstart . $italicstart . $a_r_active['r_act_rank']                                         . $italicend . $strongend . "</th>\n";
       $output .= "  <td>" . $strongstart . $italicstart . $a_active['att_name']                                             . $italicend . $strongend . "</td>\n";
-      $output .= "  <th>" . $strongstart . $italicstart . $a_runners[$a_active['att_column']]                               . $italicend . $strongend . "</th>\n";
-      $output .= "  <th>" . $strongstart . $italicstart . ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank']) . $italicend . $strongend . "</th>\n";
+      $output .= "  <th>" . $strongstart . $italicstart . $a_r_runners[$a_active['att_column']]                               . $italicend . $strongend . "</th>\n";
+      $output .= "  <th>" . $strongstart . $italicstart . ($a_r_runners[$a_active['att_column']] + $a_r_active['r_act_rank']) . $italicend . $strongend . "</th>\n";
       $output .= "</tr>\n";
 
       if (strlen($a_r_active['r_act_specialize']) > 0) {
@@ -656,8 +662,8 @@
         $output .= "  <td>" . $strongstart . "&gt; " . $a_r_active['r_act_specialize']                                   . $strongend . "</td>\n";
         $output .= "  <th>" . $strongstart . $a_r_active['r_act_rank'] . " + " . $expert                                 . $strongend . "</th>\n";
         $output .= "  <td>" . $strongstart . $a_active['att_name']                                                       . $strongend . "</td>\n";
-        $output .= "  <th>" . $strongstart . $a_runners[$a_active['att_column']]                                         . $strongend . "</th>\n";
-        $output .= "  <th>" . $strongstart . ($a_runners[$a_active['att_column']] + $a_r_active['r_act_rank'] + $expert) . $strongend . "</th>\n";
+        $output .= "  <th>" . $strongstart . $a_r_runners[$a_active['att_column']]                                         . $strongend . "</th>\n";
+        $output .= "  <th>" . $strongstart . ($a_r_runners[$a_active['att_column']] + $a_r_active['r_act_rank'] + $expert) . $strongend . "</th>\n";
         $output .= "</tr>\n";
       }
 
@@ -670,15 +676,12 @@
         $output .= "  <td>" . $italicstart . $a_active['act_name']                     . $italicend . "</td>\n";
         $output .= "  <th>" . $italicstart . "-1"                                      . $italicend . "</th>\n";
         $output .= "  <td>" . $italicstart . $a_active['att_name']                     . $italicend . "</td>\n";
-        $output .= "  <th>" . $italicstart . $a_runners[$a_active['att_column']]       . $italicend . "</th>\n";
-        $output .= "  <th>" . $italicstart . ($a_runners[$a_active['att_column']] - 1) . $italicend . "</th>\n";
+        $output .= "  <th>" . $italicstart . $a_r_runners[$a_active['att_column']]       . $italicend . "</th>\n";
+        $output .= "  <th>" . $italicstart . ($a_r_runners[$a_active['att_column']] - 1) . $italicend . "</th>\n";
         $output .= "</tr>\n";
       }
     }
   }
-  $output .= "<tr>\n";
-  $output .= "  <td colspan=\"6\"><i>* These skills cannot be defaulted on</i></td>";
-  $output .= "</tr>\n";
 
   $output .= "<tr>\n";
   $output .= "  <td colspan=\"6\"><strong>Knowledge Skill</strong></td>\n";
@@ -1059,9 +1062,15 @@
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
-  $header = "Commlink";
-  $commlink = "";
-  $q_string  = "select r_link_id,link_id,link_brand,link_model,link_rating,r_link_access,r_link_active ";
+  $output .= "<tr>\n";
+  $output .= "  <th width=\"25%\"><strong>Commlink</strong></th>\n";
+  $output .= "  <th width=\"10%\"><strong>Rating</strong></th>\n";
+  $output .= "  <th width=\"20%\"><strong>Data Processing</strong></th>\n";
+  $output .= "  <th width=\"10%\"><strong>Firewall</strong></th>\n";
+  $output .= "  <th width=\"10%\"><strong>Programs</strong></th>\n";
+  $output .= "  <th width=\"25%\"><strong>Initiative</strong></th>\n";
+  $output .= "</tr>\n";
+  $q_string  = "select r_link_id,link_id,link_brand,link_model,link_rating,r_link_data,r_link_firewall,link_program,r_link_access,r_link_active ";
   $q_string .= "from r_commlink ";
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
   $q_string .= "where r_link_character = " . $formVars['id'] . " ";
@@ -1072,15 +1081,17 @@
 
       $rating = return_Rating($a_r_commlink['link_rating']);
 
-      $commlink = $a_r_commlink['link_brand'] . " " . $a_r_commlink['link_model'];
+      $matrix = "AR: " . ($a_runners['runr_reaction'] + $a_runners['runr_intuition']) . " + 1d6";
 
-      $paren = " (";
-      if ($rating != "--") {
-        $commlink .= $paren . "Rating " . $rating;
-        $paren = ", ";
-      }
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_commlink['link_brand'] . " " . $a_r_commlink['link_model'] . "</td>\n";
+      $output .= "  <th>" . $rating                          . "</th>\n";;
+      $output .= "  <th>" . $a_r_commlink['r_link_data']     . "</th>\n";;
+      $output .= "  <th>" . $a_r_commlink['r_link_firewall'] . "</th>\n";;
+      $output .= "  <th>" . $a_r_commlink['link_program']    . "</th>\n";;
+      $output .= "  <th>" . $matrix                          . "</th>\n";;
+      $output .= "</tr>\n";
 
-      $with = " /w";
       $q_string  = "select r_acc_id,acc_id,acc_class,acc_name,acc_rating ";
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
@@ -1093,26 +1104,72 @@
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 
-          $commlink .= $with . $a_r_accessory['acc_name'];
-
-          $with = " [";
-          if ($rating != '--') {
-            $commlink .= $with . "Rating " . $rating;
+          $matrix = "&nbsp;";
+          if ($a_r_accessory['acc_name'] == 'Sim Module') {
+            $matrix = "Cold-sim " . ($a_r_commlink['r_link_data'] + $a_runners['runr_intuition']) . " + 2d6";
           }
+          if ($a_r_accessory['acc_name'] == 'Sim Module With Hot-Sim') {
+            $matrix = "Cold-sim " . ($a_r_commlink['r_link_data'] + $a_runners['runr_intuition']) . " + 2d6";
+            $matrix .= "<br>Hot-sim " . ($a_r_commlink['r_link_data'] + $a_runners['runr_intuition']) . " + 3d6";
+          }
+
+          $output .= "<tr>\n";
+          $output .= "  <td>&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+          $output .= "  <th>" . $rating                           . "</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>" . $matrix . "</th>\n";;
+          $output .= "</tr>\n";
         }
-        if ($with != " [") {
-          $commlink .= "]";
-        }
-      }
-      if ($paren != " (") {
-        $commlink .= ")";
       }
 
-      $output .= "<tr>\n";
-      $output .= "  <th colspan=\"2\">" . $header . "</th>";
-      $output .= "  <td colspan=\"8\">" . $commlink . "</td>\n";
-      $output .= "</tr>\n";
-      $header = "&nbsp;";
+# legal programs first
+      $q_string  = "select pgm_name ";
+      $q_string .= "from r_program ";
+      $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
+      $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_commlink = " . $a_r_commlink['r_link_id'] . " and pgm_type = 0 ";
+      $q_string .= "order by pgm_name ";
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"5\"><strong>Programs</strong></td>\n";;
+        $output .= "</tr>\n";
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
+
+          $output .= "<tr>\n";
+          $output .= "  <td>" . $a_r_program['pgm_name']         . "</td>\n";
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "</tr>\n";
+        }
+      }
+
+# now Hacking programs
+      $q_string  = "select pgm_name ";
+      $q_string .= "from r_program ";
+      $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
+      $q_string .= "where r_pgm_character = " . $formVars['id'] . " and r_pgm_commlink = " . $a_r_commlink['r_link_id'] . " and pgm_type = 1 ";
+      $q_string .= "order by pgm_name ";
+      $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_program) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"5\"><strong>Hacking Programs</strong></td>\n";;
+        $output .= "</tr>\n";
+        while ($a_r_program = mysqli_fetch_array($q_r_program)) {
+
+          $output .= "<tr>\n";
+          $output .= "  <td>" . $a_r_program['pgm_name']         . "</td>\n";
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "</tr>\n";
+        }
+      }
     }
   }
   $output .= "<tr>\n";
@@ -1123,6 +1180,13 @@
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>Command Console</strong></th>\n";
+  $output .= "  <th><strong>Rating</strong></th>\n";
+  $output .= "  <th><strong>Data Processing</strong></th>\n";
+  $output .= "  <th><strong>Firewall</strong></th>\n";
+  $output .= "  <th><strong>Initiative</strong></th>\n";
+  $output .= "</tr>\n";
 
   $header = "Rigger Command Console";
   $command = "";
@@ -1138,22 +1202,15 @@
 
       $rating = return_Rating($a_r_command['cmd_rating']);
 
-      $command = $a_r_command['cmd_brand'] . " " . $a_r_command['cmd_model'];
-
-      $paren = " (";
-      if ($rating != "--") {
-        $command .= $paren . "Rating " . $rating;
-        $paren = ", ";
-      }
-      $command .= $paren . "Data Processing " . $a_r_command['cmd_data'];
-      $command .= $paren . "Firewall "        . $a_r_command['cmd_firewall'];
-      $command .= $paren . "Noise Reduction " . $a_r_command['r_cmd_noise'];
-      $command .= $paren . "Sharing "         . $a_r_command['r_cmd_sharing'];
-      $command .= $paren . "Programs "        . $a_r_command['cmd_programs'];
-      $command .= ")";
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_command['cmd_brand'] . " " . $a_r_command['cmd_model'] . "</td>\n";
+      $output .= "  <th>" . $rating                        . "</th>\n";
+      $output .= "  <th>" . $a_r_command['cmd_data']     . "</th>\n";
+      $output .= "  <th>" . $a_r_command['cmd_firewall'] . "</th>\n";
+      $output .= "  <th>" . $matrix                        . "</th>\n";
+      $output .= "</tr>\n";
 
 # legal programs first
-      $program = " (Common: ";
       $q_string  = "select pgm_name ";
       $q_string .= "from r_program ";
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
@@ -1161,16 +1218,22 @@
       $q_string .= "order by pgm_name ";
       $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_r_program) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"5\"><strong>Programs</strong></td>\n";;
+        $output .= "</tr>\n";
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
-          $command .= $program . $a_r_program['pgm_name'];
-          $program = ", ";
+          $output .= "<tr>\n";
+          $output .= "  <td>" . $a_r_program['pgm_name']         . "</td>\n";
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "</tr>\n";
         }
-        $command .= ")";
       }
 
 # now Hacking programs
-      $program = " (Hacking: ";
       $q_string  = "select pgm_name ";
       $q_string .= "from r_program ";
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
@@ -1178,31 +1241,112 @@
       $q_string .= "order by pgm_name ";
       $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_r_program) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"5\"><strong>Hacking Programs</strong></td>\n";;
+        $output .= "</tr>\n";
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
-          $command .= $program . $a_r_program['pgm_name'];
-          $program = ", ";
+          $output .= "<tr>\n";
+          $output .= "  <td>" . $a_r_program['pgm_name']         . "</td>\n";
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "</tr>\n";
         }
-        $command .= ")";
       }
-      $output .= "<tr>\n";
-      $output .= "  <th colspan=\"2\">" . $header . "</th>";
-      $output .= "  <td colspan=\"8\">" . $command . "</td>\n";
-      $output .= "</tr>\n";
-      $header = "&nbsp;";
     }
   }
   $output .= "<tr>\n";
-  $output .= "  <td colspan=\"8\"><i>COMMAND CONSOLE</i></td>\n";
+  $output .= "  <td colspan=\"5\"><i>COMMAND CONSOLE</i></td>\n";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>Cyberjack</strong></th>\n";
+  $output .= "  <th><strong>Rating</strong></th>\n";
+  $output .= "  <th><strong>Data Processing</strong></th>\n";
+  $output .= "  <th><strong>Firewall</strong></th>\n";
+  $output .= "  <th><strong>Initiative</strong></th>\n";
+  $output .= "</tr>\n";
+  $q_string  = "select r_jack_id,jack_name,jack_rating,r_jack_data,r_jack_firewall,r_jack_access ";
+  $q_string .= "from r_cyberjack ";
+  $q_string .= "left join cyberjack on cyberjack.jack_id = r_cyberjack.r_jack_number ";
+  $q_string .= "where r_jack_character = " . $formVars['id'] . " ";
+  $q_string .= "order by jack_name,jack_rating ";
+  $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_cyberjack) > 0) {
+    while ($a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack)) {
 
-  $header = "Cyberdeck";
-  $cyberdeck = "";
+      $rating = return_Rating($a_r_cyberjack['jack_rating']);
+
+      $matrix = ($a_runners['runr_reaction'] + $a_runners['runr_intuition']) . " + 1d6";
+
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_cyberjack['jack_name']       . "</td>\n";
+      $output .= "  <th>" . $rating                           . "</th>\n";;
+      $output .= "  <th>" . $a_r_cyberjack['r_jack_data']     . "</th>\n";;
+      $output .= "  <th>" . $a_r_cyberjack['r_jack_firewall'] . "</th>\n";;
+      $output .= "  <th>" . $matrix                           . "</th>\n";;
+      $output .= "</tr>\n";
+
+
+# accessories
+      $q_string  = "select r_acc_id,acc_id,acc_name,acc_rating ";
+      $q_string .= "from r_accessory ";
+      $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
+      $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_cyberjack['r_jack_id'] . " ";
+      $q_string .= "order by acc_name,acc_rating ";
+      $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql =" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_accessory) > 0) {
+        while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
+
+          $acc_rating = return_Rating($a_r_accessory['acc_rating']);
+
+          $matrix = "&nbsp;";
+          if ($a_r_accessory['acc_name'] == 'Sim Module') {
+            $matrix = "Cold-sim " . ($a_r_cyberdeck['r_deck_data'] + $a_runners['runr_intuition']) . " + 2d6";
+          }
+          if ($a_r_accessory['acc_name'] == 'Sim Module With Hot-Sim') {
+            $matrix = "Cold-sim " . ($a_r_cyberdeck['r_deck_data'] + $a_runners['runr_intuition']) . " + 2d6";
+            $matrix .= "<br>Hot-sim " . ($a_r_cyberdeck['r_deck_data'] + $a_runners['runr_intuition']) . " + 3d6";
+          }
+
+          $output .= "<tr>\n";
+          $output .= "  <td>&gt;" . $a_r_accessory['acc_name']        . "</td>\n";
+          $output .= "  <th>"     . $acc_rating                       . "</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>" . $matrix . "</th>\n";;
+          $output .= "</tr>\n";
+
+        }
+      }
+    }
+  }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"5\"><i>CYBERJACKS</i></td>\n";
+  $output .= "</tr>\n";
+  $output .= "</table>\n";
+
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>Cyberdeck</strong></th>\n";
+  $output .= "  <th><strong>Rating</strong></th>\n";
+  $output .= "  <th><strong>Attack</strong></th>\n";
+  $output .= "  <th><strong>Sleaze</strong></th>\n";
+  if ($a_runners['runr_version'] != 31) {
+    $output .= "  <th><strong>Data Processing</strong></th>\n";
+    $output .= "  <th><strong>Firewall</strong></th>\n";
+  }
+  $output .= "  <th><strong>Programs</strong></th>\n";
+  $output .= "  <th><strong>Initiative</strong></th>\n";
+  $output .= "</tr>\n";
   $q_string  = "select r_deck_id,deck_brand,deck_model,deck_rating,deck_programs,r_deck_attack,r_deck_sleaze,";
   $q_string .= "r_deck_data,r_deck_firewall,r_deck_access ";
   $q_string .= "from r_cyberdeck ";
@@ -1215,23 +1359,23 @@
 
       $rating = return_Rating($a_r_cyberdeck['deck_rating']);
 
-      $cyberdeck = $a_r_cyberdeck['deck_brand'] . " " . $a_r_cyberdeck['deck_model'];
+      $matrix = ($a_runners['runr_reaction'] + $a_runners['runr_intuition']) . " + 1d6";
 
-      $paren = " (";
-      if ($rating != "--") {
-        $cyberdeck .= $paren . "Rating " . $rating;
-        $paren = ", ";
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_cyberdeck['deck_brand'] . " " . $a_r_cyberdeck['deck_model'] . "</td>\n";
+      $output .= "  <th>" . $rating                           . "</th>\n";;
+      $output .= "  <th>" . $a_r_cyberdeck['r_deck_attack']   . "</th>\n";;
+      $output .= "  <th>" . $a_r_cyberdeck['r_deck_sleaze']   . "</th>\n";;
+      if ($a_runners['runr_version'] != 31) {
+        $output .= "  <th>" . $a_r_cyberdeck['r_deck_data']     . "</th>\n";;
+        $output .= "  <th>" . $a_r_cyberdeck['r_deck_firewall'] . "</th>\n";;
       }
-      $cyberdeck .= $paren . "ASDF: " . $a_r_cyberdeck['r_deck_attack'];
-      $cyberdeck .= " " . $a_r_cyberdeck['r_deck_sleaze'];
-      $cyberdeck .= " " . $a_r_cyberdeck['r_deck_data'];
-      $cyberdeck .= " " . $a_r_cyberdeck['r_deck_firewall'];
-      $cyberdeck .= $paren . "Programs " . $a_r_cyberdeck['deck_programs'];
-      $cyberdeck .= ")";
+      $output .= "  <th>" . $a_r_cyberdeck['deck_programs']   . "</th>\n";;
+      $output .= "  <th>" . $matrix                           . "</th>\n";;
+      $output .= "</tr>\n";
 
 
 # accessories
-      $bracket = " [";
       $q_string  = "select r_acc_id,acc_id,acc_name,acc_rating ";
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
@@ -1243,17 +1387,33 @@
 
           $acc_rating = return_Rating($a_r_accessory['acc_rating']);
 
-          $cyberdeck .= " [" . $a_r_accessory['acc_name'];
-          if ($acc_rating != '--') {
-            $cyberdeck .= " (Rating " . $acc_rating . ")";
+          $matrix = "&nbsp;";
+          if ($a_r_accessory['acc_name'] == 'Sim Module') {
+            $matrix = "Cold-sim " . ($a_r_cyberdeck['r_deck_data'] + $a_runners['runr_intuition']) . " + 2d6";
           }
+          if ($a_r_accessory['acc_name'] == 'Sim Module With Hot-Sim') {
+            $matrix = "Cold-sim " . ($a_r_cyberdeck['r_deck_data'] + $a_runners['runr_intuition']) . " + 2d6";
+            $matrix .= "<br>Hot-sim " . ($a_r_cyberdeck['r_deck_data'] + $a_runners['runr_intuition']) . " + 3d6";
+          }
+
+          $output .= "<tr>\n";
+          $output .= "  <td>&gt;" . $a_r_accessory['acc_name']        . "</td>\n";
+          $output .= "  <th>"     . $acc_rating                       . "</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          if ($a_runners['runr_version'] != 31) {
+            $output .= "  <th>&nbsp;</th>\n";;
+            $output .= "  <th>&nbsp;</th>\n";;
+          }
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>" . $matrix . "</th>\n";;
+          $output .= "</tr>\n";
+
         }
-        $cyberdeck .= "]";
       }
 
 
 # legal programs first
-      $program = " (Common: ";
       $q_string  = "select pgm_name ";
       $q_string .= "from r_program ";
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
@@ -1261,16 +1421,27 @@
       $q_string .= "order by pgm_name ";
       $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_r_program) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"7\"><strong>Programs</strong></td>\n";;
+        $output .= "</tr>\n";
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
-          $cyberdeck .= $program . $a_r_program['pgm_name'];
-          $program = ", ";
+          $output .= "<tr>\n";
+          $output .= "  <td>" . $a_r_program['pgm_name']         . "</td>\n";
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          if ($a_runners['runr_version'] != 31) {
+            $output .= "  <th>&nbsp;</th>\n";;
+            $output .= "  <th>&nbsp;</th>\n";;
+          }
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "</tr>\n";
         }
-        $cyberdeck .= ")";
       }
 
 # now Hacking programs
-      $program = " (Hacking: ";
       $q_string  = "select pgm_name ";
       $q_string .= "from r_program ";
       $q_string .= "left join program on program.pgm_id = r_program.r_pgm_number ";
@@ -1278,16 +1449,27 @@
       $q_string .= "order by pgm_name ";
       $q_r_program = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_r_program) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"7\"><strong>Hacking Programs</strong></td>\n";;
+        $output .= "</tr>\n";
         while ($a_r_program = mysqli_fetch_array($q_r_program)) {
 
-          $cyberdeck .= $program . $a_r_program['pgm_name'];
-          $program = ", ";
+          $output .= "<tr>\n";
+          $output .= "  <td>" . $a_r_program['pgm_name']         . "</td>\n";
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          if ($a_runners['runr_version'] != 31) {
+            $output .= "  <th>&nbsp;</th>\n";;
+            $output .= "  <th>&nbsp;</th>\n";;
+          }
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "</tr>\n";
         }
-        $cyberdeck .= ")";
       }
 
 # now Agents
-      $agent = " (Agent: ";
       $q_string  = "select agt_name,agt_rating ";
       $q_string .= "from r_agents ";
       $q_string .= "left join agents on agents.agt_id = r_agents.r_agt_number ";
@@ -1295,21 +1477,27 @@
       $q_string .= "order by agt_name ";
       $q_r_agents = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_r_agents) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"7\"><strong>Agents</strong></td>\n";;
+        $output .= "</tr>\n";
         while ($a_r_agents = mysqli_fetch_array($q_r_agents)) {
 
           $rating = return_Rating($a_r_agents['agt_rating']);
 
-          $cyberdeck .= $agent . $a_r_agents['agt_name'];
-          if ($rating != "--") {
-            $cyberdeck .= " (" . $rating . ")";
+          $output .= "<tr>\n";
+          $output .= "  <td>" . $a_r_agents['agt_name'] . "</td>\n";
+          $output .= "  <th>" . $rating                     . "</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          if ($a_runners['runr_version'] != 31) {
+            $output .= "  <th>&nbsp;</th>\n";;
+            $output .= "  <th>&nbsp;</th>\n";;
           }
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "  <th>&nbsp;</th>\n";;
+          $output .= "</tr>\n";
         }
       }
-      $output .= "<tr>\n";
-      $output .= "  <th colspan=\"2\">" . $header . "</th>";
-      $output .= "  <td colspan=\"8\">" . $cyberdeck . "</td>\n";
-      $output .= "</tr>\n";
-      $header = "&nbsp;";
     }
   }
   $output .= "<tr>\n";
@@ -1321,16 +1509,9 @@
 
   $output .= "<table>\n";
   $output .= "<tr>\n";
-  $output .= "  <td colspan=\"8\"><i>CYBERJACKS</i></td>\n";
+  $output .= "  <th><strong>Cyberware</strong></th>\n";
+  $output .= "  <th><strong>Rating</strong></th>\n";
   $output .= "</tr>\n";
-  $output .= "</table>\n";
-
-  $output .= "<p></p>\n";
-
-  $output .= "<table>\n";
-  $header = "Cyberware";
-  $cyberware = "";
-  $paren = '';
   $q_string  = "select r_ware_id,r_ware_specialize,ware_name,ware_rating,grade_name,grade_essence ";
   $q_string .= "from r_cyberware ";
   $q_string .= "left join cyberware on cyberware.ware_id = r_cyberware.r_ware_number ";
@@ -1346,24 +1527,14 @@
         $ware_name .= " (" . $a_r_cyberware['r_ware_specialize'] . ")";
       }
 
-      $grade = '';
-      if ($a_r_cyberware['grade_essence'] != 1.00) {
-        $grade = $a_r_cyberware['grade_name'];
-      }
+      $grade = return_Grade($a_r_cyberware['grade_essence'], $a_r_cyberware['grade_name']);
 
       $rating = return_Rating($a_r_cyberware['ware_rating']);
 
-      $cyberware .= $paren . $ware_name;
-
-      $paren = " [";
-      if ($grade != '') {
-        $cyberware .= $paren . $grade;
-        $paren = ", ";
-      }
-      if ($rating != '--') {
-        $cyberware .= $paren . "Rating " . $rating;
-        $paren = ", ";
-      }
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $ware_name . $grade . "</td>\n";
+      $output .= "  <th>" . $rating . "</th>\n";
+      $output .= "</tr>\n";
 
       $q_string  = "select r_acc_id,acc_id,acc_name,acc_rating ";
       $q_string .= "from r_accessory ";
@@ -1377,25 +1548,13 @@
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 
-          $cyberware .= $paren . $a_r_accessory['acc_name'];
-          if ($rating != '--') {
-            $cyberware .= " (Rating " . $rating . ")";
-          }
-          $paren = ", ";
+          $output .= "<tr>\n";
+          $output .= "  <td>&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+          $output .= "  <th>" . $rating . "</th>\n";
+          $output .= "</tr>\n";
         }
       }
-# basically was the paren variable used? If so, add the trailing paren
-      if ($paren != " [") {
-        $cyberware .= "]";
-      }
-# now set to comma for the next item if any.
-      $paren = ", ";
-
     }
-    $output .= "<tr>\n";
-    $output .= "  <th colspan=\"2\">" . $header . "</th>";
-    $output .= "  <td colspan=\"8\">" . $cyberware . "</td>\n";
-    $output .= "</tr>\n";
   }
   $output .= "<tr>\n";
   $output .= "  <td colspan=\"8\"><i>CYBERWARE</i></td>\n";
@@ -1475,8 +1634,6 @@
   $output .= "  <th><strong>SENSOR</strong></th>\n";
   $output .= "  <th><strong>SEATS</strong></th>\n";
   $output .= "</tr>\n";
-  $header = "Vehicles";
-  $vehicles = '';
   $q_string  = "select r_veh_id,veh_type,veh_make,veh_model,veh_onacc,veh_offacc,veh_onhand,";
   $q_string .= "veh_offhand,veh_onspeed,veh_offspeed,veh_pilot,veh_body,veh_armor,veh_sensor,";
   $q_string .= "veh_onseats,veh_offseats ";
@@ -1509,7 +1666,6 @@
       $output .= "  <th>" . $veh_seats                                                   . "</th>\n";
       $output .= "</tr>\n";
 
-      $comma = " w/";
       $q_string  = "select r_acc_id,acc_name,acc_mount ";
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
@@ -1521,11 +1677,14 @@
         while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
 
           if ($a_r_accessory['acc_mount'] != '') {
-            $vehicles .= $comma . $a_r_accessory['acc_name'] . " (" . $a_r_accessory['acc_mount'] . ")";
+            $accessory = $a_r_accessory['acc_name'] . " (" . $a_r_accessory['acc_mount'] . ")";
           } else {
-            $vehicles .= $comma . $a_r_accessory['acc_name'];
+            $accessory = $a_r_accessory['acc_name'];
           }
-          $comma = ", ";
+
+          $output .= "<tr>\n";
+          $output .= "  <td colspan=\"10\">" . $accessory . "</td>\n";
+          $output .= "</tr>\n";
         }
       }
 
@@ -1537,15 +1696,16 @@
       $q_string .= "order by fa_name ";
       $q_r_firearms = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
       if (mysqli_num_rows($q_r_firearms) > 0) {
+        $output .= "<tr>\n";
+        $output .= "  <td colspan=\"10\">WEAPONS</td>\n";
+        $output .= "</tr>\n";
         while ($a_r_firearms = mysqli_fetch_array($q_r_firearms)) {
 
-          $vehicles .= $comma . $a_r_firearms['fa_name'];
+          $output .= "<tr>\n";
+          $output .= "  <td colspan=\"10\">" . $a_r_firearms['fa_name'] . "</td>\n";
+          $output .= "</tr>\n";
         }
       }
-      $output .= "<tr>\n";
-      $output .= "  <td>" . $vehicles . "</td>\n";
-      $output .= "</tr>\n";
-      $header = "&nbsp;";
     }
   }
   $output .= "<tr>\n";
@@ -1556,15 +1716,16 @@
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
-
-  $header = "Gear";
-  $gear = "";
-  $comma = "";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>Gear</strong></th>\n";
+  $output .= "  <th><strong>Number</strong></th>\n";
+  $output .= "  <th><strong>Rating</strong></th>\n";
+  $output .= "</tr>\n";
   $q_string  = "select r_gear_id,gear_name,gear_rating,r_gear_amount,r_gear_details,gear_capacity ";
   $q_string .= "from r_gear ";
   $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
   $q_string .= "left join class on class.class_id = gear.gear_class ";
-  $q_string .= "where r_gear_character = " . $formVars['id'] . " and gear_name != \"Fake SIN\" and gear_name != \"Fake License\" and gear_name not like \"%Spell Formula%\" ";
+  $q_string .= "where r_gear_character = " . $formVars['id'] . " and gear_name != \"Fake SIN\" and gear_name != \"Fake License\" and gear_name not like \"%Spell Formula%\" and gear_name not like \"Autosoft\" ";
   $q_string .= "order by gear_name,gear_rating ";
   $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   if (mysqli_num_rows($q_r_gear) > 0) {
@@ -1584,7 +1745,7 @@
 
       $capacity = return_Capacity($a_r_gear['gear_capacity']);
 
-      $gear .= $comma . $gear_name;
+      $gear = $gear_name;
       $bracket = " [";
       if ($rating != '--') {
         $gear .= $bracket . "Rating " . $rating;
@@ -1604,7 +1765,7 @@
 
           $rating = return_Rating($a_r_accessory['acc_rating']);
 
-          $gear .= $comma . $a_r_accessory['acc_name'];
+          $gear = $comma . $a_r_accessory['acc_name'];
           if ($a_r_accessory['acc_rating'] > 0) {
             $gear .= " (Rating " . $rating . ")";
           }
@@ -1614,12 +1775,13 @@
       if ($bracket != " [") {
         $gear .= "]";
       }
-      $comma = ", ";
+
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $gear . "</td>\n";
+      $output .= "  <td>" . $r_gear_amount . "</td>\n";
+      $output .= "  <td>" . $gear . "</td>\n";
+      $output .= "</tr>\n";
     }
-    $output .= "<tr>\n";
-    $output .= "  <th colspan=\"2\">" . $header . "</th>";
-    $output .= "  <td colspan=\"8\">" . $gear . "</td>\n";
-    $output .= "</tr>\n";
   }
   $output .= "<tr>\n";
   $output .= "  <td colspan=\"8\"><i>GEAR</i></td>\n";
