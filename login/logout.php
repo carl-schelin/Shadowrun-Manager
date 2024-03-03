@@ -1,6 +1,8 @@
 <?php
 session_start(); 
 
+include("settings.php");
+
 // For re-direction after logout. Because the form self-submits we need to keep the referal to the form.
 $ref = getenv('HTTP_REFERER');
 
@@ -12,10 +14,8 @@ if (isset($_SESSION['username'])){
   session_unset(); 
   session_destroy();
 
-  header("Location: /"); 
-
-} else {
-  header("Location: /");
 }
+
+header("Location: " . $Siteinstall);
 
 ?>
