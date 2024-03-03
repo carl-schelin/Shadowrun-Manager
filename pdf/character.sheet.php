@@ -301,7 +301,7 @@
 
   $output .= "<td><table>\n";
   $output .= "<tr>\n";
-  $output .= "  <th><strong>IDENTITY (TYPE)</strong></th>\n";
+  $output .= "  <th><strong>IDENTITY NAME (TYPE)</strong></th>\n";
   $output .= "  <th><strong>RATING</strong></th>\n";
   $output .= "</tr>\n";
   $identity = "";
@@ -356,10 +356,127 @@
   $output .= "<p></p>\n";
 
   $physical_damage = ceil(($a_runners['runr_body'] / 2) + 8);
+  $overflow_damage = $a_runners['runr_body'] * 2;
   $stun_damage = ceil(($a_runners['runr_willpower'] / 2) + 8);
 
   $output .= "<table>\n";
   $output .= "<tr>\n";
+
+  $output .= "<td><table>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th colspan=\"3\"><strong>STUN</strong></th>\n";
+  $output .= "</tr>\n";
+  $output .= "<tr>\n";
+  $output .= "  <th colspan=\"3\"><strong>DAMAGE TRACK</strong></th>\n";
+  $output .= "</tr>\n";
+  $output .= "<tr>\n";
+  if ($stun_damage < 1) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 2) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 3) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <th>&nbsp; -1</th>\n";
+  }
+  $output .= "</tr>\n";
+  $output .= "<tr>\n";
+  if ($stun_damage < 4) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 5) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 6) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <th>&nbsp; -2</th>\n";
+  }
+  $output .= "</tr>\n";
+  $output .= "<tr>\n";
+  if ($stun_damage < 7) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 8) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 9) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <th>&nbsp; -3</th>\n";
+  }
+  $output .= "</tr>\n";
+  $output .= "<tr>\n";
+  if ($stun_damage < 10) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 11) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 12) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <th>&nbsp; -4</th>\n";
+  }
+  $output .= "</tr>\n";
+  $output .= "<tr>\n";
+  if ($stun_damage < 13) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 14) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 15) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <th>&nbsp; -5</th>\n";
+  }
+  $output .= "</tr>\n";
+  $output .= "<tr>\n";
+  if ($stun_damage < 16) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 17) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <td>&nbsp;</td>\n";
+  }
+  if ($stun_damage < 18) {
+    $output .= "  <th><strong>PHYSICAL</strong></th>\n";
+  } else {
+    $output .= "  <th>&nbsp; -6</th>\n";
+  }
+  $output .= "</tr>\n";
+
+  $output .= "<tr>\n";
+  $output .= "  <th colspan=\"3\"><i>8 + (WILLPOWER / 2) ROUND UP</i></th>\n";
+  $output .= "</tr>\n";
+  $output .= "</table></td>\n";
+
 
   $output .= "<td><table>\n";
   $output .= "<tr>\n";
@@ -370,102 +487,102 @@
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   if ($physical_damage < 1) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 2) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 3) {
-    $output .= "  <th><strong>X</strong> -1</th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <th>&nbsp; -1</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   if ($physical_damage < 4) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 5) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 6) {
-    $output .= "  <th><strong>X</strong> -2</th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <th>&nbsp; -2</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   if ($physical_damage < 7) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 8) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 9) {
-    $output .= "  <th><strong>X</strong> -3</th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <th>&nbsp; -3</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   if ($physical_damage < 10) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 11) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 12) {
-    $output .= "  <th><strong>X</strong> -4</th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <th>&nbsp; -4</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   if ($physical_damage < 13) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 14) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 15) {
-    $output .= "  <th><strong>X</strong> -5</th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <th>&nbsp; -5</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   if ($physical_damage < 16) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 17) {
-    $output .= "  <th><strong>X</strong></th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
   if ($physical_damage < 18) {
-    $output .= "  <th><strong>X</strong> -6</th>\n";
+    $output .= "  <th><strong>OVERFLOW</strong></th>\n";
   } else {
     $output .= "  <th>&nbsp; -6</th>\n";
   }
@@ -478,116 +595,115 @@
 
   $output .= "<td><table>\n";
   $output .= "<tr>\n";
-  $output .= "  <th colspan=\"3\"><strong>STUN</strong></th>\n";
+  $output .= "  <th colspan=\"3\"><strong>OVERFLOW</strong></th>\n";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   $output .= "  <th colspan=\"3\"><strong>DAMAGE TRACK</strong></th>\n";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  if ($stun_damage < 1) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 1) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 2) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 2) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 3) {
-    $output .= "  <th><strong>X</strong> -1</th>\n";
+  if ($overflow_damage < 3) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
-    $output .= "  <th>&nbsp; -1</th>\n";
+    $output .= "  <th>&nbsp; +(-1)</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  if ($stun_damage < 4) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 4) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 5) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 5) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 6) {
-    $output .= "  <th><strong>X</strong> -2</th>\n";
+  if ($overflow_damage < 6) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
-    $output .= "  <th>&nbsp; -2</th>\n";
+    $output .= "  <th>&nbsp; +(-2)</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  if ($stun_damage < 7) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 7) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 8) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 8) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 9) {
-    $output .= "  <th><strong>X</strong> -3</th>\n";
+  if ($overflow_damage < 9) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
-    $output .= "  <th>&nbsp; -3</th>\n";
+    $output .= "  <th>&nbsp; +(-3)</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  if ($stun_damage < 10) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 10) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 11) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 11) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 12) {
-    $output .= "  <th><strong>X</strong> -4</th>\n";
+  if ($overflow_damage < 12) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
-    $output .= "  <th>&nbsp; -4</th>\n";
+    $output .= "  <th>&nbsp; +(-4)</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  if ($stun_damage < 13) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 13) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 14) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 14) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 15) {
-    $output .= "  <th><strong>X</strong> -5</th>\n";
+  if ($overflow_damage < 15) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
-    $output .= "  <th>&nbsp; -5</th>\n";
+    $output .= "  <th>&nbsp; +(-5)</th>\n";
   }
   $output .= "</tr>\n";
   $output .= "<tr>\n";
-  if ($stun_damage < 16) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 16) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 17) {
-    $output .= "  <th><strong>X</strong></th>\n";
+  if ($overflow_damage < 17) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
     $output .= "  <td>&nbsp;</td>\n";
   }
-  if ($stun_damage < 18) {
-    $output .= "  <th><strong>X</strong> -6</th>\n";
+  if ($overflow_damage < 18) {
+    $output .= "  <th><strong>DEAD</strong></th>\n";
   } else {
-    $output .= "  <th>&nbsp; -6</th>\n";
+    $output .= "  <th>&nbsp; +(-6)</th>\n";
   }
   $output .= "</tr>\n";
-
   $output .= "<tr>\n";
-  $output .= "  <th colspan=\"3\"><i>8 + (WILLPOWER / 2) ROUND UP</i></th>\n";
+  $output .= "  <th colspan=\"3\"><i>BODY * 2</i></th>\n";
   $output .= "</tr>\n";
   $output .= "</table></td>\n";
 
@@ -1564,9 +1680,10 @@
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
-  $header = "Bioware";
-  $bioware = "";
-  $paren = "";
+  $output .= "<tr>\n";
+  $output .= "  <th><strong>Bioware</strong></th>\n";
+  $output .= "  <th><strong>Rating</strong></th>\n";
+  $output .= "</tr>\n";
   $q_string  = "select r_bio_id,r_bio_specialize,bio_name,bio_rating,grade_name,grade_essence ";
   $q_string .= "from r_bioware ";
   $q_string .= "left join bioware on bioware.bio_id = r_bioware.r_bio_number ";
@@ -1577,45 +1694,26 @@
   if (mysqli_num_rows($q_r_bioware) > 0) {
     while ($a_r_bioware = mysqli_fetch_array($q_r_bioware)) {
 
-      $bio_name = $a_r_bioware['bio_name'];
+      $bioware = $a_r_bioware['bio_name'];
       if ($a_r_bioware['r_bio_specialize'] != '') {
-        $bio_name = $a_r_bioware['bio_name'] . " (" . $a_r_bioware['r_bio_specialize'] . ")";
+        $bioware = $a_r_bioware['bio_name'] . " (" . $a_r_bioware['r_bio_specialize'] . ")";
       }
 
-      $grade = '';
-      if ($a_r_bioware['grade_essence'] != 1.00) {
-        $grade = $a_r_bioware['grade_name'];
+      $grade = return_Grade($a_r_bioware['grade_essence'], $a_r_bioware['grade_name']);
+      if ($grade != '') {
+        $bioware .= " (" . $grade . ")";
       }
 
       $rating = return_Rating($a_r_bioware['bio_rating']);
 
-      $bioware .= $paren . $bio_name;
-
-      $paren = " (";
-      if ($grade != '') {
-        $bioware .= $paren . $grade;
-        $paren = ", ";
-      }
-      if ($rating != "--") {
-        $bioware .= $paren . "Rating " . $rating;
-        $paren = ", ";
-      }
-
-# basically was the paren variable used? If so, add the trailing paren
-      if ($paren != " (") {
-        $bioware .= ")";
-      }
-# now set to comma for the next item if any.
-      $paren = ", ";
-
+      $output .= "<tr>\n";
+      $output .= "  <td>" . $bioware . "</td>\n";
+      $output .= "  <th>" . $rating . "</th>\n";
+      $output .= "</tr>\n";
     }
-    $output .= "<tr>\n";
-    $output .= "  <th colspan=\"2\">" . $header . "</th>";
-    $output .= "  <td colspan=\"8\">" . $bioware . "</td>\n";
-    $output .= "</tr>\n";
   }
   $output .= "<tr>\n";
-  $output .= "  <td colspan=\"8\"><i>BIOWARE</i></td>\n";
+  $output .= "  <td colspan=\"2\"><i>BIOWARE</i></td>\n";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
@@ -1624,7 +1722,7 @@
   $output .= "<table>\n";
   $output .= "<tr>\n";
   $output .= "  <th><strong>VEHICLE</strong></th>\n";
-  $output .= "  <th><strong>TYPE</strong></th>\n";
+#  $output .= "  <th><strong>TYPE</strong></th>\n";
   $output .= "  <th><strong>HANDLING</strong></th>\n";
   $output .= "  <th><strong>SPEED</strong></th>\n";
   $output .= "  <th><strong>ACCELERATION</strong></th>\n";
@@ -1654,8 +1752,8 @@
       $veh_seats = return_Seats($a_r_vehicles['veh_onseats'], $a_r_vehicles['veh_offseats']);
 
       $output .= "<tr>\n";
-      $output .= "  <td>" . $a_r_vehicles['veh_make'] . " " . $a_r_vehicles['veh_model'] . "</td>\n";
-      $output .= "  <td>" . $a_r_vehicles['veh_type']                                    . "</td>\n";
+      $output .= "  <td>" . $a_r_vehicles['veh_make'] . " " . $a_r_vehicles['veh_model'] . " (" . $a_r_vehicles['veh_type'] . ")</td>\n";
+#      $output .= "  <td>" . $a_r_vehicles['veh_type']                                    . "</td>\n";
       $output .= "  <th>" . $veh_handling                                                . "</th>\n";
       $output .= "  <th>" . $veh_speed                                                   . "</th>\n";
       $output .= "  <th>" . $veh_acceleration                                            . "</th>\n";
@@ -1709,7 +1807,7 @@
     }
   }
   $output .= "<tr>\n";
-  $output .= "  <td colspan=\"8\"><i>VEHICLES</i></td>\n";
+  $output .= "  <td colspan=\"10\"><i>VEHICLES</i></td>\n";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
@@ -2104,7 +2202,6 @@
   $output .= "  <th><strong>Range</strong></th>\n";
   $output .= "  <th><strong>Duration</strong></th>\n";
   $output .= "  <th><strong>DV</strong></th>\n";
-  $output .= "  <th><strong>Notes</strong></th>\n";
   $output .= "</tr>\n";
   $q_string  = "select r_spell_special,spell_name,spell_range,spell_duration,spell_drain,class_name ";
   $q_string .= "from r_spells ";
@@ -2130,12 +2227,11 @@
       $output .= "  <td>" . $a_r_spells['spell_range']    . "</td>\n";
       $output .= "  <td>" . $a_r_spells['spell_duration'] . "</td>\n";
       $output .= "  <th>" . $a_r_spells['spell_drain']    . "</th>\n";
-      $output .= "  <td>&nbsp;</td>\n";
       $output .= "</tr>\n";
     }
   }
   $output .= "<tr>\n";
-  $output .= "  <td colspan=\"6\"><i>SPELLS</i></td>\n";
+  $output .= "  <td colspan=\"5\"><i>SPELLS</i></td>\n";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
@@ -2143,13 +2239,16 @@
 
   $output .= "<table>\n";
   $output .= "<tr>\n";
-  $output .= "  <td><table>\n";
-  $output .= "<tr>\n";
-  $output .= "  <th><strong>ALCHEMICAL PREPARATIONS</strong></th>\n";
+  $output .= "  <th><strong>Type</strong></th>\n";
+  $output .= "  <th><strong>Name</strong></th>\n";
+  $output .= "  <th><strong>Range</strong></th>\n";
+  $output .= "  <th><strong>Duration</strong></th>\n";
+  $output .= "  <th><strong>DV</strong></th>\n";
   $output .= "</tr>\n";
-  $q_string  = "select r_alc_special,spell_name ";
+  $q_string  = "select r_alc_special,spell_name,spell_range,spell_duration,spell_drain,class_name ";
   $q_string .= "from r_alchemy ";
   $q_string .= "left join spells on spells.spell_id = r_alchemy.r_alc_number ";
+  $q_string .= "left join class  on class.class_id  = spells.spell_group ";
   $q_string .= "where r_alc_character = " . $formVars['id'] . " ";
   $q_string .= "order by spell_name ";
   $q_r_alchemy = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
@@ -2165,16 +2264,22 @@
       $alchemy = $a_r_alchemy['spell_name'] . $special;
 
       $output .= "<tr>\n";
-      $output .= "  <td>" . $alchemy . "</td>\n";
+      $output .= "  <td>" . $a_r_alchemy['class_name']     . "</td>\n";
+      $output .= "  <td>" . $alchemy                       . "</td>\n";
+      $output .= "  <td>" . $a_r_alchemy['spell_range']    . "</td>\n";
+      $output .= "  <td>" . $a_r_alchemy['spell_duration'] . "</td>\n";
+      $output .= "  <th>" . $a_r_alchemy['spell_drain']    . "</th>\n";
       $output .= "</tr>\n";
     }
   }
   $output .= "<tr>\n";
-  $output .= "  <td><i>ALCHEMICAL PREPARATIONS</i></td>\n";
+  $output .= "  <td colspan=\"5\"><i>ALCHEMICAL PREPARATIONS</i></td>\n";
   $output .= "</tr>\n";
   $output .= "</table></td>\n";
 
-  $output .= "  <td><table>\n";
+  $output .= "<p></p>\n";
+
+  $output .= "<table>\n";
   $output .= "<tr>\n";
   $output .= "  <th><strong>SPIRIT</strong></th>\n";
   $output .= "  <th><strong>FORCE</strong></th>\n";
@@ -2200,14 +2305,11 @@
   $output .= "<tr>\n";
   $output .= "  <td colspan=\"4\"><i>SPIRITS</i></td>\n";
   $output .= "</tr>\n";
-  $output .= "</table></td>\n";
-  $output .= "</tr>\n";
-  $output .= "<table>\n";
+  $output .= "</table>\n";
 
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
-
   $output .= "<tr>\n";
   $output .= "  <td><table>\n";
   $output .= "<tr>\n";
