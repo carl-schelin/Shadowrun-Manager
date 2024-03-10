@@ -878,10 +878,9 @@
 
   $output .= "<table width=\"100%\">\n";
   $output .= "<tr>\n";
-  $output .= "  <th width=\"40%\"><strong>CONTACT NAME</strong></th>\n";
-  $output .= "  <th width=\"15%\"><strong>CONNECTION</strong></th>\n";
-  $output .= "  <th width=\"15%\"><strong>LOYALTY</strong></th>\n";
-  $output .= "  <th width=\"30%\"><strong>NOTES</strong></th>\n";
+  $output .= "  <th width=\"30%\"><strong>Contact Name</strong></th>\n";
+  $output .= "  <th width=\"10%\"><strong>Connection</strong></th>\n";
+  $output .= "  <th width=\"10%\"><strong>Loyalty</strong></th>\n";
   $output .= "</tr>\n";
   $q_string  = "select con_name,con_archetype,r_con_loyalty,r_con_connection ";
   $q_string .= "from r_contact ";
@@ -900,13 +899,12 @@
       $output .= "  <td>" . $a_r_contact['con_archetype'] . " (" . $a_r_contact['con_name'] . ")</td>\n";
       $output .= "  <th>" . $a_r_contact['r_con_connection'] . "</th>\n";
       $output .= "  <th>" . $a_r_contact['r_con_loyalty'] . "</th>\n";
-      $output .= "  <td>&nbsp;</td>\n";
       $output .= "</tr>\n";
       $header = "&nbsp;";
     }
   }
   $output .= "<tr>\n";
-  $output .= "  <td colspan=\"4\"><i>CONTACTS</i></td>";
+  $output .= "  <td colspan=\"3\"><i>CONTACTS</i></td>";
   $output .= "</tr>\n";
   $output .= "</table>\n";
 
@@ -914,8 +912,8 @@
 
   $output .= "<table>\n";
   $output .= "<tr>\n";
-  $output .= "  <th><strong>ARMOR</strong></th>";
-  $output .= "  <th><strong>RATING</strong></th>";
+  $output .= "  <th><strong>Armor</strong></th>";
+  $output .= "  <th><strong>Rating</strong></th>";
   $output .= "</tr>\n";
   $q_string  = "select r_arm_id,r_arm_details,arm_name,arm_rating ";
   $q_string .= "from r_armor ";
@@ -1177,15 +1175,6 @@
 
   $output .= "<p></p>\n";
 
-  $output .= "<table>\n";
-  $output .= "<tr>\n";
-  $output .= "  <th width=\"25%\"><strong>Commlink</strong></th>\n";
-  $output .= "  <th width=\"10%\"><strong>Rating</strong></th>\n";
-  $output .= "  <th width=\"20%\"><strong>Data Processing</strong></th>\n";
-  $output .= "  <th width=\"10%\"><strong>Firewall</strong></th>\n";
-  $output .= "  <th width=\"10%\"><strong>Programs</strong></th>\n";
-  $output .= "  <th width=\"25%\"><strong>Initiative</strong></th>\n";
-  $output .= "</tr>\n";
   $q_string  = "select r_link_id,link_id,link_brand,link_model,link_rating,r_link_data,r_link_firewall,link_program,r_link_access,r_link_active ";
   $q_string .= "from r_commlink ";
   $q_string .= "left join commlink on commlink.link_id = r_commlink.r_link_number ";
@@ -1194,6 +1183,21 @@
   $q_r_commlink = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   if (mysqli_num_rows($q_r_commlink) > 0) {
     while ($a_r_commlink = mysqli_fetch_array($q_r_commlink)) {
+
+      $output .= "<table>\n";
+      $output .= "<tr>\n";
+
+      $output .= "<td width=\"67%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th><strong>Commlink</strong></th>\n";
+      $output .= "  <th><strong>Rating</strong></th>\n";
+      $output .= "  <th><strong>Data Processing</strong></th>\n";
+      $output .= "  <th><strong>Firewall</strong></th>\n";
+      $output .= "  <th><strong>Programs</strong></th>\n";
+      $output .= "  <th><strong>Initiative</strong></th>\n";
+      $output .= "</tr>\n";
+
+      $matrix_damage = ceil(($a_r_commlink['link_rating'] / 2) + 8);
 
       $rating = return_Rating($a_r_commlink['link_rating']);
 
@@ -1286,26 +1290,134 @@
           $output .= "</tr>\n";
         }
       }
+      $output .= "</table></td>\n";
+
+      $output .= "<td width=\"33%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>MATRIX</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>DAMAGE TRACK</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 1) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 2) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 3) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -1</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 4) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 5) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 6) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -2</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 7) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 8) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 9) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -3</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 10) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 11) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 12) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -4</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 13) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 14) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 15) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -5</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 16) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 17) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 18) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -6</th>\n";
+      }
+      $output .= "</tr>\n";
+
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><i>8 + (DEVICE RATING / 2) ROUND UP</i></th>\n";
+      $output .= "</tr>\n";
+      $output .= "</table></td>\n";
+
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <td colspan=\"2\"><i>COMMLINKS</i></td>\n";
+      $output .= "</tr>\n";
+      $output .= "</table>\n";
+
+      $output .= "<p></p>\n";
+
     }
   }
-  $output .= "<tr>\n";
-  $output .= "  <td colspan=\"8\"><i>COMMLINKS</i></td>\n";
-  $output .= "</tr>\n";
-  $output .= "</table>\n";
 
-  $output .= "<p></p>\n";
-
-  $output .= "<table>\n";
-  $output .= "<tr>\n";
-  $output .= "  <th><strong>Command Console</strong></th>\n";
-  $output .= "  <th><strong>Rating</strong></th>\n";
-  $output .= "  <th><strong>Data Processing</strong></th>\n";
-  $output .= "  <th><strong>Firewall</strong></th>\n";
-  $output .= "  <th><strong>Initiative</strong></th>\n";
-  $output .= "</tr>\n";
-
-  $header = "Rigger Command Console";
-  $command = "";
   $q_string  = "select r_cmd_id,cmd_brand,cmd_model,cmd_rating,cmd_programs,";
   $q_string .= "cmd_data,cmd_firewall,r_cmd_noise,r_cmd_sharing,r_cmd_access ";
   $q_string .= "from r_command ";
@@ -1316,7 +1428,23 @@
   if (mysqli_num_rows($q_r_command) > 0) {
     while ($a_r_command = mysqli_fetch_array($q_r_command)) {
 
+      $output .= "<table>\n";
+      $output .= "<tr>\n";
+
+      $output .= "<td width=\"67%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th><strong>Command Console</strong></th>\n";
+      $output .= "  <th><strong>Rating</strong></th>\n";
+      $output .= "  <th><strong>Data Processing</strong></th>\n";
+      $output .= "  <th><strong>Firewall</strong></th>\n";
+      $output .= "  <th><strong>Initiative</strong></th>\n";
+      $output .= "</tr>\n";
+
+      $matrix_damage = ceil(($a_r_command['cmd_rating'] / 2) + 8);
+
       $rating = return_Rating($a_r_command['cmd_rating']);
+
+      $matrix = ($a_runners['runr_reaction'] + $a_runners['runr_intuition']) . " + 1d6";
 
       $output .= "<tr>\n";
       $output .= "  <td>" . $a_r_command['cmd_brand'] . " " . $a_r_command['cmd_model'] . "</td>\n";
@@ -1371,23 +1499,133 @@
           $output .= "</tr>\n";
         }
       }
+      $output .= "</table></td>\n";
+
+      $output .= "<td width=\"33%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>MATRIX</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>DAMAGE TRACK</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 1) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 2) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 3) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -1</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 4) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 5) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 6) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -2</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 7) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 8) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 9) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -3</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 10) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 11) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 12) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -4</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 13) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 14) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 15) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -5</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 16) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 17) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 18) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -6</th>\n";
+      }
+      $output .= "</tr>\n";
+
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><i>8 + (DEVICE RATING / 2) ROUND UP</i></th>\n";
+      $output .= "</tr>\n";
+      $output .= "</table></td>\n";
+
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <td colspan=\"2\"><i>COMMAND CONSOLE</i></td>\n";
+      $output .= "</tr>\n";
+      $output .= "</table>\n";
+
+      $output .= "<p></p>\n";
     }
   }
-  $output .= "<tr>\n";
-  $output .= "  <td colspan=\"5\"><i>COMMAND CONSOLE</i></td>\n";
-  $output .= "</tr>\n";
-  $output .= "</table>\n";
 
-  $output .= "<p></p>\n";
-
-  $output .= "<table>\n";
-  $output .= "<tr>\n";
-  $output .= "  <th><strong>Cyberjack</strong></th>\n";
-  $output .= "  <th><strong>Rating</strong></th>\n";
-  $output .= "  <th><strong>Data Processing</strong></th>\n";
-  $output .= "  <th><strong>Firewall</strong></th>\n";
-  $output .= "  <th><strong>Initiative</strong></th>\n";
-  $output .= "</tr>\n";
   $q_string  = "select r_jack_id,jack_name,jack_rating,r_jack_data,r_jack_firewall,r_jack_access ";
   $q_string .= "from r_cyberjack ";
   $q_string .= "left join cyberjack on cyberjack.jack_id = r_cyberjack.r_jack_number ";
@@ -1396,6 +1634,20 @@
   $q_r_cyberjack = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   if (mysqli_num_rows($q_r_cyberjack) > 0) {
     while ($a_r_cyberjack = mysqli_fetch_array($q_r_cyberjack)) {
+
+      $output .= "<table>\n";
+      $output .= "<tr>\n";
+
+      $output .= "<td width=\"67%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th><strong>Cyberjack</strong></th>\n";
+      $output .= "  <th><strong>Rating</strong></th>\n";
+      $output .= "  <th><strong>Data Processing</strong></th>\n";
+      $output .= "  <th><strong>Firewall</strong></th>\n";
+      $output .= "  <th><strong>Initiative</strong></th>\n";
+      $output .= "</tr>\n";
+
+      $matrix_damage = ceil(($a_r_cyberjack['jack_rating'] / 2) + 8);
 
       $rating = return_Rating($a_r_cyberjack['jack_rating']);
 
@@ -1441,28 +1693,133 @@
 
         }
       }
+      $output .= "</table></td>\n";
+
+      $output .= "<td width=\"33%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>MATRIX</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>DAMAGE TRACK</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 1) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 2) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 3) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -1</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 4) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 5) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 6) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -2</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 7) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 8) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 9) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -3</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 10) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 11) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 12) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -4</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 13) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 14) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 15) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -5</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 16) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 17) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 18) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -6</th>\n";
+      }
+      $output .= "</tr>\n";
+
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><i>8 + (DEVICE RATING / 2) ROUND UP</i></th>\n";
+      $output .= "</tr>\n";
+      $output .= "</table></td>\n";
+
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <td colspan=\"2\"><i>CYBERJACKS</i></td>\n";
+      $output .= "</tr>\n";
+      $output .= "</table>\n";
+
+      $output .= "<p></p>\n";
     }
   }
-  $output .= "<tr>\n";
-  $output .= "  <td colspan=\"5\"><i>CYBERJACKS</i></td>\n";
-  $output .= "</tr>\n";
-  $output .= "</table>\n";
 
-  $output .= "<p></p>\n";
-
-  $output .= "<table>\n";
-  $output .= "<tr>\n";
-  $output .= "  <th><strong>Cyberdeck</strong></th>\n";
-  $output .= "  <th><strong>Rating</strong></th>\n";
-  $output .= "  <th><strong>Attack</strong></th>\n";
-  $output .= "  <th><strong>Sleaze</strong></th>\n";
-  if ($a_runners['runr_version'] != 31) {
-    $output .= "  <th><strong>Data Processing</strong></th>\n";
-    $output .= "  <th><strong>Firewall</strong></th>\n";
-  }
-  $output .= "  <th><strong>Programs</strong></th>\n";
-  $output .= "  <th><strong>Initiative</strong></th>\n";
-  $output .= "</tr>\n";
   $q_string  = "select r_deck_id,deck_brand,deck_model,deck_rating,deck_programs,r_deck_attack,r_deck_sleaze,";
   $q_string .= "r_deck_data,r_deck_firewall,r_deck_access ";
   $q_string .= "from r_cyberdeck ";
@@ -1472,6 +1829,25 @@
   $q_r_cyberdeck = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   if (mysqli_num_rows($q_r_cyberdeck) > 0) {
     while ($a_r_cyberdeck = mysqli_fetch_array($q_r_cyberdeck)) {
+
+      $output .= "<table>\n";
+      $output .= "<tr>\n";
+
+      $output .= "<td width=\"67%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th><strong>Cyberdeck</strong></th>\n";
+      $output .= "  <th><strong>Rating</strong></th>\n";
+      $output .= "  <th><strong>Attack</strong></th>\n";
+      $output .= "  <th><strong>Sleaze</strong></th>\n";
+      if ($a_runners['runr_version'] != 31) {
+        $output .= "  <th><strong>Data Processing</strong></th>\n";
+        $output .= "  <th><strong>Firewall</strong></th>\n";
+      }
+      $output .= "  <th><strong>Programs</strong></th>\n";
+      $output .= "  <th><strong>Initiative</strong></th>\n";
+      $output .= "</tr>\n";
+
+      $matrix_damage = ceil(($a_r_cyberdeck['deck_rating'] / 2) + 8);
 
       $rating = return_Rating($a_r_cyberdeck['deck_rating']);
 
@@ -1614,16 +1990,139 @@
           $output .= "</tr>\n";
         }
       }
+      $output .= "</table></td>\n";
+
+      $output .= "<td width=\"33%\"><table>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>MATRIX</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><strong>DAMAGE TRACK</strong></th>\n";
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 1) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 2) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 3) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -1</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 4) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 5) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 6) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -2</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 7) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 8) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 9) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -3</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 10) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 11) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 12) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -4</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 13) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 14) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 15) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -5</th>\n";
+      }
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      if ($matrix_damage < 16) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 17) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <td>&nbsp;</td>\n";
+      }
+      if ($matrix_damage < 18) {
+        $output .= "  <th><strong>X</strong></th>\n";
+      } else {
+        $output .= "  <th>&nbsp; -6</th>\n";
+      }
+      $output .= "</tr>\n";
+
+      $output .= "<tr>\n";
+      $output .= "  <th colspan=\"3\"><i>8 + (DEVICE RATING / 2) ROUND UP</i></th>\n";
+      $output .= "</tr>\n";
+      $output .= "</table></td>\n";
+
+      $output .= "</tr>\n";
+      $output .= "<tr>\n";
+      $output .= "  <td colspan=\"2\"><i>CYBERDECKS</i></td>\n";
+      $output .= "</tr>\n";
+      $output .= "</table>\n";
+
+      $output .= "<p></p>\n";
     }
   }
-  $output .= "<tr>\n";
-  $output .= "  <td colspan=\"8\"><i>CYBERDECKS</i></td>\n";
-  $output .= "</tr>\n";
-  $output .= "</table>\n";
 
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
+  $output .= "<tr>\n";
+
+  $output .= "<td><table>\n";
   $output .= "<tr>\n";
   $output .= "  <th><strong>Cyberware</strong></th>\n";
   $output .= "  <th><strong>Rating</strong></th>\n";
@@ -1675,11 +2174,10 @@
   $output .= "<tr>\n";
   $output .= "  <td colspan=\"8\"><i>CYBERWARE</i></td>\n";
   $output .= "</tr>\n";
-  $output .= "</table>\n";
+  $output .= "</table></td>\n";
 
-  $output .= "<p></p>\n";
 
-  $output .= "<table>\n";
+  $output .= "<td><table>\n";
   $output .= "<tr>\n";
   $output .= "  <th><strong>Bioware</strong></th>\n";
   $output .= "  <th><strong>Rating</strong></th>\n";
@@ -1715,22 +2213,24 @@
   $output .= "<tr>\n";
   $output .= "  <td colspan=\"2\"><i>BIOWARE</i></td>\n";
   $output .= "</tr>\n";
+  $output .= "</table></td>\n";
+
+  $output .= "</tr>\n";
   $output .= "</table>\n";
 
   $output .= "<p></p>\n";
 
   $output .= "<table>\n";
   $output .= "<tr>\n";
-  $output .= "  <th><strong>VEHICLE</strong></th>\n";
-#  $output .= "  <th><strong>TYPE</strong></th>\n";
-  $output .= "  <th><strong>HANDLING</strong></th>\n";
-  $output .= "  <th><strong>SPEED</strong></th>\n";
-  $output .= "  <th><strong>ACCELERATION</strong></th>\n";
-  $output .= "  <th><strong>BODY</strong></th>\n";
-  $output .= "  <th><strong>ARMOR</strong></th>\n";
-  $output .= "  <th><strong>PILOT</strong></th>\n";
-  $output .= "  <th><strong>SENSOR</strong></th>\n";
-  $output .= "  <th><strong>SEATS</strong></th>\n";
+  $output .= "  <th width=\"44%\"><strong>Vehicle</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Hand</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Speed</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Accel</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Body</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Armor</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Pilot</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Sensor</strong></th>\n";
+  $output .= "  <th width=\"7%\"><strong>Seats</strong></th>\n";
   $output .= "</tr>\n";
   $q_string  = "select r_veh_id,veh_type,veh_make,veh_model,veh_onacc,veh_offacc,veh_onhand,";
   $q_string .= "veh_offhand,veh_onspeed,veh_offspeed,veh_pilot,veh_body,veh_armor,veh_sensor,";
@@ -1753,7 +2253,6 @@
 
       $output .= "<tr>\n";
       $output .= "  <td>" . $a_r_vehicles['veh_make'] . " " . $a_r_vehicles['veh_model'] . " (" . $a_r_vehicles['veh_type'] . ")</td>\n";
-#      $output .= "  <td>" . $a_r_vehicles['veh_type']                                    . "</td>\n";
       $output .= "  <th>" . $veh_handling                                                . "</th>\n";
       $output .= "  <th>" . $veh_speed                                                   . "</th>\n";
       $output .= "  <th>" . $veh_acceleration                                            . "</th>\n";
