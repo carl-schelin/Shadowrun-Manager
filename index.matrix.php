@@ -557,7 +557,7 @@ $(document).ready( function() {
 
 <p><strong>Damage</strong></p>
 
-<p>Matrix Condition Monitor: ceil(Device Rating / 2) + 8. Filling the MCM bricks the device.</p>
+<p>Matrix Condition Monitor: ceil(Device Rating / 2) + 8. Filling the MCM bricks the device. (pg 174)</p>
 
 <p>Note from Page 176: "Cyberjacks are a fairly invasive piece of gear, implanted deep into the brain"</p>
 
