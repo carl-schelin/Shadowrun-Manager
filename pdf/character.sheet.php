@@ -2694,10 +2694,48 @@
 
   $output .= "<p></p>\n";
 
+
+#######
+# Spells
+######
+# to get the drain soak;
+# need the character's tradition settings; trad_drainleft and trad_drainright; aka Willpower + Logic for Hermetic
+# For the actual values, need the names to concatinate with the runr_ column name
+  $trad_desc = "Tradition Not Selected";
+
+  $q_string  = "select r_trad_id,trad_drainleft,trad_drainright ";
+  $q_string .= "from r_tradition ";
+  $q_string .= "left join tradition on tradition.trad_id = r_tradition.r_trad_number ";
+  $q_string .= "where r_trad_character = " . $formVars['id'] . " ";
+  $q_r_tradition = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  if (mysqli_num_rows($q_r_tradition) > 0) {
+    $a_r_tradition = mysqli_fetch_array($q_r_tradition);
+
+    $q_string  = "select att_name,att_column ";
+    $q_string .= "from attributes ";
+    $q_string .= "where att_id = " . $a_r_tradition['trad_drainleft'] . " ";
+    $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_attributes) > 0) {
+      $a_attributes = mysqli_fetch_array($q_attributes);
+      $trad_soak = $a_runners[$a_attributes['att_column']];
+      $trad_desc = "Spell Soak: " . $a_attributes['att_name'];
+    }
+
+    $q_string  = "select att_name,att_column ";
+    $q_string .= "from attributes ";
+    $q_string .= "where att_id = " . $a_r_tradition['trad_drainright'] . " ";
+    $q_attributes = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+    if (mysqli_num_rows($q_attributes) > 0) {
+      $a_attributes = mysqli_fetch_array($q_attributes);
+      $trad_soak += $a_runners[$a_attributes['att_column']];
+      $trad_desc .= "+" . $a_attributes['att_name'] . "(DV)";
+    }
+  }
+
   $output .= "<table>\n";
   $output .= "<tr>\n";
+  $output .= "  <th><strong>Spell Name</strong></th>\n";
   $output .= "  <th><strong>Type</strong></th>\n";
-  $output .= "  <th><strong>Name</strong></th>\n";
   $output .= "  <th><strong>Range</strong></th>\n";
   $output .= "  <th><strong>Duration</strong></th>\n";
   $output .= "  <th><strong>DV</strong></th>\n";
@@ -2718,17 +2756,18 @@
         $special = '';
       }
 
-      $spells .= $comma . $a_r_spells['spell_name'] . $special;
-      $comma = ", ";
       $output .= "<tr>\n";
+      $output .= "  <td>" . $a_r_spells['spell_name'] . $special . "</td>\n";
       $output .= "  <td>" . $a_r_spells['class_name']     . "</td>\n";
-      $output .= "  <td>" . $a_r_spells['spell_name']     . "</td>\n";
-      $output .= "  <td>" . $a_r_spells['spell_range']    . "</td>\n";
-      $output .= "  <td>" . $a_r_spells['spell_duration'] . "</td>\n";
-      $output .= "  <th>" . $a_r_spells['spell_drain']    . "</th>\n";
+      $output .= "  <th>" . $a_r_spells['spell_range']    . "</th>\n";
+      $output .= "  <th>" . $a_r_spells['spell_duration'] . "</th>\n";
+      $output .= "  <th>" . $trad_soak . "(" . $a_r_spells['spell_drain'] . " + (Amp x 2))</th>\n";
       $output .= "</tr>\n";
     }
   }
+  $output .= "<tr>\n";
+  $output .= "  <td colspan=\"5\">" . $trad_desc . "</td>\n";
+  $output .= "</tr>\n";
   $output .= "<tr>\n";
   $output .= "  <td colspan=\"5\"><i>SPELLS</i></td>\n";
   $output .= "</tr>\n";
