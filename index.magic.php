@@ -330,34 +330,19 @@ $(document).ready( function() {
 
 <p>Page 182</p>
 
+<p>Spellcasting</p>
+
 <ul>
-  <li>Spell Force (pg: )</li>
-  <li>Magic (pg: )</li>
-  <li>Spellcasting (pg: )</li>
-  <li>Additional Sustained Spells (pg: )</li>
-  <li>Visibility Modifier (pg: )</li>
-  <li>Mentor Spirit MOdifier (pg: )</li>
-  <li>Spellcasting focus (pg: )</li>
-  <li>Wound Modifier (pg: )</li>
+  <li>Choose a Spell. If you have sustained spells, -2 dice pool per spell.</li>
+  <li>Choose the Force. Max of Magic x 2 but Overcasting causes physical Drain.</li>
+  <li>Choose the Target(s). 
+  <li>Make Spellcasting Test. Spellcasting + Magic modified by foci, totems, bound spirits, visiblity modifiers.</li>
+  <li>Determine Effect. For Live, Physical is resisted with Body, Mana with Willpower. Object Resistance.</li>
+  <li>Resist Drain. Willpower + Tradition Attribute (Charisma for Shamanic, Logic for Hermetic). Condition modifiers don't affect the pool.</li>
+  <li>Ongoing Effects. -2 for other tests for Sustained spells.</li>
 </ul>
 
-<p>Target</p>
-<ul>
-  <li>Spell: Physical or Mana (pg: )</li>
-  <li>Body (pg: )</li>
-  <li>Willpower (pg: )</li>
-  <li>Counterspelling Dice (pg: )</li>
-  <li>Astral Barrier Force (pg: )</li>
-</ul>
 
-<p>Spellcaster drain</p>
-<ul>
-  <li>Force (pg: )</li>
-  <li>Modifier (pg: )</li>
-  <li>Willpower (pg: )</li>
-  <li>Drain Attribute based on Tradition (pg: )</li>
-  <li>Spellcasting Focus (pg: )</li>
-</ul>
 
 </div>
 
