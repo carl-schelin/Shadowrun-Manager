@@ -458,6 +458,25 @@ $(document).ready( function() {
 
 </div>
 
+<p>Rigging starts on page 196. It’s a pretty short section.</p>
+
+<p>To “Jump Into” a vehicle or drone, you perform the Major Action: Jump Into Rigged Device Matrix Action on page 182. Note that if it’s your vehicle/drone, a test isn’t needed.</p>
+
+<p>If you’re remotely controlling a drone, Noise is a factor. See page 176 and 177 for data. If Noise is greater than the device rating, you lose access.</p>
+
+
+<p>Autosofts - These are used to improve capabilities of vehicles/drones</p>
+
+<p>Note that the cost of an Autosoft is based on the device attribute associated with the Autosoft</p>
+
+<ul>
+  <li>Clearsight - Adds Perception skill using Sensor as the attribute</ul>
+  <li>Electronic Warfare - Adds Cracking skill using Sensor as the attribute</ul>
+  <li>Evasion - Pilot + Evasion to avoid being hit. Pilot is the attribute</ul>
+  <li>Maneuvering - Adds Piloting skill using Pilot as the attribute</ul>
+  <li>Stealth - Adds Stealth skill using Sensor as the attribute</ul>
+  <li>Weapon Targeting - Adds Weapon skill using Sensor as the attribute</ul>
+</ul>
 
 </div>
 
