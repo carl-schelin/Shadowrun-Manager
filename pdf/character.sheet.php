@@ -77,8 +77,17 @@
   $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_runners = mysqli_fetch_array($q_runners);
 
+# retrieve karma value
+  $karma = 0;
+  $q_string  = "select kar_karma ";
+  $q_string .= "from karma ";
+  $q_string .= "where kar_character = " . $formVars['id'] . " ";
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_karma = mysqli_fetch_array($q_karma)) {
+    $karma += $a_karma['kar_karma'];
+  }
+
   $lifestyle = "";
-  $a_runners['runr_karma'] = 0;
   $q_string  = "select life_style,r_life_desc,r_life_months ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
@@ -98,9 +107,9 @@
     }
   }
 
-  $charsex = "Male";
+  $charsex = "Female";
   if ($a_runners['runr_sex']) {
-    $charsex = "Female";
+    $charsex = "Male";
   }
 
   $output .= "<table>\n";
@@ -111,8 +120,8 @@
   $output .= "  <td><strong>AGE</strong>: " . $a_runners['runr_age'] . " ";
   $output .= "<strong>SEX</strong>: " . $charsex . " ";
   $output .= "<strong>LIFESTYLE</strong>: " . $lifestyle . " ";
-  $output .= "<strong>TOTAL KARMA</strong>: " . $a_runners['runr_karma'] . " ";
-  $output .= "<strong>CURRENT KARMA</strong>: " . $a_runners['runr_karma'] . "</td>";
+  $output .= "<strong>TOTAL KARMA</strong>: " . $karma . " ";
+  $output .= "<strong>CURRENT KARMA</strong>: " . $karma . "</td>";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   $output .= "  <td><strong>METATYPE:</strong> " . $a_runners['meta_name'] . "</td>";
