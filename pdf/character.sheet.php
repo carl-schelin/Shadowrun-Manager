@@ -2294,6 +2294,24 @@
         }
       }
 
+
+      $q_string  = "select r_gear_id,gear_id,gear_name,gear_avail,gear_perm,ver_book,gear_page ";
+      $q_string .= "from r_gear ";
+      $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
+      $q_string .= "left join class on class.class_id = gear.gear_class ";
+      $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
+      $q_string .= "where r_gear_character = " . $formVars['id'] . " and r_gear_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
+      $q_string .= "order by gear_name,r_gear_details,gear_rating,gear_class ";
+      $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_gear) > 0) {
+        while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
+          $output .= "<tr>\n";
+          $output .= "<td colspan=\"10\">" . $a_r_gear['gear_name'] . "</td>\n";
+          $output .= "</tr>\n";
+        }
+      }
+
+
       $comma = ", w/";
       $q_string  = "select fa_name ";
       $q_string .= "from r_firearms ";
