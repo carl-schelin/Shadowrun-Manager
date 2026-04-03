@@ -219,7 +219,7 @@
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
       $output .= "<ul>\n";
-      $output .= "  <li><strong>Spell Listing</strong>\n";
+      $output .= "  <li><strong>Vehicle Listing</strong>\n";
       $output .= "  <ul>\n";
       $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>\n";
       $output .= "    <li><strong>Editing</strong> - Click on an association to edit it.</li>\n";

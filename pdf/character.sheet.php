@@ -77,8 +77,17 @@
   $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   $a_runners = mysqli_fetch_array($q_runners);
 
+# retrieve karma value
+  $karma = 0;
+  $q_string  = "select kar_karma ";
+  $q_string .= "from karma ";
+  $q_string .= "where kar_character = " . $formVars['id'] . " ";
+  $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+  while ($a_karma = mysqli_fetch_array($q_karma)) {
+    $karma += $a_karma['kar_karma'];
+  }
+
   $lifestyle = "";
-  $a_runners['runr_karma'] = 0;
   $q_string  = "select life_style,r_life_desc,r_life_months ";
   $q_string .= "from r_lifestyle ";
   $q_string .= "left join lifestyle on lifestyle.life_id = r_lifestyle.r_life_number ";
@@ -98,9 +107,9 @@
     }
   }
 
-  $charsex = "Male";
+  $charsex = "Female";
   if ($a_runners['runr_sex']) {
-    $charsex = "Female";
+    $charsex = "Male";
   }
 
   $output .= "<table>\n";
@@ -111,8 +120,8 @@
   $output .= "  <td><strong>AGE</strong>: " . $a_runners['runr_age'] . " ";
   $output .= "<strong>SEX</strong>: " . $charsex . " ";
   $output .= "<strong>LIFESTYLE</strong>: " . $lifestyle . " ";
-  $output .= "<strong>TOTAL KARMA</strong>: " . $a_runners['runr_karma'] . " ";
-  $output .= "<strong>CURRENT KARMA</strong>: " . $a_runners['runr_karma'] . "</td>";
+  $output .= "<strong>TOTAL KARMA</strong>: " . $karma . " ";
+  $output .= "<strong>CURRENT KARMA</strong>: " . $karma . "</td>";
   $output .= "</tr>\n";
   $output .= "<tr>\n";
   $output .= "  <td><strong>METATYPE:</strong> " . $a_runners['meta_name'] . "</td>";
@@ -2284,6 +2293,40 @@
           $output .= "</tr>\n";
         }
       }
+
+
+      $q_string  = "select r_gear_id,gear_id,gear_name,gear_avail,gear_perm,ver_book,gear_page ";
+      $q_string .= "from r_gear ";
+      $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
+      $q_string .= "left join class on class.class_id = gear.gear_class ";
+      $q_string .= "left join versions on versions.ver_id = gear.gear_book ";
+      $q_string .= "where r_gear_character = " . $formVars['id'] . " and r_gear_parentid = " . $a_r_vehicles['r_veh_id'] . " ";
+      $q_string .= "order by gear_name,r_gear_details,gear_rating,gear_class ";
+      $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      if (mysqli_num_rows($q_r_gear) > 0) {
+        while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
+          $output .= "<tr>\n";
+          $output .= "<td colspan=\"10\">" . "&gt;" . $a_r_gear['gear_name'] . "</td>\n";
+          $output .= "</tr>\n";
+
+
+          $q_string  = "select acc_name,acc_avail,acc_perm,ver_book,acc_page ";
+          $q_string .= "from r_accessory ";
+          $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
+          $q_string .= "left join versions  on versions.ver_id  = accessory.acc_book ";
+          $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
+              $output .= "<tr>\n";
+              $output .= "  <td colspan=\"10\">" . "&gt;&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+              $output .= "</tr>\n";
+
+            }
+          }
+        }
+      }
+
 
       $comma = ", w/";
       $q_string  = "select fa_name ";
