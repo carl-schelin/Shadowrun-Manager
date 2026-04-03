@@ -2306,8 +2306,24 @@
       if (mysqli_num_rows($q_r_gear) > 0) {
         while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
           $output .= "<tr>\n";
-          $output .= "<td colspan=\"10\">" . $a_r_gear['gear_name'] . "</td>\n";
+          $output .= "<td colspan=\"10\">" . "&gt;" . $a_r_gear['gear_name'] . "</td>\n";
           $output .= "</tr>\n";
+
+
+          $q_string  = "select acc_name,acc_avail,acc_perm,ver_book,acc_page ";
+          $q_string .= "from r_accessory ";
+          $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
+          $q_string .= "left join versions  on versions.ver_id  = accessory.acc_book ";
+          $q_string .= "where r_acc_character = " . $formVars['id'] . " and r_acc_parentid = " . $a_r_gear['r_gear_id'] . " ";
+          $q_r_accessory = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+          if (mysqli_num_rows($q_r_accessory) > 0) {
+            while ($a_r_accessory = mysqli_fetch_array($q_r_accessory)) {
+              $output .= "<tr>\n";
+              $output .= "  <td colspan=\"10\">" . "&gt;&gt; " . $a_r_accessory['acc_name'] . "</td>\n";
+              $output .= "</tr>\n";
+
+            }
+          }
         }
       }
 
