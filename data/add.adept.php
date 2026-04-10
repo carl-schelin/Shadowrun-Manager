@@ -74,6 +74,7 @@ function attach_adept(p_script_url, update) {
   aa_url += "&adp_power="   + encode_URI(aa_form.adp_power.value);
   aa_url += "&adp_active="  + encode_URI(aa_form.adp_active.value);
   aa_url += "&adp_level="   + encode_URI(aa_form.adp_level.value);
+  aa_url += "&adp_maxlvl="  + encode_URI(aa_form.adp_maxlvl.value);
   aa_url += "&adp_book="    + encode_URI(aa_form.adp_book.value);
   aa_url += "&adp_page="    + encode_URI(aa_form.adp_page.value);
 
@@ -95,7 +96,7 @@ $(document).ready( function() {
   $( "#dialogAdeptPower" ).dialog({
     autoOpen: false,
     modal: true,
-    height: 275,
+    height: 300,
     width:  600,
     dialogClass: 'dialogWithDropShadow',
     close: function(event, ui) {
@@ -159,7 +160,7 @@ $("#button-update").button("disable");
 
 <p>As per other sections, check the system and page number for details. Specifically when a power says "by level" in the description, 
 it means the power level is as high as the Adept's magic rating. If a Magic rating of 4, then a power with .5 Power Points per Level, 
-you can go up to 8 levels potentially giving yourself +8 dice.</p>
+you can go up to 8 levels potentially giving yourself +8 dice. Some powers have limits which are set in the Max Level field.</p>
 
 </div>
 

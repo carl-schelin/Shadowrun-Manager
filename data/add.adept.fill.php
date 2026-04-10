@@ -22,7 +22,7 @@
     if (check_userlevel($db, $AL_Johnson)) {
       logaccess($db, $_SESSION['username'], $package, "Requesting record " . $formVars['id'] . " from adept");
 
-      $q_string  = "select adp_name,adp_desc,adp_power,adp_active,adp_level,adp_book,adp_page ";
+      $q_string  = "select adp_name,adp_desc,adp_power,adp_active,adp_level,adp_maxlvl,adp_book,adp_page ";
       $q_string .= "from adept ";
       $q_string .= "where adp_id = " . $formVars['id'];
       $q_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
@@ -34,6 +34,7 @@
       print "document.dialog.adp_power.value = '"       . mysqli_real_escape_string($db, $a_adept['adp_power'])      . "';\n";
       print "document.dialog.adp_active.value = '"      . mysqli_real_escape_string($db, $a_adept['adp_active'])     . "';\n";
       print "document.dialog.adp_level.value = '"       . mysqli_real_escape_string($db, $a_adept['adp_level'])      . "';\n";
+      print "document.dialog.adp_maxlvl.value = '"      . mysqli_real_escape_string($db, $a_adept['adp_maxlvl'])     . "';\n";
       print "document.dialog.adp_book.value = '"        . mysqli_real_escape_string($db, $a_adept['adp_book'])       . "';\n";
       print "document.dialog.adp_page.value = '"        . mysqli_real_escape_string($db, $a_adept['adp_page'])       . "';\n";
 

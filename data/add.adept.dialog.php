@@ -9,6 +9,9 @@
   <td class="ui-widget-content">Level <input type="text" name="adp_level" size="5"> (0 for Limited By Magic)</td>
 </tr>
 <tr>
+  <td class="ui-widget-content">Max Level <input type="text" name="adp_maxlvl" size="5"></td>
+</tr>
+<tr>
   <td class="ui-widget-content">Power Points <input type="text" name="adp_power" size="5"></td>
 </tr>
 <tr>
