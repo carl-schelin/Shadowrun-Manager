@@ -86,7 +86,6 @@
       $output .=   "<th class=\"ui-state-default\">Power Points</th>\n";
       $output .=   "<th class=\"ui-state-default\">Activation</th>\n";
       $output .=   "<th class=\"ui-state-default\">Level</th>\n";
-      $output .=   "<th class=\"ui-state-default\">Max Level</th>\n";
       $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
       $output .= "</tr>\n";
 
@@ -103,7 +102,7 @@
           $linkdel   = "<input type=\"button\" value=\"Remove\" onClick=\"javascript:delete_adept('add.adept.del.php?id=" . $a_adept['adp_id'] . "');\">";
           $linkend = "</a>";
 
-          $adept_level = return_Power($a_adept['adp_level']);
+          $adept_level = return_LevelCost($a_adept['adp_level'], $a_adept['adp_maxlvl']);
 
           $adept_book = return_Book($a_adept['ver_book'], $a_adept['adp_page']);
 
@@ -133,13 +132,12 @@
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_power']             . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_active']            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $adept_level                      . "</td>\n";
-          $output .= "  <td class=\"" . $class . " delete\">"              . $a_adept['adp_maxlvl']            . "</td>\n";
           $output .= "  <td class=\"" . $class . " delete\">"              . $adept_book                       . "</td>\n";
           $output .= "</tr>\n";
         }
       } else {
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"10\">No records found.</td>\n";
+        $output .= "  <td class=\"ui-widget-content\" colspan=\"9\">No records found.</td>\n";
         $output .= "</tr>\n";
       }
 
