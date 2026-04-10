@@ -141,20 +141,7 @@
 
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Tag Listing</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this tag from this server.</li>\n";
-      $output .= "    <li><strong>Editing</strong> - Click on a tag to toggle the form for editing.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Notes</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li>Click the <strong>Tag Management</strong> title bar to toggle the <strong>Tag Form</strong>.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
+      $output .= "<p><strong>Notes</strong></p>\n";
 
       $output .= "</div>\n";
 

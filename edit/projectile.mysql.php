@@ -101,20 +101,7 @@
 
         $output .= "<div class=\"main-help ui-widget-content\">\n";
 
-        $output .= "<ul>\n";
-        $output .= "  <li><strong>Weapon Listing</strong>\n";
-        $output .= "  <ul>\n";
-        $output .= "    <li><strong>Remove</strong> - Click here to delete this Weapon from the Mooks Database.</li>\n";
-        $output .= "    <li><strong>Editing</strong> - Click on a Weapon to toggle the form and edit the Weapon.</li>\n";
-        $output .= "  </ul></li>\n";
-        $output .= "</ul>\n";
-
-        $output .= "<ul>\n";
-        $output .= "  <li><strong>Notes</strong>\n";
-        $output .= "  <ul>\n";
-        $output .= "    <li>Click the <strong>Firearm Management</strong> title bar to toggle the <strong>Firearm Form</strong>.</li>\n";
-        $output .= "  </ul></li>\n";
-        $output .= "</ul>\n";
+        $output .= "<p><strong>Notes</strong></p>\n";
 
         $output .= "</div>\n";
 
@@ -206,20 +193,7 @@
 
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Spell Listing</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li><strong>Delete (x)</strong> - Clicking the <strong>x</strong> will delete this association from this server.</li>\n";
-      $output .= "    <li><strong>Editing</strong> - Click on an association to edit it.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
-
-      $output .= "<ul>\n";
-      $output .= "  <li><strong>Notes</strong>\n";
-      $output .= "  <ul>\n";
-      $output .= "    <li>Click the <strong>Association Management</strong> title bar to toggle the <strong>Association Form</strong>.</li>\n";
-      $output .= "  </ul></li>\n";
-      $output .= "</ul>\n";
+      $output .= "<p><strong>Notes</strong></p>\n";
 
       $output .= "</div>\n";
 

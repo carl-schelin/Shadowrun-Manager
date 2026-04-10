@@ -109,6 +109,7 @@
 
       $output .= "<div class=\"main-help ui-widget-content\">\n";
 
+      $output .= "<p><strong>Notes</strong></p>\n";
 
       $output .= "</div>\n";
 
