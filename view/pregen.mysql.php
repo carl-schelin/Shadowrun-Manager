@@ -1044,7 +1044,7 @@
   $q_string .= "left join gear on gear.gear_id = r_gear.r_gear_number ";
   $q_string .= "left join class on class.class_id = gear.gear_class ";
   $q_string .= "where r_gear_character = " . $formVars['id'] . " and gear_name != \"Fake SIN\" and gear_name != \"Fake License\" and gear_name not like \"%Spell Formula%\" ";
-  $q_string .= "order by gear_name,gear_rating ";
+  $q_string .= "order by gear_name,r_gear_details,gear_rating ";
   $q_r_gear = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
   if (mysqli_num_rows($q_r_gear) > 0) {
     while ($a_r_gear = mysqli_fetch_array($q_r_gear)) {
@@ -1066,11 +1066,11 @@
       $gear .= $comma . $gear_name;
       $bracket = " [";
       if ($rating != '--') {
-        $gear .= $bracket . "Rating " . $rating;
+        $gear .= $bracket . "Rating " . $rating . " ";
         $bracket = ", ";
       }
 
-      $comma = " w/";
+#      $comma = " w/";
       $q_string  = "select acc_name,acc_rating ";
       $q_string .= "from r_accessory ";
       $q_string .= "left join accessory on accessory.acc_id = r_accessory.r_acc_number ";
@@ -1085,20 +1085,22 @@
 
           $gear .= $comma . $a_r_accessory['acc_name'];
           if ($a_r_accessory['acc_rating'] > 0) {
-            $gear .= " (Rating " . $rating . ")";
+            $gear .= " (Rating " . $rating . ") ";
           }
-          $comma = ", ";
+#          $comma = ", ";
         }
       }
       if ($bracket != " [") {
         $gear .= "]";
       }
-      $comma = ", ";
+#      $comma = ", ";
+      $output .= "<tr>\n";
+      $output .= "  <th class=\"ui-state-default\" colspan=\"2\">" . $header . "</th>";
+      $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">" . $gear . "</td>\n";
+      $output .= "</tr>\n";
+      $gear = '';
+      $header = '&nbsp;';
     }
-    $output .= "<tr>\n";
-    $output .= "  <th class=\"ui-state-default\" colspan=\"2\">" . $header . "</th>";
-    $output .= "  <td class=\"ui-widget-content\" colspan=\"8\">" . $gear . "</td>\n";
-    $output .= "</tr>\n";
   }
 
 
@@ -1293,9 +1295,10 @@
 
       $with = " w/";
 # associate any ammo with the weapon
-      $q_string  = "select r_ammo_rounds,ammo_name,ammo_rounds,ammo_mod,ammo_ap,ammo_blast ";
+      $q_string  = "select r_ammo_rounds,ammo_name,ammo_rounds,ammo_mod,ammo_ap,ammo_blast,class_name ";
       $q_string .= "from r_ammo ";
       $q_string .= "left join ammo on ammo.ammo_id = r_ammo.r_ammo_number ";
+      $q_string .= "left join class on class.class_id = ammo.ammo_class ";
       $q_string .= "where r_ammo_character = " . $formVars['id'] . " and r_ammo_parentid = " . $a_r_firearms['r_fa_id'] . " ";
       $q_string .= "order by ammo_name ";
       $q_r_ammo = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
