@@ -475,6 +475,8 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
+<p><strong>Notes</strong></p>
+
 </div>
 
 </div>
@@ -503,6 +505,8 @@ $(document).ready( function() {
 <div id="karma-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
+
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -533,6 +537,8 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
+<p><strong>Notes</strong></p>
+
 </div>
 
 </div>
@@ -561,6 +567,8 @@ $(document).ready( function() {
 <div id="street-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
+
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -591,6 +599,8 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
+<p><strong>Notes</strong></p>
+
 </div>
 
 </div>
@@ -619,6 +629,8 @@ $(document).ready( function() {
 <div id="publicity-listing-help" style="<?php print $display; ?>">
 
 <div class="main-help ui-widget-content">
+
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -705,9 +717,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -737,9 +747,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -769,9 +777,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -801,9 +807,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Buttons</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -833,9 +837,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -865,9 +867,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -897,9 +897,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -922,9 +920,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -968,9 +964,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Firewall Listing</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1022,9 +1016,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1071,9 +1063,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1122,9 +1112,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1178,9 +1166,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1236,9 +1222,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Firewall Listing</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1291,9 +1275,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Metamagics Listing</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1346,9 +1328,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1415,9 +1395,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Possible</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1500,9 +1478,7 @@ $(document).ready( function() {
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Possible</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1724,9 +1700,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1777,9 +1751,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Possible</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1843,9 +1815,24 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<strong>Gear</strong>
+
+<p>In this set of tabs, you see the <strong>My Gear</strong> tab, <strong>Gear</strong>, and <strong>Accessories</strong> tabs.</p>
+
+<p>Under the <strong>My Gear</strong> tab is all the gear you've purchased. At the bottom of the list is the total cost in Nuyen. 
+As you purchase <strong>Gear</strong> or <strong>Accessories</strong>, this number changes.<p>
+
+<p>Under the <strong>Gear</strong> tab, is a list of all the gear that's available to you. In general the headings should provide all 
+the information you need to make the purchase including the Shadowrun book and page number where you can find the gear. Based on the 
+Shadowrun Edition, there will be highlights that identify the accessibility of the item. For example, in 6th Edition, the gear that is 
+<span class="ui-state-highlight">highlighted like this</span>, require a <strong>License</strong> and <span class="ui-state-error">highlighted 
+like this</span>, are <strong>Illegal</strong>.</p>
+
+<p>Under the <strong>Accessories</strong> tab are the items that can be purchased or otherwise acquired for the specific piece of gear you purchased. 
+You must first select the item under the <strong>My Gear</strong> tab. That will bring it up where it can edited to add a <strong>Number</strong> 
+and <strong>Description</strong> that might further identify the item. I will add the vehicle name for example to make it easier to associate it 
+with a vehicle. Then over under <strong>Accessories</strong>, will be a list of what is available for purchase for the selected item of <strong>Gear</strong>. 
+The <strong>Capacity</strong> is calculated so the <strong>Accessories</strong> list may change when you select an <strong>Accessory</strong>.</p>
 
 </div>
 
@@ -1907,9 +1894,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -1978,9 +1963,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -2072,9 +2055,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -2175,9 +2156,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -2236,9 +2215,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -2289,9 +2266,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -2350,9 +2325,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
@@ -2411,9 +2384,7 @@ existing one to select a replacement.</p>
 
 <div class="main-help ui-widget-content">
 
-<ul>
-  <li><strong>Notes</strong></li>
-</ul>
+<p><strong>Notes</strong></p>
 
 </div>
 
