@@ -39,31 +39,51 @@
           $formVars['r_adp_level'] = 0;
         }
 
-        if ($formVars['r_adp_number'] > 0) {
-          logaccess($db, $_SESSION['username'], $package, "Building the query.");
+        $q_string  = "select runr_magic ";
+        $q_string .= "from runners ";
+        $q_string .= "where runr_id = " . $formVars['r_adp_character'] . " ";
+        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_runners = mysqli_fetch_array($q_runners);
+        $maxlevels = $a_runners['runr_magic'];
 
-          $q_string =
-            "r_adp_character   =   " . $formVars['r_adp_character']   . "," .
-            "r_adp_number      =   " . $formVars['r_adp_number']      . "," .
-            "r_adp_level       =   " . $formVars['r_adp_level']       . "," .
-            "r_adp_specialize  = \"" . $formVars['r_adp_specialize']  . "\"";
+        $q_string  = "select adp_maxlvl ";
+        $q_string .= "from adept ";
+        $q_string .= "where adp_id = " . $formVars['r_adp_number'] . " ";
+        $q_adept = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+        $a_adept = mysqli_fetch_array($q_adept);
+        if ($a_adept['adp_maxlvl'] > 0) {
+          $maxlevels = $a_adept['adp_maxlvl'];
+        }
 
-          if ($formVars['update'] == 0) {
-            $query = "insert into r_adept set r_adp_id = NULL," . $q_string;
-            $message = "Adept Power added.";
-          }
-          if ($formVars['update'] == 1) {
-            $query = "update r_adept set " . $q_string . " where r_adp_id = " . $formVars['r_adp_id'];
-            $message = "Adept Power updated.";
-          }
-
-          logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_adp_number']);
-
-          mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
-
-          print "alert('" . $message . "');\n";
+        if ($formVars['r_adp_level'] > $maxlevels) {
+          print "alert('You cannot exceed ' . $maxlevels);\n";
         } else {
-          print "alert('You must input data before saving changes.');\n";
+          if ($formVars['r_adp_number'] > 0) {
+            logaccess($db, $_SESSION['username'], $package, "Building the query.");
+
+            $q_string =
+              "r_adp_character   =   " . $formVars['r_adp_character']   . "," .
+              "r_adp_number      =   " . $formVars['r_adp_number']      . "," .
+              "r_adp_level       =   " . $formVars['r_adp_level']       . "," .
+              "r_adp_specialize  = \"" . $formVars['r_adp_specialize']  . "\"";
+
+            if ($formVars['update'] == 0) {
+              $query = "insert into r_adept set r_adp_id = NULL," . $q_string;
+              $message = "Adept Power added.";
+            }
+            if ($formVars['update'] == 1) {
+              $query = "update r_adept set " . $q_string . " where r_adp_id = " . $formVars['r_adp_id'];
+              $message = "Adept Power updated.";
+            }
+
+            logaccess($db, $_SESSION['username'], $package, "Saving Changes to: " . $formVars['r_adp_number']);
+
+            mysqli_query($db, $query) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $query . "&mysql=" . mysqli_error($db)));
+
+            print "alert('" . $message . "');\n";
+          } else {
+            print "alert('You must input data before saving changes.');\n";
+          }
         }
       }
 
@@ -123,7 +143,7 @@
         $output .=   "<th class=\"ui-state-default\">Book/Page</th>\n";
         $output .= "</tr>\n";
 
-        $q_string  = "select adp_id,adp_name,adp_desc,adp_power,adp_level,ver_book,adp_page ";
+        $q_string  = "select adp_id,adp_name,adp_desc,adp_power,adp_level,adp_maxlvl,ver_book,adp_page ";
         $q_string .= "from adept ";
         $q_string .= "left join versions on versions.ver_id = adept.adp_book ";
         $q_string .= "where ver_active = 1 ";
@@ -135,10 +155,7 @@
             $linkstart = "<a href=\"#\" onclick=\"javascript:show_file('adept.mysql.php?update=0&r_adp_character=" . $formVars['r_adp_character'] . "&r_adp_number=" . $a_adept['adp_id'] . "');\">";
             $linkend   = "</a>";
 
-            $maxlevel = $a_adept['adp_level'];
-            if ($a_adept['adp_level'] == 0) {
-              $maxlevel = "Limited by Magic";
-            }
+            $maxlevel = return_LevelCost($a_adept['adp_level'], $a_adept['adp_maxlvl']);
 
             $adp_book = return_Book($a_adept['ver_book'], $a_adept['adp_page']);
 
@@ -168,6 +185,12 @@
 
 
       logaccess($db, $_SESSION['username'], $package, "Creating the table for viewing.");
+
+      $q_string  = "select runr_magic ";
+      $q_string .= "from runners ";
+      $q_string .= "where runr_id = " . $formVars['r_adp_character'] . " ";
+      $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
+      $a_runners = mysqli_fetch_array($q_runners);
 
       $output  = "<p></p>\n";
       $output .= "<table class=\"ui-styled-table\" width=\"100%\">\n";
@@ -199,7 +222,7 @@
       $output .= "</tr>\n";
 
       $adepttotal = 0;
-      $q_string  = "select r_adp_id,adp_id,adp_name,adp_desc,adp_power,adp_level,r_adp_level,r_adp_specialize,ver_book,adp_page ";
+      $q_string  = "select r_adp_id,adp_id,adp_name,adp_desc,adp_power,adp_level,adp_maxlvl,r_adp_level,r_adp_specialize,ver_book,adp_page ";
       $q_string .= "from r_adept ";
       $q_string .= "left join adept on adept.adp_id = r_adept.r_adp_number ";
       $q_string .= "left join versions on versions.ver_id = adept.adp_book ";
@@ -215,7 +238,13 @@
 
 # if == 0, then skill is by level.
           if ($a_r_adept['adp_level'] == 0) {
-            $level = " per level";
+            $maxlevel = $a_runners['runr_magic'];
+            if ($a_r_adept['adp_maxlvl'] > 0) {
+              if ($maxlevel > $a_r_adept['adp_maxlvl']) {
+                $maxlevel = $a_r_adept['adp_maxlvl'];
+              }
+            }
+            $level = " per level (Max " . $maxlevel . ")";
           } else {
             $level = "";
           }
@@ -253,14 +282,12 @@
 
         }
 
-        $q_string  = "select runr_magic ";
-        $q_string .= "from runners ";
-        $q_string .= "where runr_id = " . $formVars['r_adp_character'] . " ";
-        $q_runners = mysqli_query($db, $q_string) or die(header("Location: " . $Siteroot . "/error.php?script=" . $package . "&error=" . $q_string . "&mysql=" . mysqli_error($db)));
-        $a_runners = mysqli_fetch_array($q_runners);
-
+        $class = "ui-widget-content";
+        if ($adepttotal > $a_runners['runr_magic']) {
+          $class = "ui-state-error";
+        }
         $output .= "<tr>\n";
-        $output .= "  <td class=\"ui-widget-content\" colspan=\"7\">Power Points: " . $adepttotal . " of " . $a_runners['runr_magic'] . " Magic Points</td>\n";
+        $output .= "  <td class=\"" . $class . "\" colspan=\"7\">Power Points: " . $adepttotal . " of " . $a_runners['runr_magic'] . " Magic Points</td>\n";
         $output .= "</tr>\n";
 
       } else {
